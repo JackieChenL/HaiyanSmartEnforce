@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_case_type"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.kas.clientservice.haiyansmartenforce.Module.CaseCommit.CaseTypeActivity">
+
+    <include layout="@layout/header"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/grey_200"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_casetype_current"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <TextView
+            android:id="@+id/tv_caseType_currentType"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingLeft="20dp"
+            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:background="@color/white"/>
+
+        <TextView
+            android:id="@+id/tv_caseType_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:text="撤销"
+            android:textColor="@color/app_original_blue"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/grey_200"/>
+
+    <ListView
+        android:id="@+id/lv_caseType"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/grey_200"
+        android:dividerHeight="1dp"
+        android:background="@color/white"></ListView>
+
+
+
+</LinearLayout>

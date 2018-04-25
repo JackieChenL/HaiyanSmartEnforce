@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_tiandi_map"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.kas.clientservice.haiyansmartenforce.Module.TianDiTu.TiandiMapActivity">
+
+    <include layout="@layout/header"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="经度"/>
+
+        <EditText
+            android:id="@+id/et_tianditu_jingdu"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="2.5"
+            android:background="@drawable/shape_black_border"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="经度"/>
+
+        <EditText
+            android:id="@+id/et_tianditu_weidu"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="2.5"
+            android:background="@drawable/shape_black_border"/>
+
+        <TextView
+            android:id="@+id/tv_tianditu_dingwei"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="定位"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/shape_blue_btn"
+            android:textColor="@color/white"
+            />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_tianditu_location"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text=""
+        android:gravity="center"/>
+
+    <com.tianditu.android.maps.MapView
+        android:id="@+id/main_mapview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
