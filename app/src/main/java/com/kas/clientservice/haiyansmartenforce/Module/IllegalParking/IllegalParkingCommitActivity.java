@@ -217,6 +217,8 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
         Intent intent = new Intent(mContext,ImageActivity.class);
         intent.putExtra("image",bytes);
         startActivity(intent);
+
+
     }
 
     @Override
