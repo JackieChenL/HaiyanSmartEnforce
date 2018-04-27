@@ -30,56 +30,15 @@
                 android:text="车牌号码："
                 android:textColor="@color/text_black" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+            <TextView
+                android:id="@+id/tv_parkingDetail_carNum"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="15dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="20dp">
-
-
-                <TextView
-                    android:id="@+id/sp_province"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/shape_black_border"
-                    android:gravity="center"
-                    android:text="浙"
-                    ></TextView>
-
-                <TextView
-                    android:id="@+id/sp_ABC"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/shape_black_border"
-                    android:gravity="center"
-                    android:text="F"
-                    ></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center"
-                    android:text="·"
-                    android:textColor="@color/black"
-                    android:textSize="30dp" />
-
-                <TextView
-                    android:id="@+id/tv_illegalparkingDetail_num"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="30dp"
-                    android:text="0000"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:background="@drawable/shape_black_border"
-                    android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" />
-
-            </LinearLayout>
+                android:paddingLeft="10dp"
+                android:background="@drawable/shape_black_border" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -90,11 +49,11 @@
                 android:textColor="@color/text_black" />
 
             <TextView
+                android:id="@+id/tv_illegalParkingDetail_time"
                 android:layout_width="200dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="15dp"
-                android:text="2018-4-10 12:00:00"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
                 android:background="@drawable/shape_black_border" />
@@ -114,74 +73,17 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_parkingDetail_position"
                     android:layout_width="200dp"
                     android:layout_height="40dp"
                     android:layout_marginLeft="20dp"
-                    android:text="环城北路"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
                     android:background="@drawable/shape_black_border" />
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="20dp"
-                    android:src="@drawable/dingwei" />
-
-
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_illegalParkingCommit"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/shape_grey_bg_corner"
-                android:padding="10dp">
 
-            </android.support.v7.widget.RecyclerView>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                >
-
-                <TextView
-                    android:id="@+id/centerLine"
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"/>
-
-                <TextView
-                    android:id="@+id/tv_parkingDetail_print"
-                    android:layout_width="120dp"
-                    android:layout_height="35dp"
-                    android:background="@drawable/shape_blue_btn"
-                    android:gravity="center"
-                    android:layout_toLeftOf="@id/centerLine"
-                    android:layout_gravity="center_horizontal"
-                    android:text="打印"
-                    android:layout_marginRight="10dp"
-                    android:textColor="@color/white"
-                    />
-
-                <TextView
-                    android:id="@+id/tv_parkingDetail_baclk"
-                    android:layout_width="120dp"
-                    android:layout_height="35dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/shape_blue_btn"
-                    android:gravity="center"
-                    android:layout_toRightOf="@id/centerLine"
-                    android:layout_marginLeft="10dp"
-                    android:layout_gravity="center_horizontal"
-                    android:text="返回"
-                    android:textColor="@color/white" />
-
-            </RelativeLayout>
 
 
 
@@ -189,5 +91,41 @@
 
 
     </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        >
+
+
+        <TextView
+            android:id="@+id/tv_parkingDetail_print"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:background="@color/app_original_blue"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:text="打印"
+            android:textColor="@color/white"
+            />
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+
+        <TextView
+            android:id="@+id/tv_parkingDetail_next"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:background="@color/app_original_blue"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:text="下一步"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
 
 </RelativeLayout>

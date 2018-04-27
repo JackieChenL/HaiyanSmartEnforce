@@ -27,6 +27,7 @@ import com.jph.takephoto.model.CropOptions;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitImgRvAdapter;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ImageActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.TianDiTu.TiandiMapActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
 import com.kas.clientservice.haiyansmartenforce.Utils.Dp2pxUtil;
@@ -51,6 +52,10 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
     TextView tv_type;
     @BindView(R.id.rv_case_commit)
     RecyclerView recyclerView;
+    @BindView(R.id.rl_caseCommit_location)
+    RelativeLayout rl_location;
+    @BindView(R.id.tv_caseCommit_location)
+    TextView tv_location;
 
 
     List<Bitmap> arr_image;
@@ -58,6 +63,8 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
     TakePhoto takePhoto;
     Uri uri;
     String typeCode;
+    String langitude = "";
+    String latitude = "";
     private String time_chose;
     private CropOptions cropOptions;  //裁剪参数
     private CompressConfig compressConfig; //压缩参数
@@ -72,9 +79,9 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
         return this.toString();
     }
 
-    public TakePhoto getTakePhoto(){
-        if (takePhoto==null){
-            takePhoto= new TakePhotoImpl(this, this);
+    public TakePhoto getTakePhoto() {
+        if (takePhoto == null) {
+            takePhoto = new TakePhotoImpl(this, this);
         }
         return takePhoto;
     }
@@ -84,23 +91,34 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
         getTakePhoto().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
     }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         getTakePhoto().onSaveInstanceState(outState);
         super.onSaveInstanceState(outState);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         getTakePhoto().onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
 //        Log.i(TAG, "onActivityResult: "+data.toString());
-        Log.i(TAG, "onActivityResult: "+requestCode+ "  "+resultCode);
+        Log.i(TAG, "onActivityResult: " + requestCode + "  " + resultCode);
         if (requestCode == Constants.RESULTCODE_TIANDITU) {
-            Log.i(TAG, "onActivityResult: "+data.getStringExtra("Longitude")+"  "+data.getStringExtra("Latitude"));
+            langitude = data.getStringExtra("Longitude");
+            latitude = data.getStringExtra("Latitude");
+            Log.i(TAG, "onActivityResult: " + langitude + "  " + latitude);
+            tv_location.setText(langitude+","+latitude);
         }
         if (requestCode == Constants.RESULTCODE_CASE_TYPE) {
-            tv_type.setText(data.getStringExtra("TypeName"));
-            typeCode = data.getStringExtra("TypeCode");
+            if (data != null) {
+
+                if (data.getStringExtra("TypeName") != null) {
+                    Log.i(TAG, "onActivityResult: " + data.getStringExtra("TypeName") + "  " + data.getStringExtra("TypeCode"));
+                    tv_type.setText(data.getStringExtra("TypeName"));
+                    typeCode = data.getStringExtra("TypeCode");
+                }
+            }
         }
     }
 
@@ -112,6 +130,7 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
         tv_title.setText("问题上报");
         iv_back.setOnClickListener(this);
         rl_caseType.setOnClickListener(this);
+        rl_location.setOnClickListener(this);
 
         arr_image = new ArrayList<>();
         adapter = new IllegalParkingCommitImgRvAdapter(arr_image, mContext);
@@ -130,16 +149,18 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
                 finish();
                 break;
             case R.id.rl_caseType:
-                startActivityForResult(new Intent(mContext,CaseTypeActivity.class),Constants.RESULTCODE_CASE_TYPE);
+                startActivityForResult(new Intent(mContext, CaseTypeActivity.class), Constants.RESULTCODE_CASE_TYPE);
                 break;
+            case R.id.rl_caseCommit_location:
+                startActivityForResult(new Intent(mContext, TiandiMapActivity.class),Constants.RESULTCODE_TIANDITU);
 
         }
     }
 
-    public void setRecyclerViewHeight(int size){
-        int height = ((size/2)+1)*140+30;
-        LinearLayoutCompat.LayoutParams layoutParams = new LinearLayoutCompat.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Dp2pxUtil.dip2px(mContext,height));
-        layoutParams.setMargins(0,Dp2pxUtil.dip2px(mContext,5),0,Dp2pxUtil.dip2px(mContext,50));
+    public void setRecyclerViewHeight(int size) {
+        int height = ((size / 2) + 1) * 140 + 30;
+        LinearLayoutCompat.LayoutParams layoutParams = new LinearLayoutCompat.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Dp2pxUtil.dip2px(mContext, height));
+        layoutParams.setMargins(0, Dp2pxUtil.dip2px(mContext, 5), 0, Dp2pxUtil.dip2px(mContext, 50));
         recyclerView.setLayoutParams(new LinearLayout.LayoutParams(layoutParams));
     }
 
@@ -148,22 +169,22 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
         Bitmap bmp = arr_image.get(p);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] bytes=baos.toByteArray();
+        byte[] bytes = baos.toByteArray();
 
 //        Bundle b = new Bundle();
 //        b.putByteArray("bitmap", bytes);
-        Intent intent = new Intent(mContext,ImageActivity.class);
-        intent.putExtra("image",bytes);
+        Intent intent = new Intent(mContext, ImageActivity.class);
+        intent.putExtra("image", bytes);
         startActivity(intent);
     }
 
     @Override
     public void takeSuccess(String imagePath) {
-        Log.i(TAG, "takeSuccess: "+imagePath);
+        Log.i(TAG, "takeSuccess: " + imagePath);
         Bitmap bmp = BitmapFactory.decodeFile(imagePath);//filePath
 
-        Bitmap water_bitmap = WaterMaskImageUtil.drawTextToRightBottom(mContext,bmp,getTime(),6,getResources().getColor(R.color.orange),5,5);
-        Log.i(TAG, "takeSuccess: length="+water_bitmap.getByteCount()/1024);
+        Bitmap water_bitmap = WaterMaskImageUtil.drawTextToRightBottom(mContext, bmp, getTime(), 6, getResources().getColor(R.color.orange), 5, 5);
+        Log.i(TAG, "takeSuccess: length=" + water_bitmap.getByteCount() / 1024);
         arr_image.add(water_bitmap);
         setRecyclerViewHeight(arr_image.size());
         adapter.notifyDataSetChanged();
@@ -171,12 +192,12 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void takeFail(String msg) {
-        ToastUtils.showToast(mContext,"拍摄失败");
+        ToastUtils.showToast(mContext, "拍摄失败");
     }
 
     @Override
     public void takeCancel() {
-        ToastUtils.showToast(mContext,"取消拍摄");
+        ToastUtils.showToast(mContext, "取消拍摄");
     }
 
     @Override
@@ -198,15 +219,16 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
                 uri = getImageCropUri();
 //                cropOptions = new CropOptions.Builder().setAspectX(1).setAspectY(1).setWithOwnCrop(false).create();
                 //设置压缩参数
-                compressConfig=new CompressConfig.Builder().setMaxSize(50*1024).setMaxPixel(400).create();
-                takePhoto.onEnableCompress(compressConfig,true); //设置为需要压缩
+                compressConfig = new CompressConfig.Builder().setMaxSize(50 * 1024).setMaxPixel(400).create();
+                takePhoto.onEnableCompress(compressConfig, true); //设置为需要压缩
                 takePhoto.onPickFromCapture(uri);
             }
         }
     }
+
     private Uri getImageCropUri() {
-        File file=new File(Environment.getExternalStorageDirectory(), "/temp/"+System.currentTimeMillis() + ".jpg");
-        if (!file.getParentFile().exists())file.getParentFile().mkdirs();
+        File file = new File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".jpg");
+        if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
         return Uri.fromFile(file);
     }
 

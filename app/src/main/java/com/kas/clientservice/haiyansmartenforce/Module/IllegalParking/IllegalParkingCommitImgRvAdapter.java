@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.kas.clientservice.haiyansmartenforce.R;
+import com.kas.clientservice.haiyansmartenforce.Utils.TimeUtils;
 
 import java.util.List;
 
@@ -54,6 +56,7 @@ public class IllegalParkingCommitImgRvAdapter extends RecyclerView.Adapter<Illeg
                     onImagelickListener.onImageClick(position);
                 }
             });
+            holder.tv_time.setText(TimeUtils.getFormedTime("MM-dd hh:mm:ss"));
         }else {
             holder.iv_add.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -84,10 +87,12 @@ public class IllegalParkingCommitImgRvAdapter extends RecyclerView.Adapter<Illeg
 
     class ViewHolder extends RecyclerView.ViewHolder{
         ImageView imageView,iv_add;
+        TextView tv_time;
         public ViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.iv_item_image);
             iv_add = (ImageView) itemView.findViewById(R.id.iv_item_add);
+            tv_time = (TextView) itemView.findViewById(R.id.iv_item_time);
         }
     }
     

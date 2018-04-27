@@ -7,9 +7,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -37,34 +35,30 @@ import java.util.Set;
 import butterknife.BindView;
 
 public class IllegalParkingDetailActivity extends BaseActivity implements View.OnClickListener {
-    private static final int BLUETOOTH_SEARCH = 100;
-    private static final int BLUETOOTH_SEARCH_TIMEOUT = 10000;
     @BindView(R.id.tv_header_title)
     TextView tv_title;
     @BindView(R.id.iv_heaer_back)
     ImageView iv_back;
     @BindView(R.id.tv_parkingDetail_print)
     TextView tv_print;
-    @BindView(R.id.tv_parkingDetail_baclk)
-    TextView tv_back;
+    @BindView(R.id.tv_parkingDetail_carNum)
+    TextView tv_carNum;
+    @BindView(R.id.tv_parkingDetail_position)
+    TextView tv_position;
+    @BindView(R.id.tv_illegalParkingDetail_time)
+    TextView tv_time;
+    @BindView(R.id.tv_parkingDetail_next)
+    TextView tv_next;
 
     IMyBinder binder;
     ServiceConnection conn;
     BluetoothDevice device;
     private boolean isConnected = false;
+    String time;
+    String position;
+    String carNum;
+    String code;
 
-
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 100:
-                    adapter.stopLeScan(mLeScanCallback);
-                    break;
-            }
-        }
-    };
 
     @Override
     protected int getLayoutId() {
@@ -79,11 +73,21 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
     @Override
     protected void initResAndListener() {
         super.initResAndListener();
+//        intent.putExtra("Time",tv_time.getText().toString());
+//        intent.putExtra("Position",et_positon.getText().toString());
+//        intent.putExtra("CarNum",province+A2Z+et_num.getText().toString());
+        time = getIntent().getStringExtra("Time");
+        carNum = getIntent().getStringExtra("CarNum");
+        position = getIntent().getStringExtra("Position");
+        code = getIntent().getStringExtra("Code");
+        tv_carNum.setText(carNum);
+        tv_time.setText(time);
+        tv_position.setText(position);
 
         tv_title.setText("罚单详情");
         iv_back.setOnClickListener(this);
         tv_print.setOnClickListener(this);
-        tv_back.setOnClickListener(this);
+        tv_next.setOnClickListener(this);
     }
 
     @Override
@@ -95,14 +99,14 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
             case R.id.tv_parkingDetail_print:
                 print();
                 break;
-            case R.id.tv_parkingDetail_baclk:
-                finish();
+            case R.id.tv_parkingDetail_next:
+                Intent intent = new Intent(mContext,IllegalParkingTakePhotoActivity.class);
+                startActivity(intent);
                 break;
 
         }
     }
 
-    BluetoothAdapter adapter;
 
     private void print() {
         if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -229,6 +233,7 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
     public List<byte[]> formAndPrint(){
         ArrayList<byte[]> list = new ArrayList<byte[]>();
         list.add(DataForSendToPrinterPos58.initializePrinter());
+        list.add(DataForSendToPrinterPos58.printAndFeedForward(3));
         //标题
         byte[] title = strTobytes("道路交通安全违法行为处理通知书");
         //居中
@@ -242,22 +247,24 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
 
         //编号
         list.add(DataForSendToPrinterPos58.initializePrinter());
-        byte[] num = strTobytes("编号：0000001");
+        byte[] num = strTobytes("编号："+code);
         list.add(DataForSendToPrinterPos58.selectAlignment(1));
         list.add(num);
 //                list.add(DataForSendToPrinterPos58.selectChineseCharModel());
         list.add(DataForSendToPrinterPos58.printAndFeedLine());
         //空一行
-        list.add(DataForSendToPrinterPos58.printAndFeedForward(1));
+        list.add(DataForSendToPrinterPos58.printAndFeedForward(2));
 
+        list.add(DataForSendToPrinterPos58.selectAlignment(0));
         //省
         list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(1));
         list.add(DataForSendToPrinterPos58.selectChineseCharModel());
-        byte[] data_province = strTobytes("浙");
+        byte[] data_province = strTobytes(String.valueOf(carNum.charAt(0)));
         list.add(data_province);
         //车牌
-        list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(1));
-        byte[] data_carNum= strTobytes("FF0001");
+        list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
+        list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(1));
+        byte[] data_carNum= strTobytes(carNum.substring(1));
         list.add(data_carNum);
 
         list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
@@ -265,12 +272,51 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
         byte[] data_1= strTobytes("号牌号码的机动车驾驶人：");
         list.add(data_1);
         list.add(DataForSendToPrinterPos58.printAndFeedLine());
-
-        String time = "2018-1-1";
-        String position = "南湖大道";
-        byte[] data_content= strTobytes(String.format("  该车辆于%s，在%s实施的停车行为违反了《道路交通安全法》第56条之规定。请您持本通知书，驾驶证，行驶证在15日内，到嘉兴市南湖区综合行政执法局或通过微信公众号关注“南湖综合执法”及南湖区各乡镇交警中队违法处理点处理。",time,position));
+        list.add(DataForSendToPrinterPos58.printAndFeedForward(1));
+        byte[] data_content= strTobytes(String.format("    该车辆于%s，在%s实施的停车行为违反了" +
+                "《道路交通安全法》第56条之规定。请您持本通知书，驾驶证，行驶证在15日内，到",time,position));
         list.add(data_content);
+
+        list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(1));
+        byte[] data_handlePosition= strTobytes("交通警察服务中心");
+        list.add(data_handlePosition);
+
+        list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
+        list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(0));
+        byte[] data_2= strTobytes("接受处理。");
+        list.add(data_2);
         list.add(DataForSendToPrinterPos58.printAndFeedLine());
+
+        list.add(DataForSendToPrinterPos58.printAndFeedForward(2));
+
+        list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
+        byte[] data_dizhi= strTobytes("地址：");
+        list.add(data_dizhi);
+
+        list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(1));
+        byte[] data_p= strTobytes("海盐县五原街道出海路与公园路交界口");
+        list.add(data_p);
+        list.add(DataForSendToPrinterPos58.printAndFeedLine());
+        list.add(DataForSendToPrinterPos58.printAndFeedForward(1));
+
+        list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
+        byte[] data_dianhua= strTobytes("咨询电话：");
+        list.add(data_dianhua);
+
+//        list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(1));
+        list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(1));
+        byte[] data_call= strTobytes("0573-86198731");
+        list.add(data_call);
+        list.add(DataForSendToPrinterPos58.printAndFeedLine());
+
+        list.add(DataForSendToPrinterPos58.printAndFeedForward(1));
+
+        list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(0));
+        byte[] beizhu= strTobytes("备注：机动车所有人登记的住所地址或联系电话发生变化的，请及时向登记地车管所申请变更备案。");
+        list.add(beizhu);
+        list.add(DataForSendToPrinterPos58.printAndFeedLine());
+
+        list.add(DataForSendToPrinterPos58.printAndFeedForward(7));
 
 
         return list;
@@ -283,21 +329,9 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
     protected void onStop() {
         super.onStop();
         if (conn != null) {
+//            conn.onServiceConnected();
             unbindService(conn);
         }
     }
 
-    private BluetoothAdapter.LeScanCallback mLeScanCallback =
-            new BluetoothAdapter.LeScanCallback() {
-                @Override
-                public void onLeScan(final BluetoothDevice d, int rssi, byte[] scanRecord) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            String address = d.getAddress();
-                            Log.i("BlueTooth", "name=" + d.getName() + "   address=" + address);
-                        }
-                    });
-                }
-            };
 }

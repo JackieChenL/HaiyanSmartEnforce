@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_illegal_parking_take_photo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingTakePhotoActivity">
+
+    <include layout="@layout/header"
+        android:id="@+id/header"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_parking_takePhoto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/header"
+        android:layout_marginBottom="70dp">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/tv_parking_takePhoto_back"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/app_original_blue"
+            android:text="返回"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            />
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+        <TextView
+            android:id="@+id/tv_parking_takePhoto_submit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="提交"
+            android:background="@color/app_original_blue"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            />
+
+    </LinearLayout>
+</RelativeLayout>

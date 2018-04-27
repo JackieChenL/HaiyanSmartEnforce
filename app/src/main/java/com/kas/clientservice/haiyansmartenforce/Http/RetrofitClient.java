@@ -16,7 +16,7 @@ import static com.kas.clientservice.haiyansmartenforce.Http.OkHttpHelper.addProg
 public class RetrofitClient {
 
     //所有的联网地址 统一成https
-//    public static String mBaseUrl = "http://112.13.194.180:82/";
+//    public static String mBaseUrl = "http://111.1.31.184:90/";
     public static String mBaseUrl = "http://111.1.31.210:88";
 //    private static String mBaseUrl = "http://test.zk.yuezhan.co:81";
 //    public static String mBaseUrl = "http://test.app.api.yuezhan.co/";
