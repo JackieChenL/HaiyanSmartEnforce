@@ -57,6 +57,7 @@
         <activity android:name=".Module.Welcome.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -65,8 +66,9 @@
         <activity android:name=".Module.TianDiTu.TiandiMapActivity" />
         <activity android:name=".Module.CaseCommit.CaseCommitActivity" />
         <activity android:name=".Module.CaseCommit.CaseTypeActivity" />
-        <activity android:name=".Module.IllegalParking.IllegalParkingTakePhotoActivity"></activity>
-
+        <activity android:name=".Module.IllegalParking.IllegalParkingTakePhotoActivity" />
+        <activity android:name=".Module.History.HistoryActivity" />
+        <activity android:name=".Module.History.HistoryDetails"></activity>
     </application>
 
 </manifest>

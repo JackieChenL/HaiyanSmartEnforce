@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.MainActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.Register.RegisterActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
 
 import butterknife.BindView;
@@ -19,7 +20,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     ImageView iv_back;
     @BindView(R.id.tv_login_login)
     TextView tv_login;
-
+    @BindView(R.id.tv_register)
+    TextView tv_register;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_login;
@@ -37,6 +39,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         iv_back.setVisibility(View.GONE);
         tv_title.setText("登录");
         tv_login.setOnClickListener(this);
+        tv_register.setOnClickListener(this);
     }
 
     @Override
@@ -44,6 +47,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         switch (view.getId()) {
             case R.id.tv_login_login:
                 startActivity(new Intent(mContext, MainActivity.class));
+                break;
+            case R.id.tv_register:
+                startActivity(new Intent(mContext, RegisterActivity.class));
                 break;
         }
     }
