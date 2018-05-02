@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.jorge.circlelibrary.ImageCycleView;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.CaseCommit.CaseCommitActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.History.HistoryActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ParkingRecordSearchActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
@@ -33,6 +34,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     LinearLayout ll_wentishangbao;
     @BindView(R.id.banner_main)
     UPMarqueeView upview1;
+    @BindView(R.id.ll_lishijilu)
+    LinearLayout ll_lishijilu;
 
 
     ArrayList<String> list_detail;
@@ -57,7 +60,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         ll_caseSearch.setOnClickListener(this);
         ll_quickCommit.setOnClickListener(this);
         ll_wentishangbao.setOnClickListener(this);
-
+        ll_lishijilu.setOnClickListener(this);
         initBanner();
         initVerticalBanner();
     }
@@ -110,6 +113,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.ll_wentishangbao:
                 startActivity(new Intent(mContext, CaseCommitActivity.class));
+                break;
+            case R.id.ll_lishijilu:
+                startActivity(new Intent(mContext, HistoryActivity.class));
+                break;
         }
     }
 
