@@ -1,6 +1,7 @@
 package com.kas.clientservice.haiyansmartenforce.Module;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import com.kas.clientservice.haiyansmartenforce.Module.CaseCommit.CaseCommitActi
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ParkingRecordSearchActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
+import com.kas.clientservice.haiyansmartenforce.Utils.AppParameter;
 import com.kas.clientservice.haiyansmartenforce.Utils.Dp2pxUtil;
 import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 import com.kas.clientservice.haiyansmartenforce.Utils.UPMarqueeView;
@@ -53,7 +55,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void initResAndListener() {
         super.initResAndListener();
-
+        Log.i(TAG, "initResAndListener: "+ AppParameter.getApplicationId(mContext));
         ll_caseSearch.setOnClickListener(this);
         ll_quickCommit.setOnClickListener(this);
         ll_wentishangbao.setOnClickListener(this);

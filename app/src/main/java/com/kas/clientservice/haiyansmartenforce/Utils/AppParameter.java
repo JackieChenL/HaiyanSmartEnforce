@@ -34,4 +34,7 @@ public class AppParameter {
 
         return pi;
     }
+    public static String getApplicationId(Context mContext){
+       return mContext.getApplicationInfo().processName;
+    }
 }

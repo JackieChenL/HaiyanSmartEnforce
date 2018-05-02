@@ -5,8 +5,8 @@
     android:id="@+id/activity_illegal_parking_commit"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
+    android:orientation="vertical"
     tools:context="com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitActivity">
 
     <LinearLayout
@@ -20,7 +20,6 @@
             layout="@layout/header" />
 
 
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -32,7 +31,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
 
 
                 <TextView
@@ -61,10 +59,10 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="30dp"
-                        android:paddingLeft="10dp"
-                        android:text="000001"
                         android:background="@drawable/shape_black_border"
                         android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="000001"
                         android:textSize="16sp" />
 
 
@@ -88,61 +86,82 @@
                         android:textColor="@color/text_black"
                         android:textSize="17sp" />
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:paddingLeft="20dp">
 
+                        <ImageView
+                            android:id="@+id/iv_commitParking_takePhoto"
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="20dp"
+                            android:src="@drawable/photo"
+                            android:padding="8dp"/>
 
-                        <Spinner
-                            android:id="@+id/sp_province"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:background="@drawable/shape_black_border"
-                            android:dropDownWidth="80dp"
-                            android:entries="@array/provinceName"
-                            android:gravity="center"
-                            android:spinnerMode="dropdown"></Spinner>
-
-                        <Spinner
-                            android:id="@+id/sp_ABC"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_marginLeft="10dp"
-                            android:background="@drawable/shape_black_border"
-                            android:dropDownWidth="80dp"
-                            android:entries="@array/A2Z"
-                            android:gravity="center"
-                            android:spinnerMode="dropdown"></Spinner>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="35dp"
-                            android:layout_marginLeft="10dp"
-                            android:gravity="center"
-                            android:text="·"
-                            android:textColor="@color/black"
-                            android:textSize="30dp" />
-
-                        <EditText
-                            android:id="@+id/et_illegalparkingcommit_num"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="35dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="30dp"
-                            android:maxLength="5"
-                            android:textColorHint="@color/grey_400"
-                            android:cursorVisible="false"
-                            android:background="@drawable/shape_black_border"
-                            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
                             android:gravity="center_vertical"
-                            android:textSize="14sp"
-                            android:hint="请输入车牌号码" />
+                            android:layout_toLeftOf="@id/iv_commitParking_takePhoto">
 
 
-                    </LinearLayout>
+                            <Spinner
+                                android:id="@+id/sp_province"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="35dp"
+                                android:background="@drawable/shape_black_border"
+                                android:dropDownWidth="80dp"
+                                android:entries="@array/provinceName"
+                                android:gravity="center"
+                                android:spinnerMode="dropdown"></Spinner>
+
+                            <Spinner
+                                android:id="@+id/sp_ABC"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="35dp"
+                                android:layout_marginLeft="10dp"
+                                android:background="@drawable/shape_black_border"
+                                android:dropDownWidth="80dp"
+                                android:entries="@array/A2Z"
+                                android:gravity="center"
+                                android:spinnerMode="dropdown"></Spinner>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="35dp"
+                                android:layout_marginLeft="10dp"
+                                android:gravity="center"
+                                android:text="·"
+                                android:textColor="@color/black"
+                                android:textSize="30dp" />
+
+                            <EditText
+                                android:id="@+id/et_illegalparkingcommit_num"
+                                android:layout_width="0dp"
+                                android:layout_weight="2.5"
+                                android:layout_height="35dp"
+                                android:layout_marginLeft="10dp"
+                                android:background="@drawable/shape_black_border"
+                                android:cursorVisible="false"
+                                android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                android:gravity="center_vertical"
+                                android:maxLength="5"
+                                android:textColorHint="@color/grey_400"
+                                android:textSize="15sp" />
+
+                        </LinearLayout>
+
+
+
+
+                    </RelativeLayout>
 
                 </LinearLayout>
 
@@ -221,15 +240,14 @@
                         android:layout_height="40dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="20dp"
-                        android:layout_toRightOf="@id/tv_position"
-                        android:gravity="center_vertical"
-                        android:background="@color/white"
-                        android:singleLine="true"
                         android:layout_toLeftOf="@id/iv_illefalParking_location"
-                        android:text=""
+                        android:layout_toRightOf="@id/tv_position"
+                        android:background="@color/white"
                         android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text=""
                         android:textSize="16sp" />
-
 
 
                 </RelativeLayout>
@@ -245,11 +263,9 @@
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:padding="10dp"
-                    android:visibility="gone"
-                    >
+                    android:visibility="gone">
 
                 </android.support.v7.widget.RecyclerView>
-
 
 
             </LinearLayout>
@@ -266,35 +282,35 @@
         <TextView
             android:id="@+id/tv_commitIllegalParking_print"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
             android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
             android:background="@color/app_original_blue"
             android:gravity="center"
             android:text="打印"
-            android:textSize="17sp"
             android:textColor="@color/white"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true" />
+            android:textSize="17sp" />
 
         <TextView
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/white"/>
+            android:background="@color/white" />
 
         <TextView
             android:id="@+id/tv_commitIllegalParking_next"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
             android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
             android:background="@color/app_original_blue"
             android:gravity="center"
             android:text="提交"
-            android:textSize="17sp"
             android:textColor="@color/white"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true" />
+            android:textSize="17sp" />
 
     </LinearLayout>
 

@@ -43,6 +43,7 @@ public class CaseTypeActivity extends BaseActivity {
     CaseTypeAdapter caseTypeAdapter;
 
     boolean isBigClass = true;
+    String bigClass = "";
     @Override
     protected int getLayoutId() {
         return R.layout.activity_case_type;
@@ -93,11 +94,14 @@ public class CaseTypeActivity extends BaseActivity {
                     isBigClass = false;
                     tv_back.setVisibility(View.VISIBLE);
                     tv_currentType.setText("当前大类："+list.get(i).getName());
+                    bigClass = list.get(i).getCode();
                     Log.i(TAG, "onItemClick: "+list.get(i).getCode());
                     loadSmallClassData(list.get(i).getCode());
                 }else {
                     Intent intent = new Intent();
                     intent.putExtra("TypeName",list.get(i).getName());
+                    intent.putExtra("BigClass",bigClass);
+                    intent.putExtra("SmallClass",list.get(i).getCode());
 //                    intent.putExtra("TypeCode",list.get(i).getCode());
                     Log.i(TAG, "onItemClick: "+list.get(i).getName());
                     setResult(Constants.RESULTCODE_CASE_TYPE,intent);
