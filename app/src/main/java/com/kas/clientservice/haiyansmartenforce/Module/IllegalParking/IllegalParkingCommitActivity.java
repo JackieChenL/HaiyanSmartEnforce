@@ -344,10 +344,15 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
         switch (view.getId()) {
             case R.id.tv_commitIllegalParking_print:
                 if (!et_num.getText().toString().equals("")) {
-                    if (!et_positon.getText().toString().equals("")) {
-                        print();
-                    } else {
-                        ToastUtils.showToast(mContext, "请输入地点信息");
+                    if (et_num.getText().toString().length() == 5) {
+
+                        if (!et_positon.getText().toString().equals("")) {
+                            print();
+                        } else {
+                            ToastUtils.showToast(mContext, "请输入地点信息");
+                        }
+                    }else {
+                        ToastUtils.showToast(mContext, "请输入正确的5位车牌号码");
                     }
                 } else {
                     ToastUtils.showToast(mContext, "请输入车牌号");
@@ -570,6 +575,8 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
         list.add(data_content);
 
         list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(1));
+        list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(1));
+        list.add(DataForSendToPrinterPos58.selectChineseCharModel());
         byte[] data_Position = strTobytes(et_positon.getText().toString());
         list.add(data_Position);
 
