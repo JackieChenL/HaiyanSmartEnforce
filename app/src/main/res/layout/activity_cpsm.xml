@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#00000000">
+
+
+
+
+
+    <com.kas.clientservice.haiyansmartenforce.tcsf.widget.EasyPRPreView
+        android:id="@+id/preSurfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:textSize="16dp"
+        android:text="请将车牌放入框内"/>
+
+
+
+    <Button
+        android:id="@+id/btn_sm"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="确认扫描"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:background="@color/colorAccent"/>
+
+
+
+</RelativeLayout>

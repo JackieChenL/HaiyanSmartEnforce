@@ -25,7 +25,6 @@ import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.Utils.BitmapToBase64;
 import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 import com.kas.clientservice.haiyansmartenforce.Utils.WaterMaskImageUtil;
-import com.squareup.okhttp.Request;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -34,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import okhttp3.Call;
+import okhttp3.Request;
 
 import static com.kas.clientservice.haiyansmartenforce.Utils.Utils.getImageCropUri;
 
@@ -229,7 +230,7 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
                 .addParams("UpType", "enterprise")
                 .build().execute(new StringCallback() {
             @Override
-            public void onError(Request request, Exception e) {
+            public void onError(com.squareup.okhttp.Request request, Exception e) {
                 Log.i(TAG, "onError: " + e.toString());
             }
 
@@ -237,8 +238,10 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
             public void onResponse(String response) {
                 Log.i(TAG, "onResponse: " + response);
             }
+
+
         });
-//                .
+
 
     }
 

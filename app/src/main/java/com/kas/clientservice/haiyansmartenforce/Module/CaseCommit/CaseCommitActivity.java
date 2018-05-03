@@ -39,7 +39,6 @@ import com.kas.clientservice.haiyansmartenforce.Utils.StringUtils;
 import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 import com.kas.clientservice.haiyansmartenforce.Utils.Utils;
 import com.kas.clientservice.haiyansmartenforce.Utils.WaterMaskImageUtil;
-import com.squareup.okhttp.Request;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -50,6 +49,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import okhttp3.Call;
+import okhttp3.Request;
 
 public class CaseCommitActivity extends BaseActivity implements View.OnClickListener, IllegalParkingCommitImgRvAdapter.OnImageAddClickListener, IllegalParkingCommitImgRvAdapter.OnImagelickListener, TakePhoto.TakeResultListener, IllegalParkingCommitImgRvAdapter.OnImageLongClickListener, IllegalParkingCommitImgRvAdapter.OnImgDeleteClickListener {
     @BindView(R.id.tv_header_title)
@@ -179,25 +180,25 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
                 startActivityForResult(new Intent(mContext, TiandiMapActivity.class), Constants.RESULTCODE_TIANDITU);
                 break;
             case R.id.tv_case_commit_btn:
-                if (bigClass.equals("")){
-                    ToastUtils.showToast(this,"请选择类型");
-                    return ;
+                if (bigClass.equals("")) {
+                    ToastUtils.showToast(this, "请选择类型");
+                    return;
                 }
-                if (TextUtils.isEmpty(tv_location.getText().toString())){
-                    ToastUtils.showToast(this,"请选择位置");
-                    return ;
+                if (TextUtils.isEmpty(tv_location.getText().toString())) {
+                    ToastUtils.showToast(this, "请选择位置");
+                    return;
                 }
-                if (TextUtils.isEmpty(et_address.getText().toString())){
-                    ToastUtils.showToast(this,"请输入地址");
-                    return ;
+                if (TextUtils.isEmpty(et_address.getText().toString())) {
+                    ToastUtils.showToast(this, "请输入地址");
+                    return;
                 }
-                if (TextUtils.isEmpty(et_decribe.getText().toString())){
-                    ToastUtils.showToast(this,"请输入问题描述");
-                    return ;
+                if (TextUtils.isEmpty(et_decribe.getText().toString())) {
+                    ToastUtils.showToast(this, "请输入问题描述");
+                    return;
                 }
-                if (arr_image.size()==0){
-                    ToastUtils.showToast(this,"照片不能为空");
-                    return ;
+                if (arr_image.size() == 0) {
+                    ToastUtils.showToast(this, "照片不能为空");
+                    return;
                 }
                 getImgUrl();
                 showLoadingDialog();
@@ -241,46 +242,50 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
     String imgurl;
 
     private void getImgUrl() {
-        Log.i(TAG, "getImgUrl: "+BitmapToBase64.bitmapListToBase64(arr_image));
+        Log.i(TAG, "getImgUrl: " + BitmapToBase64.bitmapListToBase64(arr_image));
         OkHttpUtils.post().url(RequestUrl.URL)
                 .addParams("optionName", RequestUrl.getImgUrl)
                 .addParams("img", BitmapToBase64.bitmapListToBase64(arr_image))
                 .build().execute(new StringCallback() {
-            @Override
-            public void onError(Request request, Exception e) {
-                Log.i(TAG, "onError: "+e.toString());
-                dismissLoadingDialog();
-            }
 
-            @Override
-            public void onResponse(String response) {
-                Log.i(TAG, "onResponse: "+response);
-                try {
-                    JSONObject object = new JSONObject(response);
-                    boolean State = object.getBoolean("State");
-                    if (State) {
-                        String Rtn = object.getString("Rtn");
-                        String[] split = StringUtils.split(Rtn, "|");
-                        for (int i = 0; i < split.length; i++) {
-                            String string = split[i];
-                            String Icon = RequestUrl.IMGURL + string;
-                            Img img2 = new Img(Icon);
-                            imgList.add(img2);
-                        }
-                        for (int i = 0; i < imgList.size(); i++) {
-                            String img = imgList.get(i).getImg();
-                            imgurl = img + "|";
-                            strImgUrl += imgurl;
-                        }
-                        upload(strImgUrl.substring(0, strImgUrl.length() - 1));
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.i(TAG, "onResponse: "+e.toString());
-                    dismissLoadingDialog();
-                }
-            }
-        });
+                                     @Override
+                                     public void onError(com.squareup.okhttp.Request request, Exception e) {
+                                         Log.i(TAG, "onError: " + e.toString());
+                                         dismissLoadingDialog();
+                                     }
+
+                                     @Override
+                                     public void onResponse(String response) {
+                                         Log.i(TAG, "onResponse: " + response);
+                                         try {
+                                             JSONObject object = new JSONObject(response);
+                                             boolean State = object.getBoolean("State");
+                                             if (State) {
+                                                 String Rtn = object.getString("Rtn");
+                                                 String[] split = StringUtils.split(Rtn, "|");
+                                                 for (int i = 0; i < split.length; i++) {
+                                                     String string = split[i];
+                                                     String Icon = RequestUrl.IMGURL + string;
+                                                     Img img2 = new Img(Icon);
+                                                     imgList.add(img2);
+                                                 }
+                                                 for (int i = 0; i < imgList.size(); i++) {
+                                                     String img = imgList.get(i).getImg();
+                                                     imgurl = img + "|";
+                                                     strImgUrl += imgurl;
+                                                 }
+                                                 upload(strImgUrl.substring(0, strImgUrl.length() - 1));
+                                             }
+                                         } catch (Exception e) {
+                                             e.printStackTrace();
+                                             Log.i(TAG, "onResponse: " + e.toString());
+                                             dismissLoadingDialog();
+                                         }
+                                     }
+                                 }
+
+
+        );
     }
 
     private void upload(String substring) {
@@ -300,7 +305,7 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
         OkHttpUtils.post().url(RequestUrl.URL)
                 .addParams("optionName", RequestUrl.issueUploading)
                 .addParams("optionName", RequestUrl.issueUploading)
-                .addParams("typecode","")
+                .addParams("typecode", "")
                 .addParams("collcode", String.valueOf(1))
                 .addParams("bigClass", bigClass)
                 .addParams("smallClass", smallClass)
@@ -313,16 +318,19 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
                 .addParams("addType", "02")
                 .build().execute(new StringCallback() {
             @Override
-            public void onError(Request request, Exception e) {
-                Log.i(TAG, "onError: "+e.toString());
+            public void onError(com.squareup.okhttp.Request request, Exception e) {
+                Log.i(TAG, "onError: " + e.toString());
                 dismissLoadingDialog();
             }
 
             @Override
             public void onResponse(String response) {
-                Log.i(TAG, "onResponse: "+response);
+                Log.i(TAG, "onResponse: " + response);
                 dismissLoadingDialog();
             }
+
+
+
         });
     }
 
@@ -362,8 +370,6 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
             }
         }
     }
-
-
 
 
     @Override
