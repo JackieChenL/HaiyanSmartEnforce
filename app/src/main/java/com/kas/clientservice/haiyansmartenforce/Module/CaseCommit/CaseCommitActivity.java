@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
@@ -38,6 +37,7 @@ import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
 import com.kas.clientservice.haiyansmartenforce.Utils.Dp2pxUtil;
 import com.kas.clientservice.haiyansmartenforce.Utils.StringUtils;
 import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
+import com.kas.clientservice.haiyansmartenforce.Utils.Utils;
 import com.kas.clientservice.haiyansmartenforce.Utils.WaterMaskImageUtil;
 import com.squareup.okhttp.Request;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -46,7 +46,6 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -354,7 +353,7 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                         101);
             } else {
-                uri = getImageCropUri();
+                uri = Utils.getImageCropUri();
 //                cropOptions = new CropOptions.Builder().setAspectX(1).setAspectY(1).setWithOwnCrop(false).create();
                 //设置压缩参数
                 compressConfig = new CompressConfig.Builder().setMaxSize(50 * 1024).setMaxPixel(400).create();
@@ -364,11 +363,7 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
         }
     }
 
-    private Uri getImageCropUri() {
-        File file = new File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".jpg");
-        if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
-        return Uri.fromFile(file);
-    }
+
 
 
     @Override

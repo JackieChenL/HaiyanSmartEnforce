@@ -2,9 +2,13 @@ package com.kas.clientservice.haiyansmartenforce.Http;
 
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -18,11 +22,26 @@ public class RetrofitClient {
     //所有的联网地址 统一成https
 //    public static String mBaseUrl = "http://111.1.31.184:90/";
     //海盐
-//    public static String mBaseUrl = "http://111.1.31.210:88";
-    public static String mBaseUrl = "http://112.13.194.180:82/";
+    public static String mBaseUrl = "http://111.1.31.210:88/";
+//    public static String mBaseUrl = "http://112.13.194.180:82/";
     private static Gson gson = new Gson();
 
-    private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS).readTimeout(30,TimeUnit.SECONDS).writeTimeout(30,TimeUnit.SECONDS);
+    private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS).readTimeout(30,TimeUnit.SECONDS).writeTimeout(30,TimeUnit.SECONDS)
+            .addInterceptor(new Interceptor() {
+                @Override
+                public Response intercept(Chain chain) throws IOException {
+                    Request request = chain.request()
+                            .newBuilder()
+                            .addHeader("Accept-Encoding", "UTF-8")
+                            .addHeader("Connection", "keep-alive")
+                            .addHeader("Accept", "*/*")
+                            .addHeader("Cookie", "add cookies here")
+                            .addHeader("Content-Type", "application/json; charset=UTF-8")
+                            .build();
+                    return chain.proceed(request);
+
+                }
+            });
 
     public static Retrofit.Builder builder = new Retrofit.Builder()
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())

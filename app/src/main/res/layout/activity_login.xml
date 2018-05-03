@@ -32,10 +32,12 @@
             android:src="@drawable/loginicon_user_on"/>
 
         <EditText
+            android:id="@+id/et_login_account"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@color/white"
             android:hint="账号"
+            android:singleLine="true"
             android:textColorHint="@color/grey_400"
             android:paddingLeft="20dp"/>
 
@@ -61,10 +63,12 @@
             android:src="@drawable/loginicon_password_on"/>
 
         <EditText
+            android:id="@+id/et_login_psw"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@color/white"
             android:hint="密码"
+            android:inputType="textPassword"
             android:textColorHint="@color/grey_400"
             android:paddingLeft="20dp"/>
 

@@ -13,7 +13,7 @@ public class RequestUrl {
     /**
      * 登录
      */
-    public static final String Login ="login";
+    public static final String Login ="system/theme/anjuan/wzlogin.ashx";
     /**
      * 获取大类
      */

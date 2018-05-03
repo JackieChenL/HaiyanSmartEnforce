@@ -2,6 +2,7 @@ package com.kas.clientservice.haiyansmartenforce.Utils;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import java.io.Closeable;
+import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.regex.Matcher;
@@ -222,5 +224,10 @@ public final class Utils {
             return false;
         }
         return password.length() > 5&&password.length()<=12;
+    }
+    public static Uri getImageCropUri() {
+        File file = new File(Environment.getExternalStorageDirectory(), "kas/img/" + System.currentTimeMillis() + ".jpg");
+        if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
+        return Uri.fromFile(file);
     }
 }
