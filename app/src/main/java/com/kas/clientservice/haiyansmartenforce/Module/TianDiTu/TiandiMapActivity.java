@@ -221,7 +221,7 @@ public class TiandiMapActivity extends BaseActivity implements View.OnClickListe
         @Override
         public void onLocationChanged(Location location) {
             super.onLocationChanged(location);
-            Log.i(TAG, "onLocationChanged: " + location.getLongitude() + "  " + location.getLatitude() + " " + location.getProvider());
+//            Log.i(TAG, "onLocationChanged: " + location.getLongitude() + "  " + location.getLatitude() + " " + location.getProvider());
         }
 
         @Override

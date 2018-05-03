@@ -101,7 +101,7 @@ public class CaseTypeActivity extends BaseActivity {
                     Intent intent = new Intent();
                     intent.putExtra("TypeName",list.get(i).getName());
                     intent.putExtra("BigClass",bigClass);
-                    intent.putExtra("SmallClass",list.get(i).getCode());
+                    intent.putExtra("SmallClass",list.get(i).getName());
 //                    intent.putExtra("TypeCode",list.get(i).getCode());
                     Log.i(TAG, "onItemClick: "+list.get(i).getName());
                     setResult(Constants.RESULTCODE_CASE_TYPE,intent);

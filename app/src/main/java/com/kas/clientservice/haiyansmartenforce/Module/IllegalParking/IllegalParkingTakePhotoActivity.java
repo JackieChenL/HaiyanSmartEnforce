@@ -60,6 +60,7 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
     String carNum;
     String code;
 
+
     public TakePhoto getTakePhoto() {
         if (takePhoto == null) {
             takePhoto = new TakePhotoImpl(this, this);
@@ -211,7 +212,8 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
 
         }
     }
-    class ImgEntity{
+
+    class ImgEntity {
         String WFimg;
 
         public ImgEntity(String WFimg) {
@@ -220,52 +222,29 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
     }
 
     private void commit() {
-
-
-//        String num = province + A2Z + et_num.getText().toString();
         String bitmap_string = BitmapToBase64.bitmapListToBase64(arr_image);
-//        Log.i(TAG, "commit: " + bitmap_string);
-//        okhttp3.RequestBody body = parseBodyToJson(new ImgEntity(bitmap_string));
-//        RetrofitClient.createService(IllegalParkingAPI.class)
-//                .httpCommitParking(1, time, position, "10.0,10.0", carNum,body)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new MySubscriber<String>(mContext) {
-//                    @Override
-//                    public void onError(ExceptionHandle.ResponeThrowable responeThrowable) {
-//                        Log.i(TAG, "onError: " + responeThrowable.toString());
-//                        showNetErrorToast();
-//                    }
-//
-//                    @Override
-//                    public void onNext(String s) {
-//                        Log.i(TAG, "onNext: " + s);
-//                        ToastUtils.showToast(mContext, "提交成功");
-//                        startActivityWithoutBack(mContext, MainActivity.class, null);
-//                        finish();
-//                    }
-//                });
-
         OkHttpUtils.post().url("http://111.1.31.210:88/system/theme/anjuan/WFHandler.ashx")
-                .addParams("ZFRYID","1")
-                .addParams("WFtime",time)
-                .addParams("WFaddress",position)
-                .addParams("WFAddressZB","123.00,111.00")
-                .addParams("Carnum",carNum)
-                .addParams("Img",bitmap_string)
-                .addParams("UpType","enterprise")
+                .addParams("ZFRYID", "1")
+                .addParams("WFtime", time)
+                .addParams("WFaddress", position)
+                .addParams("WFAddressZB", "123.00,111.00")
+                .addParams("Carnum", carNum)
+                .addParams("Img", bitmap_string)
+                .addParams("UpType", "enterprise")
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Request request, Exception e) {
-                Log.i(TAG, "onError: "+e.toString());
+                Log.i(TAG, "onError: " + e.toString());
             }
 
             @Override
             public void onResponse(String response) {
-                Log.i(TAG, "onResponse: "+ response);
+                Log.i(TAG, "onResponse: " + response);
             }
         });
 //                .
 
     }
+
+
 }

@@ -14,6 +14,16 @@
         android:cropToPadding="true"
         android:background="@drawable/shape_blue_pic_chose"/>
 
+    <ImageView
+        android:id="@+id/iv_item_delete"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/delete"
+        android:padding="12dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"/>
+
     <TextView
         android:id="@+id/iv_item_time"
         android:layout_width="match_parent"

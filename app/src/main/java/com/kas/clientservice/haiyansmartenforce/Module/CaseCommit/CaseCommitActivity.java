@@ -13,8 +13,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -25,14 +27,23 @@ import com.jph.takephoto.app.TakePhotoImpl;
 import com.jph.takephoto.compress.CompressConfig;
 import com.jph.takephoto.model.CropOptions;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
+import com.kas.clientservice.haiyansmartenforce.Entity.Img;
+import com.kas.clientservice.haiyansmartenforce.Http.RequestUrl;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitImgRvAdapter;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ImageActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.TianDiTu.TiandiMapActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
+import com.kas.clientservice.haiyansmartenforce.Utils.BitmapToBase64;
 import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
 import com.kas.clientservice.haiyansmartenforce.Utils.Dp2pxUtil;
+import com.kas.clientservice.haiyansmartenforce.Utils.StringUtils;
 import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 import com.kas.clientservice.haiyansmartenforce.Utils.WaterMaskImageUtil;
+import com.squareup.okhttp.Request;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -41,7 +52,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class CaseCommitActivity extends BaseActivity implements View.OnClickListener, IllegalParkingCommitImgRvAdapter.OnImageAddClickListener, IllegalParkingCommitImgRvAdapter.OnImagelickListener, TakePhoto.TakeResultListener {
+public class CaseCommitActivity extends BaseActivity implements View.OnClickListener, IllegalParkingCommitImgRvAdapter.OnImageAddClickListener, IllegalParkingCommitImgRvAdapter.OnImagelickListener, TakePhoto.TakeResultListener, IllegalParkingCommitImgRvAdapter.OnImageLongClickListener, IllegalParkingCommitImgRvAdapter.OnImgDeleteClickListener {
     @BindView(R.id.tv_header_title)
     TextView tv_title;
     @BindView(R.id.iv_heaer_back)
@@ -56,18 +67,27 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
     RelativeLayout rl_location;
     @BindView(R.id.tv_caseCommit_location)
     TextView tv_location;
+    @BindView(R.id.et_caseCommit_address)
+    EditText et_address;
+    @BindView(R.id.tv_case_commit_btn)
+    TextView tv_submit;
+    @BindView(R.id.et_caseCommit_describe)
+    EditText et_decribe;
 
 
     List<Bitmap> arr_image;
     IllegalParkingCommitImgRvAdapter adapter;
     TakePhoto takePhoto;
     Uri uri;
-    String typeCode;
+    String smallClass = "";
     String langitude = "";
     String latitude = "";
+    String bigClass = "";
     private String time_chose;
     private CropOptions cropOptions;  //裁剪参数
     private CompressConfig compressConfig; //压缩参数
+    List<Img> imgList = new ArrayList<>();
+    String gridcode = "33040200100101";
 
     @Override
     protected int getLayoutId() {
@@ -108,15 +128,16 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
             langitude = data.getStringExtra("Longitude");
             latitude = data.getStringExtra("Latitude");
             Log.i(TAG, "onActivityResult: " + langitude + "  " + latitude);
-            tv_location.setText(langitude+","+latitude);
+            tv_location.setText(langitude + "," + latitude);
         }
         if (requestCode == Constants.RESULTCODE_CASE_TYPE) {
             if (data != null) {
 
                 if (data.getStringExtra("TypeName") != null) {
-                    Log.i(TAG, "onActivityResult: " + data.getStringExtra("TypeName") + "  " + data.getStringExtra("TypeCode"));
+                    Log.i(TAG, "onActivityResult: " + data.getStringExtra("TypeName") + "  " + data.getStringExtra("BigClass"));
                     tv_type.setText(data.getStringExtra("TypeName"));
-                    typeCode = data.getStringExtra("TypeCode");
+                    smallClass = data.getStringExtra("SmallClass");
+                    bigClass = data.getStringExtra("BigClass");
                 }
             }
         }
@@ -131,6 +152,7 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
         iv_back.setOnClickListener(this);
         rl_caseType.setOnClickListener(this);
         rl_location.setOnClickListener(this);
+        tv_submit.setOnClickListener(this);
 
         arr_image = new ArrayList<>();
         adapter = new IllegalParkingCommitImgRvAdapter(arr_image, mContext);
@@ -138,8 +160,11 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
         recyclerView.setLayoutManager(layoutManager);
         adapter.setOnImageAddClickListener(this);
         adapter.setOnImagelickListener(this);
+        adapter.setOnImageLongClickListener(this);
+        adapter.setOnImgDeleteClickListener(this);
         setRecyclerViewHeight(arr_image.size());
         recyclerView.setAdapter(adapter);
+
     }
 
     @Override
@@ -152,8 +177,31 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
                 startActivityForResult(new Intent(mContext, CaseTypeActivity.class), Constants.RESULTCODE_CASE_TYPE);
                 break;
             case R.id.rl_caseCommit_location:
-                startActivityForResult(new Intent(mContext, TiandiMapActivity.class),Constants.RESULTCODE_TIANDITU);
-
+                startActivityForResult(new Intent(mContext, TiandiMapActivity.class), Constants.RESULTCODE_TIANDITU);
+                break;
+            case R.id.tv_case_commit_btn:
+                if (bigClass.equals("")){
+                    ToastUtils.showToast(this,"请选择类型");
+                    return ;
+                }
+                if (TextUtils.isEmpty(tv_location.getText().toString())){
+                    ToastUtils.showToast(this,"请选择位置");
+                    return ;
+                }
+                if (TextUtils.isEmpty(et_address.getText().toString())){
+                    ToastUtils.showToast(this,"请输入地址");
+                    return ;
+                }
+                if (TextUtils.isEmpty(et_decribe.getText().toString())){
+                    ToastUtils.showToast(this,"请输入问题描述");
+                    return ;
+                }
+                if (arr_image.size()==0){
+                    ToastUtils.showToast(this,"照片不能为空");
+                    return ;
+                }
+                getImgUrl();
+                showLoadingDialog();
         }
     }
 
@@ -189,6 +237,96 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
         setRecyclerViewHeight(arr_image.size());
         adapter.notifyDataSetChanged();
     }
+
+    String strImgUrl = "";
+    String imgurl;
+
+    private void getImgUrl() {
+        Log.i(TAG, "getImgUrl: "+BitmapToBase64.bitmapListToBase64(arr_image));
+        OkHttpUtils.post().url(RequestUrl.URL)
+                .addParams("optionName", RequestUrl.getImgUrl)
+                .addParams("img", BitmapToBase64.bitmapListToBase64(arr_image))
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Request request, Exception e) {
+                Log.i(TAG, "onError: "+e.toString());
+                dismissLoadingDialog();
+            }
+
+            @Override
+            public void onResponse(String response) {
+                Log.i(TAG, "onResponse: "+response);
+                try {
+                    JSONObject object = new JSONObject(response);
+                    boolean State = object.getBoolean("State");
+                    if (State) {
+                        String Rtn = object.getString("Rtn");
+                        String[] split = StringUtils.split(Rtn, "|");
+                        for (int i = 0; i < split.length; i++) {
+                            String string = split[i];
+                            String Icon = RequestUrl.IMGURL + string;
+                            Img img2 = new Img(Icon);
+                            imgList.add(img2);
+                        }
+                        for (int i = 0; i < imgList.size(); i++) {
+                            String img = imgList.get(i).getImg();
+                            imgurl = img + "|";
+                            strImgUrl += imgurl;
+                        }
+                        upload(strImgUrl.substring(0, strImgUrl.length() - 1));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.i(TAG, "onResponse: "+e.toString());
+                    dismissLoadingDialog();
+                }
+            }
+        });
+    }
+
+    private void upload(String substring) {
+//        RequestParams params = new RequestParams(this);//请求参数
+//        .addParams("optionName", RequestUrl.issueUploading);
+//        .addParams("typecode", 1);
+//        .addParams("collcode", String.valueOf(collcode));
+//        .addParams("bigClass", BigCode);
+//        .addParams("smallClass", SmallCode);
+//        .addParams("gridcode", gridcode+"");
+//        .addParams("address", etProblemUploadAdd.getText().toString());
+//        .addParams("descript", etProblemUploadDescribe.getText().toString());
+//        .addParams("fid", tvProblemUploadGps.getText().toString());
+//        .addParams("bPicArry", strImg);
+//        .addParams("ePicArry", "");
+//        .addParams("addType", 02);
+        OkHttpUtils.post().url(RequestUrl.URL)
+                .addParams("optionName", RequestUrl.issueUploading)
+                .addParams("optionName", RequestUrl.issueUploading)
+                .addParams("typecode","")
+                .addParams("collcode", String.valueOf(1))
+                .addParams("bigClass", bigClass)
+                .addParams("smallClass", smallClass)
+                .addParams("gridcode", gridcode + "")
+                .addParams("address", et_address.getText().toString())
+                .addParams("descript", et_decribe.getText().toString())
+                .addParams("fid", tv_location.getText().toString())
+                .addParams("bPicArry", substring)
+                .addParams("ePicArry", "")
+                .addParams("addType", "02")
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Request request, Exception e) {
+                Log.i(TAG, "onError: "+e.toString());
+                dismissLoadingDialog();
+            }
+
+            @Override
+            public void onResponse(String response) {
+                Log.i(TAG, "onResponse: "+response);
+                dismissLoadingDialog();
+            }
+        });
+    }
+
 
     @Override
     public void takeFail(String msg) {
@@ -233,4 +371,14 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
     }
 
 
+    @Override
+    public void onImgLongClick() {
+
+    }
+
+    @Override
+    public void onImgDeleteClick(int position) {
+        arr_image.remove(position);
+        adapter.notifyDataSetChanged();
+    }
 }
