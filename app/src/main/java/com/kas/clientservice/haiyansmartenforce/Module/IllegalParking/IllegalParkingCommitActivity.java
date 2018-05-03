@@ -42,7 +42,6 @@ import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
 import com.kas.clientservice.haiyansmartenforce.Utils.Dp2pxUtil;
 import com.kas.clientservice.haiyansmartenforce.Utils.TimeUtils;
 import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
-import com.squareup.okhttp.Request;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -63,6 +62,8 @@ import java.util.List;
 import java.util.Set;
 
 import butterknife.BindView;
+import okhttp3.Call;
+import okhttp3.Request;
 
 public class IllegalParkingCommitActivity extends BaseActivity implements IllegalParkingCommitImgRvAdapter.OnImageAddClickListener, IllegalParkingCommitImgRvAdapter.OnImagelickListener, TakePhoto.TakeResultListener, View.OnClickListener {
     @BindView(R.id.iv_heaer_back)
@@ -315,12 +316,13 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
 //                        Log.i(TAG, "onNext: "+s);
 //                    }
 //                });
+
         OkHttpUtils.post().url("http://jisucpsb.market.alicloudapi.com/licenseplaterecognition/recognize")
                 .addHeader("X-Ca-Key", "24553193")
                 .addHeader("Authorization", "APPCODE 2e476d97d6994a489afb3491b44a2578")
                 .addParams("pic", img).build().execute(new StringCallback() {
             @Override
-            public void onError(Request request, Exception e) {
+            public void onError(com.squareup.okhttp.Request request, Exception e) {
                 Log.i(TAG, "onError: "+e.toString());
             }
 
@@ -335,6 +337,9 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
                     ToastUtils.showToast(mContext,"识别失败，请重新识别");
                 }
             }
+
+
+
         });
 
     }

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_illegal_parking_commit"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:layout_height="60dp">
+
+                    <TextView
+                        android:id="@+id/tv_cphm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:text="车牌号码:"
+                        android:textColor="@color/text_black"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/tev_smcp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="20dp"
+                        android:textSize="17sp"
+                        android:padding="12dp"
+                        android:background="@drawable/sm" />
+
+                    <EditText
+                        android:id="@+id/tev_cphm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_toRightOf="@id/tv_cphm"
+                        android:layout_toLeftOf="@+id/tev_smcp"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:textSize="17sp" />
+
+
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_devider" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="60dp">
+
+                    <TextView
+                        android:id="@+id/tev_trsj_l"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:text="停入时间:"
+                        android:textColor="@color/text_black"
+                        android:textSize="17sp" />
+
+
+                    <TextView
+                        android:id="@+id/tev_trsj_r"
+                        android:layout_width="1dp"
+                        android:layout_height="1dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                         />
+
+                    <TextView
+                        android:id="@+id/tev_trsj"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:clickable="true"
+                        android:textSize="17sp"
+                        android:layout_toRightOf="@+id/tev_trsj_l"
+                        android:layout_toLeftOf="@+id/tev_trsj_r"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginLeft="20dp"
+                         />
+
+                </RelativeLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_devider" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="60dp">
+
+                    <TextView
+                        android:id="@+id/tev_pwbh_l"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:text="泊位编号:"
+                        android:textColor="@color/text_black"
+                        android:textSize="17sp" />
+
+
+                    <TextView
+                        android:id="@+id/tev_pwbh_r"
+                        android:layout_width="1dp"
+                        android:layout_height="1dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                         />
+
+                    <TextView
+                        android:id="@+id/tev_pwbh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:clickable="true"
+                        android:layout_toRightOf="@+id/tev_pwbh_l"
+                        android:layout_toLeftOf="@+id/tev_pwbh_r"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:textSize="17sp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                         />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_devider" />
+
+
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:padding="10dp"
+                    >
+
+                </android.support.v7.widget.RecyclerView>
+
+
+            </LinearLayout>
+
+
+        </ScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/tev_tcdy"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/app_original_blue"
+            android:gravity="center"
+            android:text="停车打印"
+            android:textSize="17sp"
+            android:textColor="@color/white"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" />
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>

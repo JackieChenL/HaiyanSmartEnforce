@@ -19,6 +19,7 @@ import com.kas.clientservice.haiyansmartenforce.Utils.AppParameter;
 import com.kas.clientservice.haiyansmartenforce.Utils.Dp2pxUtil;
 import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 import com.kas.clientservice.haiyansmartenforce.Utils.UPMarqueeView;
+import com.kas.clientservice.haiyansmartenforce.tcsf.aty.CenterActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     UPMarqueeView upview1;
     @BindView(R.id.ll_lishijilu)
     LinearLayout ll_lishijilu;
+    @BindView(R.id.llt_tcjf)
+    LinearLayout llt_tcjf;
 
 
     ArrayList<String> list_detail;
@@ -63,6 +66,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         ll_quickCommit.setOnClickListener(this);
         ll_wentishangbao.setOnClickListener(this);
         ll_lishijilu.setOnClickListener(this);
+        llt_tcjf.setOnClickListener(this);
         initBanner();
         initVerticalBanner();
     }
@@ -118,6 +122,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.ll_lishijilu:
                 startActivity(new Intent(mContext, HistoryActivity.class));
+                break;
+            case R.id.llt_tcjf:
+                startActivity(new Intent(mContext, CenterActivity.class));
                 break;
         }
     }
