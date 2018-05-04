@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
 import com.kas.clientservice.haiyansmartenforce.R;
+import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
 import com.kas.clientservice.haiyansmartenforce.tcsf.adapter.ImageAdapter;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.HTTP_HOST;
@@ -180,7 +181,7 @@ public class ParkActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.tev_pwbh:
 //              TODO：车位号获取应该从服务器取
-                final String[] arr = app.USERINFO.getRoad().split(",");
+                final String[] arr = UserSingleton.getInstance().getUserInfo(aty).getRoad().split(",");
                 new AlertView(null, null, null, null, arr, aty, null, new OnItemClickListener() {
                     @Override
                     public void onItemClick(Object o, int position) {
@@ -223,7 +224,7 @@ public class ParkActivity extends BaseActivity implements View.OnClickListener {
                             .addParams("UCarnum", cphm).addParams("UpType", "enterprise")
                             .addParams("Road", road).addParams("StartTime", trsj)
                             .addParams("Img", pic).addParams("BerthName", berthName)
-                            .addParams("SBYID", app.USERINFO.getZFRYID()).build().execute(new BeanCallBack(aty, "数据提交中") {
+                            .addParams("SBYID", UserSingleton.getInstance().getUserInfo(aty).getZFRYID()).build().execute(new BeanCallBack(aty, "数据提交中") {
 
                         @Override
                         public void handleBeanResult(NetResultBean bean) {
@@ -232,8 +233,8 @@ public class ParkActivity extends BaseActivity implements View.OnClickListener {
                                 Intent intent = new Intent(aty, PrintActivity.class).putExtra("body", body);
                                 startActivity(intent);
                                 finish();
-
                             } else {
+
                                 ToastUtil.show(aty, "提交数据到服务器失败，请检查数据后重试");
                             }
 

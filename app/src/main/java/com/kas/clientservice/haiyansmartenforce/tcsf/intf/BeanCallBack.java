@@ -28,6 +28,7 @@ public  abstract  class BeanCallBack extends StringCallback {
     public void onBefore(Request request) {
         super.onBefore(request);
         LogUtil.e("onBefore:","onBefore");
+        if (msg!=null)
         ProgressDialogUtil.show(context,msg+"...");
     }
 
