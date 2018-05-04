@@ -11,6 +11,6 @@ import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
  */
 
 public class MyApplication extends Application {
-    public volatile static UserInfo USERINFO;
+//    public volatile static UserInfo USERINFO;
 
 }

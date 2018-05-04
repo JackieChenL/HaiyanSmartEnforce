@@ -103,7 +103,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             public void onNext(BaseEntity<UserInfo> entity) {
                                 Log.i(TAG, "onNext: " + gson.toJson(entity));
                                 if (entity.isState()) {
-                                    MyApplication.USERINFO = entity.getRtn();
                                     saveUserInfo(et_userName.getText().toString(),et_psw.getText().toString(),entity.getRtn());
                                     startActivity(new Intent(mContext, MainActivity.class));
                                 }else {
