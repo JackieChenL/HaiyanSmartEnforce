@@ -61,6 +61,15 @@ public class NetResultBean {
         return (ArrayList<T>)JSON.parseArray(str,T);
     };
 
-
-
+    @Override
+    public String toString() {
+        return "NetResultBean{" +
+                "State=" + State +
+                ", ErrorCode=" + ErrorCode +
+                ", ErrorMsg='" + ErrorMsg + '\'' +
+                ", Page=" + Page +
+                ", total=" + total +
+                ", Rtn='" + Rtn + '\'' +
+                '}';
+    }
 }
