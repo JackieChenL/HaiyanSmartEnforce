@@ -62,8 +62,6 @@ import java.util.List;
 import java.util.Set;
 
 import butterknife.BindView;
-import okhttp3.Call;
-import okhttp3.Request;
 
 public class IllegalParkingCommitActivity extends BaseActivity implements IllegalParkingCommitImgRvAdapter.OnImageAddClickListener, IllegalParkingCommitImgRvAdapter.OnImagelickListener, TakePhoto.TakeResultListener, View.OnClickListener {
     @BindView(R.id.iv_heaer_back)
@@ -188,9 +186,11 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
 
             }
         });
-        sp_province.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sp_A2Z.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.i(TAG, "onItemSelected: "+list_A2Z[i]);
+                Log.i(TAG, "onItemSelected: position="+i);
                 A2Z = list_A2Z[i];
             }
 
@@ -333,6 +333,28 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
                 if (carNumRecgnizeEntity.getStatus().equals("0")) {
                     String carNum = carNumRecgnizeEntity.getResult().getNumber();
                     et_num.setText(carNum.substring(2));
+
+                    String prov = String.valueOf(carNum.charAt(0));
+                    String a2z = String.valueOf(carNum.charAt(1));
+
+                    for (int i = 0; i < list_province.length; i++) {
+                        if (prov.equals(list_province[i])) {
+                            sp_province.setSelection(i);
+                            province = prov;
+                            break;
+                        }
+                    }
+                    for (int i = 0; i < list_A2Z.length; i++) {
+                        if (a2z.equals(list_A2Z[i])) {
+                            sp_A2Z.setSelection(i);
+                            A2Z = a2z;
+                            Log.i(TAG, "onResponse: position="+i);
+                            Log.i(TAG, "onResponse: "+list_A2Z[i]);
+                            Log.i(TAG, "onResponse: "+a2z);
+                            break;
+                        }
+                    }
+
                 }else {
                     ToastUtils.showToast(mContext,"识别失败，请重新识别");
                 }
@@ -567,7 +589,8 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
         //车牌
         list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
         list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(1));
-        byte[] data_carNum = strTobytes(A2Z + et_num.getText().toString());
+        Log.i(TAG, "formAndPrint: "+A2Z);
+        byte[] data_carNum = strTobytes(A2Z + ""+et_num.getText().toString());
         list.add(data_carNum);
 
         list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
@@ -620,18 +643,144 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
         byte[] data_call = strTobytes("0573-86198731");
         list.add(data_call);
         list.add(DataForSendToPrinterPos58.printAndFeedLine());
-
         list.add(DataForSendToPrinterPos58.printAndFeedForward(1));
+
+
 
         list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(0));
         byte[] beizhu = strTobytes("备注：机动车所有人登记的住所地址或联系电话发生变化的，请及时向登记地车管所申请变更备案。");
         list.add(beizhu);
         list.add(DataForSendToPrinterPos58.printAndFeedLine());
 
-        list.add(DataForSendToPrinterPos58.printAndFeedForward(7));
+        list.add(DataForSendToPrinterPos58.printAndFeedForward(5));
 
+        list.add(DataForSendToPrinterPos58.selectAlignment(1));
+        byte[] type = strTobytes("第一联：车主联");
+        list.add(type);
+        list.add(DataForSendToPrinterPos58.printAndFeedLine());
+
+        list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
+        list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(0));
+        list.add(DataForSendToPrinterPos58.selectChineseCharModel());
+        byte[] line = strTobytes("--------------------------------");
+        list.add(line);
+        list.add(DataForSendToPrinterPos58.printAndFeedLine());
+
+        printAgain(list);
 
         return list;
+    }
+
+    private void printAgain(ArrayList<byte[]> list) {
+        list.add(DataForSendToPrinterPos58.initializePrinter());
+        list.add(DataForSendToPrinterPos58.printAndFeedForward(3));
+        //标题
+        byte[] title = strTobytes("道路交通安全违法行为处理通知书");
+        //居中
+        list.add(DataForSendToPrinterPos58.selectAlignment(1));
+        list.add(DataForSendToPrinterPos58.selectCharacterSize(1));
+        list.add(DataForSendToPrinterPos58.selectChineseCharModel());
+        list.add(title);
+        list.add(DataForSendToPrinterPos58.printAndFeedLine());
+        //空一行
+        list.add(DataForSendToPrinterPos58.printAndFeedForward(1));
+
+        //编号
+        list.add(DataForSendToPrinterPos58.initializePrinter());
+        byte[] num = strTobytes("编号：" + tv_code.getText().toString());
+        list.add(DataForSendToPrinterPos58.selectAlignment(1));
+        list.add(num);
+//                list.add(DataForSendToPrinterPos58.selectChineseCharModel());
+        list.add(DataForSendToPrinterPos58.printAndFeedLine());
+        //空一行
+        list.add(DataForSendToPrinterPos58.printAndFeedForward(2));
+
+        list.add(DataForSendToPrinterPos58.selectAlignment(0));
+        //省
+        list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(1));
+        list.add(DataForSendToPrinterPos58.selectChineseCharModel());
+        byte[] data_province = strTobytes(province);
+        list.add(data_province);
+        //车牌
+        list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
+        list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(1));
+        Log.i(TAG, "formAndPrint: "+A2Z);
+        byte[] data_carNum = strTobytes(A2Z + ""+et_num.getText().toString());
+        list.add(data_carNum);
+
+        list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
+        list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(0));
+        byte[] data_1 = strTobytes("号牌号码的机动车驾驶人：");
+        list.add(data_1);
+        list.add(DataForSendToPrinterPos58.printAndFeedLine());
+        list.add(DataForSendToPrinterPos58.printAndFeedForward(1));
+        byte[] data_content = strTobytes(String.format("    该车辆于%s，在", tv_time.getText().toString()));
+        list.add(data_content);
+
+        list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(1));
+        list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(1));
+        list.add(DataForSendToPrinterPos58.selectChineseCharModel());
+        byte[] data_Position = strTobytes(et_positon.getText().toString());
+        list.add(data_Position);
+
+        list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
+        byte[] data_content2 = strTobytes("实施的停车行为违反了《道路交通安全法》第56条之规定。请您持本通知书，驾驶证，行驶证在15日内，到");
+        list.add(data_content2);
+
+        list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(1));
+        byte[] data_handlePosition = strTobytes("交通警察服务中心");
+        list.add(data_handlePosition);
+
+        list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
+        list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(0));
+        byte[] data_2 = strTobytes("接受处理。");
+        list.add(data_2);
+        list.add(DataForSendToPrinterPos58.printAndFeedLine());
+
+        list.add(DataForSendToPrinterPos58.printAndFeedForward(2));
+
+        list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
+        byte[] data_dizhi = strTobytes("地址：");
+        list.add(data_dizhi);
+
+        list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(1));
+        byte[] data_p = strTobytes("海盐县武原街道出海路与公园路交界口");
+        list.add(data_p);
+        list.add(DataForSendToPrinterPos58.printAndFeedLine());
+        list.add(DataForSendToPrinterPos58.printAndFeedForward(1));
+
+        list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
+        byte[] data_dianhua = strTobytes("咨询电话：");
+        list.add(data_dianhua);
+
+//        list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(1));
+        list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(1));
+        byte[] data_call = strTobytes("0573-86198731");
+        list.add(data_call);
+        list.add(DataForSendToPrinterPos58.printAndFeedLine());
+        list.add(DataForSendToPrinterPos58.printAndFeedForward(1));
+
+
+
+        list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(0));
+        byte[] beizhu = strTobytes("备注：机动车所有人登记的住所地址或联系电话发生变化的，请及时向登记地车管所申请变更备案。");
+        list.add(beizhu);
+        list.add(DataForSendToPrinterPos58.printAndFeedLine());
+        list.add(DataForSendToPrinterPos58.printAndFeedForward(5));
+
+        list.add(DataForSendToPrinterPos58.selectAlignment(1));
+        byte[] type = strTobytes("第二联：存根联");
+        list.add(type);
+        list.add(DataForSendToPrinterPos58.printAndFeedLine());
+
+        list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
+        list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(0));
+        list.add(DataForSendToPrinterPos58.selectChineseCharModel());
+        byte[] line = strTobytes("--------------------------------");
+        list.add(line);
+        list.add(DataForSendToPrinterPos58.printAndFeedLine());
+
+        list.add(DataForSendToPrinterPos58.printAndFeedForward(2));
     }
 
 
