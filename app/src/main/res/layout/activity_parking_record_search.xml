@@ -36,7 +36,7 @@
 
 
             <Spinner
-                android:id="@+id/sp_province"
+                android:id="@+id/sp_province_search"
                 android:layout_width="50dp"
                 android:layout_height="35dp"
                 android:background="@drawable/shape_black_border"
@@ -46,7 +46,7 @@
                 android:spinnerMode="dropdown"></Spinner>
 
             <Spinner
-                android:id="@+id/sp_ABC"
+                android:id="@+id/sp_ABC_search"
                 android:layout_width="50dp"
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
@@ -71,6 +71,8 @@
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="20dp"
+                android:maxLength="5"
+                android:singleLine="true"
                 android:background="@drawable/shape_black_border"
                 android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" />
 
@@ -94,12 +96,14 @@
             android:paddingRight="20dp"
             >
 
-            <EditText
+            <TextView
+                android:id="@+id/tv_parkingRecord_startTime"
                 android:layout_width="0dp"
                 android:layout_height="35dp"
                 android:layout_weight="1"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="10dp"
+                android:gravity="center"
                 android:background="@drawable/shape_black_border" />
 
             <TextView
@@ -108,11 +112,13 @@
                 android:text="至"
                 android:gravity="center"/>
 
-            <EditText
+            <TextView
+                android:id="@+id/tv_parkingRecord_endTime"
                 android:layout_width="0dp"
                 android:layout_height="35dp"
                 android:layout_weight="1"
                 android:layout_marginLeft="10dp"
+                android:gravity="center"
                 android:background="@drawable/shape_black_border" />
 
         </LinearLayout>
@@ -134,16 +140,25 @@
             android:orientation="horizontal">
 
             <EditText
+                android:id="@+id/tv_parkingRecord_position"
                 android:layout_width="200dp"
                 android:layout_height="35dp"
                 android:layout_marginLeft="20dp"
+                android:singleLine="true"
+                android:ellipsize="middle"
                 android:background="@drawable/shape_black_border" />
 
-            <ImageView
-                android:layout_width="35dp"
+            <TextView
+                android:id="@+id/tv_parkingRecord_btn"
+                android:layout_width="match_parent"
+                android:layout_marginRight="20dp"
                 android:layout_height="35dp"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/dingwei" />
+                android:textColor="@color/white"
+                android:text="查询"
+                android:gravity="center"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/shape_blue_btn"/>
 
 
         </LinearLayout>

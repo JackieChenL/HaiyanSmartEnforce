@@ -21,7 +21,7 @@ public class HistoryActivity extends BaseActivity implements View.OnClickListene
     ListView lv_history;
     @BindView(R.id.iv_heaer_back)
     ImageView iv_heaer_back;
-    @BindView(R.id.tv_title)
+    @BindView(R.id.tv_header_title)
     TextView tv_title;
     @Override
     protected int getLayoutId() {
@@ -39,7 +39,7 @@ public class HistoryActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void initResAndListener(){
         super.initResAndListener();
-        lv_history.setOnClickListener(this);
+//        lv_history.setOnClickListener(this);
         iv_heaer_back.setOnClickListener(this);
         tv_title.setText("历史记录");
     }

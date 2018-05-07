@@ -36,6 +36,6 @@ public class WelcomeActivity extends BaseActivity {
     protected void initResAndListener() {
         super.initResAndListener();
 
-        handler.sendEmptyMessageDelayed(0,4000);
+        handler.sendEmptyMessageDelayed(0,2000);
     }
 }

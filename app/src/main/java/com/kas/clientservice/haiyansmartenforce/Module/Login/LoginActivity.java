@@ -16,9 +16,9 @@ import com.kas.clientservice.haiyansmartenforce.Http.MySubscriber;
 import com.kas.clientservice.haiyansmartenforce.Http.RetrofitClient;
 import com.kas.clientservice.haiyansmartenforce.Module.MainActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.Register.RegisterActivity;
-import com.kas.clientservice.haiyansmartenforce.MyApplication;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
+import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
 import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
 import com.kas.clientservice.haiyansmartenforce.Utils.SPBuild;
 import com.kas.clientservice.haiyansmartenforce.Utils.SPUtils;
@@ -103,6 +103,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             public void onNext(BaseEntity<UserInfo> entity) {
                                 Log.i(TAG, "onNext: " + gson.toJson(entity));
                                 if (entity.isState()) {
+                                    UserSingleton.USERINFO = entity.getRtn();
                                     saveUserInfo(et_userName.getText().toString(),et_psw.getText().toString(),entity.getRtn());
                                     startActivity(new Intent(mContext, MainActivity.class));
                                 }else {
