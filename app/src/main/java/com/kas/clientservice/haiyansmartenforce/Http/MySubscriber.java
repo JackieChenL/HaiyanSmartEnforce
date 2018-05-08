@@ -1,5 +1,6 @@
 package com.kas.clientservice.haiyansmartenforce.Http;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -11,6 +12,7 @@ import rx.Subscriber;
 public abstract class MySubscriber<T> extends Subscriber<T> {
 
     private Context context;
+    ProgressDialog loadingDialog;
 
     public MySubscriber(Context context) {
         this.context = context;
@@ -19,6 +21,7 @@ public abstract class MySubscriber<T> extends Subscriber<T> {
     @Override
     public void onStart() {
         super.onStart();
+        showLoadingDialog();
         Log.i("tag","MySubscriber.onStart()");
         //接下来可以检查网络连接等操作
         if (!NetUtils.isConnected(context)) {
@@ -50,6 +53,29 @@ public abstract class MySubscriber<T> extends Subscriber<T> {
 
     @Override
     public void onCompleted() {
+        dismissLoadingDialog();
 //        Log.i("tag","MySubscriber.onComplete()");
+    }
+
+    public void showLoadingDialog() {
+
+        if (loadingDialog == null) {
+
+            loadingDialog = new ProgressDialog(context);
+            loadingDialog.setCanceledOnTouchOutside(false);
+            loadingDialog.setMessage("加载中...");
+        }
+        loadingDialog.show();
+    }
+
+    public void dismissLoadingDialog() {
+
+        if (loadingDialog != null) {
+
+            loadingDialog.dismiss();
+
+        }
+
+
     }
 }

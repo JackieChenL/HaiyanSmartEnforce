@@ -22,6 +22,7 @@ import com.jph.takephoto.app.TakePhotoImpl;
 import com.jph.takephoto.compress.CompressConfig;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
+import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
 import com.kas.clientservice.haiyansmartenforce.Utils.BitmapToBase64;
 import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 import com.kas.clientservice.haiyansmartenforce.Utils.WaterMaskImageUtil;
@@ -33,8 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import okhttp3.Call;
-import okhttp3.Request;
 
 import static com.kas.clientservice.haiyansmartenforce.Utils.Utils.getImageCropUri;
 
@@ -221,7 +220,7 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
     private void commit() {
         String bitmap_string = BitmapToBase64.bitmapListToBase64(arr_image);
         OkHttpUtils.post().url("http://111.1.31.210:88/system/theme/anjuan/WFHandler.ashx")
-                .addParams("ZFRYID", "1")
+                .addParams("ZFRYID", UserSingleton.USERINFO.getZFRYID())
                 .addParams("WFtime", time)
                 .addParams("WFaddress", position)
                 .addParams("WFAddressZB", "123.00,111.00")

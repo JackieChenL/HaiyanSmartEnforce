@@ -1,6 +1,9 @@
 package com.kas.clientservice.haiyansmartenforce.Module;
 
 import android.content.Intent;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutCompat;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +13,16 @@ import android.widget.TextView;
 
 import com.jorge.circlelibrary.ImageCycleView;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
+import com.kas.clientservice.haiyansmartenforce.MainModuleRvAdapter;
 import com.kas.clientservice.haiyansmartenforce.Module.CaseCommit.CaseCommitActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.History.HistoryActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ParkingRecordSearchActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
+import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
+import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
 import com.kas.clientservice.haiyansmartenforce.Utils.AppParameter;
+import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
 import com.kas.clientservice.haiyansmartenforce.Utils.Dp2pxUtil;
 import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 import com.kas.clientservice.haiyansmartenforce.Utils.UPMarqueeView;
@@ -26,7 +33,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener, MainModuleRvAdapter.OnModuleClickListener {
     @BindView(R.id.ll_main_caseSearch)
     LinearLayout ll_caseSearch;
     @BindView(R.id.ll_main_quickCommit)
@@ -39,6 +46,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     UPMarqueeView upview1;
     @BindView(R.id.ll_lishijilu)
     LinearLayout ll_lishijilu;
+    @BindView(R.id.rv_main)
+    RecyclerView recyclerView;
     @BindView(R.id.llt_tcjf)
     LinearLayout llt_tcjf;
 
@@ -46,6 +55,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     ArrayList<String> list_detail;
     ArrayList<String> list_imageURL;
     List<String> list_headline;
+    List<UserInfo.BoardBean> list_module;
     private List<View> views = new ArrayList<>();
 
     @Override
@@ -69,7 +79,37 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         llt_tcjf.setOnClickListener(this);
         initBanner();
         initVerticalBanner();
+        initRv();
     }
+
+    private void initRv() {
+        list_module = new ArrayList<>();
+        MainModuleRvAdapter adapter = new MainModuleRvAdapter(list_module,mContext);
+        adapter.setOnModuleClickListener(this);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(mContext, 4, LinearLayout.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+        list_module.clear();
+        list_module.addAll(UserSingleton.USERINFO.getBoard());
+        adapter.notifyDataSetChanged();
+        setRecyclerViewHeight(list_module.size());
+
+
+    }
+    public void setRecyclerViewHeight(int size) {
+        int height;
+        if (size%4 == 0) {
+            height = (size/4)*120;
+        }else {
+            height = (size/4+1)*120;
+        }
+        Log.i(TAG, "setRecyclerViewHeight: "+height);
+        LinearLayoutCompat.LayoutParams layoutParams = new LinearLayoutCompat.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Dp2pxUtil.dip2px(mContext, height));
+        layoutParams.setMargins(Dp2pxUtil.dip2px(mContext, 10), 0, Dp2pxUtil.dip2px(mContext, 10), 0);
+        recyclerView.setLayoutParams(new LinearLayout.LayoutParams(layoutParams));
+    }
+
 
     private void initVerticalBanner() {
         setView();
@@ -147,6 +187,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
              */
             //添加到循环滚动数组里面去
             views.add(moreView);
+        }
+    }
+
+    @Override
+    public void onModuleClick(int type) {
+        switch (type) {
+            case Constants.MainModule.TINGCHESHOUFEI:
+                startActivity(new Intent(mContext, CenterActivity.class));
+                break;
+            case Constants.MainModule.WEIZHANGTINGCHE:
+                startActivity(new Intent(mContext, IllegalParkingCommitActivity.class));
+                break;
+            case Constants.MainModule.ANJIANCHAXUN:
+                startActivity(new Intent(mContext, ParkingRecordSearchActivity.class));
+                break;
         }
     }
 }

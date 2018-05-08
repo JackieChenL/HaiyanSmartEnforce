@@ -32,6 +32,7 @@ import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalPar
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ImageActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.TianDiTu.TiandiMapActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
+import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
 import com.kas.clientservice.haiyansmartenforce.Utils.BitmapToBase64;
 import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
 import com.kas.clientservice.haiyansmartenforce.Utils.Dp2pxUtil;
@@ -49,8 +50,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import okhttp3.Call;
-import okhttp3.Request;
 
 public class CaseCommitActivity extends BaseActivity implements View.OnClickListener, IllegalParkingCommitImgRvAdapter.OnImageAddClickListener, IllegalParkingCommitImgRvAdapter.OnImagelickListener, TakePhoto.TakeResultListener, IllegalParkingCommitImgRvAdapter.OnImageLongClickListener, IllegalParkingCommitImgRvAdapter.OnImgDeleteClickListener {
     @BindView(R.id.tv_header_title)
@@ -304,9 +303,8 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
 //        .addParams("addType", 02);
         OkHttpUtils.post().url(RequestUrl.URL)
                 .addParams("optionName", RequestUrl.issueUploading)
-                .addParams("optionName", RequestUrl.issueUploading)
                 .addParams("typecode", "")
-                .addParams("collcode", String.valueOf(1))
+                .addParams("collcode", UserSingleton.USERINFO.getZFRYID())
                 .addParams("bigClass", bigClass)
                 .addParams("smallClass", smallClass)
                 .addParams("gridcode", gridcode + "")
