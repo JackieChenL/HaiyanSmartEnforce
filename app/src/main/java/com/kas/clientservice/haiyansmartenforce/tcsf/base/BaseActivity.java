@@ -44,7 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity {
   }
 
   protected  List<UserInfo.RoadBean> getRoadBeanList(){
-     return UserSingleton.getInstance().getUserInfo(aty).getRoad();
+     return UserSingleton.USERINFO.getRoad();
   }
 
    protected  interface Pid{
