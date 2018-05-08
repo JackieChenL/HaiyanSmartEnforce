@@ -5,11 +5,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.kas.clientservice.haiyansmartenforce.API.ParkingRecordSearchAPI;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
+import com.kas.clientservice.haiyansmartenforce.Base.BaseEntity;
+import com.kas.clientservice.haiyansmartenforce.Entity.ParkingSearchEntity;
 import com.kas.clientservice.haiyansmartenforce.Http.ExceptionHandle;
 import com.kas.clientservice.haiyansmartenforce.Http.MySubscriber;
 import com.kas.clientservice.haiyansmartenforce.Http.RetrofitClient;
@@ -18,6 +21,9 @@ import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
 import com.kas.clientservice.haiyansmartenforce.Utils.TimeUtils;
 
 import org.feezu.liuli.timeselector.TimeSelector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import rx.android.schedulers.AndroidSchedulers;
@@ -40,12 +46,15 @@ public class ParkingRecordSearchActivity extends BaseActivity implements View.On
     Spinner sp_prov;
     @BindView(R.id.sp_ABC_search)
     Spinner sp_abc;
+    @BindView(R.id.lv_illegalParkingSearch)
+    ListView listView;
     @BindView(R.id.et_illegalparkingcommit_num)
     EditText et_num;
 
     String province = "";
     String abc = "";
-
+    List<ParkingSearchEntity.BoardBean> list;
+    IllegalParkingSearchAdapter adapter;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_parking_record_search;
@@ -90,7 +99,18 @@ public class ParkingRecordSearchActivity extends BaseActivity implements View.On
             }
 
         });
+
+        initList();
     }
+
+    private void initList() {
+        list = new ArrayList<>();
+        adapter = new IllegalParkingSearchAdapter(list,mContext);
+        listView.setAdapter(adapter);
+
+    }
+
+
 
     @Override
     public void onClick(View view) {
@@ -119,15 +139,18 @@ public class ParkingRecordSearchActivity extends BaseActivity implements View.On
                         editText.getText().toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<String>(mContext) {
+                .subscribe(new MySubscriber<BaseEntity<ParkingSearchEntity>>(mContext) {
                     @Override
                     public void onError(ExceptionHandle.ResponeThrowable responeThrowable) {
                         Log.i(TAG, "onError: " + responeThrowable.toString());
                     }
 
                     @Override
-                    public void onNext(String stringBaseEntity) {
+                    public void onNext(BaseEntity<ParkingSearchEntity> stringBaseEntity) {
                         Log.i(TAG, "onNext: " + stringBaseEntity);
+                        list.clear();
+                        list.addAll(stringBaseEntity.getRtn().getBoard());
+                        adapter.notifyDataSetChanged();
                     }
                 });
     }
@@ -138,7 +161,7 @@ public class ParkingRecordSearchActivity extends BaseActivity implements View.On
             public void handle(String time) {
                 tv_endTime.setText(time);
             }
-        }, TimeUtils.getFormedTime("yyyy-MM-dd") + " 00:00", TimeUtils.getFormedTime("yyyy-MM-dd HH:mm"));
+        }, "2000-01-01 00:00",  TimeUtils.getFormedTime("yyyy") + "-12-31 23:59");
         timeSelector.setIsLoop(true);
         timeSelector.show();
     }

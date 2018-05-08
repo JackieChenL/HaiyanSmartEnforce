@@ -1,5 +1,7 @@
 package com.kas.clientservice.haiyansmartenforce.API;
 
+import com.kas.clientservice.haiyansmartenforce.Base.BaseEntity;
+import com.kas.clientservice.haiyansmartenforce.Entity.ParkingSearchEntity;
 import com.kas.clientservice.haiyansmartenforce.Http.RequestUrl;
 
 import retrofit2.http.Field;
@@ -15,9 +17,9 @@ import retrofit2.http.POST;
 public interface ParkingRecordSearchAPI {
     @POST(RequestUrl.illegalParkingSearch)
     @FormUrlEncoded
-    rx.Observable<String> httpParkingSearch(@Field("ZFRYID")String id,
-                                                        @Field("carnum")String carNum,
-                                                        @Field("starttime")String startTime,
-                                                        @Field("endtime")String endTime,
-                                                        @Field("WFaddress")String address);
+    rx.Observable<BaseEntity<ParkingSearchEntity>> httpParkingSearch(@Field("ZFRYID")String id,
+                                                                     @Field("carnum")String carNum,
+                                                                     @Field("starttime")String startTime,
+                                                                     @Field("endtime")String endTime,
+                                                                     @Field("WFaddress")String address);
 }
