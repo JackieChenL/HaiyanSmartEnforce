@@ -24,8 +24,6 @@ import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
 import com.kas.clientservice.haiyansmartenforce.MyApplication;
 import com.kas.clientservice.haiyansmartenforce.R;
-import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
-import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
 import com.kas.clientservice.haiyansmartenforce.tcsf.adapter.ImageAdapter;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.HTTP_HOST;
@@ -62,7 +60,7 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
     private EditText et_cp_num;
     private ImageView iv_heaer_back;
     private TextView tv_header_title;
-    private TextView tev_print,tev_submit;
+    private TextView tev_print, tev_submit;
     private TextView tev_trsj, tev_pwbh;
     private File file;
     private RecyclerView rv;
@@ -109,13 +107,13 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
         adapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
             @Override
             public void onImageAddClick() {
-                requestPermissionGroup( Pid.FILE, new PermissonCallBack() {
+                requestPermissionGroup(Pid.FILE, new PermissonCallBack() {
                     @Override
                     public void onPerMissionSuccess() {
-                        requestPermissionGroup( Pid.CAMERA, new PermissonCallBack() {
+                        requestPermissionGroup(Pid.CAMERA, new PermissonCallBack() {
                             @Override
                             public void onPerMissionSuccess() {
-                             takePhoto();
+                                takePhoto();
                             }
                         });
                     }
@@ -231,11 +229,6 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
     String[] arr;
 
 
-
-
-
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -254,10 +247,10 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
 
                 break;
             case R.id.imv_sm:
-                requestPermissionGroup( Pid.FILE, new PermissonCallBack() {
+                requestPermissionGroup(Pid.FILE, new PermissonCallBack() {
                     @Override
                     public void onPerMissionSuccess() {
-                        requestPermissionGroup( Pid.CAMERA, new PermissonCallBack() {
+                        requestPermissionGroup(Pid.CAMERA, new PermissonCallBack() {
                             @Override
                             public void onPerMissionSuccess() {
                                 startActivityForResult(new Intent(aty, SmActivity.class), SM);
@@ -268,10 +261,10 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
                 });
                 break;
             case R.id.tev_print:
-                cphm=province+A2Z+et_cp_num.getText().toString().trim();
+                cphm = province + A2Z + et_cp_num.getText().toString().trim();
                 trsj = tev_trsj.getText().toString().trim();
                 pwbh = tev_pwbh.getText().toString().trim();
-                if (!(cphm.length() == 0 || trsj.length() == 0 || pwbh.length() == 0 )) {
+                if (!(cphm.length() == 0 || trsj.length() == 0 || pwbh.length() == 0)) {
                     String[] body = new String[]{"车牌号码：" + cphm, "停入时间：" + trsj, "泊位编号：" + pwbh};
                     ArrayList<byte[]> list = (new PrintUtil("停车收费小票", null, body, getFooterString(null))).getData();
                     doCheckConnection(list);
@@ -284,7 +277,7 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
 
             case R.id.tev_submit:
 //              TODO：停车打印应该打开蓝牙连接打印机并上传数据
-                cphm=province+A2Z+et_cp_num.getText().toString().trim();
+                cphm = province + A2Z + et_cp_num.getText().toString().trim();
                 trsj = tev_trsj.getText().toString().trim();
                 pwbh = tev_pwbh.getText().toString().trim();
                 String pic = getBase64bmpStr();
@@ -296,7 +289,7 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
                             .addParams("UCarnum", cphm).addParams("UpType", "enterprise")
                             .addParams("Road", road).addParams("StartTime", trsj)
                             .addParams("Img", pic).addParams("BerthName", berthName)
-                            .addParams("SBYID", MyApplication.USERINFO.getZFRYID()).build().execute(new BeanCallBack(aty, "数据提交中") {
+                            .addParams("SBYID", getZFRYID()).build().execute(new BeanCallBack(aty, "数据提交中") {
 
                         @Override
                         public void handleBeanResult(NetResultBean bean) {
@@ -368,25 +361,35 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
 
     private void doQueryEmptyList() {
         OkHttpUtils.post().url(HTTP_HOST.URL_PARK_LIST)
-                .addParams("Opername", MyApplication.Opername)
+                .addParams("Opername", getOpername())
                 .addParams("type", "0")
                 .build().execute(new BeanCallBack(aty, "获取空闲车位列表中") {
             @Override
             public void handleBeanResult(NetResultBean bean) {
-                LogUtil.e(TAG,bean.toString());
+                LogUtil.e(TAG, bean.toString());
+                if (bean.State){
+                    if (bean.total>0){
+                        List<TcListBeanResult> list = bean.getResultBeanList(TcListBeanResult.class);
+                        arr = new String[list.size()];
+                        for (int i = 0; i < list.size(); i++) {
+                            arr[i] = list.get(i).Berthname;
+                        }
+                        new AlertView(null, null, null, null, arr, aty, null, new OnItemClickListener() {
+                            @Override
+                            public void onItemClick(Object o, int position) {
+                                tev_pwbh.setText(arr[position]);
+                            }
+                        }).show();
 
-                List<TcListBeanResult> list=bean.getResultBeanList(TcListBeanResult.class);
-                arr = new String[list.size()];
-                for (int i = 0; i < list.size(); i++) {
-                    arr[i] = list.get(i).Berthname;
+
+                    }else{
+                        ToastUtil.show(aty,"可用车位为0");
+                    }
+                }else{
+                    ToastUtil.show(aty,bean.ErrorMsg);
                 }
 
-                new AlertView(null, null, null, null, arr, aty, null, new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(Object o, int position) {
-                        tev_pwbh.setText(arr[position]);
-                    }
-                }).show();
+
             }
         });
     }

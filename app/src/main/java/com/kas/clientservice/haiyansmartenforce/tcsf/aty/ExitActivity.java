@@ -79,7 +79,7 @@ public class ExitActivity extends PrintActivity implements View.OnClickListener{
             case R.id.tev_submit:
 
                 OkHttpUtils.post().url(HTTP_HOST.URL_PARK_EXIT)
-                        .addParams("Opername", MyApplication.Opername)
+                        .addParams("Opername", getOpername())
                         .addParams("type", "1")
                         .addParams("stoptime", endTime)
                         .addParams("money", cost+"")

@@ -7,15 +7,12 @@ import android.support.v7.widget.RecyclerView;
 
 import com.kas.clientservice.haiyansmartenforce.MyApplication;
 import com.kas.clientservice.haiyansmartenforce.R;
-import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
 import com.kas.clientservice.haiyansmartenforce.tcsf.adapter.ExitListAdapter;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.HTTP_HOST;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.NetResultBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.bean.TcListBeanResult;
 import com.kas.clientservice.haiyansmartenforce.tcsf.intf.BeanCallBack;
-import com.kas.clientservice.haiyansmartenforce.tcsf.util.DateUtil;
-import com.kas.clientservice.haiyansmartenforce.tcsf.util.LogUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.ToastUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 
@@ -55,7 +52,7 @@ public class ExitListActivity extends BaseActivity {
 
     private void doNetworkList() {
         OkHttpUtils.post().url(HTTP_HOST.URL_PARK_LIST)
-                .addParams("Opername", MyApplication.Opername)
+                .addParams("Opername",getOpername())
                 .addParams("type","1").build().execute(new BeanCallBack(aty, null) {
             @Override
             public void handleBeanResult(NetResultBean bean) {

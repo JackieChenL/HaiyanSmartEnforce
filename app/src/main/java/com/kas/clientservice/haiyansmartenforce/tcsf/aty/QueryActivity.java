@@ -16,6 +16,8 @@ import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
 import com.kas.clientservice.haiyansmartenforce.MyApplication;
 import com.kas.clientservice.haiyansmartenforce.R;
+import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
+import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
 import com.kas.clientservice.haiyansmartenforce.tcsf.adapter.ExitListAdapter;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.HTTP_HOST;
@@ -116,7 +118,7 @@ public class QueryActivity extends BaseActivity implements AdapterView.OnItemSel
                 doQueryList();
                 break;
             case R.id.tev_pwbh:
-                List<UserInfoBean.RoadBean> roadBeanList = MyApplication.USERINFO.getResultBeanList(UserInfoBean.RoadBean.class, MyApplication.USERINFO.getRoad());
+                List<UserInfo.RoadBean> roadBeanList = getRoadBeanList();
 
                 arr = new String[roadBeanList.size()];
                 for (int i = 0; i < roadBeanList.size(); i++) {
@@ -142,7 +144,7 @@ public class QueryActivity extends BaseActivity implements AdapterView.OnItemSel
         String pwbh = tev_pwbh.getText().toString();
         String carNumber = province + A2Z + cp;
         OkHttpUtils.post().url(HTTP_HOST.URL_PARK_LIST)
-                .addParams("Opername", MyApplication.Opername)
+                .addParams("Opername",getOpername())
                 .addParams("type", "2")
                 .addParams("Berthname", pwbh)
                 .addParams("carnum", carNumber)
