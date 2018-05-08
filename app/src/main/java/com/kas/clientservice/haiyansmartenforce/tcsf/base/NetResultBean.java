@@ -39,26 +39,12 @@ public class NetResultBean {
 
 
     public <T> T getResultBean(Class<T> T){
-
         return JSON.parseObject(Rtn, T);
     }
 
 
-
-
-    /**
-     * json转化为具体实体类
-     */
-    public <T> T getEntityBean(Class<T> T,String str){
-
-        return JSON.parseObject(str, T);
-    }
-
-    /**
-     * json转化为具体实体类
-     */
-    public <T> ArrayList<T> getEntityBeanList(Class<T> T,String str){
-        return (ArrayList<T>)JSON.parseArray(str,T);
+    public <T> ArrayList<T> getResultBeanList(Class<T> T){
+        return (ArrayList<T>)JSON.parseArray(Rtn,T);
     };
 
     @Override

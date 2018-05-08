@@ -36,20 +36,19 @@ public class PrintActivity extends BaseActivity {
     private ServiceConnection conn;
     private BluetoothDevice device;
     private boolean isConnected = false;
-    private TextView tev_print;
-    private String[] bodyArray;
+    private  List<byte[]> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_print);
-        bodyArray=getIntent().getStringArrayExtra("body");
-        tev_print = (TextView) findViewById(R.id.tev_print);
-        tev_print.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doCheckConnection();
-            }
-        });
+//        setContentView(R.layout.activity_print);
+//        bodyArray=getIntent().getStringArrayExtra("body");
+//        tev_print = (TextView) findViewById(R.id.tev_print);
+//        tev_print.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                doCheckConnection();
+//            }
+//        });
     }
 
 
@@ -75,7 +74,7 @@ public class PrintActivity extends BaseActivity {
         }, new ProcessData() {
             @Override
             public List<byte[]> processDataBeforeSend() {
-                ArrayList<byte[]> list = (new PrintUtil("停车收费小票", null, bodyArray, getFooterString(null))).getData();
+//                ArrayList<byte[]> list = (new PrintUtil("停车收费小票", null, bodyArray, getFooterString(null))).getData();
                 return list;
             }
         });
@@ -83,7 +82,7 @@ public class PrintActivity extends BaseActivity {
 
     }
 
-    private String[] getFooterString(String phone) {
+    protected String[] getFooterString(String phone) {
 
         String[] footer = new String[]{"\n" +
                 "温馨提醒：您的车辆已经停入海盐县停车收费点，如您已产生停车管理费，请向附近的收费管理员缴纳相应的停车管理费，并索要发票，服从车辆停放管理，做有道德好公民。",
@@ -103,8 +102,8 @@ public class PrintActivity extends BaseActivity {
     /**
      * 打印之前先连接打印机
      */
-    private void doCheckConnection() {
-
+    protected void doCheckConnection(List<byte[]> list) {
+        this.list=list;
         requestPermission(Manifest.permission.ACCESS_FINE_LOCATION, Pid.LOCATION, new PermissonCallBack() {
             @Override
             public void onPerMissionSuccess() {

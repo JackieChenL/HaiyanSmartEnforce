@@ -1,9 +1,9 @@
 package com.kas.clientservice.haiyansmartenforce.tcsf.bean;
 
 
-import com.kas.clientservice.haiyansmartenforce.tcsf.base.BaseRequestBeanEntity;
+import com.kas.clientservice.haiyansmartenforce.tcsf.base.BaseBean;
 
-public class TcBean extends BaseRequestBeanEntity{
+public class TcBean extends BaseBean {
 
     private String UCarnum;
     private String Road;

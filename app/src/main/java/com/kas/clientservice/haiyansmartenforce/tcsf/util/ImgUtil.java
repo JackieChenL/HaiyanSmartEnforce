@@ -40,7 +40,7 @@ public class ImgUtil {
     public static Bitmap compressImage(Bitmap image) {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.JPEG, 80, baos);
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         int options = 100;
         while ( baos.toByteArray().length / 1024>100) {  //100k
             baos.reset();
@@ -157,8 +157,8 @@ public class ImgUtil {
         newOpts.inJustDecodeBounds = false;
         int w = newOpts.outWidth;
         int h = newOpts.outHeight;
-        float hh = 800f;
-        float ww = 480f;
+        float hh = 1600f;
+        float ww = 960f;
         int be = 1;
         if (w > h && w > ww) {
             be = (int) (newOpts.outWidth / ww);

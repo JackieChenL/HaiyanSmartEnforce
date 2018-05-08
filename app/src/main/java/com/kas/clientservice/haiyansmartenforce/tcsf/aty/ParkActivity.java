@@ -10,25 +10,37 @@ import android.provider.MediaStore;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.ReplacementTransformationMethod;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
+import com.kas.clientservice.haiyansmartenforce.MyApplication;
 import com.kas.clientservice.haiyansmartenforce.R;
+import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
 import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
 import com.kas.clientservice.haiyansmartenforce.tcsf.adapter.ImageAdapter;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.HTTP_HOST;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.NetResultBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.bean.PicBean;
+import com.kas.clientservice.haiyansmartenforce.tcsf.bean.TcListBeanResult;
+import com.kas.clientservice.haiyansmartenforce.tcsf.bean.UserInfoBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.intf.BeanCallBack;
 import com.kas.clientservice.haiyansmartenforce.tcsf.intf.PermissonCallBack;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.DateUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.FileProvider7;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.ImgUtil;
+import com.kas.clientservice.haiyansmartenforce.tcsf.util.LogUtil;
+import com.kas.clientservice.haiyansmartenforce.tcsf.util.PrintUtil;
+import com.kas.clientservice.haiyansmartenforce.tcsf.util.TestUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.ToastUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.UIUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.WaterMaskUtil;
@@ -36,22 +48,31 @@ import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.util.Log.e;
 
 /**
  * 停车收费页面
  */
-public class ParkActivity extends BaseActivity implements View.OnClickListener {
-    private TextView tev_cphm;
-    private TextView tev_trsj, tev_pwbh, tev_tcdy, tev_smcp;
+public class ParkActivity extends PrintActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+
+    private ImageView imv_sm;
+    private Spinner sp_province, sp_ABC;
+    private EditText et_cp_num;
+    private ImageView iv_heaer_back;
+    private TextView tv_header_title;
+    private TextView tev_print,tev_submit;
+    private TextView tev_trsj, tev_pwbh;
     private File file;
     private RecyclerView rv;
     private Bitmap bmp = null;
     ArrayList<PicBean> arr_image;
     ImageAdapter adapter;
-
-
+    String[] arr_province;
+    String[] arr_abc;
+    String province = "浙";
+    String A2Z = "F";
     private static final int CAMERA = 100;
 
     private static final int SM = 101;
@@ -65,14 +86,22 @@ public class ParkActivity extends BaseActivity implements View.OnClickListener {
 
         setContentView(R.layout.activity_parking);
 
-        tev_cphm = (EditText) findViewById(R.id.tev_cphm);
         tev_trsj = (TextView) findViewById(R.id.tev_trsj);
         tev_pwbh = (TextView) findViewById(R.id.tev_pwbh);
-        tev_tcdy = (TextView) findViewById(R.id.tev_tcdy);
-        tev_smcp = (TextView) findViewById(R.id.tev_smcp);
+        tev_print = (TextView) findViewById(R.id.tev_print);
+        tev_submit = (TextView) findViewById(R.id.tev_submit);
         rv = (RecyclerView) findViewById(R.id.rv);
+        iv_heaer_back = (ImageView) findViewById(R.id.iv_heaer_back);
+        imv_sm = (ImageView) findViewById(R.id.imv_sm);
+        sp_province = (Spinner) findViewById(R.id.sp_province);
+        sp_ABC = (Spinner) findViewById(R.id.sp_ABC);
+        et_cp_num = (EditText) findViewById(R.id.et_cp_num);
+        tv_header_title = (TextView) findViewById(R.id.tv_header_title);
 
-
+        arr_province = getResources().getStringArray(R.array.provinceName);
+        arr_abc = getResources().getStringArray(R.array.A2Z);
+        tv_header_title.setText("停车收费");
+        tev_trsj.setText(DateUtil.currentTime());
         arr_image = new ArrayList<PicBean>();
         adapter = new ImageAdapter(arr_image, aty);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(aty, 2, LinearLayout.VERTICAL, false);
@@ -80,13 +109,13 @@ public class ParkActivity extends BaseActivity implements View.OnClickListener {
         adapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
             @Override
             public void onImageAddClick() {
-                requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Pid.FILE, new PermissonCallBack() {
+                requestPermissionGroup( Pid.FILE, new PermissonCallBack() {
                     @Override
                     public void onPerMissionSuccess() {
-                        requestPermission(Manifest.permission.CAMERA, Pid.CAMERA, new PermissonCallBack() {
+                        requestPermissionGroup( Pid.CAMERA, new PermissonCallBack() {
                             @Override
                             public void onPerMissionSuccess() {
-                                takePhoto();
+                             takePhoto();
                             }
                         });
                     }
@@ -108,9 +137,14 @@ public class ParkActivity extends BaseActivity implements View.OnClickListener {
 
 
         tev_pwbh.setOnClickListener(this);
-        tev_tcdy.setOnClickListener(this);
+        tev_submit.setOnClickListener(this);
+        tev_print.setOnClickListener(this);
         tev_trsj.setOnClickListener(this);
-        tev_smcp.setOnClickListener(this);
+        imv_sm.setOnClickListener(this);
+        iv_heaer_back.setOnClickListener(this);
+        sp_province.setOnItemSelectedListener(this);
+        sp_ABC.setOnItemSelectedListener(this);
+        et_cp_num.setTransformationMethod(new UpperCaseTransform());
     }
 
 
@@ -130,7 +164,6 @@ public class ParkActivity extends BaseActivity implements View.OnClickListener {
         file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
                 + "/kas/img/" + System.currentTimeMillis() + ".jpg");
         file.getParentFile().mkdirs();
-
         Uri uri = FileProvider7.getUriForFile(this, file);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
@@ -144,8 +177,8 @@ public class ParkActivity extends BaseActivity implements View.OnClickListener {
         if (resultCode == RESULT_OK) {
             if (requestCode == CAMERA) {
                 Bitmap bmp = ImgUtil.getimage(file.getAbsolutePath());
-               Bitmap waterMap= WaterMaskUtil.drawTextToRightBottom(aty, bmp, DateUtil.currentTime(),
-                        UIUtil.sp2px(aty,12f), getResources().getColor(R.color.white),15,15);
+                Bitmap waterMap = WaterMaskUtil.drawTextToRightBottom(aty, bmp, DateUtil.currentTime(),
+                        UIUtil.sp2px(aty, 12f), getResources().getColor(R.color.white), 15, 15);
                 arr_image.add(new PicBean(false, waterMap));
                 setRecyclerViewHeight(arr_image.size());
                 adapter.notifyDataSetChanged();
@@ -158,8 +191,8 @@ public class ParkActivity extends BaseActivity implements View.OnClickListener {
                         arr_image.remove(0);
                     }
                     bmp = ImgUtil.getimage(file_path);
-                    tev_trsj.setText(DateUtil.currentTime());
-                    tev_cphm.setText(carNum);
+//                    tev_cphm.setText(carNum);
+                    doCarNum(carNum);
                     arr_image.add(0, new PicBean(true, bmp));
                     setRecyclerViewHeight(arr_image.size());
                     adapter.notifyDataSetChanged();
@@ -174,6 +207,34 @@ public class ParkActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
+    private void doCarNum(String carNum) {
+        String province = String.valueOf(carNum.charAt(0));
+        String abc = String.valueOf(carNum.charAt(1));
+        String num = carNum.substring(2, carNum.length());
+        et_cp_num.setText(num);
+        for (int i = 0; i < arr_province.length; i++) {
+            if (arr_province[i].equals(province)) {
+                sp_province.setSelection(i);
+                break;
+            }
+        }
+        for (int i = 0; i < arr_abc.length; i++) {
+            if (arr_abc[i].equals(abc)) {
+                sp_ABC.setSelection(i);
+                break;
+            }
+        }
+
+
+    }
+
+    String[] arr;
+
+
+
+
+
+
 
     @Override
     public void onClick(View v) {
@@ -181,27 +242,24 @@ public class ParkActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.tev_pwbh:
 //              TODO：车位号获取应该从服务器取
-                final String[] arr = UserSingleton.getInstance().getUserInfo(aty).getRoad().split(",");
-                new AlertView(null, null, null, null, arr, aty, null, new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(Object o, int position) {
-                        tev_pwbh.setText(arr[position]);
-                    }
-                }).show();
+                doQueryEmptyList();
 
+
+                break;
+            case R.id.iv_heaer_back:
+                finish();
                 break;
 
             case R.id.tev_trsj:
-                tev_trsj.setText(DateUtil.currentTime());
+
                 break;
-            case R.id.tev_smcp:
-                requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Pid.FILE, new PermissonCallBack() {
+            case R.id.imv_sm:
+                requestPermissionGroup( Pid.FILE, new PermissonCallBack() {
                     @Override
                     public void onPerMissionSuccess() {
-                        requestPermission(Manifest.permission.CAMERA, Pid.CAMERA, new PermissonCallBack() {
+                        requestPermissionGroup( Pid.CAMERA, new PermissonCallBack() {
                             @Override
                             public void onPerMissionSuccess() {
-
                                 startActivityForResult(new Intent(aty, SmActivity.class), SM);
 
                             }
@@ -209,10 +267,24 @@ public class ParkActivity extends BaseActivity implements View.OnClickListener {
                     }
                 });
                 break;
+            case R.id.tev_print:
+                cphm=province+A2Z+et_cp_num.getText().toString().trim();
+                trsj = tev_trsj.getText().toString().trim();
+                pwbh = tev_pwbh.getText().toString().trim();
+                if (!(cphm.length() == 0 || trsj.length() == 0 || pwbh.length() == 0 )) {
+                    String[] body = new String[]{"车牌号码：" + cphm, "停入时间：" + trsj, "泊位编号：" + pwbh};
+                    ArrayList<byte[]> list = (new PrintUtil("停车收费小票", null, body, getFooterString(null))).getData();
+                    doCheckConnection(list);
+                } else {
+                    ToastUtil.show(aty, "数据不完整");
+                }
 
-            case R.id.tev_tcdy:
+
+                break;
+
+            case R.id.tev_submit:
 //              TODO：停车打印应该打开蓝牙连接打印机并上传数据
-                cphm = tev_cphm.getText().toString().trim();
+                cphm=province+A2Z+et_cp_num.getText().toString().trim();
                 trsj = tev_trsj.getText().toString().trim();
                 pwbh = tev_pwbh.getText().toString().trim();
                 String pic = getBase64bmpStr();
@@ -224,17 +296,15 @@ public class ParkActivity extends BaseActivity implements View.OnClickListener {
                             .addParams("UCarnum", cphm).addParams("UpType", "enterprise")
                             .addParams("Road", road).addParams("StartTime", trsj)
                             .addParams("Img", pic).addParams("BerthName", berthName)
-                            .addParams("SBYID", UserSingleton.getInstance().getUserInfo(aty).getZFRYID()).build().execute(new BeanCallBack(aty, "数据提交中") {
+                            .addParams("SBYID", MyApplication.USERINFO.getZFRYID()).build().execute(new BeanCallBack(aty, "数据提交中") {
 
                         @Override
                         public void handleBeanResult(NetResultBean bean) {
                             if (bean.State) {
-                                String[] body = new String[]{"车牌号：" + cphm, "停入时间：" + trsj, "泊位编号：" + pwbh};
-                                Intent intent = new Intent(aty, PrintActivity.class).putExtra("body", body);
-                                startActivity(intent);
-                                finish();
+                                ToastUtil.show(aty, "提交数据到服务器成功");
+                                tev_submit.setEnabled(false);
+                                tev_submit.setBackgroundColor(getResources().getColor(R.color.grey_100));
                             } else {
-
                                 ToastUtil.show(aty, "提交数据到服务器失败，请检查数据后重试");
                             }
 
@@ -263,5 +333,62 @@ public class ParkActivity extends BaseActivity implements View.OnClickListener {
         return pic;
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch (parent.getId()) {
+            case R.id.sp_province:
+                province = arr_province[position];
+                break;
+            case R.id.sp_ABC:
+                A2Z = arr_abc[position];
+                break;
+        }
+
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    public class UpperCaseTransform extends ReplacementTransformationMethod {
+        @Override
+        protected char[] getOriginal() {
+            char[] aa = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+            return aa;
+        }
+
+        @Override
+        protected char[] getReplacement() {
+            char[] cc = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+            return cc;
+        }
+    }
+
+    private void doQueryEmptyList() {
+        OkHttpUtils.post().url(HTTP_HOST.URL_PARK_LIST)
+                .addParams("Opername", MyApplication.Opername)
+                .addParams("type", "0")
+                .build().execute(new BeanCallBack(aty, "获取空闲车位列表中") {
+            @Override
+            public void handleBeanResult(NetResultBean bean) {
+                LogUtil.e(TAG,bean.toString());
+
+                List<TcListBeanResult> list=bean.getResultBeanList(TcListBeanResult.class);
+                arr = new String[list.size()];
+                for (int i = 0; i < list.size(); i++) {
+                    arr[i] = list.get(i).Berthname;
+                }
+
+                new AlertView(null, null, null, null, arr, aty, null, new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(Object o, int position) {
+                        tev_pwbh.setText(arr[position]);
+                    }
+                }).show();
+            }
+        });
+    }
 
 }

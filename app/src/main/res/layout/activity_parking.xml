@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/activity_illegal_parking_commit"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
     >
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
+        <include
+            android:id="@+id/header"
+            layout="@layout/header" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -24,12 +27,112 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:background="@color/grey_100" />
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="车牌号码"
+                        android:textColor="@color/text_black"
+                        android:textSize="17sp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingLeft="20dp">
+
+                        <ImageView
+                            android:id="@+id/imv_sm"
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="12dp"
+                            android:src="@drawable/photo"
+                            android:padding="8dp"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_toLeftOf="@id/imv_sm">
+
+
+                            <Spinner
+                                android:id="@+id/sp_province"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="35dp"
+                                android:background="@drawable/shape_black_border"
+                                android:dropDownWidth="80dp"
+                                android:entries="@array/provinceName"
+                                android:gravity="center"
+                                android:spinnerMode="dropdown"></Spinner>
+
+                            <Spinner
+                                android:id="@+id/sp_ABC"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="35dp"
+                                android:layout_marginLeft="10dp"
+                                android:background="@drawable/shape_black_border"
+                                android:dropDownWidth="80dp"
+                                android:entries="@array/A2Z"
+                                android:gravity="center"
+                                android:spinnerMode="dropdown"></Spinner>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="35dp"
+                                android:layout_marginLeft="10dp"
+                                android:gravity="center"
+                                android:text="·"
+                                android:textColor="@color/black"
+                                android:textSize="30dp" />
+
+                            <EditText
+                                android:id="@+id/et_cp_num"
+                                android:layout_width="0dp"
+                                android:layout_weight="2.5"
+                                android:layout_height="35dp"
+                                android:layout_marginLeft="10dp"
+                                android:paddingLeft="5dp"
+                                android:background="@drawable/shape_black_border"
+                                android:cursorVisible="false"
+                                android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                android:gravity="center_vertical"
+                                android:maxLength="5"
+                                android:textColorHint="@color/grey_400"
+                                android:textSize="15sp" />
+
+                        </LinearLayout>
+
+
+
+
+                    </RelativeLayout>
+
+                </LinearLayout>
 
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_gravity="center_vertical"
                     android:gravity="center"
+                    android:visibility="gone"
                     android:layout_height="60dp">
 
                     <TextView
@@ -51,7 +154,7 @@
                         android:layout_marginRight="20dp"
                         android:textSize="17sp"
                         android:padding="12dp"
-                        android:background="@drawable/sm" />
+                        android:background="@drawable/photo" />
 
                     <EditText
                         android:id="@+id/tev_cphm"
@@ -185,27 +288,8 @@
         </ScrollView>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_alignParentBottom="true">
-
-        <TextView
-            android:id="@+id/tev_tcdy"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:background="@color/app_original_blue"
-            android:gravity="center"
-            android:text="停车打印"
-            android:textSize="17sp"
-            android:textColor="@color/white"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true" />
+    <include layout="@layout/footer"/>
 
 
-
-    </LinearLayout>
 
 </RelativeLayout>

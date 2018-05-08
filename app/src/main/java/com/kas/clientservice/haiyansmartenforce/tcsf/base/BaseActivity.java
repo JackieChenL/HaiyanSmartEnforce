@@ -1,5 +1,6 @@
 package com.kas.clientservice.haiyansmartenforce.tcsf.base;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -15,9 +16,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
+import com.alibaba.fastjson.JSON;
 import com.kas.clientservice.haiyansmartenforce.MyApplication;
 import com.kas.clientservice.haiyansmartenforce.tcsf.intf.PermissonCallBack;
+import com.kas.clientservice.haiyansmartenforce.tcsf.util.LogUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.ToastUtil;
+
+import java.util.ArrayList;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -28,17 +33,24 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected final static String TAG="TAG";
 
 
+
    protected  interface Pid{
        int CAMERA=1001;
        int FILE=1002;
        int LOCATION=1003;
    }
 
+
+
+   protected  void log(String msg){
+       LogUtil.e(TAG,msg+"---------->");
+   }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         aty = this;
         app= (MyApplication) getApplication();
     }
@@ -108,6 +120,47 @@ public abstract class BaseActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this, new String[]{permissionName}, requestPermissionCode);
             } else {
                 callBack.onPerMissionSuccess();
+            }
+        } else {
+            callBack.onPerMissionSuccess();
+        }
+    }
+
+
+    protected void requestPermissionGroup(int requestPermissionCode, PermissonCallBack callBack) {
+        if (callBack == null) {
+            throw new NullPointerException("请求权限回调不能为空!");
+        }
+        this.callBack = callBack;
+        this.requestCode = requestPermissionCode;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            switch (requestPermissionCode){
+                case Pid.CAMERA  :
+                   int camera= ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+                    if (camera != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, requestPermissionCode);
+                    } else {
+                        callBack.onPerMissionSuccess();
+                    }
+
+                    break;
+                case Pid.FILE  :
+                    int file= ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+                    if (file != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestPermissionCode);
+                    } else {
+                        callBack.onPerMissionSuccess();
+                    }
+                    break;
+                case Pid.LOCATION  :
+                    int location= ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+                    if (location != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION}, requestPermissionCode);
+                    } else {
+                        callBack.onPerMissionSuccess();
+                    }
+                    break;
             }
         } else {
             callBack.onPerMissionSuccess();

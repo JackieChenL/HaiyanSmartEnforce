@@ -2,13 +2,21 @@ package com.kas.clientservice.haiyansmartenforce.tcsf.widget;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.hardware.Camera;
+import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.CameraManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.support.v7.widget.StaggeredGridLayoutManager.TAG;
 
 
 /**
@@ -154,6 +162,7 @@ public class EasyPRPreSurfaceView extends SurfaceView implements SurfaceHolder.C
                 onStart();
             }
 
+
             @Override
             public void surfaceChanged (SurfaceHolder holder,int format, int w, int h){
                 if (CameraManager.get().getCamera() != null) {
@@ -164,7 +173,7 @@ public class EasyPRPreSurfaceView extends SurfaceView implements SurfaceHolder.C
                             public void onAutoFocus(boolean success, Camera arg1) {
                                 if (success) {
                                     CameraManager.get().reStartPreView(getHolder());
-                                    CameraManager.get().getCamera().cancelAutoFocus();// 只有加上了这一句，才会自动对焦。
+                                    CameraManager.get().getCamera().cancelAutoFocus();
                                 }
                             }
                         });

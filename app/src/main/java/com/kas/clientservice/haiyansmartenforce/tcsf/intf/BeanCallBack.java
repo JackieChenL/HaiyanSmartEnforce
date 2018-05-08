@@ -1,5 +1,6 @@
 package com.kas.clientservice.haiyansmartenforce.tcsf.intf;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
@@ -15,9 +16,9 @@ import okhttp3.Call;
 
 //TODO
 public  abstract  class BeanCallBack extends StringCallback {
-    private Context context;
+    private Activity context;
     private String msg;
-    public BeanCallBack(Context context,String msg) {
+    public BeanCallBack(Activity context,String msg) {
         this.context=context;
         this.msg=msg;
     }
@@ -36,25 +37,24 @@ public  abstract  class BeanCallBack extends StringCallback {
     @Override
     public void onError(com.squareup.okhttp.Request request, Exception e) {
         LogUtil.e("ERRO:",e.getMessage()+"\n"+e.getCause());
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                ProgressDialogUtil.hide();
-                handleBeanResult(new NetResultBean(false,400,"服务器异常"));
-            }
-        });
+       context.runOnUiThread(new Runnable() {
+           @Override
+           public void run() {
+               ProgressDialogUtil.hide();
+               handleBeanResult(new NetResultBean(false,400,"服务器异常"));
+           }
+       });
     }
 
     @Override
     public void onResponse(final String response) {
         LogUtil.e("onResponse:",response);
-        new Handler().post(new Runnable() {
+        context.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 ProgressDialogUtil.hide();
                 NetResultBean bean = JSON.parseObject(response, NetResultBean.class);
                 handleBeanResult(bean);
-
             }
         });
     }
