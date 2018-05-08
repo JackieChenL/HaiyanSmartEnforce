@@ -62,8 +62,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         tv_login.setOnClickListener(this);
         tv_register.setOnClickListener(this);
 
-        String userName = (String) SPUtils.get(mContext,Constants.USERACCOUNT,"");
-        String psw = (String) SPUtils.get(mContext,Constants.USERPASSWORD,"");
+        String userName = UserSingleton.getInstance().getUserAccount(this);
+        String psw = UserSingleton.getInstance().getUserPassword(this);
         if (userName!=null) {
             et_userName.setText(userName);
         }

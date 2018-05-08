@@ -36,10 +36,7 @@ import com.kas.clientservice.haiyansmartenforce.tcsf.intf.PermissonCallBack;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.DateUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.FileProvider7;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.ImgUtil;
-import com.kas.clientservice.haiyansmartenforce.tcsf.util.LogUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.PrintUtil;
-import com.kas.clientservice.haiyansmartenforce.tcsf.util.TestUtil;
-import com.kas.clientservice.haiyansmartenforce.tcsf.util.ToastUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.UIUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.WaterMaskUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -266,10 +263,10 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
                 pwbh = tev_pwbh.getText().toString().trim();
                 if (!(cphm.length() == 0 || trsj.length() == 0 || pwbh.length() == 0)) {
                     String[] body = new String[]{"车牌号码：" + cphm, "停入时间：" + trsj, "泊位编号：" + pwbh};
-                    ArrayList<byte[]> list = (new PrintUtil("停车收费小票", null, body, getFooterString(null))).getData();
+                    ArrayList<byte[]> list = (new PrintUtil("停车收费小票", null, body, getFooterString())).getData();
                     doCheckConnection(list);
                 } else {
-                    ToastUtil.show(aty, "数据不完整");
+                    show("数据不完整");
                 }
 
 
@@ -294,11 +291,11 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
                         @Override
                         public void handleBeanResult(NetResultBean bean) {
                             if (bean.State) {
-                                ToastUtil.show(aty, "提交数据到服务器成功");
+                                show("提交数据到服务器成功");
                                 tev_submit.setEnabled(false);
                                 tev_submit.setBackgroundColor(getResources().getColor(R.color.grey_100));
                             } else {
-                                ToastUtil.show(aty, "提交数据到服务器失败，请检查数据后重试");
+                                show("提交数据到服务器失败，请检查数据后重试");
                             }
 
                         }
@@ -307,7 +304,7 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
 
                 } else {
 
-                    ToastUtil.show(aty, "数据不完整,注意至少要提交一张图片哦！");
+                    show("数据不完整,注意至少要提交一张图片哦！");
 
                 }
 
@@ -366,7 +363,6 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
                 .build().execute(new BeanCallBack(aty, "获取空闲车位列表中") {
             @Override
             public void handleBeanResult(NetResultBean bean) {
-                LogUtil.e(TAG, bean.toString());
                 if (bean.State){
                     if (bean.total>0){
                         List<TcListBeanResult> list = bean.getResultBeanList(TcListBeanResult.class);
@@ -383,10 +379,10 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
 
 
                     }else{
-                        ToastUtil.show(aty,"可用车位为0");
+                        show("可用车位为0");
                     }
                 }else{
-                    ToastUtil.show(aty,bean.ErrorMsg);
+                    show(bean.ErrorMsg);
                 }
 
 

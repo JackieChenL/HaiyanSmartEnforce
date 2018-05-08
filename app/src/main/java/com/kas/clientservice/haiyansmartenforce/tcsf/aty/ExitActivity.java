@@ -5,16 +5,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kas.clientservice.haiyansmartenforce.MyApplication;
 import com.kas.clientservice.haiyansmartenforce.R;
-import com.kas.clientservice.haiyansmartenforce.tcsf.base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.HTTP_HOST;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.NetResultBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.bean.TcListBeanResult;
 import com.kas.clientservice.haiyansmartenforce.tcsf.intf.BeanCallBack;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.DateUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.PrintUtil;
-import com.kas.clientservice.haiyansmartenforce.tcsf.util.ToastUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.ArrayList;
@@ -73,7 +70,7 @@ public class ExitActivity extends PrintActivity implements View.OnClickListener{
             case R.id.tev_print:
                 String[] body = new String[]{"车牌号码：" + bean.carnum, "停入时间：" + bean.starttime,
                         "泊位编号：" + bean.Berthname,"离开时间："+endTime,"停车费用："+cost};
-                ArrayList<byte[]> list = (new PrintUtil("停车收费小票", null, body, getFooterString(null))).getData();
+                ArrayList<byte[]> list = (new PrintUtil("停车收费小票", null, body, getFooterString())).getData();
               doCheckConnection(list);
                 break;
             case R.id.tev_submit:
@@ -90,12 +87,11 @@ public class ExitActivity extends PrintActivity implements View.OnClickListener{
                     @Override
                     public void handleBeanResult(NetResultBean bean) {
                         if (bean.State) {
-                            ToastUtil.show(aty, "提交数据到服务器成功");
+                            show("提交数据到服务器成功");
                             tev_submit.setEnabled(false);
                             tev_submit.setBackgroundColor(getResources().getColor(R.color.grey_100));
                         } else {
-
-                            ToastUtil.show(aty, "提交数据到服务器失败，请检查数据后重试");
+                            show("提交数据到服务器失败，请检查数据后重试");
                         }
 
                     }

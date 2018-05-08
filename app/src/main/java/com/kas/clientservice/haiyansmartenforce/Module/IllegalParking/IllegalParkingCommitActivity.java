@@ -62,6 +62,7 @@ import java.util.List;
 import java.util.Set;
 
 import butterknife.BindView;
+import okhttp3.Call;
 
 public class IllegalParkingCommitActivity extends BaseActivity implements IllegalParkingCommitImgRvAdapter.OnImageAddClickListener, IllegalParkingCommitImgRvAdapter.OnImagelickListener, TakePhoto.TakeResultListener, View.OnClickListener {
     @BindView(R.id.iv_heaer_back)
@@ -322,12 +323,12 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
                 .addHeader("Authorization", "APPCODE 2e476d97d6994a489afb3491b44a2578")
                 .addParams("pic", img).build().execute(new StringCallback() {
             @Override
-            public void onError(com.squareup.okhttp.Request request, Exception e) {
+            public void onError(Call call, Exception e, int id) {
                 Log.i(TAG, "onError: "+e.toString());
             }
 
             @Override
-            public void onResponse(String response) {
+            public void onResponse(final String response, int id) {
                 Log.i(TAG, "onResponse: "+response);
                 CarNumRecgnizeEntity carNumRecgnizeEntity = gson.fromJson(response,CarNumRecgnizeEntity.class);
                 if (carNumRecgnizeEntity.getStatus().equals("0")) {

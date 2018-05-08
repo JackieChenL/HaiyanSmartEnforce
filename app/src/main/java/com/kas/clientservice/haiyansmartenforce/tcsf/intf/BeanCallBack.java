@@ -1,18 +1,17 @@
 package com.kas.clientservice.haiyansmartenforce.tcsf.intf;
 
 import android.app.Activity;
-import android.content.Context;
-import android.os.Handler;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.NetResultBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.LogUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.widget.ProgressDialogUtil;
-import com.squareup.okhttp.Request;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import okhttp3.Call;
+import okhttp3.Request;
+import okhttp3.Response;
+
 
 //TODO
 public  abstract  class BeanCallBack extends StringCallback {
@@ -23,31 +22,44 @@ public  abstract  class BeanCallBack extends StringCallback {
         this.msg=msg;
     }
 
-
-
     @Override
-    public void onBefore(Request request) {
-        super.onBefore(request);
+    public void onBefore(Request request, int id) {
+        super.onBefore(request, id);
         LogUtil.e("onBefore:","onBefore");
         if (msg!=null)
-        ProgressDialogUtil.show(context,msg+"...");
+            ProgressDialogUtil.show(context,msg+"...");
     }
 
+    @Override
+    public void onAfter(int id) {
+        super.onAfter(id);
+    }
 
     @Override
-    public void onError(com.squareup.okhttp.Request request, Exception e) {
+    public void inProgress(float progress, long total, int id) {
+        super.inProgress(progress, total, id);
+    }
+
+    @Override
+    public boolean validateReponse(Response response, int id) {
+        return super.validateReponse(response, id);
+    }
+
+    @Override
+    public void onError(Call call, Exception e, int id) {
         LogUtil.e("ERRO:",e.getMessage()+"\n"+e.getCause());
-       context.runOnUiThread(new Runnable() {
-           @Override
-           public void run() {
-               ProgressDialogUtil.hide();
-               handleBeanResult(new NetResultBean(false,400,"服务器异常"));
-           }
-       });
+        context.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ProgressDialogUtil.hide();
+                handleBeanResult(new NetResultBean(false,400,"服务器异常"));
+            }
+        });
+
     }
 
     @Override
-    public void onResponse(final String response) {
+    public void onResponse(final String response, int id) {
         LogUtil.e("onResponse:",response);
         context.runOnUiThread(new Runnable() {
             @Override
@@ -58,6 +70,9 @@ public  abstract  class BeanCallBack extends StringCallback {
             }
         });
     }
+
+
+
 
 
 

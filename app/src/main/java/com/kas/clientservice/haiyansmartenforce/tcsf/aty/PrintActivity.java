@@ -12,18 +12,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.tcsf.intf.PermissonCallBack;
-import com.kas.clientservice.haiyansmartenforce.tcsf.util.PrintUtil;
-import com.kas.clientservice.haiyansmartenforce.tcsf.util.ToastUtil;
 
 import net.xprinter.service.XprinterService;
 import net.xprinter.xpinterface.IMyBinder;
 import net.xprinter.xpinterface.ProcessData;
 import net.xprinter.xpinterface.UiExecute;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -69,7 +65,7 @@ public class PrintActivity extends BaseActivity {
             public void onfailed() {
                 isConnected = false;
                 Log.i(TAG, "onfailed: 打印失败，请重新连接");
-                ToastUtil.show(aty, "打印失败，请重新打印");
+                show( "打印失败，请重新打印");
             }
         }, new ProcessData() {
             @Override
@@ -82,12 +78,12 @@ public class PrintActivity extends BaseActivity {
 
     }
 
-    protected String[] getFooterString(String phone) {
+    protected String[] getFooterString() {
 
         String[] footer = new String[]{"\n" +
                 "温馨提醒：您的车辆已经停入海盐县停车收费点，如您已产生停车管理费，请向附近的收费管理员缴纳相应的停车管理费，并索要发票，服从车辆停放管理，做有道德好公民。",
                 "收费标准：按盐政发【2012】72号、盐价【2012】25号，30分钟内免费停车，第1小时3元，第二小时以后5元/小时",
-                "联系电话：" + phone, "海盐县停车管理中心"};
+                "联系电话：" + "0573-86113170", "海盐县停车管理中心"};
 
         return footer;
     }
@@ -140,7 +136,7 @@ public class PrintActivity extends BaseActivity {
                         }
                     }
                 } else {
-                    ToastUtil.show(aty, "请先连接名为“Printer001”匹配码为“0000”的打印机，再进行操作！");
+                    show("请先连接名为“Printer001”匹配码为“0000”的打印机，再进行操作！");
                 }
 //                    Log.i(TAG, "device: "+device.getAddress());
                 if (device != null) {
@@ -170,12 +166,12 @@ public class PrintActivity extends BaseActivity {
                         public void onfailed() {
                             Log.i(TAG, "打印机连接失败: ");
                             isConnected = false;
-                            ToastUtil.show(aty, "打印机连接失败");
+                            show( "打印机连接失败");
                         }
                     });
                 } else {
                     isConnected = false;
-                    ToastUtil.show(aty, "请先连接名为“Printer001”匹配码为“0000”的打印机，再进行操作！");
+                    show("请先连接名为“Printer001”匹配码为“0000”的打印机，再进行操作！");
                 }
             }
         };

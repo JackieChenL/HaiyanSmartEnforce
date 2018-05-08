@@ -59,6 +59,14 @@ public abstract class BaseActivity extends AppCompatActivity {
        LogUtil.e(TAG,msg+"---------->");
    }
 
+   protected  void log(String TAG,String MSG){
+       LogUtil.e(TAG,MSG+"---------->");
+   }
+
+   protected  void show(String MSG){
+       ToastUtil.show(aty,MSG);
+   }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +107,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 //                    if (callBack != null)
 //                      callBack.onPermissionDenied();
                       // TODO:具体权限被禁细分
-                    ToastUtil.show(aty,"该权限为必要权限，如禁止可能导致程序异常");
+                    show("该权限为必要权限，如禁止可能导致程序异常");
                 } else {
                     if (callBack != null)
                         callBack.onPerMissionSuccess();

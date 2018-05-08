@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import okhttp3.Call;
 
 public class CaseCommitActivity extends BaseActivity implements View.OnClickListener, IllegalParkingCommitImgRvAdapter.OnImageAddClickListener, IllegalParkingCommitImgRvAdapter.OnImagelickListener, TakePhoto.TakeResultListener, IllegalParkingCommitImgRvAdapter.OnImageLongClickListener, IllegalParkingCommitImgRvAdapter.OnImgDeleteClickListener {
     @BindView(R.id.tv_header_title)
@@ -248,13 +249,13 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
                 .build().execute(new StringCallback() {
 
                                      @Override
-                                     public void onError(com.squareup.okhttp.Request request, Exception e) {
+                                     public void onError(Call call, Exception e, int id) {
                                          Log.i(TAG, "onError: " + e.toString());
                                          dismissLoadingDialog();
                                      }
 
                                      @Override
-                                     public void onResponse(String response) {
+                                     public void onResponse(final String response, int id) {
                                          Log.i(TAG, "onResponse: " + response);
                                          try {
                                              JSONObject object = new JSONObject(response);
@@ -316,13 +317,13 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
                 .addParams("addType", "02")
                 .build().execute(new StringCallback() {
             @Override
-            public void onError(com.squareup.okhttp.Request request, Exception e) {
+            public void onError(Call call, Exception e, int id) {
                 Log.i(TAG, "onError: " + e.toString());
                 dismissLoadingDialog();
             }
 
             @Override
-            public void onResponse(String response) {
+            public void onResponse(final String response, int id) {
                 Log.i(TAG, "onResponse: " + response);
                 dismissLoadingDialog();
             }
