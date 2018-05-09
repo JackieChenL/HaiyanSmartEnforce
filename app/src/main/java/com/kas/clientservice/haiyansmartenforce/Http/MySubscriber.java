@@ -39,7 +39,7 @@ public abstract class MySubscriber<T> extends Subscriber<T> {
     public void onError(Throwable e) {
         Log.e("tag","MySubscriber.throwable ="+e.toString());
         Log.e("tag","MySubscriber.throwable ="+e.getMessage());
-
+        dismissLoadingDialog();
         if(e instanceof Exception){
             //访问获得对应的Exception
             onError(ExceptionHandle.handleException(e,context));

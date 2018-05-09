@@ -1,12 +1,15 @@
 package com.kas.clientservice.haiyansmartenforce.Module.IllegalParking;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.kas.clientservice.haiyansmartenforce.Entity.ParkingSearchEntity;
 import com.kas.clientservice.haiyansmartenforce.R;
 
@@ -45,14 +48,15 @@ public class IllegalParkingSearchAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         ViewHolder vh = null;
         if (view == null) {
             vh = new ViewHolder();
             view = inflater.inflate(R.layout.item_parking_search,null);
             vh.tv_num = (TextView) view.findViewById(R.id.tv_item_search_num);
             vh.tv_time = (TextView) view.findViewById(R.id.tv_item_search_time);
-            vh.tv_status = (TextView) view.findViewById(R.id.tv_item_search_status);
+            vh.tv_address = (TextView) view.findViewById(R.id.tv_item_search_address);
+            vh.imageView = (ImageView) view.findViewById(R.id.iv_item_search_status);
 
             view.setTag(vh);
         }else vh = (ViewHolder) view.getTag();
@@ -60,17 +64,34 @@ public class IllegalParkingSearchAdapter extends BaseAdapter {
         vh.tv_num.setText(list.get(i).getCarNum());
         vh.tv_time.setText(list.get(i).getWFtime());
         if (list.get(i).getState().equals("1")) {
-            vh.tv_status.setText("已处理");
-            vh.tv_status.setTextColor(mContext.getResources().getColor(R.color.green));
+            vh.imageView.setImageResource(R.drawable.status_handled);
+//            vh.tv_status.setText("已处理");
+//            vh.tv_status.setTextColor(mContext.getResources().getColor(R.color.green));
         }else {
-            vh.tv_status.setText("未处理");
-            vh.tv_status.setTextColor(mContext.getResources().getColor(R.color.crimson));
+            vh.imageView.setImageResource(R.drawable.status_unhandle);
+//            vh.tv_status.setText("未处理");
+//            vh.tv_status.setTextColor(mContext.getResources().getColor(R.color.crimson));
         }
+        vh.tv_address.setText(list.get(i).getWFaddress());
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext,IllegalParkingDetailActivity.class);
+                intent.putExtra("Time",list.get(i).getWFtime());
+                intent.putExtra("Position", list.get(i).getWFaddress());
+                intent.putExtra("CarNum", list.get(i).getCarNum());
+                intent.putExtra("Status",list.get(i).getState());
+                intent.putExtra("Img",new Gson().toJson(list.get(i)));
+                mContext.startActivity(intent);
+            }
+        });
         return view;
     }
 
     class ViewHolder{
-        TextView tv_num,tv_time,tv_status;
+        TextView tv_num,tv_time,tv_address;
+        ImageView imageView;
 
     }
 }

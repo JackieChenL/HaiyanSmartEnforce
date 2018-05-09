@@ -23,6 +23,7 @@ import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
 import com.kas.clientservice.haiyansmartenforce.Utils.SPBuild;
 import com.kas.clientservice.haiyansmartenforce.Utils.SPUtils;
 import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
+import com.kas.clientservice.haiyansmartenforce.tcsf.util.ToastUtil;
 
 import butterknife.BindView;
 import rx.android.schedulers.AndroidSchedulers;
@@ -97,6 +98,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             @Override
                             public void onError(ExceptionHandle.ResponeThrowable responeThrowable) {
                                 Log.i(TAG, "onError: " + responeThrowable.toString());
+                                ToastUtil.show(mContext,"网络异常");
                             }
 
                             @Override

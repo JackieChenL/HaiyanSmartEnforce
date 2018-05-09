@@ -2,8 +2,6 @@ package com.kas.clientservice.haiyansmartenforce;
 
 import android.app.Application;
 
-import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
-
 /**
  * 描述：
  * 时间：2018-04-18
