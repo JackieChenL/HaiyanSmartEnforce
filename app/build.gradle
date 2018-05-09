@@ -12,11 +12,26 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        release {
+
+        debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
+
+
+    signingConfigs {
+        debug {
+            storeFile file("HaiYanSmartEnforce.jks")
+            storePassword 'kas123'
+            keyAlias 'kas'
+            keyPassword 'kas123'
+        }
+
+    }
+
+
     sourceSets {
         main {
             jni.srcDirs = []  //这一行加不加都可以
