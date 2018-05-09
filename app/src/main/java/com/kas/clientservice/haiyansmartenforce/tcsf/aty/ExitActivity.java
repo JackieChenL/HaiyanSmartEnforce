@@ -91,7 +91,7 @@ public class ExitActivity extends PrintActivity implements View.OnClickListener{
                             tev_submit.setEnabled(false);
                             tev_submit.setBackgroundColor(getResources().getColor(R.color.grey_100));
                         } else {
-                            show("提交数据到服务器失败，请检查数据后重试");
+                            show(bean.ErrorMsg);
                         }
 
                     }

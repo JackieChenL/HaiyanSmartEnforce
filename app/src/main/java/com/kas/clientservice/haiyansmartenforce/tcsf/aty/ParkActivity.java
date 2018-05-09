@@ -1,6 +1,5 @@
 package com.kas.clientservice.haiyansmartenforce.tcsf.aty;
 
-import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -11,7 +10,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.ReplacementTransformationMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -20,17 +18,16 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
-import com.kas.clientservice.haiyansmartenforce.MyApplication;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.tcsf.adapter.ImageAdapter;
-import com.kas.clientservice.haiyansmartenforce.tcsf.base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.HTTP_HOST;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.NetResultBean;
+import com.kas.clientservice.haiyansmartenforce.tcsf.bean.CpBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.bean.PicBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.bean.TcListBeanResult;
-import com.kas.clientservice.haiyansmartenforce.tcsf.bean.UserInfoBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.intf.BeanCallBack;
 import com.kas.clientservice.haiyansmartenforce.tcsf.intf.PermissonCallBack;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.DateUtil;
@@ -39,13 +36,15 @@ import com.kas.clientservice.haiyansmartenforce.tcsf.util.ImgUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.PrintUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.UIUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.WaterMaskUtil;
+import com.kas.clientservice.haiyansmartenforce.tcsf.widget.ProgressDialogUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.util.Log.e;
+import okhttp3.Call;
 
 /**
  * 停车收费页面
@@ -68,9 +67,11 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
     String[] arr_abc;
     String province = "浙";
     String A2Z = "F";
-    private static final int CAMERA = 100;
 
-    private static final int SM = 101;
+    private static final int CAMERA = 100;
+    /*********车牌识别选用扫描版(新activity)，或者原生相机选择***********/
+    private static final int SM_SCAN = 101;
+    private static final int SM_CAMERA = 102;
 
 
     private String cphm, trsj, pwbh;
@@ -178,7 +179,7 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
                 setRecyclerViewHeight(arr_image.size());
                 adapter.notifyDataSetChanged();
 
-            } else if (requestCode == SM) {
+            } else if (requestCode == SM_SCAN) {
                 if (data != null) {
                     String file_path = data.getStringExtra("path");
                     String carNum = data.getStringExtra("car");
@@ -186,7 +187,6 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
                         arr_image.remove(0);
                     }
                     bmp = ImgUtil.getimage(file_path);
-//                    tev_cphm.setText(carNum);
                     doCarNum(carNum);
                     arr_image.add(0, new PicBean(true, bmp));
                     setRecyclerViewHeight(arr_image.size());
@@ -194,6 +194,9 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
 
                 }
 
+            }else if(requestCode==SM_CAMERA){
+                Bitmap bmp = ImgUtil.getimage(file.getAbsolutePath());
+                recognition(bmp);
             }
 
 
@@ -231,10 +234,7 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
         switch (v.getId()) {
 
             case R.id.tev_pwbh:
-//              TODO：车位号获取应该从服务器取
                 doQueryEmptyList();
-
-
                 break;
             case R.id.iv_heaer_back:
                 finish();
@@ -250,7 +250,7 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
                         requestPermissionGroup(Pid.CAMERA, new PermissonCallBack() {
                             @Override
                             public void onPerMissionSuccess() {
-                                startActivityForResult(new Intent(aty, SmActivity.class), SM);
+                                startActivityForResult(new Intent(aty, SmActivity.class), SM_SCAN);
 
                             }
                         });
@@ -273,7 +273,6 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
                 break;
 
             case R.id.tev_submit:
-//              TODO：停车打印应该打开蓝牙连接打印机并上传数据
                 cphm = province + A2Z + et_cp_num.getText().toString().trim();
                 trsj = tev_trsj.getText().toString().trim();
                 pwbh = tev_pwbh.getText().toString().trim();
@@ -295,7 +294,7 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
                                 tev_submit.setEnabled(false);
                                 tev_submit.setBackgroundColor(getResources().getColor(R.color.grey_100));
                             } else {
-                                show("提交数据到服务器失败，请检查数据后重试");
+                                show(bean.ErrorMsg);
                             }
 
                         }
@@ -356,6 +355,7 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
         }
     }
 
+
     private void doQueryEmptyList() {
         OkHttpUtils.post().url(HTTP_HOST.URL_PARK_LIST)
                 .addParams("Opername", getOpername())
@@ -363,8 +363,8 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
                 .build().execute(new BeanCallBack(aty, "获取空闲车位列表中") {
             @Override
             public void handleBeanResult(NetResultBean bean) {
-                if (bean.State){
-                    if (bean.total>0){
+                if (bean.State) {
+                    if (bean.total > 0) {
                         List<TcListBeanResult> list = bean.getResultBeanList(TcListBeanResult.class);
                         arr = new String[list.size()];
                         for (int i = 0; i < list.size(); i++) {
@@ -378,10 +378,10 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
                         }).show();
 
 
-                    }else{
+                    } else {
                         show("可用车位为0");
                     }
-                }else{
+                } else {
                     show(bean.ErrorMsg);
                 }
 
@@ -389,5 +389,68 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
             }
         });
     }
+
+    private final String url = "http://jisucpsb.market.alicloudapi.com/licenseplaterecognition/recognize";
+    private final String AppKey = "24553193";
+    private final String AppCode = "APPCODE 2e476d97d6994a489afb3491b44a2578";
+
+
+    private void recognition(final Bitmap bitmap) {
+        ProgressDialogUtil.show(aty, "正在识别.....");
+        final String base64bmp = ImgUtil.bitmapToBase64(bitmap);
+        OkHttpUtils.post().url(url)
+                .addHeader("X-Ca-Key", AppKey)
+                .addHeader("Authorization", AppCode)
+                .addParams("pic", base64bmp).build().execute(new StringCallback() {
+
+                                                                 @Override
+                                                                 public void onError(Call call, Exception e, int id) {
+                                                                     onCpjxReturn(false, "图片解析异常",bitmap);
+                                                                 }
+
+                                                                 @Override
+                                                                 public void onResponse(String response, int id) {
+                                                                     log(response);
+                                                                     final CpBean bean = JSON.parseObject(response, CpBean.class);
+                                                                     if (bean.status == 0) {
+                                                                         onCpjxReturn(true, bean.result.number,bitmap);
+                                                                     } else {
+                                                                         onCpjxReturn(false, "车牌解析错误",bitmap);
+                                                                     }
+                                                                 }
+
+
+                                                             }
+
+        );
+
+    }
+
+
+    private void onCpjxReturn(final boolean isResponse, final String msg,final Bitmap bitmap) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ProgressDialogUtil.hide();
+                if (!isResponse) {
+                    show(msg);
+                } else {
+                    if (bmp != null) {
+                        arr_image.remove(0);
+                    }
+                    bmp = bitmap;
+                    doCarNum(msg);
+                    arr_image.add(0, new PicBean(true, bmp));
+                    setRecyclerViewHeight(arr_image.size());
+                    adapter.notifyDataSetChanged();
+                }
+
+
+            }
+        });
+
+
+    }
+
 
 }

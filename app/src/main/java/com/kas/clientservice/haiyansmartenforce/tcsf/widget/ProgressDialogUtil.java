@@ -11,8 +11,8 @@ public class ProgressDialogUtil {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(c);
             progressDialog.setCancelable(false);
-            progressDialog.setMessage(msg);
         }
+        progressDialog.setMessage(msg);
         progressDialog.show();
     }
 

@@ -167,7 +167,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
                     break;
                 case Pid.FILE  :
-                    int file= ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+                    int file= ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
                     if (file != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestPermissionCode);
                     } else {
@@ -175,7 +175,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                     }
                     break;
                 case Pid.LOCATION  :
-                    int location= ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+                    int location= ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
                     if (location != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION}, requestPermissionCode);
                     } else {
