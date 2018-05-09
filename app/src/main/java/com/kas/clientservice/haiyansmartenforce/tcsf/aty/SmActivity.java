@@ -13,12 +13,9 @@ import com.kas.clientservice.haiyansmartenforce.tcsf.base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.tcsf.bean.CpBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.FileUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.ImgUtil;
-import com.kas.clientservice.haiyansmartenforce.tcsf.util.LogUtil;
-import com.kas.clientservice.haiyansmartenforce.tcsf.util.ToastUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.widget.EasyPRPreSurfaceView;
 import com.kas.clientservice.haiyansmartenforce.tcsf.widget.EasyPRPreView;
 import com.kas.clientservice.haiyansmartenforce.tcsf.widget.ProgressDialogUtil;
-import com.squareup.okhttp.Request;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -84,21 +81,24 @@ public class SmActivity extends BaseActivity {
                 .addHeader("X-Ca-Key", AppKey)
                 .addHeader("Authorization", AppCode)
                 .addParams("pic", base64bmp).build().execute(new StringCallback() {
-                                                                 @Override
-                                                                 public void onError(Request request, Exception e) {
-                                                                     onCpjxReturn(false, "图片解析异常", filePath);
-                                                                 }
 
-                                                                 @Override
-                                                                 public void onResponse(String response) {
-                                                                     LogUtil.e("SUCCESSS", response);
-                                                                     final CpBean bean = JSON.parseObject(response, CpBean.class);
-                                                                     if (bean.status == 0) {
-                                                                         onCpjxReturn(true, bean.result.number, filePath);
-                                                                     } else {
-                                                                         onCpjxReturn(false, "车牌解析错误", filePath);
-                                                                     }
-                                                                 }
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                onCpjxReturn(false, "图片解析异常", filePath);
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                log(response);
+                final CpBean bean = JSON.parseObject(response, CpBean.class);
+                if (bean.status == 0) {
+                    onCpjxReturn(true, bean.result.number, filePath);
+                } else {
+                    onCpjxReturn(false, "车牌解析错误", filePath);
+                }
+            }
+
+
 
                                                              }
 
@@ -114,7 +114,7 @@ public class SmActivity extends BaseActivity {
             public void run() {
                 ProgressDialogUtil.hide();
                 if (!isResponse) {
-                    ToastUtil.show(aty, msg);
+                    show( msg);
                     preSurfaceView.getPreView().onFail();
                 } else {
                     Intent intent = new Intent();

@@ -8,7 +8,7 @@ public class HTTP_HOST {
     private static final String URL_BASE="http://hywx.hnzhzf.top/system/theme/credit/";
     /**停车**/
     public static final String URL_PARK = URL_BASE+"TCHandler.ashx";
-   /**泊位占用列表**/
+   /**泊位占用列表 type:{2:全部 1：占用:0：空闲}**/
     public static final String URL_PARK_LIST = URL_BASE+"YZYBWHlist.ashx";
     /**离开**/
     public static final String URL_PARK_EXIT =URL_BASE+ "LK.ashx";

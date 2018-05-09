@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
 import com.kas.clientservice.haiyansmartenforce.Utils.Dp2pxUtil;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 

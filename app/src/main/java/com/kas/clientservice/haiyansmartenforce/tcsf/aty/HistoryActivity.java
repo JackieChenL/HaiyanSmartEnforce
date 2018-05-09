@@ -5,19 +5,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kas.clientservice.haiyansmartenforce.MyApplication;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.BaseActivity;
-import com.kas.clientservice.haiyansmartenforce.tcsf.base.HTTP_HOST;
-import com.kas.clientservice.haiyansmartenforce.tcsf.base.NetResultBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.bean.TcListBeanResult;
-import com.kas.clientservice.haiyansmartenforce.tcsf.intf.BeanCallBack;
-import com.kas.clientservice.haiyansmartenforce.tcsf.util.DateUtil;
-import com.kas.clientservice.haiyansmartenforce.tcsf.util.PrintUtil;
-import com.kas.clientservice.haiyansmartenforce.tcsf.util.ToastUtil;
-import com.zhy.http.okhttp.OkHttpUtils;
-
-import java.util.ArrayList;
 
 /**
  * 离开详情页面

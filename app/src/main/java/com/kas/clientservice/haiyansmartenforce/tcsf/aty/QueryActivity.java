@@ -23,9 +23,7 @@ import com.kas.clientservice.haiyansmartenforce.tcsf.base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.HTTP_HOST;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.NetResultBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.bean.TcListBeanResult;
-import com.kas.clientservice.haiyansmartenforce.tcsf.bean.UserInfoBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.intf.BeanCallBack;
-import com.kas.clientservice.haiyansmartenforce.tcsf.util.ToastUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.ArrayList;
@@ -119,18 +117,24 @@ public class QueryActivity extends BaseActivity implements AdapterView.OnItemSel
                 break;
             case R.id.tev_pwbh:
                 List<UserInfo.RoadBean> roadBeanList = getRoadBeanList();
+                if (roadBeanList==null||roadBeanList.size()==0){
+                    show("获取车位列表为空");
+                }else{
+                    arr = new String[roadBeanList.size()];
+                    for (int i = 0; i < roadBeanList.size(); i++) {
+                        arr[i] = roadBeanList.get(i).Berthname;
+                    }
 
-                arr = new String[roadBeanList.size()];
-                for (int i = 0; i < roadBeanList.size(); i++) {
-                    arr[i] = roadBeanList.get(i).Berthname;
+                    new AlertView(null, null, null, null, arr, aty, null, new OnItemClickListener() {
+                        @Override
+                        public void onItemClick(Object o, int position) {
+                            tev_pwbh.setText(arr[position]);
+                        }
+                    }).show();
+
+
                 }
 
-                new AlertView(null, null, null, null, arr, aty, null, new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(Object o, int position) {
-                        tev_pwbh.setText(arr[position]);
-                    }
-                }).show();
 
                 break;
 
@@ -163,11 +167,10 @@ public class QueryActivity extends BaseActivity implements AdapterView.OnItemSel
                 list.addAll(bean.getResultBeanList(TcListBeanResult.class));
 
             } else {
-                //没有获取占用车辆列表
-                ToastUtil.show(aty, bean.ErrorMsg);
+                show("获取占用车辆列表为空");
             }
         } else {
-            ToastUtil.show(aty, bean.ErrorMsg);
+            show(bean.ErrorMsg);
         }
 
         adapter.notifyDataSetChanged();

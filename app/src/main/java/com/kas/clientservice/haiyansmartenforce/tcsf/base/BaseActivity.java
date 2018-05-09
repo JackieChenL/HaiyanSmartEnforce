@@ -44,7 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity {
   }
 
   protected  List<UserInfo.RoadBean> getRoadBeanList(){
-     return UserSingleton.getInstance().getUserInfo(aty).getRoad();
+     return UserSingleton.USERINFO.getRoad();
   }
 
    protected  interface Pid{
@@ -57,6 +57,14 @@ public abstract class BaseActivity extends AppCompatActivity {
 
    protected  void log(String msg){
        LogUtil.e(TAG,msg+"---------->");
+   }
+
+   protected  void log(String TAG,String MSG){
+       LogUtil.e(TAG,MSG+"---------->");
+   }
+
+   protected  void show(String MSG){
+       ToastUtil.show(aty,MSG);
    }
 
     @Override
@@ -99,7 +107,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 //                    if (callBack != null)
 //                      callBack.onPermissionDenied();
                       // TODO:具体权限被禁细分
-                    ToastUtil.show(aty,"该权限为必要权限，如禁止可能导致程序异常");
+                    show("该权限为必要权限，如禁止可能导致程序异常");
                 } else {
                     if (callBack != null)
                         callBack.onPerMissionSuccess();

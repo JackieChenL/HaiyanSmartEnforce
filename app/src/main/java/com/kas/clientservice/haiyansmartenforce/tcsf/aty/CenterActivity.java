@@ -9,7 +9,6 @@ import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.BaseActivity;
-import com.kas.clientservice.haiyansmartenforce.tcsf.util.ToastUtil;
 
 public class CenterActivity extends BaseActivity implements View.OnClickListener {
 
@@ -78,19 +77,18 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
 
 
 
-                ToastUtil.show(aty, "补缴按钮点击了");
+                show("补缴按钮点击了");
                 break;
             case R.id.tev_sz:
-                final String[] arr = new String[]{"001", "002", "003", "004", "005", "006"};
-                new AlertView(null, null, null, null, arr, aty, null, new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(Object o, int position) {
-                        ToastUtil.show(aty, arr[position] + ":" + position);
-                    }
-                }).show();
+//                final String[] arr = new String[]{"001", "002", "003", "004", "005", "006"};
+//                new AlertView(null, null, null, null, arr, aty, null, new OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(Object o, int position) {
+//                        show( arr[position] + ":" + position);
+//                    }
+//                }).show();
 
-
-//                ToastUtil.show(aty,"设置按钮点击了");
+                show("设置按钮点击了");
                 break;
 
 

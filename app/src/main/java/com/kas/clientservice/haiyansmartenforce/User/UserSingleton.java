@@ -2,6 +2,7 @@ package com.kas.clientservice.haiyansmartenforce.User;
 
 import android.content.Context;
 
+import com.alibaba.fastjson.JSON;
 import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
 import com.kas.clientservice.haiyansmartenforce.Utils.SPUtils;
 
@@ -35,7 +36,8 @@ public class UserSingleton {
     }
 
     public UserInfo getUserInfo(Context mContext){
-        return (UserInfo) SPUtils.get(mContext, Constants.USERINFO,null);
+        UserInfo info= JSON.parseObject((String)SPUtils.get(mContext, Constants.USERINFO,null),UserInfo.class);
+        return info ;
     }
 
     public boolean isLogin(Context mContext) {
