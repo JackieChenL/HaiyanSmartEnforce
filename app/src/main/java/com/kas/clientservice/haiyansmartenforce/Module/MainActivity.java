@@ -86,7 +86,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         list_module = new ArrayList<>();
         MainModuleRvAdapter adapter = new MainModuleRvAdapter(list_module,mContext);
         adapter.setOnModuleClickListener(this);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(mContext, 4, LinearLayout.VERTICAL, false);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(mContext, 4, LinearLayout.VERTICAL, false){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
@@ -100,9 +105,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void setRecyclerViewHeight(int size) {
         int height;
         if (size%4 == 0) {
-            height = (size/4)*120;
+            height = (size/4)*120+10;
         }else {
-            height = (size/4+1)*120;
+            height = (size/4+1)*120+10;
         }
         Log.i(TAG, "setRecyclerViewHeight: "+height);
         LinearLayoutCompat.LayoutParams layoutParams = new LinearLayoutCompat.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Dp2pxUtil.dip2px(mContext, height));
@@ -192,6 +197,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onModuleClick(int type) {
+        Log.i(TAG, "onModuleClick: "+type);
         switch (type) {
             case Constants.MainModule.TINGCHESHOUFEI:
                 startActivity(new Intent(mContext, CenterActivity.class));

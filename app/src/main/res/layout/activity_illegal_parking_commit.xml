@@ -234,7 +234,7 @@
                         android:padding="12dp"
                         android:src="@drawable/position" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/et_illegalparkingcommit_position"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"

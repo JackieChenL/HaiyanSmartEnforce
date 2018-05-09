@@ -63,4 +63,8 @@ public class RequestUrl {
  * 违停查询
  * */
     public static final String illegalParkingSearch = "system/theme/anjuan/WFCXHandler.ashx";
+    /*
+    * 路段查询*/
+
+    public static final String roadSearch = "system/theme/anjuan/WFroad.ashx";
 }
