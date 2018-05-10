@@ -111,7 +111,7 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
                         requestPermissionGroup(Pid.CAMERA, new PermissonCallBack() {
                             @Override
                             public void onPerMissionSuccess() {
-                                takePhoto();
+                                takePhoto(CAMERA);
                             }
                         });
                     }
@@ -155,7 +155,7 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
     /**
      * 打开相机拍照
      */
-    private void takePhoto() {
+    private void takePhoto(int CODE) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
                 + "/kas/img/" + System.currentTimeMillis() + ".jpg");
@@ -163,7 +163,7 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
         Uri uri = FileProvider7.getUriForFile(this, file);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        startActivityForResult(intent, CAMERA);
+        startActivityForResult(intent, CODE);
     }
 
 
@@ -250,8 +250,8 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
                         requestPermissionGroup(Pid.CAMERA, new PermissonCallBack() {
                             @Override
                             public void onPerMissionSuccess() {
-                                startActivityForResult(new Intent(aty, SmActivity.class), SM_SCAN);
-
+//                                startActivityForResult(new Intent(aty, SmActivity.class), SM_SCAN);
+                                takePhoto(SM_CAMERA);
                             }
                         });
                     }
