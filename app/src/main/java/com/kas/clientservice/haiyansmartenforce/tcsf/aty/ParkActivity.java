@@ -3,6 +3,7 @@ package com.kas.clientservice.haiyansmartenforce.tcsf.aty;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -28,6 +29,7 @@ import com.kas.clientservice.haiyansmartenforce.tcsf.base.NetResultBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.bean.CpBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.bean.PicBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.bean.TcListBeanResult;
+import com.kas.clientservice.haiyansmartenforce.tcsf.impl.NoFastClickLisener;
 import com.kas.clientservice.haiyansmartenforce.tcsf.intf.BeanCallBack;
 import com.kas.clientservice.haiyansmartenforce.tcsf.intf.PermissonCallBack;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.DateUtil;
@@ -50,7 +52,7 @@ import okhttp3.Call;
 /**
  * 停车收费页面
  */
-public class ParkActivity extends PrintActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class ParkActivity extends PrintActivity implements AdapterView.OnItemSelectedListener {
 
     private ImageView imv_sm;
     private Spinner sp_province, sp_ABC;
@@ -69,10 +71,10 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
     String province = "浙";
     String A2Z = "F";
 
-    private static final int CAMERA = 100;
+    private static final int CAMERA = 10;
     /*********车牌识别选用扫描版(新activity)，或者原生相机选择***********/
-    private static final int SM_SCAN = 101;
-    private static final int SM_CAMERA = 102;
+    private static final int SM_SCAN = 11;
+    private static final int SM_CAMERA = 15;
 
 
     private String cphm, trsj, pwbh;
@@ -106,17 +108,7 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
         adapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
             @Override
             public void onImageAddClick() {
-                requestPermissionGroup(Pid.FILE, new PermissonCallBack() {
-                    @Override
-                    public void onPerMissionSuccess() {
-                        requestPermissionGroup(Pid.CAMERA, new PermissonCallBack() {
-                            @Override
-                            public void onPerMissionSuccess() {
-                                takePhoto(CAMERA);
-                            }
-                        });
-                    }
-                });
+                takePhoto(CAMERA);
 
             }
 
@@ -133,15 +125,31 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
         rv.setAdapter(adapter);
 
 
-        tev_pwbh.setOnClickListener(this);
-        tev_submit.setOnClickListener(this);
-        tev_print.setOnClickListener(this);
-        tev_trsj.setOnClickListener(this);
-        imv_sm.setOnClickListener(this);
-        iv_heaer_back.setOnClickListener(this);
+        tev_pwbh.setOnClickListener(FastClickLister);
+        tev_submit.setOnClickListener(FastClickLister);
+        tev_print.setOnClickListener(FastClickLister);
+        tev_trsj.setOnClickListener(FastClickLister);
+        imv_sm.setOnClickListener(FastClickLister);
+        iv_heaer_back.setOnClickListener(FastClickLister);
         sp_province.setOnItemSelectedListener(this);
         sp_ABC.setOnItemSelectedListener(this);
         et_cp_num.setTransformationMethod(new UpperCaseTransform());
+        changeState(true, tev_print, tev_submit);
+    }
+
+    @Override
+    public void onPrintSuccess() {
+        changeState(true, tev_print, tev_submit);
+        province = "浙";
+        A2Z = "F";
+        et_cp_num.setText(null);
+        arr_image.clear();
+        adapter.notifyDataSetChanged();
+        tev_pwbh.setText(null);
+        tev_trsj.setText(DateUtil.currentTime());
+        sp_province.setSelection(0);
+        sp_ABC.setSelection(0);
+
     }
 
 
@@ -156,15 +164,26 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
     /**
      * 打开相机拍照
      */
-    private void takePhoto(int CODE) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
-                + "/kas/img/" + System.currentTimeMillis() + ".jpg");
-        file.getParentFile().mkdirs();
-        Uri uri = FileProvider7.getUriForFile(this, file);
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        startActivityForResult(intent, CODE);
+    private void takePhoto(final int CODE) {
+        requestPermissionGroup(Pid.CAMERA, new PermissonCallBack() {
+            @Override
+            public void onPerMissionSuccess() {
+                requestPermissionGroup(Pid.FILE, new PermissonCallBack() {
+                    @Override
+                    public void onPerMissionSuccess() {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                                + "/kas/img/" + System.currentTimeMillis() + ".jpg");
+                        file.getParentFile().mkdirs();
+                        Uri uri = FileProvider7.getUriForFile(aty, file);
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                        startActivityForResult(intent, CODE);
+                    }
+                });
+            }
+        });
+
     }
 
 
@@ -195,9 +214,8 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
 
                 }
 
-            }else if(requestCode==SM_CAMERA){
-                Bitmap bmp = ImgUtil.getimage(file.getAbsolutePath());
-                recognition(bmp);
+            } else if (requestCode == SM_CAMERA) {
+                recognition();
             }
 
 
@@ -229,88 +247,6 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
 
     String[] arr;
 
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-
-            case R.id.tev_pwbh:
-                doQueryEmptyList();
-                break;
-            case R.id.iv_heaer_back:
-                finish();
-                break;
-
-            case R.id.tev_trsj:
-
-                break;
-            case R.id.imv_sm:
-                requestPermissionGroup(Pid.FILE, new PermissonCallBack() {
-                    @Override
-                    public void onPerMissionSuccess() {
-                        requestPermissionGroup(Pid.CAMERA, new PermissonCallBack() {
-                            @Override
-                            public void onPerMissionSuccess() {
-//                                startActivityForResult(new Intent(aty, SmActivity.class), SM_SCAN);
-                                takePhoto(SM_CAMERA);
-                            }
-                        });
-                    }
-                });
-                break;
-            case R.id.tev_print:
-                cphm = province + A2Z + et_cp_num.getText().toString().trim();
-                trsj = tev_trsj.getText().toString().trim();
-                pwbh = tev_pwbh.getText().toString().trim();
-                if (!(cphm.length() == 0 || trsj.length() == 0 || pwbh.length() == 0)) {
-                    String[] body = new String[]{"车牌号码：" + cphm, "停入时间：" + trsj, "泊位编号：" + pwbh};
-                    ArrayList<byte[]> list = (new PrintUtil("停车收费小票", null, body, getFooterString())).getData();
-                    doCheckConnection(list);
-                } else {
-                    show("数据不完整");
-                }
-
-
-                break;
-
-            case R.id.tev_submit:
-                cphm = province + A2Z + et_cp_num.getText().toString().trim();
-                trsj = tev_trsj.getText().toString().trim();
-                pwbh = tev_pwbh.getText().toString().trim();
-                String pic = getBase64bmpStr();
-                if (!(cphm.length() == 0 || trsj.length() == 0 || pwbh.length() == 0 || pic.length() == 0)) {
-                    final String road = pwbh.split("--")[0];
-                    final String berthName = pwbh.split("--")[1];
-
-                    OkHttpUtils.post().url(HTTP_HOST.URL_PARK)
-                            .addParams("UCarnum", cphm).addParams("UpType", "enterprise")
-                            .addParams("Road", road).addParams("StartTime", trsj)
-                            .addParams("Img", pic).addParams("BerthName", berthName)
-                            .addParams("SBYID", getZFRYID()).build().execute(new BeanCallBack(aty, "数据提交中") {
-
-                        @Override
-                        public void handleBeanResult(NetResultBean bean) {
-                            if (bean.State) {
-                                show("提交数据到服务器成功");
-                                tev_submit.setEnabled(false);
-                                tev_submit.setBackgroundColor(getResources().getColor(R.color.grey_100));
-                            } else {
-                                show(bean.ErrorMsg);
-                            }
-
-                        }
-
-                    });
-
-                } else {
-
-                    show("数据不完整,注意至少要提交一张图片哦！");
-
-                }
-
-
-        }
-    }
 
     private String getBase64bmpStr() {
         String pic = "";
@@ -396,9 +332,10 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
     private final String AppCode = "APPCODE 2e476d97d6994a489afb3491b44a2578";
 
 
-    private void recognition(final Bitmap bitmap) {
+    private void recognition() {
         ProgressDialogUtil.show(aty, "正在识别.....");
-        final String base64bmp = ImgUtil.bitmapToBase64(bitmap);
+        final Bitmap bmp = ImgUtil.getimage(file.getAbsolutePath());
+        final String base64bmp = ImgUtil.bitmapToBase64(bmp);
         OkHttpUtils.post().url(url)
                 .addHeader("X-Ca-Key", AppKey)
                 .addHeader("Authorization", AppCode)
@@ -406,17 +343,17 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
 
                                                                  @Override
                                                                  public void onError(Call call, Exception e, int id) {
-                                                                     onCpjxReturn(false, "图片解析异常",bitmap);
+                                                                     onCpjxReturn(false, "图片解析异常", bmp);
                                                                  }
 
                                                                  @Override
                                                                  public void onResponse(String response, int id) {
                                                                      log(response);
                                                                      final CpBean bean = JSON.parseObject(response, CpBean.class);
-                                                                     if (bean.status.equals("0")&&bean.result!=null) {
-                                                                         onCpjxReturn(true, bean.result.number,bitmap);
+                                                                     if (bean.status.equals("0") && bean.result != null) {
+                                                                         onCpjxReturn(true, bean.result.number, bmp);
                                                                      } else {
-                                                                         onCpjxReturn(false, "车牌解析错误",bitmap);
+                                                                         onCpjxReturn(false, "车牌解析错误", bmp);
                                                                      }
                                                                  }
 
@@ -428,7 +365,7 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
     }
 
 
-    private void onCpjxReturn(final boolean isResponse, final String msg,final Bitmap bitmap) {
+    private void onCpjxReturn(final boolean isResponse, final String msg, final Bitmap bitmap) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -452,6 +389,76 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
 
 
     }
+
+    NoFastClickLisener FastClickLister = new NoFastClickLisener() {
+        @Override
+        public void onNoFastClickListener(View v) {
+            super.onClick(v);
+            switch (v.getId()) {
+                case R.id.tev_pwbh:
+                    doQueryEmptyList();
+                    break;
+                case R.id.iv_heaer_back:
+                    finish();
+                    break;
+
+                case R.id.tev_trsj:
+                    break;
+                case R.id.imv_sm:
+                    takePhoto(SM_CAMERA);
+                    break;
+                case R.id.tev_print:
+                    cphm = province + A2Z + et_cp_num.getText().toString().trim();
+                    trsj = tev_trsj.getText().toString().trim();
+                    pwbh = tev_pwbh.getText().toString().trim();
+                    if (!(cphm.length() == 0 || trsj.length() == 0 || pwbh.length() == 0)) {
+                        String[] body = new String[]{"车牌号码：" + cphm, "停入时间：" + trsj, "泊位编号：" + pwbh};
+                        ArrayList<byte[]> list = (new PrintUtil("停车收费小票", null, body, getFooterString())).getData();
+                        doCheckConnection(list);
+                    } else {
+                        show("数据不完整");
+                    }
+
+
+                    break;
+
+                case R.id.tev_submit:
+                    cphm = province + A2Z + et_cp_num.getText().toString().trim();
+                    trsj = tev_trsj.getText().toString().trim();
+                    pwbh = tev_pwbh.getText().toString().trim();
+                    String pic = getBase64bmpStr();
+                    if (!(cphm.length() == 0 || trsj.length() == 0 || pwbh.length() == 0 || pic.length() == 0)) {
+                        final String road = pwbh.split("--")[0];
+                        final String berthName = pwbh.split("--")[1];
+
+                        OkHttpUtils.post().url(HTTP_HOST.URL_PARK)
+                                .addParams("UCarnum", cphm).addParams("UpType", "enterprise")
+                                .addParams("Road", road).addParams("StartTime", trsj)
+                                .addParams("Img", pic).addParams("BerthName", berthName)
+                                .addParams("SBYID", getZFRYID()).build().execute(new BeanCallBack(aty, "数据提交中") {
+
+                            @Override
+                            public void handleBeanResult(NetResultBean bean) {
+                                if (bean.State) {
+                                    show("提交数据到服务器成功");
+                                    changeState(false, tev_print, tev_submit);
+                                } else {
+                                    show(bean.ErrorMsg);
+                                }
+
+                            }
+
+                        });
+
+                    } else {
+                        show("数据不完整,注意至少要提交一张图片哦！");
+                    }
+                    break;
+            }
+
+        }
+
+    };
 
 
 }

@@ -9,6 +9,7 @@ import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.HTTP_HOST;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.NetResultBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.bean.TcListBeanResult;
+import com.kas.clientservice.haiyansmartenforce.tcsf.impl.NoFastClickLisener;
 import com.kas.clientservice.haiyansmartenforce.tcsf.intf.BeanCallBack;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.DateUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.PrintUtil;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 /**
  * 离开详情页面
  */
-public class ExitActivity extends PrintActivity implements View.OnClickListener{
+public class ExitActivity extends PrintActivity {
    private TextView tev_cphm,tev_trsj,tev_pwbh,tev_lksj,tev_tcfy;
     private TextView tev_print,tev_submit;
     private ImageView iv_heaer_back;
@@ -46,9 +47,9 @@ public class ExitActivity extends PrintActivity implements View.OnClickListener{
         iv_heaer_back = (ImageView) findViewById(R.id.iv_heaer_back);
         tv_header_title = (TextView) findViewById(R.id.tv_header_title);
         tv_header_title.setText("离开收费");
-        iv_heaer_back.setOnClickListener(this);
-        tev_print.setOnClickListener(this);
-        tev_submit.setOnClickListener(this);
+        iv_heaer_back.setOnClickListener(FastClickLister);
+        tev_print.setOnClickListener(FastClickLister);
+        tev_submit.setOnClickListener(FastClickLister);
         endTime=DateUtil.currentTime();
         cost=DateUtil.calMoney(endTime,bean.starttime);
         lengthTime=DateUtil.getTimeLenth(endTime,bean.starttime);
@@ -57,50 +58,64 @@ public class ExitActivity extends PrintActivity implements View.OnClickListener{
         tev_trsj.setText(bean.starttime);
         tev_lksj.setText(endTime);
         tev_tcfy.setText(cost+"元");
+        changeState(true,tev_print,tev_submit);
 
     }
-
 
     @Override
-    public void onClick(View v) {
-        switch(v.getId()){
-            case R.id.iv_heaer_back:
-                finish();
-                break;
-            case R.id.tev_print:
-                String[] body = new String[]{"车牌号码：" + bean.carnum, "停入时间：" + bean.starttime,
-                        "泊位编号：" + bean.Berthname,"离开时间："+endTime,"停车费用："+cost};
-                ArrayList<byte[]> list = (new PrintUtil("停车收费小票", null, body, getFooterString())).getData();
-              doCheckConnection(list);
-                break;
-            case R.id.tev_submit:
+    public void onPrintSuccess() {
 
-                OkHttpUtils.post().url(HTTP_HOST.URL_PARK_EXIT)
-                        .addParams("Opername", getOpername())
-                        .addParams("type", "1")
-                        .addParams("stoptime", endTime)
-                        .addParams("money", cost+"")
-                        .addParams("btid", bean.btid+"")
-                        .addParams("LengthTime", lengthTime)
-                       .build().execute(new BeanCallBack(aty, "数据提交中") {
+    }
 
-                    @Override
-                    public void handleBeanResult(NetResultBean bean) {
-                        if (bean.State) {
-                            show("提交数据到服务器成功");
-                            tev_submit.setEnabled(false);
-                            tev_submit.setBackgroundColor(getResources().getColor(R.color.grey_100));
-                        } else {
-                            show(bean.ErrorMsg);
+
+
+    NoFastClickLisener FastClickLister = new NoFastClickLisener() {
+        @Override
+        public void onNoFastClickListener(View v) {
+            super.onClick(v);
+            switch(v.getId()){
+                case R.id.iv_heaer_back:
+                    finish();
+                    break;
+                case R.id.tev_print:
+                    String[] body = new String[]{"车牌号码：" + bean.carnum, "停入时间：" + bean.starttime,
+                            "泊位编号：" + bean.Berthname,"离开时间："+endTime,"停车费用："+cost};
+                    ArrayList<byte[]> list = (new PrintUtil("停车收费小票", null, body, getFooterString())).getData();
+                    doCheckConnection(list);
+                    break;
+                case R.id.tev_submit:
+
+                    OkHttpUtils.post().url(HTTP_HOST.URL_PARK_EXIT)
+                            .addParams("Opername", getOpername())
+                            .addParams("type", "1")
+                            .addParams("stoptime", endTime)
+                            .addParams("money", cost+"")
+                            .addParams("btid", bean.btid+"")
+                            .addParams("LengthTime", lengthTime)
+                            .build().execute(new BeanCallBack(aty, "数据提交中") {
+
+                        @Override
+                        public void handleBeanResult(NetResultBean bean) {
+                            if (bean.State) {
+                                show("提交数据到服务器成功");
+                                changeState(false,tev_print,tev_submit);
+//                            tev_submit.setEnabled(false);
+//                            tev_submit.setBackgroundColor(getResources().getColor(R.color.grey_100));
+                            } else {
+                                show(bean.ErrorMsg);
+                            }
+
                         }
 
-                    }
-
-                });
+                    });
 
 
-                break;
+                    break;
+
+            }
+
 
         }
-    }
+    };
+
 }

@@ -91,7 +91,7 @@ public class SmActivity extends BaseActivity {
             public void onResponse(String response, int id) {
                 log(response);
                 final CpBean bean = JSON.parseObject(response, CpBean.class);
-                if (bean.status == 0) {
+                if (bean.status .equals("0")&&bean.result!=null) {
                     onCpjxReturn(true, bean.result.number, filePath);
                 } else {
                     onCpjxReturn(false, "车牌解析错误", filePath);

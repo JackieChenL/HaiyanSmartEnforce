@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.tcsf.intf.PermissonCallBack;
 
@@ -27,7 +28,7 @@ import java.util.Set;
 /**
  * 打印页面，接收一段打印数据
  */
-public class PrintActivity extends BaseActivity {
+public abstract class PrintActivity extends BaseActivity {
     private IMyBinder binder;
     private ServiceConnection conn;
     private BluetoothDevice device;
@@ -58,6 +59,7 @@ public class PrintActivity extends BaseActivity {
             @Override
             public void onsucess() {
                 Log.i(TAG, "onsucess: 打印成功");
+                 onPrintSuccess();
 //                finish();
             }
 
@@ -191,5 +193,28 @@ public class PrintActivity extends BaseActivity {
         }
     }
 
+    public  abstract void onPrintSuccess();
+
+
+    /**
+     * 不提交无法打印，打印完成清屏并改变状态
+     * @param isState 提交按钮状态
+     * @param left 打印按钮
+     * @param right 提交按钮
+     */
+    protected void changeState(boolean isState ,View left,View right){
+        if (isState){
+            right.setEnabled(true);
+            right.setBackgroundColor(getResources().getColor(R.color.app_original_blue));
+            left.setEnabled(false);
+            left.setBackgroundColor(getResources().getColor(R.color.grey_100));
+        }else{
+            left.setEnabled(true);
+            left.setBackgroundColor(getResources().getColor(R.color.app_original_blue));
+            right.setEnabled(false);
+            right.setBackgroundColor(getResources().getColor(R.color.grey_100));
+        }
+
+    }
 
 }
