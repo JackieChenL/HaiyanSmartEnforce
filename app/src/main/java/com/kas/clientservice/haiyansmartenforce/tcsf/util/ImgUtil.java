@@ -19,7 +19,6 @@ public class ImgUtil {
         BitmapFactory.Options newOpts = new BitmapFactory.Options();
         newOpts.inJustDecodeBounds = true;
         Bitmap bitmap = BitmapFactory.decodeFile(srcPath,newOpts);
-        newOpts.inJustDecodeBounds = false;
         int w = newOpts.outWidth;
         int h = newOpts.outHeight;
         float hh = 800f;
@@ -33,6 +32,7 @@ public class ImgUtil {
         if (be <= 0)
             be = 1;
         newOpts.inSampleSize = be;
+        newOpts.inJustDecodeBounds = false;
         bitmap = BitmapFactory.decodeFile(srcPath, newOpts);
         return compressImage(bitmap);
     }

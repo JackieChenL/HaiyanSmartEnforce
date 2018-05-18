@@ -33,6 +33,7 @@ import com.kas.clientservice.haiyansmartenforce.tcsf.intf.PermissonCallBack;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.DateUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.FileProvider7;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.ImgUtil;
+import com.kas.clientservice.haiyansmartenforce.tcsf.util.LogUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.PrintUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.UIUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.WaterMaskUtil;
@@ -412,7 +413,7 @@ public class ParkActivity extends PrintActivity implements View.OnClickListener,
                                                                  public void onResponse(String response, int id) {
                                                                      log(response);
                                                                      final CpBean bean = JSON.parseObject(response, CpBean.class);
-                                                                     if (bean.status == 0) {
+                                                                     if (bean.status.equals("0")&&bean.result!=null) {
                                                                          onCpjxReturn(true, bean.result.number,bitmap);
                                                                      } else {
                                                                          onCpjxReturn(false, "车牌解析错误",bitmap);
