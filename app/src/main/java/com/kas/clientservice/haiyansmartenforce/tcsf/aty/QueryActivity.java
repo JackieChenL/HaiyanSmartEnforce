@@ -165,7 +165,6 @@ public class QueryActivity extends BaseActivity implements AdapterView.OnItemSel
         if (bean.State) {
             if (bean.total > 0) {
                 list.addAll(bean.getResultBeanList(TcListBeanResult.class));
-
             } else {
                 show("获取占用车辆列表为空");
             }

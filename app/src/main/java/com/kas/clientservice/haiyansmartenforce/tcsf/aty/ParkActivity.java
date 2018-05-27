@@ -427,7 +427,9 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
                     trsj = tev_trsj.getText().toString().trim();
                     pwbh = tev_pwbh.getText().toString().trim();
                     String pic = getBase64bmpStr();
-                    if (!(cphm.length() == 0 || trsj.length() == 0 || pwbh.length() == 0 || pic.length() == 0)) {
+                    if (cphm.length()!=7){
+                        show("车牌号码长度错误！");
+                    }else  if (!(trsj.length() == 0 || pwbh.length() == 0 || pic.length() == 0)) {
                         final String road = pwbh.split("--")[0];
                         final String berthName = pwbh.split("--")[1];
 

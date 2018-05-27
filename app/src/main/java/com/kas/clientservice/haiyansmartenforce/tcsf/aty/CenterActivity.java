@@ -49,7 +49,6 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
             case R.id.iv_heaer_back:
                 finish();
                 break;
