@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:background="@color/grey_100"
     tools:context="com.kas.clientservice.haiyansmartenforce.tcsf.aty.CenterActivity">
 
     <include
@@ -21,12 +21,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="15dp"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="15dp"
-                android:background="@color/grey_100" />
 
             <LinearLayout
                 android:layout_width="match_parent"
