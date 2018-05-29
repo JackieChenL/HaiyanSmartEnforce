@@ -1,10 +1,16 @@
 package com.kas.clientservice.haiyansmartenforce.tcsf.aty;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnItemClickListener;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.HTTP_HOST;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.NetResultBean;
@@ -13,9 +19,14 @@ import com.kas.clientservice.haiyansmartenforce.tcsf.impl.NoFastClickLisener;
 import com.kas.clientservice.haiyansmartenforce.tcsf.intf.BeanCallBack;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.DateUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.PrintUtil;
+import com.kas.clientservice.haiyansmartenforce.tcsf.zxing.ScanActivity;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.ArrayList;
+
+import okhttp3.OkHttpClient;
+
+import static com.google.zxing.integration.android.IntentIntegrator.REQUEST_CODE;
 
 /**
  * 离开详情页面
@@ -31,6 +42,7 @@ public class ExitActivity extends PrintActivity {
     private String lengthTime;
 
     private TcListBeanResult bean;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +71,6 @@ public class ExitActivity extends PrintActivity {
         tev_lksj.setText(endTime);
         tev_tcfy.setText(cost+"元");
         changeState(true,tev_print,tev_submit);
-
     }
 
     @Override
@@ -68,6 +79,24 @@ public class ExitActivity extends PrintActivity {
     }
 
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE) {
+                IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+                if (scanResult != null) {
+                    String authCode = scanResult.getContents();
+                    doSuccessInfo(authCode);
+                }else{
+                    showPayCash("扫描失败，重新选择支付方式");
+                }
+            }
+        }
+
+    }
 
     NoFastClickLisener FastClickLister = new NoFastClickLisener() {
         @Override
@@ -97,10 +126,8 @@ public class ExitActivity extends PrintActivity {
                         @Override
                         public void handleBeanResult(NetResultBean bean) {
                             if (bean.State) {
-                                show("提交数据到服务器成功");
                                 changeState(false,tev_print,tev_submit);
-//                            tev_submit.setEnabled(false);
-//                            tev_submit.setBackgroundColor(getResources().getColor(R.color.grey_100));
+                                showPayCash("本次停车将收取"+cost+"元");
                             } else {
                                 show(bean.ErrorMsg);
                             }
@@ -108,14 +135,51 @@ public class ExitActivity extends PrintActivity {
                         }
 
                     });
-
-
                     break;
-
             }
-
 
         }
     };
+
+//   
+    private void showPayCash(final String body){
+        if (cost==0){
+
+        }else{
+            final String[] arr=new String[]{"现金","微信"};
+            new AlertView("收费", body, null, null, arr, aty, null, new OnItemClickListener() {
+                @Override
+                public void onItemClick(Object o, int position) {
+                    if (position==0){
+                        //现金，不做处理
+                    }else{
+                      startActivityForResult(new Intent(aty, ScanActivity.class),REQUEST_CODE);
+                    }
+                }
+            }).show();
+        }
+
+    }
+
+
+    private void doSuccessInfo(String authCode){
+        OkHttpUtils.post().url(HTTP_HOST.URL_WXPAY)
+                .addParams("auth_code", authCode)
+                .addParams("body", bean.carnum+"停车收费")
+                .addParams("fee", cost*100+"")
+                .addParams("btid",bean.btid+"")
+                .build().execute(new BeanCallBack(aty, "微信收款中") {
+
+            @Override
+            public void handleBeanResult(NetResultBean bean) {
+                if (bean.State) {
+                    show("收款成功");
+                } else {
+                    showPayCash(bean.ErrorMsg);
+                }
+            }
+        });
+
+    }
 
 }

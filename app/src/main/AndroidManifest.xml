@@ -92,8 +92,8 @@
         <activity android:name=".tcsf.aty.ExitActivity"/>
         <activity android:name=".tcsf.aty.QueryActivity"/>
         <activity android:name=".tcsf.aty.SmActivity"/>
-        <activity android:name=".tcsf.aty.PrintActivity"/>
         <activity android:name=".tcsf.aty.HistoryActivity"/>
+        <activity android:name=".tcsf.zxing.ScanActivity"/>
         <!--<activity android:name=".tcsf.aty.loginActivity">-->
 
 
