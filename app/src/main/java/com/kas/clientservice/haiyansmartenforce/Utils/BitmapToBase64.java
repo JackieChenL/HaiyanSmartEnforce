@@ -42,6 +42,7 @@ public class BitmapToBase64 {
         return result;
     }
 
+
     public static Bitmap base64ToBitmap(String base64Data) {
         byte[] bytes = Base64.decode(base64Data, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
@@ -51,7 +52,7 @@ public class BitmapToBase64 {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < list.size(); i++) {
             sb.append(bitmapToBase64(list.get(i)));
-            if (i <= list.size()-1) {
+            if (i < list.size()-1) {
                 sb.append(",");
             }
         }

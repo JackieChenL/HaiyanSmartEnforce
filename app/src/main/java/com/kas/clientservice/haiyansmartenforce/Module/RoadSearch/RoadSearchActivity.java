@@ -68,10 +68,12 @@ public class RoadSearchActivity extends BaseActivity implements View.OnClickList
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent();
                 intent.putExtra("Road",list.get(i).road);
+                intent.putExtra("RoadId",list.get(i).ID);
                 setResult(Constants.RESULTCODE_ROAD,intent);
                 finish();
             }
         });
+        loadData();
     }
 
     private void loadData() {

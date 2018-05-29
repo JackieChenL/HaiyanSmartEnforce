@@ -104,6 +104,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="10dp"
                 android:gravity="center"
+                android:ellipsize="end"
                 android:background="@drawable/shape_black_border" />
 
             <TextView
@@ -119,6 +120,7 @@
                 android:layout_weight="1"
                 android:layout_marginLeft="10dp"
                 android:gravity="center"
+                android:ellipsize="end"
                 android:background="@drawable/shape_black_border" />
 
         </LinearLayout>

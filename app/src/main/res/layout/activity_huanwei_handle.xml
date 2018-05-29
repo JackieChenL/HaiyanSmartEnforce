@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_huanwei_handle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.kas.clientservice.haiyansmartenforce.Module.HuanWeiModule.HuanweiHandleActivity">
+
+    <LinearLayout
+        android:id="@+id/ll_huanwei_check_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+
+        <include layout="@layout/header" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="50dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/grey_devider" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|right"
+                        android:text="检查人："
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_huanwei_handle_detail_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="20dp"
+                        android:gravity="left|center_vertical"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_devider"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|right"
+                        android:text="项目："
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_huanwei_handle_detail_project"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="20dp"
+                        android:gravity="left|center_vertical"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_devider"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|right"
+                        android:text="检查内容："
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_huanwei_handle_detail_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="20dp"
+                        android:gravity="left|center_vertical"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_devider"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|right"
+                        android:text="检查地点："
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_huanwei_handle_detail_position"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="20dp"
+                        android:gravity="left|center_vertical"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_devider"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|right"
+                        android:text="检查时间："
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_huanwei_handle_detail_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="20dp"
+                        android:gravity="left|center_vertical"/>
+
+                </LinearLayout>
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_devider"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:orientation="horizontal"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:gravity="top|right"
+                        android:text="情况描述："
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_huanwei_handle_detail_describe"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="20dp"
+                        android:gravity="top|left"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_devider"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/grey_devider"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_huanwei_handle_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </android.support.v7.widget.RecyclerView>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        >
+
+
+        <TextView
+            android:id="@+id/tv_huanwei_handle_detail_handle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:background="@color/app_original_blue"
+            android:text="整改"/>
+
+        <TextView
+            android:id="@+id/tv_huanwei_handle_detail_shensu"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:background="@color/crimson"
+            android:textColor="@color/white"
+            android:text="申诉"/>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -82,7 +82,7 @@
 
         <service android:name="net.xprinter.service.XprinterService" />
 
-        <activity android:name=".tcsf.aty.CenterActivity"></activity>
+        <activity android:name=".tcsf.aty.CenterActivity" />
         <activity android:name=".tcsf.aty.ParkActivity" />
         <activity android:name=".tcsf.aty.ExitListActivity" />
         <activity android:name=".tcsf.aty.ExitActivity" />
@@ -95,7 +95,15 @@
 
         <!-- </activity> -->
 
-        <activity android:name=".Module.RoadSearch.RoadSearchActivity"></activity>
+        <activity android:name=".Module.RoadSearch.RoadSearchActivity" />
+        <activity android:name=".Module.HuanWeiModule.HuanWeiEntryActivity" />
+        <activity android:name=".Module.HuanWeiModule.HuanweiCommitActivity" />
+        <activity android:name=".Module.HuanWeiModule.HuanweiCheckListActivity" />
+        <activity android:name=".Module.HuanWeiModule.HuanweiCheckDetailActivity" />
+        <activity android:name=".Module.HuanWeiModule.HuanweiHandleActivity" />
+        <activity android:name=".Module.HuanWeiModule.HuanweiHandleCommitActivity" />
+        <activity android:name=".Module.HuanWeiModule.HuanweiHistoryActivity" />
+        <activity android:name=".Module.HuanWeiModule.HuanweiHistoryDetailActivity"></activity>
     </application>
 
 </manifest>

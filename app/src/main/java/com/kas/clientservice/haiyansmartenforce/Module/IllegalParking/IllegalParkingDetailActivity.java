@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Base.ImageListRvAdapter;
 import com.kas.clientservice.haiyansmartenforce.Entity.ParkingSearchEntity;
 import com.kas.clientservice.haiyansmartenforce.R;
+import com.kas.clientservice.haiyansmartenforce.Utils.Dp2pxUtil;
 import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 
 import net.posprinter.utils.DataForSendToPrinterPos58;
@@ -58,6 +60,7 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
     TextView tv_status;
     @BindView(R.id.rv_parkingDetail)
     RecyclerView recyclerView;
+
 
     IMyBinder binder;
     ServiceConnection conn;
@@ -103,14 +106,17 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
 
         ParkingSearchEntity.BoardBean bean = gson.fromJson(img, ParkingSearchEntity.BoardBean.class);
         list_img = new ArrayList<>();
-        for (int i = 0; i < bean.getWFimg().size(); i++) {
-            list_img.add(bean.getWFimg().get(i).getImg());
+        if (bean.getWFimg() != null) {
+
+            for (int i = 0; i < bean.getWFimg().size(); i++) {
+                list_img.add(bean.getWFimg().get(i).getImg());
+            }
         }
 
         if (status.equals("1")) {
             tv_status.setText("已处理");
             tv_status.setTextColor(mContext.getResources().getColor(R.color.green));
-        }else {
+        } else {
             tv_status.setText("未处理");
             tv_status.setTextColor(mContext.getResources().getColor(R.color.crimson));
         }
@@ -120,21 +126,22 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
         tv_print.setOnClickListener(this);
         tv_next.setOnClickListener(this);
 
+
         initList();
     }
 
     private void initList() {
-        adapter = new ImageListRvAdapter(list_img,mContext);
+        adapter = new ImageListRvAdapter(list_img, mContext);
         RecyclerView.LayoutManager manager = new GridLayoutManager(mContext, 2, LinearLayout.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-
+        setRecyclerViewHeight(list_img.size());
         adapter.setOnImagelickListener(new ImageListRvAdapter.OnImagelickListener() {
             @Override
             public void onImageClick(int p) {
-                Intent intent = new Intent(mContext,ImageActivity.class);
-                intent.putExtra("url",list_img.get(p));
+                Intent intent = new Intent(mContext, ImageActivity.class);
+                intent.putExtra("url", list_img.get(p));
                 startActivity(intent);
             }
         });
@@ -382,6 +389,13 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
 //            conn.onServiceConnected();
             unbindService(conn);
         }
+    }
+
+    public void setRecyclerViewHeight(int size) {
+        int height = ((size / 2) + 1) * 140 + 30;
+        LinearLayoutCompat.LayoutParams layoutParams = new LinearLayoutCompat.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Dp2pxUtil.dip2px(mContext, height));
+        layoutParams.setMargins(0, Dp2pxUtil.dip2px(mContext, 5), 0, Dp2pxUtil.dip2px(mContext, 50));
+        recyclerView.setLayoutParams(new LinearLayout.LayoutParams(layoutParams));
     }
 
 }

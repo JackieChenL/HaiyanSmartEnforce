@@ -20,6 +20,7 @@ public class RoadSearchEntity {
         /**
          * road : 少年路
          */
-
+        public String ID ;
         public String road;
+
 }

@@ -7,8 +7,8 @@ android {
         applicationId "com.kas.clientservice.haiyansmartenforce"
         minSdkVersion 19
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        versionCode 102
+        versionName "1.0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -74,4 +74,5 @@ dependencies {
     compile 'com.zhy:okhttputils:2.6.2'
     compile 'com.bigkoo:alertview:1.0.3'
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.yanzhenjie:permission:1.0.3'
 }

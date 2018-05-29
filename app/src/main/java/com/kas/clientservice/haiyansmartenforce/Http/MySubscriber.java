@@ -54,8 +54,9 @@ public abstract class MySubscriber<T> extends Subscriber<T> {
     @Override
     public void onCompleted() {
         dismissLoadingDialog();
-//        Log.i("tag","MySubscriber.onComplete()");
+        Log.i("tag","MySubscriber.onComplete()");
     }
+
 
     public void showLoadingDialog() {
 

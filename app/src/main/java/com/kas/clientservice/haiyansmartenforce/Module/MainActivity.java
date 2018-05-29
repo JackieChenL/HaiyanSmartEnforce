@@ -16,6 +16,7 @@ import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.MainModuleRvAdapter;
 import com.kas.clientservice.haiyansmartenforce.Module.CaseCommit.CaseCommitActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.History.HistoryActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.HuanWeiModule.HuanWeiEntryActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ParkingRecordSearchActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
@@ -198,6 +199,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onModuleClick(int type) {
         Log.i(TAG, "onModuleClick: "+type);
+        Intent intent;
         switch (type) {
             case Constants.MainModule.TINGCHESHOUFEI:
                 startActivity(new Intent(mContext, CenterActivity.class));
@@ -207,6 +209,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case Constants.MainModule.ANJIANCHAXUN:
                 startActivity(new Intent(mContext, ParkingRecordSearchActivity.class));
+                break;
+            case 5:
+                 intent = new Intent(mContext, HuanWeiEntryActivity.class);
+//                intent.putExtra("TypeId",UserSingleton.USERINFO.getType());
+                startActivity(intent);
+                break;
+            case 6:
+                intent = new Intent(mContext,CaseCommitActivity.class);
+                startActivity(intent);
                 break;
         }
     }

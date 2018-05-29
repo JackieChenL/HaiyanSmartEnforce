@@ -3,9 +3,8 @@ package com.kas.clientservice.haiyansmartenforce.API;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseEntity;
 import com.kas.clientservice.haiyansmartenforce.Entity.RoadSearchEntity;
 
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.POST;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 /**
  * 描述：
@@ -15,7 +14,6 @@ import retrofit2.http.POST;
 
 public interface RoadSeachAPI {
 
-    @POST("system/theme/anjuan/WFroad.ashx")
-    @FormUrlEncoded
-    rx.Observable<BaseEntity<RoadSearchEntity[]>> httpRoadSearch(@Field("WZroad")String road);
+    @GET("system/theme/anjuan/WFroad.ashx")
+    rx.Observable<BaseEntity<RoadSearchEntity[]>> httpRoadSearch(@Query("WZroad") String road);
 }

@@ -112,16 +112,11 @@ public class CaseTypeActivity extends BaseActivity {
     }
 
     private void loadBigClassData() {
-        RetrofitClient.createService(CaseTypeAPI.class)
+        RetrofitClient.createService(CaseTypeAPI.class,"http://117.149.146.131:86/")
                 .httpGetCaseType(RequestUrl.getBig, "1")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new MySubscriber<BaseEntity<List<CaseTypeEntity>>>(mContext) {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
 
                     @Override
                     public void onError(ExceptionHandle.ResponeThrowable responeThrowable) {
@@ -139,17 +134,11 @@ public class CaseTypeActivity extends BaseActivity {
     }
 
     private void loadSmallClassData(String type) {
-        RetrofitClient.createService(CaseTypeAPI.class)
+        RetrofitClient.createService(CaseTypeAPI.class,"http://117.149.146.131:86/")
                 .httpGetCaseTypeSub(RequestUrl.getSmall, type)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new MySubscriber<BaseEntity<List<CaseTypeEntity>>>(mContext) {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-
                     @Override
                     public void onError(ExceptionHandle.ResponeThrowable responeThrowable) {
                         Log.i(TAG, "onError: " + responeThrowable.toString());

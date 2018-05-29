@@ -2,11 +2,13 @@ package com.kas.clientservice.haiyansmartenforce.Module.IllegalParking;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
+import com.kas.clientservice.haiyansmartenforce.Utils.SPUtils;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -29,17 +31,21 @@ public class ImageActivity extends BaseActivity {
     protected void initResAndListener() {
         super.initResAndListener();
         String url = getIntent().getStringExtra("url");
-        if (url!=null) {
+        if (url != null) {
             Picasso.with(this).load(url).into(imageView);
         }
-        String uri = getIntent().getStringExtra("uri");
-        if (uri!=null) {
-            Bitmap bmp = BitmapFactory.decodeFile(uri);//filePath
+        String path = getIntent().getStringExtra("uri");
+        if (path != null) {
+            Bitmap bmp = BitmapFactory.decodeFile(path);//filePath
             imageView.setImageBitmap(bmp);
         }
-        byte[] bytes = getIntent().getByteArrayExtra("image");
-        if (bytes!=null) {
-            Bitmap bmp=BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        String image = getIntent().getStringExtra("image");
+        if (image != null) {
+            String byteString = (String) SPUtils.get(mContext, "ImageClick","");
+            byte[] bytes = byteString.getBytes();
+
+            Log.i(TAG, "initResAndListener: "+bytes.length);
+            Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
             imageView.setImageBitmap(bmp);
         }
 

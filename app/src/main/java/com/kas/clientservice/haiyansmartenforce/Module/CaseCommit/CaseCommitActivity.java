@@ -125,10 +125,13 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
 //        Log.i(TAG, "onActivityResult: "+data.toString());
         Log.i(TAG, "onActivityResult: " + requestCode + "  " + resultCode);
         if (requestCode == Constants.RESULTCODE_TIANDITU) {
-            langitude = data.getStringExtra("Longitude");
-            latitude = data.getStringExtra("Latitude");
-            Log.i(TAG, "onActivityResult: " + langitude + "  " + latitude);
-            tv_location.setText(langitude + "," + latitude);
+            if (data!=null) {
+
+                langitude = data.getStringExtra("Longitude");
+                latitude = data.getStringExtra("Latitude");
+                Log.i(TAG, "onActivityResult: " + langitude + "  " + latitude);
+                tv_location.setText(langitude + "," + latitude);
+            }
         }
         if (requestCode == Constants.RESULTCODE_CASE_TYPE) {
             if (data != null) {
@@ -302,19 +305,20 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
 //        .addParams("bPicArry", strImg);
 //        .addParams("ePicArry", "");
 //        .addParams("addType", 02);
-        OkHttpUtils.post().url(RequestUrl.URL)
-                .addParams("optionName", RequestUrl.issueUploading)
-                .addParams("typecode", "")
-                .addParams("collcode", UserSingleton.USERINFO.getZFRYID())
+
+        OkHttpUtils.post().url("http://117.149.146.131:86/handler/collecterapi.aspx")
+                .addParams("optionName", "zmninsertproject")
+                .addParams("typecode", "1")
+                .addParams("userid", UserSingleton.USERINFO.getZFRYID())
                 .addParams("bigClass", bigClass)
                 .addParams("smallClass", smallClass)
                 .addParams("gridcode", gridcode + "")
                 .addParams("address", et_address.getText().toString())
                 .addParams("descript", et_decribe.getText().toString())
                 .addParams("fid", tv_location.getText().toString())
-                .addParams("bPicArry", substring)
-                .addParams("ePicArry", "")
-                .addParams("addType", "02")
+                .addParams("picurls", substring)
+//                .addParams("ePicArry", "")
+//                .addParams("addType", "02")
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
@@ -363,7 +367,7 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
                 uri = Utils.getImageCropUri();
 //                cropOptions = new CropOptions.Builder().setAspectX(1).setAspectY(1).setWithOwnCrop(false).create();
                 //设置压缩参数
-                compressConfig = new CompressConfig.Builder().setMaxSize(50 * 1024).setMaxPixel(400).create();
+                compressConfig = new CompressConfig.Builder().setMaxSize(Constants.PIC_MAXSIZE * 1024).setMaxPixel(Constants.COMPRESSRATE).create();
                 takePhoto.onEnableCompress(compressConfig, true); //设置为需要压缩
                 takePhoto.onPickFromCapture(uri);
             }
