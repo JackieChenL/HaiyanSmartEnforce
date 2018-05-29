@@ -141,7 +141,7 @@ public class ExitActivity extends PrintActivity {
         }
     };
 
-//   
+//
     private void showPayCash(final String body){
         if (cost==0){
 
