@@ -5,6 +5,7 @@ public class RequestUrl {
     public static final int TYPE = 2;
     public static final int MAP = 3;
     // public static final  String URL = "http://112.11.105.171:8092//Handler/CollecterApi.aspx";
+    public static final String baseUrl = "http://117.149.146.131:86/handler/collecterapi.aspx/";
     public static final String URL = "http://112.13.194.180:82//Handler/CollecterApi.aspx";
     public static final String URLCollecter = "http://112.13.194.180:82/Handler/CollecterApi.aspx";
     public static final String IMGURL = "http://112.13.194.180:82/Handler/";
@@ -63,4 +64,8 @@ public class RequestUrl {
  * 违停查询
  * */
     public static final String illegalParkingSearch = "system/theme/anjuan/WFCXHandler.ashx";
+    /*
+    * 路段查询*/
+
+    public static final String roadSearch = "system/theme/anjuan/WFroad.ashx";
 }

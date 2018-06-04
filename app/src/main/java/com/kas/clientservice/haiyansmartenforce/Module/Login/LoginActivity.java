@@ -73,6 +73,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100) {
+            if (data!=null) {
+                String account = data.getStringExtra("account");
+                String paw = data.getStringExtra("psw");
+                et_userName.setText(account);
+                et_psw.setText(paw);
+            }
+        }
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_login_login:
@@ -80,7 +93,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                 break;
             case R.id.tv_register:
-                startActivity(new Intent(mContext, RegisterActivity.class));
+                startActivityForResult(new Intent(mContext, RegisterActivity.class),100);
                 break;
         }
     }
@@ -97,6 +110,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             @Override
                             public void onError(ExceptionHandle.ResponeThrowable responeThrowable) {
                                 Log.i(TAG, "onError: " + responeThrowable.toString());
+                                showNetErrorToast();
                             }
 
                             @Override

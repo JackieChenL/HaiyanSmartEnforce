@@ -2,7 +2,11 @@ package com.kas.clientservice.haiyansmartenforce;
 
 import android.app.Application;
 
-import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
+import com.zhy.http.okhttp.OkHttpUtils;
+
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 
 /**
  * 描述：
@@ -11,6 +15,17 @@ import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
  */
 
 public class MyApplication extends Application {
-//    public volatile static UserInfo USERINFO;
 
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(10*1000L, TimeUnit.MILLISECONDS)
+                .readTimeout(60*1000L, TimeUnit.MILLISECONDS)
+                .writeTimeout(60*1000L, TimeUnit.MILLISECONDS)
+                .build();
+        OkHttpUtils.initClient(okHttpClient);
+    }
 }

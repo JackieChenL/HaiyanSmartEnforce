@@ -34,4 +34,14 @@
         android:textColor="@color/app_original_blue"
         android:textSize="16sp"/>
 
+    <ImageView
+        android:id="@+id/iv_header_refresh"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="15dp"
+        android:visibility="gone"
+        android:src="@drawable/refresh"/>
+
 </RelativeLayout>

@@ -10,14 +10,21 @@ import android.content.pm.PackageManager;
 import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutCompat;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
+import com.kas.clientservice.haiyansmartenforce.Base.ImageListRvAdapter;
+import com.kas.clientservice.haiyansmartenforce.Entity.ParkingSearchEntity;
 import com.kas.clientservice.haiyansmartenforce.R;
+import com.kas.clientservice.haiyansmartenforce.Utils.Dp2pxUtil;
 import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 
 import net.posprinter.utils.DataForSendToPrinterPos58;
@@ -49,6 +56,11 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
     TextView tv_time;
     @BindView(R.id.tv_parkingDetail_next)
     TextView tv_next;
+    @BindView(R.id.tv_illegalParkingDetail_status)
+    TextView tv_status;
+    @BindView(R.id.rv_parkingDetail)
+    RecyclerView recyclerView;
+
 
     IMyBinder binder;
     ServiceConnection conn;
@@ -58,6 +70,10 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
     String position;
     String carNum;
     String code;
+    String status;
+    String img;
+    List<String> list_img;
+    ImageListRvAdapter adapter;
 
 
     @Override
@@ -80,14 +96,55 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
         carNum = getIntent().getStringExtra("CarNum");
         position = getIntent().getStringExtra("Position");
         code = getIntent().getStringExtra("Code");
+        status = getIntent().getStringExtra("Status");
+        img = getIntent().getStringExtra("Img");
+
+
         tv_carNum.setText(carNum);
         tv_time.setText(time);
         tv_position.setText(position);
+
+        ParkingSearchEntity.BoardBean bean = gson.fromJson(img, ParkingSearchEntity.BoardBean.class);
+        list_img = new ArrayList<>();
+        if (bean.getWFimg() != null) {
+
+            for (int i = 0; i < bean.getWFimg().size(); i++) {
+                list_img.add(bean.getWFimg().get(i).getImg());
+            }
+        }
+
+        if (status.equals("1")) {
+            tv_status.setText("已处理");
+            tv_status.setTextColor(mContext.getResources().getColor(R.color.green));
+        } else {
+            tv_status.setText("未处理");
+            tv_status.setTextColor(mContext.getResources().getColor(R.color.crimson));
+        }
 
         tv_title.setText("罚单详情");
         iv_back.setOnClickListener(this);
         tv_print.setOnClickListener(this);
         tv_next.setOnClickListener(this);
+
+
+        initList();
+    }
+
+    private void initList() {
+        adapter = new ImageListRvAdapter(list_img, mContext);
+        RecyclerView.LayoutManager manager = new GridLayoutManager(mContext, 2, LinearLayout.VERTICAL, false);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        setRecyclerViewHeight(list_img.size());
+        adapter.setOnImagelickListener(new ImageListRvAdapter.OnImagelickListener() {
+            @Override
+            public void onImageClick(int p) {
+                Intent intent = new Intent(mContext, ImageActivity.class);
+                intent.putExtra("url", list_img.get(p));
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -100,7 +157,7 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
                 print();
                 break;
             case R.id.tv_parkingDetail_next:
-                Intent intent = new Intent(mContext,IllegalParkingTakePhotoActivity.class);
+                Intent intent = new Intent(mContext, IllegalParkingTakePhotoActivity.class);
                 startActivity(intent);
                 break;
 
@@ -184,7 +241,7 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
                 Intent intent = new Intent(this, XprinterService.class);
 
                 bindService(intent, conn, BIND_AUTO_CREATE);
-            }else {
+            } else {
                 doPrintWork();
             }
 
@@ -219,18 +276,20 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
             }
         });
     }
-    public static byte[] strTobytes(String str){
-        byte[] b=null,data=null;
+
+    public static byte[] strTobytes(String str) {
+        byte[] b = null, data = null;
         try {
             b = str.getBytes("utf-8");
-            data=new String(b,"utf-8").getBytes("gbk");
+            data = new String(b, "utf-8").getBytes("gbk");
         } catch (UnsupportedEncodingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return data;
     }
-    public List<byte[]> formAndPrint(){
+
+    public List<byte[]> formAndPrint() {
         ArrayList<byte[]> list = new ArrayList<byte[]>();
         list.add(DataForSendToPrinterPos58.initializePrinter());
         list.add(DataForSendToPrinterPos58.printAndFeedForward(3));
@@ -247,7 +306,7 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
 
         //编号
         list.add(DataForSendToPrinterPos58.initializePrinter());
-        byte[] num = strTobytes("编号："+code);
+        byte[] num = strTobytes("编号：" + code);
         list.add(DataForSendToPrinterPos58.selectAlignment(1));
         list.add(num);
 //                list.add(DataForSendToPrinterPos58.selectChineseCharModel());
@@ -264,55 +323,55 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
         //车牌
         list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
         list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(1));
-        byte[] data_carNum= strTobytes(carNum.substring(1));
+        byte[] data_carNum = strTobytes(carNum.substring(1));
         list.add(data_carNum);
 
         list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
         list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(0));
-        byte[] data_1= strTobytes("号牌号码的机动车驾驶人：");
+        byte[] data_1 = strTobytes("号牌号码的机动车驾驶人：");
         list.add(data_1);
         list.add(DataForSendToPrinterPos58.printAndFeedLine());
         list.add(DataForSendToPrinterPos58.printAndFeedForward(1));
-        byte[] data_content= strTobytes(String.format("    该车辆于%s，在%s实施的停车行为违反了" +
-                "《道路交通安全法》第56条之规定。请您持本通知书，驾驶证，行驶证在15日内，到",time,position));
+        byte[] data_content = strTobytes(String.format("    该车辆于%s，在%s实施的停车行为违反了" +
+                "《道路交通安全法》第56条之规定。请您持本通知书，驾驶证，行驶证在15日内，到", time, position));
         list.add(data_content);
 
         list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(1));
-        byte[] data_handlePosition= strTobytes("交通警察服务中心");
+        byte[] data_handlePosition = strTobytes("交通警察服务中心");
         list.add(data_handlePosition);
 
         list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
         list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(0));
-        byte[] data_2= strTobytes("接受处理。");
+        byte[] data_2 = strTobytes("接受处理。");
         list.add(data_2);
         list.add(DataForSendToPrinterPos58.printAndFeedLine());
 
         list.add(DataForSendToPrinterPos58.printAndFeedForward(2));
 
         list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
-        byte[] data_dizhi= strTobytes("地址：");
+        byte[] data_dizhi = strTobytes("地址：");
         list.add(data_dizhi);
 
         list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(1));
-        byte[] data_p= strTobytes("海盐县五原街道出海路与公园路交界口");
+        byte[] data_p = strTobytes("海盐县五原街道出海路与公园路交界口");
         list.add(data_p);
         list.add(DataForSendToPrinterPos58.printAndFeedLine());
         list.add(DataForSendToPrinterPos58.printAndFeedForward(1));
 
         list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
-        byte[] data_dianhua= strTobytes("咨询电话：");
+        byte[] data_dianhua = strTobytes("咨询电话：");
         list.add(data_dianhua);
 
 //        list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(1));
         list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(1));
-        byte[] data_call= strTobytes("0573-86198731");
+        byte[] data_call = strTobytes("0573-86198731");
         list.add(data_call);
         list.add(DataForSendToPrinterPos58.printAndFeedLine());
 
         list.add(DataForSendToPrinterPos58.printAndFeedForward(1));
 
         list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(0));
-        byte[] beizhu= strTobytes("备注：机动车所有人登记的住所地址或联系电话发生变化的，请及时向登记地车管所申请变更备案。");
+        byte[] beizhu = strTobytes("备注：机动车所有人登记的住所地址或联系电话发生变化的，请及时向登记地车管所申请变更备案。");
         list.add(beizhu);
         list.add(DataForSendToPrinterPos58.printAndFeedLine());
 
@@ -323,8 +382,6 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
     }
 
 
-
-
     @Override
     protected void onStop() {
         super.onStop();
@@ -332,6 +389,13 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
 //            conn.onServiceConnected();
             unbindService(conn);
         }
+    }
+
+    public void setRecyclerViewHeight(int size) {
+        int height = ((size / 2) + 1) * 140 + 30;
+        LinearLayoutCompat.LayoutParams layoutParams = new LinearLayoutCompat.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Dp2pxUtil.dip2px(mContext, height));
+        layoutParams.setMargins(0, Dp2pxUtil.dip2px(mContext, 5), 0, Dp2pxUtil.dip2px(mContext, 50));
+        recyclerView.setLayoutParams(new LinearLayout.LayoutParams(layoutParams));
     }
 
 }

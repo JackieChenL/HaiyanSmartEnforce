@@ -96,9 +96,9 @@ public class DateUtil{
    private static int cal(long len){
      int time_len;
         if(len>=4*Time1H){
-           time_len=5*4;
+           time_len=18;
        }else if(len>Time1H){
-           time_len=((int)Math.ceil((double) len/Time1H))*5;
+           time_len=((int)Math.ceil((double) len/Time1H))*5-2;
        }else if(len>Time30M){
            time_len=3;
        }else{
@@ -118,7 +118,7 @@ public class DateUtil{
             int day=(int)(timeLong/DAY1);
             startCalendar.set(Calendar.DAY_OF_MONTH,startCalendar.get(Calendar.DAY_OF_MONTH)+day);
             timeLong=getTimmeLong(startCalendar,endCalendar);
-            money+=day*4*5;
+            money+=day*18;
         }
         money+=cal(timeLong);
            return  money;

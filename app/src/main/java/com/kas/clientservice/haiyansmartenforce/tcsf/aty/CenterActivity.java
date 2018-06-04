@@ -3,6 +3,8 @@ package com.kas.clientservice.haiyansmartenforce.tcsf.aty;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigkoo.alertview.AlertView;
@@ -12,28 +14,34 @@ import com.kas.clientservice.haiyansmartenforce.tcsf.base.BaseActivity;
 
 public class CenterActivity extends BaseActivity implements View.OnClickListener {
 
-    /*5个模块：停车，离开，查询，补缴，设置*/
-    private TextView tev_tc, tev_lk, tev_cx, tev_bj, tev_sz;
+
+    private LinearLayout llt_park, llt_exit, llt_query, llt_bj, llt_setting;
+    private ImageView iv_heaer_back;
+    private TextView tv_header_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_center);
-        tev_tc = (TextView) findViewById(R.id.tev_tc);
-        tev_lk = (TextView) findViewById(R.id.tev_lk);
-        tev_cx = (TextView) findViewById(R.id.tev_cx);
-        tev_bj = (TextView) findViewById(R.id.tev_bj);
-        tev_sz = (TextView) findViewById(R.id.tev_sz);
+        setContentView(R.layout.activity_tcsf_center);
+        llt_park = (LinearLayout) findViewById(R.id.llt_park);
+        llt_exit = (LinearLayout) findViewById(R.id.llt_exit);
+        llt_query = (LinearLayout) findViewById(R.id.llt_query);
+        llt_bj = (LinearLayout) findViewById(R.id.llt_bj);
+        llt_setting = (LinearLayout) findViewById(R.id.llt_setting);
+        iv_heaer_back = (ImageView) findViewById(R.id.iv_heaer_back);
+        tv_header_title = (TextView) findViewById(R.id.tv_header_title);
         initAction();
 
     }
 
     private void initAction() {
-        tev_tc.setOnClickListener(this);
-        tev_lk.setOnClickListener(this);
-        tev_cx.setOnClickListener(this);
-        tev_bj.setOnClickListener(this);
-        tev_sz.setOnClickListener(this);
+        tv_header_title.setText("停车收费");
+        llt_park.setOnClickListener(this);
+        llt_exit.setOnClickListener(this);
+        llt_query.setOnClickListener(this);
+        llt_bj.setOnClickListener(this);
+        llt_setting.setOnClickListener(this);
+        iv_heaer_back.setOnClickListener(this);
 
     }
 
@@ -41,54 +49,26 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tev_tc:
+            case R.id.iv_heaer_back:
+                finish();
+                break;
+            case R.id.llt_park:
                 startActivity(new Intent(aty, ParkActivity.class));
                 break;
 
 
-            case R.id.tev_lk:
+            case R.id.llt_exit:
                 startActivity(new Intent(aty, ExitListActivity.class));
                 break;
 
-            case R.id.tev_cx:
-
-                    startActivity(new Intent(aty,QueryActivity.class));
-
-
+            case R.id.llt_query:
+                startActivity(new Intent(aty, QueryActivity.class));
                 break;
-            case R.id.tev_bj:
-//                String url="http://jisucpsb.market.alicloudapi.com/licenseplaterecognition/recognize";
-//               String pic= ImgUtil.bitmapToBase64(ImgUtil.compressImage(ImgUtil.drawableToBitmap(getResources().getDrawable(R.mipmap.t3))));
-//                OkHttpUtils.post().url(url).addHeader("X-Ca-Key","24553193")
-//                        .addHeader("Authorization", "APPCODE 2e476d97d6994a489afb3491b44a2578")
-//
-//                        .addParams("pic",pic).build().execute(new StringCallback() {
-//                    @Override
-//                    public void onError(Call call, Exception e, int id) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onResponse(String response, int id) {
-//                           LogUtil.e("SUCCESSS",response);
-//                    }
-//                });
-
-
-
-
-                show("补缴按钮点击了");
+            case R.id.llt_bj:
+                show("补缴功能开发中");
                 break;
-            case R.id.tev_sz:
-//                final String[] arr = new String[]{"001", "002", "003", "004", "005", "006"};
-//                new AlertView(null, null, null, null, arr, aty, null, new OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(Object o, int position) {
-//                        show( arr[position] + ":" + position);
-//                    }
-//                }).show();
-
-                show("设置按钮点击了");
+            case R.id.llt_setting:
+                show("设置功能开发中");
                 break;
 
 
@@ -99,25 +79,6 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
         }
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

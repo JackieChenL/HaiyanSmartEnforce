@@ -21,15 +21,19 @@ import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
 import com.jph.takephoto.compress.CompressConfig;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
+import com.kas.clientservice.haiyansmartenforce.Base.BaseEntity;
+import com.kas.clientservice.haiyansmartenforce.Http.RetrofitClient;
+import com.kas.clientservice.haiyansmartenforce.Module.MainActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
 import com.kas.clientservice.haiyansmartenforce.Utils.BitmapToBase64;
+import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
 import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 import com.kas.clientservice.haiyansmartenforce.Utils.WaterMaskImageUtil;
+import com.kas.clientservice.haiyansmartenforce.tcsf.util.ToastUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,8 +41,9 @@ import butterknife.BindView;
 import okhttp3.Call;
 
 import static com.kas.clientservice.haiyansmartenforce.Utils.Utils.getImageCropUri;
+import static com.kas.clientservice.haiyansmartenforce.Utils.Utils.saveImageToLocal;
 
-public class IllegalParkingTakePhotoActivity extends BaseActivity implements TakePhoto.TakeResultListener, IllegalParkingCommitImgRvAdapter.OnImageAddClickListener, IllegalParkingCommitImgRvAdapter.OnImagelickListener, View.OnClickListener {
+public class IllegalParkingTakePhotoActivity extends BaseActivity implements TakePhoto.TakeResultListener, IllegalParkingCommitImgRvAdapter.OnImageAddClickListener, IllegalParkingCommitImgRvAdapter.OnImagelickListener, View.OnClickListener, IllegalParkingCommitImgRvAdapter.OnImgDeleteClickListener {
 
     @BindView(R.id.rv_parking_takePhoto)
     RecyclerView recyclerView;
@@ -53,13 +58,15 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
 
     TakePhoto takePhoto;
     List<Bitmap> arr_image;
+    List<String> arr_uri = new ArrayList<>();
     IllegalParkingCommitImgRvAdapter adapter;
     private CompressConfig compressConfig;
     Uri uri;
-    String time;
-    String position;
-    String carNum;
-    String code;
+    String time = "";
+    String position = "";
+    String carNum = "";
+    String code = "";
+    String roadId = "";
 
 
     public TakePhoto getTakePhoto() {
@@ -112,7 +119,7 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
         carNum = getIntent().getStringExtra("CarNum");
         position = getIntent().getStringExtra("Position");
         code = getIntent().getStringExtra("Code");
-
+        roadId = getIntent().getStringExtra("RoadId");
         tv_title.setText("违法照片");
         iv_back.setOnClickListener(this);
         tv_back.setOnClickListener(this);
@@ -124,17 +131,22 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
         recyclerView.setLayoutManager(layoutManager);
         adapter.setOnImageAddClickListener(this);
         adapter.setOnImagelickListener(this);
+        adapter.setOnImgDeleteClickListener(this);
         recyclerView.setAdapter(adapter);
+
     }
 
     @Override
     public void takeSuccess(String imagePath) {
         Log.i(TAG, "takeSuccess: " + imagePath);
         Bitmap bmp = BitmapFactory.decodeFile(imagePath);//filePath
-
-        Bitmap water_bitmap = WaterMaskImageUtil.drawTextToRightBottom(mContext, bmp, getTime(), 6, getResources().getColor(R.color.orange), 5, 5);
-        Log.i(TAG, "takeSuccess: length=" + water_bitmap.getByteCount() / 1024);
+        Log.i(TAG, "takeSuccess: length=" + bmp.getByteCount() / 1024 / 128);
+        Bitmap water_bitmap = WaterMaskImageUtil.drawTextToRightBottom(mContext, bmp, getTime(), 8, getResources().getColor(R.color.orange), 5, 5);
+        Log.i(TAG, "takeSuccess: length=" + water_bitmap.getByteCount() / 1024 / 128);
         arr_image.add(water_bitmap);
+        arr_uri.add(saveImageToLocal(water_bitmap, mContext));
+
+//        String uri = String.valueOf(Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), water_bitmap, null,null)));
 //        setRecyclerViewHeight(arr_image.size());
         adapter.notifyDataSetChanged();
     }
@@ -161,13 +173,13 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
             if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 //申请权限
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         101);
             } else {
                 uri = getImageCropUri();
 //                cropOptions = new CropOptions.Builder().setAspectX(1).setAspectY(1).setWithOwnCrop(false).create();
                 //设置压缩参数
-                compressConfig = new CompressConfig.Builder().setMaxSize(50 * 1024).setMaxPixel(400).create();
+                compressConfig = new CompressConfig.Builder().setMaxSize(Constants.PIC_MAXSIZE * 1024).setMaxPixel(Constants.COMPRESSRATE).create();
                 takePhoto.onEnableCompress(compressConfig, true); //设置为需要压缩
                 takePhoto.onPickFromCapture(uri);
             }
@@ -175,20 +187,23 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
     }
 
     @Override
-    public void onImageClick(int p) {
-        Bitmap bmp = arr_image.get(p);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] bytes = baos.toByteArray();
-
-//        Bundle b = new Bundle();
-//        b.putByteArray("bitmap", bytes);
+    public void onImageClick(final int p) {
+//        Log.i(TAG, "onImageClick: "+p);
+//                Bitmap bmp = arr_image.get(p);
+//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
+//                byte[] bytes = baos.toByteArray();
+//                SPUtils.putCommit(mContext,"uri",new String(bytes));
+//                Log.i(TAG, "onImageClick: "+bytes.length);
+//                Bundle b = new Bundle();
+//                b.putByteArray("image", bytes);
         Intent intent = new Intent(mContext, ImageActivity.class);
-        intent.putExtra("image", bytes);
+        Log.i(TAG, "onImageClick: "+arr_uri.get(p));
+        intent.putExtra("uri", String.valueOf(arr_uri.get(p)));
         startActivity(intent);
 
-    }
 
+    }
 
 
     @Override
@@ -198,8 +213,12 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
                 finish();
                 break;
             case R.id.tv_parking_takePhoto_submit:
+                if (arr_image.size() == 0) {
+                    ToastUtils.showToast(mContext, "至少拍摄一张照片");
+                } else {
+                    commit();
 
-                commit();
+                }
 
                 break;
             case R.id.tv_parking_takePhoto_back:
@@ -210,33 +229,49 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
         }
     }
 
-    class ImgEntity {
-        String WFimg;
-
-        public ImgEntity(String WFimg) {
-            this.WFimg = WFimg;
-        }
+    @Override
+    public void onImgDeleteClick(int position) {
+        arr_image.remove(position);
+        arr_uri.remove(position);
+        adapter.notifyDataSetChanged();
     }
 
+
     private void commit() {
+        showLoadingDialog();
+
         String bitmap_string = BitmapToBase64.bitmapListToBase64(arr_image);
-        OkHttpUtils.post().url("http://111.1.31.210:88/system/theme/anjuan/WFHandler.ashx")
+//        Log.i(TAG, "commit: ZFRYID=" + UserSingleton.USERINFO.getZFRYID() + " WFtime=" + time + " WFaddress=" + position + " WFAddressZB=" + roadId + " Carnum=" + carNum
+//                + " Img=" + bitmap_string + " UpType=" + "enterprise" + " jdsnum=" + code);
+        OkHttpUtils.post().url(RetrofitClient.mBaseUrl + "system/theme/anjuan/WFHandler.ashx")
                 .addParams("ZFRYID", UserSingleton.USERINFO.getZFRYID())
-                .addParams("WFtime", time)
+                .addParams("WFtime", time + ":00")
                 .addParams("WFaddress", position)
-                .addParams("WFAddressZB", "123.00,111.00")
+                .addParams("WFAddressZB", roadId)
                 .addParams("Carnum", carNum)
                 .addParams("Img", bitmap_string)
                 .addParams("UpType", "enterprise")
+                .addParams("jdsnum", code)
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
                 Log.i(TAG, "onError: " + e.toString());
+                ToastUtil.show(mContext, "上传失败");
+                dismissLoadingDialog();
             }
 
             @Override
             public void onResponse(final String response, int id) {
+                dismissLoadingDialog();
                 Log.i(TAG, "onResponse: " + response);
+                BaseEntity baseEntity = gson.fromJson(response, BaseEntity.class);
+                if (baseEntity.isState()) {
+
+                    ToastUtils.showToast(mContext, "上传成功");
+                    startActivityWithoutBack(mContext, MainActivity.class, null);
+                } else {
+                    ToastUtil.show(mContext, "上传失败");
+                }
             }
 
 

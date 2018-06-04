@@ -181,4 +181,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         return simpleDateFormat.format(date);
     }
 
+    public String formLocation(String longitude,String latitude){
+        return longitude+","+latitude;
+    }
 }

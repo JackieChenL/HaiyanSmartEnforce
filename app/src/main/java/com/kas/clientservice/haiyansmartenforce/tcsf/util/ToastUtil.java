@@ -14,7 +14,7 @@ public class ToastUtil {
             toast = Toast.makeText(context, "" , Toast.LENGTH_LONG);
         }
         toast.setText(content);
-        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.setGravity(Gravity.BOTTOM, 0, 0);
         toast.show();
     }
 

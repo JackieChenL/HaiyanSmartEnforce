@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="135dp"
+        >
+
+        <View
+            android:background="@drawable/shape_xuxian"
+            android:layout_marginLeft="-35dp"
+            android:layout_marginRight="-10dp"
+            android:layerType="software"
+            android:layout_width="135dp"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/tv_item_history_detail_num"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/app_original_blue"
+            android:background="@drawable/shape_cycle_histiry_detail" />
+
+
+        <TextView
+            android:id="@+id/tv_item_history_detail_name"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/tv_item_history_detail_num"
+            android:gravity="center_vertical" />
+
+        <TextView
+            android:id="@+id/tv_item_history_detail_time"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginLeft="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical" />
+
+
+
+        <TextView
+            android:id="@+id/tv_item_history_detail_describe"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/tv_item_history_detail_num"
+            android:layout_below="@id/tv_item_history_detail_num"
+            android:paddingTop="10dp" />
+
+        <TextView
+            android:id="@+id/tv_item_history_detail_status"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/shape_blue_stroke"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="处理过程"
+            android:gravity="center"
+            android:textColor="@color/app_original_blue"
+            android:layout_below="@id/tv_item_history_detail_describe"
+            android:layout_toRightOf="@id/tv_item_history_detail_num"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_item_history_detail"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:visibility="gone">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </RelativeLayout>
+</LinearLayout>

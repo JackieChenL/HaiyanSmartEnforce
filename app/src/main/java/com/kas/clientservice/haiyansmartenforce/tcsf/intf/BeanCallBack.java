@@ -12,8 +12,6 @@ import okhttp3.Call;
 import okhttp3.Request;
 import okhttp3.Response;
 
-
-//TODO
 public  abstract  class BeanCallBack extends StringCallback {
     private Activity context;
     private String msg;
@@ -52,7 +50,7 @@ public  abstract  class BeanCallBack extends StringCallback {
             @Override
             public void run() {
                 ProgressDialogUtil.hide();
-                handleBeanResult(new NetResultBean(false,400,"服务器异常"));
+                handleBeanResult(new NetResultBean(false,-2,"服务器异常"));
             }
         });
 
