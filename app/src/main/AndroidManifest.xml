@@ -68,35 +68,42 @@
         <activity android:name=".Module.CaseCommit.CaseTypeActivity" />
         <activity android:name=".Module.IllegalParking.IllegalParkingTakePhotoActivity" />
         <activity android:name=".Module.History.HistoryActivity" />
-        <activity android:name=".Module.History.HistoryDetails"></activity>
-
+        <activity android:name=".Module.History.HistoryDetails" />
 
         <provider
-            android:authorities="${applicationId}.android7.fileprovider"
             android:name="android.support.v4.content.FileProvider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:authorities="${applicationId}.android7.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths"/>
+                android:resource="@xml/filepaths" />
         </provider>
 
         <service android:name="net.xprinter.service.XprinterService" />
 
-        <activity android:name=".tcsf.aty.CenterActivity">
-        </activity>
+        <activity android:name=".tcsf.aty.CenterActivity" />
+        <activity android:name=".tcsf.aty.ParkActivity" />
+        <activity android:name=".tcsf.aty.ExitListActivity" />
+        <activity android:name=".tcsf.aty.ExitActivity" />
+        <activity android:name=".tcsf.aty.QueryActivity" />
+        <activity android:name=".tcsf.aty.SmActivity" />
+        <activity android:name=".tcsf.aty.PrintActivity" />
+        <activity android:name=".tcsf.aty.HistoryActivity" />
+        <!-- <activity android:name=".tcsf.aty.loginActivity"> -->
 
 
-        <activity android:name=".tcsf.aty.ParkActivity"/>
-        <activity android:name=".tcsf.aty.ExitListActivity"/>
-        <activity android:name=".tcsf.aty.ExitActivity"/>
-        <activity android:name=".tcsf.aty.QueryActivity"/>
-        <activity android:name=".tcsf.aty.SmActivity"/>
-        <activity android:name=".tcsf.aty.PrintActivity"/>
-        <activity android:name=".tcsf.aty.HistoryActivity"/>
-        <!--<activity android:name=".tcsf.aty.loginActivity">-->
-
-
+        <!-- </activity> -->
+        <activity android:name=".Module.Garbage.GarbageMainActivity" />
+        <activity android:name=".Module.Garbage.CodeActivity" />
+        <activity android:name=".Module.Garbage.Doorplate" />
+        <activity android:name=".Module.Garbage.HouseHolder" />
+        <activity android:name=".Module.Garbage.PhotoActivity" />
+        <activity android:name=".Module.Garbage.HuzhuActivity" />
+        <activity android:name=".Module.Garbage.RankActivity" />
+        <activity android:name=".Module.Garbage.ScanActivity" />
+        <activity android:name=".Module.CueProcessing.ClueActivity" />
+        <activity android:name=".Module.Laws.LawsActivity"></activity>
         <!--</activity>-->
 
 

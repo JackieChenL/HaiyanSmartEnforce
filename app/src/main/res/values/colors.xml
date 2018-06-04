@@ -42,11 +42,15 @@
     <color name="pink_900">#880E4F</color>
     <color name="pink_goodsText">#ff0040</color>
     <color name="red_bg">#ff2828</color>
+    <color name="ok_button_color">#ff2D96FB</color>
 
     <color name="slide_1">#4f91ff</color>
     <color name="slide_2">#fb9c25</color>
     <color name="slide_3">#5ab55d</color>
     <color name="slide_4">#ea2d6d</color>
+    <color name="colorViolet">#00BFFF</color>
+    <color name="action_bar_blue">#2D96FB</color>
+    <color name="bg">#eaf4f6</color>
 
     <!--<color name="transparent">#000000</color>-->
     <!-- 白色 -->
