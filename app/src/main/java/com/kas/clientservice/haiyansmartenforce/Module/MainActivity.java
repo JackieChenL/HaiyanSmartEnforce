@@ -15,6 +15,7 @@ import com.jorge.circlelibrary.ImageCycleView;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.MainModuleRvAdapter;
 import com.kas.clientservice.haiyansmartenforce.Module.CaseCommit.CaseCommitActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.CaseCommit.CaseSearchActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.History.HistoryActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.HuanWeiModule.HuanWeiEntryActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitActivity;
@@ -217,6 +218,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case 6:
                 intent = new Intent(mContext,CaseCommitActivity.class);
+                startActivity(intent);
+                break;
+            case 7:
+                intent = new Intent(mContext,CaseSearchActivity.class);
                 startActivity(intent);
                 break;
         }

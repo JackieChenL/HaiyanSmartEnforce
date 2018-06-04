@@ -150,7 +150,7 @@ public class HuanweiCheckDetailActivity extends BaseActivity implements View.OnC
                             }
 
 //                            list_img.addAll(huanweiCheckDetailEntity.getImg());
-                            if (s.getRtn().town.equals("")) {
+                            if (s.getRtn().town.equals("无")||s.getRtn().town.equals("")) {
                                 needChoseTown = true;
                                 towns.addAll(s.getRtn().getTown());
                                 for (int i = 0; i < towns.size(); i++) {
@@ -160,6 +160,7 @@ public class HuanweiCheckDetailActivity extends BaseActivity implements View.OnC
                             }else {
                                 needChoseTown = false;
                                 tv_town.setText(s.getRtn().town);
+                                townId = s.getRtn().townid;
                             }
                         } else {
                             showNetErrorToast();

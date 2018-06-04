@@ -6,5 +6,4 @@ package com.kas.clientservice.haiyansmartenforce.API;
  * 公司：COMS
  */
 
-public interface CaseSearch {
-}
+

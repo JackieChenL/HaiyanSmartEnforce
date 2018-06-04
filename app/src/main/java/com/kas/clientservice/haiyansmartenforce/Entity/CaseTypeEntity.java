@@ -13,8 +13,13 @@ public class CaseTypeEntity {
      * name : 突发事件
      */
 
+    public String smallcallCode;
     public String code;
     public String name;
+
+    public String getSmallcallCode() {
+        return smallcallCode;
+    }
 
     public String getCode() {
         return code;

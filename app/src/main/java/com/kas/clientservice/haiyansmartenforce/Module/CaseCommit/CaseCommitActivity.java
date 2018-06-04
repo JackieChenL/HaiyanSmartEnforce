@@ -25,9 +25,13 @@ import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
 import com.jph.takephoto.compress.CompressConfig;
 import com.jph.takephoto.model.CropOptions;
+import com.kas.clientservice.haiyansmartenforce.API.CaseCommit;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Entity.Img;
+import com.kas.clientservice.haiyansmartenforce.Http.ExceptionHandle;
+import com.kas.clientservice.haiyansmartenforce.Http.MySubscriber;
 import com.kas.clientservice.haiyansmartenforce.Http.RequestUrl;
+import com.kas.clientservice.haiyansmartenforce.Http.RetrofitClient;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitImgRvAdapter;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ImageActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.TianDiTu.TiandiMapActivity;
@@ -45,12 +49,15 @@ import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import okhttp3.Call;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+import static com.kas.clientservice.haiyansmartenforce.Utils.Utils.saveImageToLocal;
 
 public class CaseCommitActivity extends BaseActivity implements View.OnClickListener, IllegalParkingCommitImgRvAdapter.OnImageAddClickListener, IllegalParkingCommitImgRvAdapter.OnImagelickListener, TakePhoto.TakeResultListener, IllegalParkingCommitImgRvAdapter.OnImageLongClickListener, IllegalParkingCommitImgRvAdapter.OnImgDeleteClickListener {
     @BindView(R.id.tv_header_title)
@@ -75,6 +82,7 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
     EditText et_decribe;
 
 
+
     List<Bitmap> arr_image;
     IllegalParkingCommitImgRvAdapter adapter;
     TakePhoto takePhoto;
@@ -83,12 +91,13 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
     String langitude = "";
     String latitude = "";
     String bigClass = "";
+    String smallCode = "";
     private String time_chose;
     private CropOptions cropOptions;  //裁剪参数
     private CompressConfig compressConfig; //压缩参数
     List<Img> imgList = new ArrayList<>();
     String gridcode = "33040200100101";
-
+    List<String> arr_uri = new ArrayList<>();
     @Override
     protected int getLayoutId() {
         return R.layout.activity_case_commit;
@@ -141,6 +150,7 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
                     tv_type.setText(data.getStringExtra("TypeName"));
                     smallClass = data.getStringExtra("SmallClass");
                     bigClass = data.getStringExtra("BigClass");
+                    smallCode = data.getStringExtra("SmallCode");
                 }
             }
         }
@@ -204,7 +214,7 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
                     return;
                 }
                 getImgUrl();
-                showLoadingDialog();
+//                showLoadingDialog();
         }
     }
 
@@ -217,15 +227,19 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onImageClick(int p) {
-        Bitmap bmp = arr_image.get(p);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] bytes = baos.toByteArray();
-
-//        Bundle b = new Bundle();
-//        b.putByteArray("bitmap", bytes);
+//        Bitmap bmp = arr_image.get(p);
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
+//        byte[] bytes = baos.toByteArray();
+//
+////        Bundle b = new Bundle();
+////        b.putByteArray("bitmap", bytes);
+//        Intent intent = new Intent(mContext, ImageActivity.class);
+//        intent.putExtra("image", bytes);
+//        startActivity(intent);
         Intent intent = new Intent(mContext, ImageActivity.class);
-        intent.putExtra("image", bytes);
+        Log.i(TAG, "onImageClick: "+arr_uri.get(p));
+        intent.putExtra("uri", String.valueOf(arr_uri.get(p)));
         startActivity(intent);
     }
 
@@ -237,6 +251,7 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
         Bitmap water_bitmap = WaterMaskImageUtil.drawTextToRightBottom(mContext, bmp, getTime(), 6, getResources().getColor(R.color.orange), 5, 5);
         Log.i(TAG, "takeSuccess: length=" + water_bitmap.getByteCount() / 1024);
         arr_image.add(water_bitmap);
+        arr_uri.add(saveImageToLocal(water_bitmap, mContext));
         setRecyclerViewHeight(arr_image.size());
         adapter.notifyDataSetChanged();
     }
@@ -292,49 +307,84 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
     }
 
     private void upload(String substring) {
-//        RequestParams params = new RequestParams(this);//请求参数
-//        .addParams("optionName", RequestUrl.issueUploading);
-//        .addParams("typecode", 1);
-//        .addParams("collcode", String.valueOf(collcode));
-//        .addParams("bigClass", BigCode);
-//        .addParams("smallClass", SmallCode);
-//        .addParams("gridcode", gridcode+"");
-//        .addParams("address", etProblemUploadAdd.getText().toString());
-//        .addParams("descript", etProblemUploadDescribe.getText().toString());
-//        .addParams("fid", tvProblemUploadGps.getText().toString());
-//        .addParams("bPicArry", strImg);
-//        .addParams("ePicArry", "");
-//        .addParams("addType", 02);
+//        this.address = address;
+//        this.bigClass = bigClass;
+//        this.descript = descript;
+//        this.fid = fid;
+//        this.gridcode = gridcode;
+//        this.picurls = picurls;
+//        this.smallClass = smallClass;
+//        this.typecode = typecode;
+//        this.userid = userid;
+//            String address = new String(et_address.getText().toString().getBytes("utf-8"),"gb2312");
+//            String des = new String(et_decribe.getText().toString().getBytes("utf-8"),"gb2312");
+        RetrofitClient.createService(CaseCommit.class,"http://117.149.146.131:86/")
+                .httpCaseCommit("zmninsertproject",
+                        "1",
+                        UserSingleton.USERINFO.getZFRYID(),
+                        bigClass,
+                        smallCode,
+                        gridcode+"",
+                        et_address.getText().toString(),
+                        et_decribe.getText().toString(),
+                        tv_location.getText().toString(),
+                        substring)
+//                .httpCaseCommit(parseBodyToJson(caseCommitEntity))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new MySubscriber<String>(mContext) {
+                    @Override
+                    public void onError(ExceptionHandle.ResponeThrowable responeThrowable) {
 
-        OkHttpUtils.post().url("http://117.149.146.131:86/handler/collecterapi.aspx")
-                .addParams("optionName", "zmninsertproject")
-                .addParams("typecode", "1")
-                .addParams("userid", UserSingleton.USERINFO.getZFRYID())
-                .addParams("bigClass", bigClass)
-                .addParams("smallClass", smallClass)
-                .addParams("gridcode", gridcode + "")
-                .addParams("address", et_address.getText().toString())
-                .addParams("descript", et_decribe.getText().toString())
-                .addParams("fid", tv_location.getText().toString())
-                .addParams("picurls", substring)
-//                .addParams("ePicArry", "")
-//                .addParams("addType", "02")
-                .build().execute(new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e, int id) {
-                Log.i(TAG, "onError: " + e.toString());
-                dismissLoadingDialog();
-            }
+                    }
 
-            @Override
-            public void onResponse(final String response, int id) {
-                Log.i(TAG, "onResponse: " + response);
-                dismissLoadingDialog();
-            }
-
-
-
-        });
+                    @Override
+                    public void onNext(String s) {
+                        Log.i(TAG, "onResponse: " + s);
+                        if (s.contains("成功")) {
+                            ToastUtils.showToast(mContext,"提交成功");
+                            finish();
+                        }else {
+                            ToastUtils.showToast(mContext,"提交失败");
+                        }
+                    }
+                });
+//        OkHttpUtils.post().url(RequestUrl.baseUrl)
+//                .addParams("optionName", "zmninsertproject")
+//                .addParams("typecode", "1")
+//                .addParams("userid", UserSingleton.USERINFO.getZFRYID())
+//                .addParams("bigClass", bigClass)
+//                .addParams("smallClass", smallCode)
+//                .addParams("gridcode", gridcode + "")
+//                .addParams("address", et_address.getText().toString())
+//                .addParams("descript", et_decribe.getText().toString())
+//                .addParams("fid", tv_location.getText().toString())
+//                .addParams("picurls", substring)
+////                .addParams("ePicArry", "")
+////                .addParams("addType", "02")
+//                .build().execute(new StringCallback() {
+//            @Override
+//            public void onError(Call call, Exception e, int id) {
+//                Log.i(TAG, "onError: " + e.toString());
+//                dismissLoadingDialog();
+//            }
+//
+//            @Override
+//            public void onResponse(final String response, int id) {
+//                Log.i(TAG, "onResponse: " + response);
+//                dismissLoadingDialog();
+//                if (response.contains("成功")) {
+//                    ToastUtils.showToast(mContext,"提交成功");
+//                    finish();
+//                }else {
+//                    ToastUtils.showToast(mContext,"提交失败");
+//                }
+//
+//            }
+//
+//
+//
+//        });
     }
 
 
@@ -383,6 +433,7 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onImgDeleteClick(int position) {
         arr_image.remove(position);
+        arr_uri.remove(position);
         adapter.notifyDataSetChanged();
     }
 }

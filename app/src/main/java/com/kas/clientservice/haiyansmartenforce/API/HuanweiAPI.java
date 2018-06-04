@@ -76,7 +76,7 @@ public interface HuanweiAPI {
     * 整改人员历史记录单条
     * */
     @GET("system/theme/hwjg/Historyzgry.ashx")
-    Observable<BaseEntity<HistoryDetail_HandleEntity>> httpGetHandlePeopleHistoryDetai(@Query("hoperid") String userId, @Query("id") String id);
+    Observable<BaseEntity<HistoryDetail_checkEntity>> httpGetHandlePeopleHistoryDetai(@Query("hoperid") String userId, @Query("id") String id);
 
 
     public class HuanweiProjectEntity {
@@ -147,6 +147,7 @@ public interface HuanweiAPI {
          * board : [{"QKMS":"测试","Img":[{"img":"http://hywx.hnzhzf.top/MVersion/201805151104550.jpg"}],"changState":"7","addtime":"2018-05-15 11:04","town":"武原街道"}]
          */
 
+        public String jcryname;
         public String hoperid;
         public String ID;
         public String XM;
@@ -171,7 +172,9 @@ public interface HuanweiAPI {
 
             public String QKMS;
             public String zgryname;
-
+            public String changState;
+            public String addtime;
+            public String town;
             public List<ImgBean> Img;
 
             public static class ImgBean {
@@ -201,6 +204,7 @@ public interface HuanweiAPI {
          * board : [{"QKMS":"测试","Img":[{"img":"http://hywx.hnzhzf.top/MVersion/201805151104550.jpg"}],"changState":"7","addtime":"2018-05-15 11:04","town":"武原街道"}]
          */
 
+        public String jcryname;
         public String hoperid;
         public String ID;
         public String XM;

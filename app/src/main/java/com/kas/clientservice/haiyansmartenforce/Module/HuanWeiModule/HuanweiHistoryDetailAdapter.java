@@ -58,14 +58,29 @@ public class HuanweiHistoryDetailAdapter extends BaseAdapter {
             vh.tv_name = (TextView) view.findViewById(R.id.tv_item_history_detail_name);
             vh.tv_describe = (TextView) view.findViewById(R.id.tv_item_history_detail_describe);
             vh.recyclerView = (RecyclerView) view.findViewById(R.id.rv_item_history_detail);
-
+            vh.tv_time = (TextView) view.findViewById(R.id.tv_item_history_detail_time);
+            vh.tv_num = (TextView) view.findViewById(R.id.tv_item_history_detail_num);
+            vh.tv_status = (TextView) view.findViewById(R.id.tv_item_history_detail_status);
             view.setTag(vh);
         }else {
             vh = (ViewHolder) view.getTag();
         }
         vh.tv_describe.setText(list.get(i).QKMS);
         vh.tv_name.setText("整改人员："+list.get(i).zgryname);
-
+        vh.tv_time.setText(list.get(i).addtime);
+        vh.tv_num.setText((i+1)+"");
+        if (list.get(i).changState.equals("7")) {
+            vh.tv_status.setText("整改完成");
+        }
+        if (list.get(i).changState.equals("6")) {
+            vh.tv_status.setText("申诉完成");
+        }
+        if (list.get(i).changState.equals("9")) {
+            vh.tv_status.setText("已退回");
+        }
+        if (list.get(i).changState.equals("8")) {
+            vh.tv_status.setText("已撤销");
+        }
         initList(vh.recyclerView);
         if (list.get(i).Img!=null) {
             for (int j = 0; j < list.get(i).Img.size(); j++) {
@@ -77,7 +92,7 @@ public class HuanweiHistoryDetailAdapter extends BaseAdapter {
     }
 
     class ViewHolder{
-        TextView tv_name,tv_describe;
+        TextView tv_name,tv_describe,tv_time,tv_num,tv_status;
         RecyclerView recyclerView;
     }
 

@@ -113,6 +113,7 @@ public class HuanweiHandleCommitActivity extends BaseActivity implements TakePho
 
         type = getIntent().getIntExtra("changeState",0);
         id = getIntent().getStringExtra("id");
+        Log.i(TAG, "initResAndListener: "+type);
         if (type == 2) {
 
             tv_title.setText("整改");

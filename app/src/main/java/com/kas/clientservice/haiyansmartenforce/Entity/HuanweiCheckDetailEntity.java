@@ -37,6 +37,7 @@ public class HuanweiCheckDetailEntity {
     public String starttime;
     public String Shstate;
     public String town;
+    public String townid;
     public List<ImgBean> Img;
     public List<TownBean> townlist;
 

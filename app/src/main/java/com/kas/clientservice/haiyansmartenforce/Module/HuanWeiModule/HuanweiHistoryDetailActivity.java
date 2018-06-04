@@ -100,12 +100,8 @@ public class HuanweiHistoryDetailActivity extends BaseActivity implements View.O
     }
 
     private void loadHandlePeople() {
-
-    }
-
-    private void loadCheckPeople() {
         RetrofitClient.createService(HuanweiAPI.class)
-                .httpGetCheckPeopleHistoryDetai(UserSingleton.USERINFO.getZFRYID(),id)
+                .httpGetHandlePeopleHistoryDetai(UserSingleton.USERINFO.getZFRYID(),id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new MySubscriber<BaseEntity<HuanweiAPI.HistoryDetail_checkEntity>>(mContext) {
@@ -118,7 +114,7 @@ public class HuanweiHistoryDetailActivity extends BaseActivity implements View.O
                     public void onNext(BaseEntity<HuanweiAPI.HistoryDetail_checkEntity> historyDetail_checkEntityBaseEntity) {
                         if (historyDetail_checkEntityBaseEntity.isState()) {
                             HuanweiAPI.HistoryDetail_checkEntity entity = historyDetail_checkEntityBaseEntity.getRtn();
-//                            tv_name.setText(entity.);
+                            tv_name.setText(entity.jcryname);
                             tv_content.setText(entity.JCNR);
                             tv_project.setText(entity.XM);
                             tv_position.setText(entity.JCDD);
@@ -139,7 +135,56 @@ public class HuanweiHistoryDetailActivity extends BaseActivity implements View.O
                                 list.addAll(entity.board);
                                 huanweiHistoryDetailAdapter = new HuanweiHistoryDetailAdapter(list,mContext);
                                 listView.setAdapter(huanweiHistoryDetailAdapter);
-                                int height = list.size()* 270;
+                                int height = list.size()* 135;
+                                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,Dp2pxUtil.dip2px(mContext,height));
+                                listView.setLayoutParams(params);
+                                listView.setVerticalScrollBarEnabled(false);
+                            }
+
+                        }else {
+                            ToastUtils.showToast(mContext,historyDetail_checkEntityBaseEntity.getErrorMsg());
+                        }
+                    }
+                });
+    }
+
+    private void loadCheckPeople() {
+        RetrofitClient.createService(HuanweiAPI.class)
+                .httpGetCheckPeopleHistoryDetai(UserSingleton.USERINFO.getZFRYID(),id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new MySubscriber<BaseEntity<HuanweiAPI.HistoryDetail_checkEntity>>(mContext) {
+                    @Override
+                    public void onError(ExceptionHandle.ResponeThrowable responeThrowable) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseEntity<HuanweiAPI.HistoryDetail_checkEntity> historyDetail_checkEntityBaseEntity) {
+                        if (historyDetail_checkEntityBaseEntity.isState()) {
+                            HuanweiAPI.HistoryDetail_checkEntity entity = historyDetail_checkEntityBaseEntity.getRtn();
+                            tv_name.setText(entity.jcryname);
+                            tv_content.setText(entity.JCNR);
+                            tv_project.setText(entity.XM);
+                            tv_position.setText(entity.JCDD);
+                            tv_describe.setText(entity.QKMS);
+                            tv_time.setText(entity.starttime);
+
+                            if (entity.Img!=null&&entity.Img.size()!=0) {
+                                for (int i = 0; i < entity.Img.size(); i++) {
+                                    list_img.add(entity.Img.get(i).img);
+                                }
+                                adapter.notifyDataSetChanged();
+                                setRecyclerViewHeight(list_img.size());
+                            }else {
+                                recyclerView.setVisibility(View.GONE);
+                            }
+                            if (entity.board!=null) {
+
+                                list.addAll(entity.board);
+                                huanweiHistoryDetailAdapter = new HuanweiHistoryDetailAdapter(list,mContext);
+                                listView.setAdapter(huanweiHistoryDetailAdapter);
+                                int height = list.size()* 135;
                                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,Dp2pxUtil.dip2px(mContext,height));
                                 listView.setLayoutParams(params);
                                 listView.setVerticalScrollBarEnabled(false);
@@ -217,7 +262,7 @@ public class HuanweiHistoryDetailActivity extends BaseActivity implements View.O
     }
 
     public void setRecyclerViewHeight(int size) {
-        int height = ((size / 2) + 1) * 140 + 30;
+        int height = ((size / 2) + 1) * 130+10;
         LinearLayoutCompat.LayoutParams layoutParams = new LinearLayoutCompat.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Dp2pxUtil.dip2px(mContext, height));
 //        layoutParams.setMargins(0, Dp2pxUtil.dip2px(mContext, 5), 0, Dp2pxUtil.dip2px(mContext, 50));
         recyclerView.setLayoutParams(new LinearLayout.LayoutParams(layoutParams));

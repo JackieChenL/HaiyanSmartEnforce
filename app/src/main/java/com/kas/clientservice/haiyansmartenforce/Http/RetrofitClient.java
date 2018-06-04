@@ -59,6 +59,13 @@ public class RetrofitClient {
                 .build();
         return retrofit.create(serviceClass);
     }
+    public static <S> S createService2(Class<S> serviceClass) {
+        Retrofit retrofit = builder
+                .baseUrl(RequestUrl.baseUrl)
+                .client(addLogClient(httpClient).build())
+                .build();
+        return retrofit.create(serviceClass);
+    }
 
     public static <S> S createService(Class<S> serviceClass) {
         Retrofit retrofit = builder
