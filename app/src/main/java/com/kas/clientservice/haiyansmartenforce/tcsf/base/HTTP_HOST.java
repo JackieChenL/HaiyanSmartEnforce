@@ -12,6 +12,8 @@ public class HTTP_HOST {
     public static final String URL_PARK_LIST = URL_BASE+"YZYBWHlist.ashx";
     /**离开**/
     public static final String URL_PARK_EXIT =URL_BASE+ "LK.ashx";
+    /**停车收费选择微信支付扫描后上传服务器扣费**/
+    public static final String URL_WXPAY =URL_BASE+ "wxpay.ashx";
 
 
 

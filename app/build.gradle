@@ -11,6 +11,8 @@ android {
         versionName "1.0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
     buildTypes {
 
         debug {
@@ -75,4 +77,5 @@ dependencies {
     compile 'com.bigkoo:alertview:1.0.3'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.yanzhenjie:permission:1.0.3'
+    compile 'com.journeyapps:zxing-android-embedded:3.5.0'
 }

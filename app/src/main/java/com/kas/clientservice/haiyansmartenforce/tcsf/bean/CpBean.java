@@ -4,7 +4,7 @@ package com.kas.clientservice.haiyansmartenforce.tcsf.bean;
 
 public class CpBean {
 
-    public int  status;
+    public String  status;
     public String msg;
     public  EntityBean result;
 
