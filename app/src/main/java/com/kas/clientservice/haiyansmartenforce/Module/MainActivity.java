@@ -15,7 +15,9 @@ import com.jorge.circlelibrary.ImageCycleView;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.MainModuleRvAdapter;
 import com.kas.clientservice.haiyansmartenforce.Module.CaseCommit.CaseCommitActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.CaseCommit.CaseSearchActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.History.HistoryActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.HuanWeiModule.HuanWeiEntryActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ParkingRecordSearchActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
@@ -86,7 +88,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         list_module = new ArrayList<>();
         MainModuleRvAdapter adapter = new MainModuleRvAdapter(list_module,mContext);
         adapter.setOnModuleClickListener(this);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(mContext, 4, LinearLayout.VERTICAL, false);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(mContext, 4, LinearLayout.VERTICAL, false){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
@@ -100,9 +107,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void setRecyclerViewHeight(int size) {
         int height;
         if (size%4 == 0) {
-            height = (size/4)*120;
+            height = (size/4)*120+10;
         }else {
-            height = (size/4+1)*120;
+            height = (size/4+1)*120+10;
         }
         Log.i(TAG, "setRecyclerViewHeight: "+height);
         LinearLayoutCompat.LayoutParams layoutParams = new LinearLayoutCompat.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Dp2pxUtil.dip2px(mContext, height));
@@ -192,6 +199,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onModuleClick(int type) {
+        Log.i(TAG, "onModuleClick: "+type);
+        Intent intent;
         switch (type) {
             case Constants.MainModule.TINGCHESHOUFEI:
                 startActivity(new Intent(mContext, CenterActivity.class));
@@ -201,6 +210,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case Constants.MainModule.ANJIANCHAXUN:
                 startActivity(new Intent(mContext, ParkingRecordSearchActivity.class));
+                break;
+            case 5:
+                 intent = new Intent(mContext, HuanWeiEntryActivity.class);
+//                intent.putExtra("TypeId",UserSingleton.USERINFO.getType());
+                startActivity(intent);
+                break;
+            case 6:
+                intent = new Intent(mContext,CaseCommitActivity.class);
+                startActivity(intent);
+                break;
+            case 7:
+                intent = new Intent(mContext,CaseSearchActivity.class);
+                startActivity(intent);
                 break;
         }
     }

@@ -19,8 +19,8 @@ public class BaseEntity<T> implements Serializable {
     public boolean State;
     public int ErrorCode;
     public String ErrorMsg;
-    public int Page;
-    public int total;
+    public String Page;
+    public String total;
     public T Rtn;
 
     public int getErrorCode() {
@@ -39,11 +39,11 @@ public class BaseEntity<T> implements Serializable {
         ErrorMsg = errorMsg;
     }
 
-    public int getPage() {
+    public String getPage() {
         return Page;
     }
 
-    public void setPage(int page) {
+    public void setPage(String page) {
         Page = page;
     }
 
@@ -63,11 +63,11 @@ public class BaseEntity<T> implements Serializable {
         State = state;
     }
 
-    public int getTotal() {
+    public String getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(String total) {
         this.total = total;
     }
 }

@@ -18,9 +18,8 @@ import com.kas.clientservice.haiyansmartenforce.Http.MySubscriber;
 import com.kas.clientservice.haiyansmartenforce.Http.RetrofitClient;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
+import com.kas.clientservice.haiyansmartenforce.Utils.TimePickerDialog;
 import com.kas.clientservice.haiyansmartenforce.Utils.TimeUtils;
-
-import org.feezu.liuli.timeselector.TimeSelector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,7 @@ import butterknife.BindView;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class ParkingRecordSearchActivity extends BaseActivity implements View.OnClickListener {
+public class ParkingRecordSearchActivity extends BaseActivity implements View.OnClickListener, TimePickerDialog.TimePickerDialogInterface {
     @BindView(R.id.tv_header_title)
     TextView tv_title;
     @BindView(R.id.iv_heaer_back)
@@ -55,6 +54,7 @@ public class ParkingRecordSearchActivity extends BaseActivity implements View.On
     String abc = "";
     List<ParkingSearchEntity.BoardBean> list;
     IllegalParkingSearchAdapter adapter;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_parking_record_search;
@@ -75,6 +75,12 @@ public class ParkingRecordSearchActivity extends BaseActivity implements View.On
         tv_endTime.setOnClickListener(this);
         tv_btn.setOnClickListener(this);
 
+        tv_startTime.setText(TimeUtils.getFormedTime("yyyy-MM-dd")+" 00:00:00");
+        tv_endTime.setText(TimeUtils.getFormedTime("yyyy-MM-dd HH:mm:ss"));
+        timePickerDialog = new TimePickerDialog(mContext);
+
+        sp_prov.setSelection(getResources().getStringArray(R.array.provinceName).length-1);
+        sp_abc.setSelection(getResources().getStringArray(R.array.A2Z).length-1);
         sp_prov.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -105,11 +111,10 @@ public class ParkingRecordSearchActivity extends BaseActivity implements View.On
 
     private void initList() {
         list = new ArrayList<>();
-        adapter = new IllegalParkingSearchAdapter(list,mContext);
+        adapter = new IllegalParkingSearchAdapter(list, mContext);
         listView.setAdapter(adapter);
 
     }
-
 
 
     @Override
@@ -155,25 +160,41 @@ public class ParkingRecordSearchActivity extends BaseActivity implements View.On
                 });
     }
 
+    int flag = 0;
     private void choseEndTime() {
-        TimeSelector timeSelector = new TimeSelector(this, new TimeSelector.ResultHandler() {
-            @Override
-            public void handle(String time) {
-                tv_endTime.setText(time);
-            }
-        }, "2000-01-01 00:00",  TimeUtils.getFormedTime("yyyy") + "-12-31 23:59");
-        timeSelector.setIsLoop(true);
-        timeSelector.show();
+        flag = 2;
+        choseTime();
     }
 
     private void choseStartTime() {
-        TimeSelector timeSelector = new TimeSelector(this, new TimeSelector.ResultHandler() {
-            @Override
-            public void handle(String time) {
-                tv_startTime.setText(time);
-            }
-        }, "2000-01-01 00:00", TimeUtils.getFormedTime("yyyy") + "-12-31 23:59");
-        timeSelector.setIsLoop(true);
-        timeSelector.show();
+        flag = 1;
+        choseTime();
+    }
+
+    TimePickerDialog timePickerDialog;
+
+    private void choseTime() {
+        timePickerDialog.showPPw(listView);
+    }
+
+    @Override
+    public void positiveListener() {
+        String year = timePickerDialog.getYear() + "";
+        String months = timePickerDialog.getMonth() + "";
+        String day = timePickerDialog.getDay() + "";
+        String hour = timePickerDialog.getHour() + "";
+        String minutes = timePickerDialog.getMinute() + "";
+        if (flag == 1) {
+            tv_startTime.setText(year + "-" + months + "-" + day + " " + hour + ":" + minutes);
+        }
+        if (flag == 2) {
+            tv_endTime.setText(year + "-" + months + "-" + day + " " + hour + ":" + minutes);
+        }
+
+    }
+
+    @Override
+    public void negativeListener() {
+
     }
 }

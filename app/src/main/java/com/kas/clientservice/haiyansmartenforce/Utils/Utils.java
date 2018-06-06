@@ -1,20 +1,26 @@
 package com.kas.clientservice.haiyansmartenforce.Utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
 import java.io.Closeable;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static android.content.ContentValues.TAG;
 
 public final class Utils {
     /**
@@ -229,5 +235,30 @@ public final class Utils {
         File file = new File(Environment.getExternalStorageDirectory(), "kas/img/" + System.currentTimeMillis() + ".jpg");
         if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
         return Uri.fromFile(file);
+    }
+    public static String saveImageToLocal(Bitmap bitmap,Context context){
+        File file = new File(Environment.getExternalStorageDirectory(), "kas/img/" + System.currentTimeMillis() + ".jpg");
+        if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (bitmap == null) {
+            ToastUtils.showToast(context, "图片不存在");
+            return null;
+        }
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+        try {
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Log.i(TAG, "saveImageToLocal: "+file.getPath());
+        return file.getPath();
     }
 }

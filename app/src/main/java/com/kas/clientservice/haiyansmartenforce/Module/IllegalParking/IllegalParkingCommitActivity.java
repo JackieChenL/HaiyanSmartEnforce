@@ -33,15 +33,25 @@ import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
 import com.jph.takephoto.compress.CompressConfig;
 import com.jph.takephoto.model.CropOptions;
+import com.kas.clientservice.haiyansmartenforce.API.PaperNumAPI;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
+import com.kas.clientservice.haiyansmartenforce.Base.BaseEntity;
 import com.kas.clientservice.haiyansmartenforce.Entity.CarNumRecgnizeEntity;
+import com.kas.clientservice.haiyansmartenforce.Http.ExceptionHandle;
+import com.kas.clientservice.haiyansmartenforce.Http.MySubscriber;
+import com.kas.clientservice.haiyansmartenforce.Http.RetrofitClient;
+import com.kas.clientservice.haiyansmartenforce.Module.RoadSearch.RoadSearchActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.TianDiTu.TiandiMapActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.Utils.BitmapToBase64;
 import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
 import com.kas.clientservice.haiyansmartenforce.Utils.Dp2pxUtil;
+import com.kas.clientservice.haiyansmartenforce.Utils.SPUtils;
+import com.kas.clientservice.haiyansmartenforce.Utils.TimePickerDialog;
+import com.kas.clientservice.haiyansmartenforce.Utils.TimePickerDialog.TimePickerDialogInterface;
 import com.kas.clientservice.haiyansmartenforce.Utils.TimeUtils;
 import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
+import com.kas.clientservice.haiyansmartenforce.tcsf.util.ToastUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -50,8 +60,6 @@ import net.xprinter.service.XprinterService;
 import net.xprinter.xpinterface.IMyBinder;
 import net.xprinter.xpinterface.ProcessData;
 import net.xprinter.xpinterface.UiExecute;
-
-import org.feezu.liuli.timeselector.TimeSelector;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -63,8 +71,10 @@ import java.util.Set;
 
 import butterknife.BindView;
 import okhttp3.Call;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-public class IllegalParkingCommitActivity extends BaseActivity implements IllegalParkingCommitImgRvAdapter.OnImageAddClickListener, IllegalParkingCommitImgRvAdapter.OnImagelickListener, TakePhoto.TakeResultListener, View.OnClickListener {
+public class IllegalParkingCommitActivity extends BaseActivity implements IllegalParkingCommitImgRvAdapter.OnImageAddClickListener, IllegalParkingCommitImgRvAdapter.OnImagelickListener, TakePhoto.TakeResultListener, View.OnClickListener,TimePickerDialogInterface {
     @BindView(R.id.iv_heaer_back)
     ImageView iv_back;
     @BindView(R.id.sp_province)
@@ -82,7 +92,7 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
     @BindView(R.id.iv_illefalParking_location)
     ImageView iv_location;
     @BindView(R.id.et_illegalparkingcommit_position)
-    EditText et_positon;
+    TextView et_positon;
     @BindView(R.id.tv_illegalParking_code)
     TextView tv_code;
     @BindView(R.id.tv_commitIllegalParking_print)
@@ -93,12 +103,14 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
     ImageView iv_choseTime;
     @BindView(R.id.iv_commitParking_takePhoto)
     ImageView iv_takePhoto;
+    @BindView(R.id.tv_bottom)
+            TextView tv_bottom;
     String[] arr_province;
     String[] arr_abc;
     String longitude = "";
     String latitude = "";
 
-
+    boolean isServiceConnected =false;
     List<Bitmap> arr_image;
     IllegalParkingCommitImgRvAdapter adapter;
     TakePhoto takePhoto;
@@ -110,12 +122,15 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
     String province = "浙";
     String A2Z = "F";
     Uri uri;
+    boolean isNumGot = false;
+    private String roadId;
 
     IMyBinder binder;
     ServiceConnection conn;
     BluetoothDevice device;
     private boolean isConnected = false;
-
+    TimePickerDialog timePickerDialog;
+    String roadName = "";
     //    String time;
 //    String position;
 //    String carNum;
@@ -156,9 +171,20 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
 //        Log.i(TAG, "onActivityResult: "+data.toString());
         Log.i(TAG, "onActivityResult: " + requestCode + "  " + resultCode);
         if (requestCode == Constants.RESULTCODE_TIANDITU) {
-            longitude = data.getStringExtra("Longitude");
-            latitude = data.getStringExtra("Latitude");
+            if (data != null) {
+                longitude = data.getStringExtra("Longitude");
+                latitude = data.getStringExtra("Latitude");
+            }
             Log.i(TAG, "onActivityResult: " + longitude + "  " + latitude);
+        }
+        if (requestCode == Constants.RESULTCODE_ROAD) {
+            if (data != null) {
+                et_positon.setText(data.getStringExtra("Road"));
+                roadId = data.getStringExtra("RoadId");
+                roadName = data.getStringExtra("Road");
+                SPUtils.putCommit(mContext,"Road",data.getStringExtra("Road"));
+                SPUtils.putCommit(mContext,"RoadId",data.getStringExtra("RoadId"));
+            }
         }
     }
 
@@ -167,11 +193,15 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
         super.initResAndListener();
 
         tv_title.setText("违章停车");
-        tv_time.setText(TimeUtils.getFormedTime("yyyy-MM-dd hh:mm"));
+        tv_time.setText(TimeUtils.getFormedTime("yyyy-MM-dd HH:mm"));
         takePhoto = new TakePhotoImpl(this, this);
         arr_province = getResources().getStringArray(R.array.provinceName);
         arr_abc = getResources().getStringArray(R.array.A2Z);
 
+
+        roadName = (String) SPUtils.get(mContext,"Road","");
+        roadId = (String) SPUtils.get(mContext,"RoadId","");
+        et_positon.setText(roadName);
 
         list_province = getResources().getStringArray(R.array.provinceName);
         list_A2Z = getResources().getStringArray(R.array.A2Z);
@@ -190,8 +220,8 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
         sp_A2Z.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.i(TAG, "onItemSelected: "+list_A2Z[i]);
-                Log.i(TAG, "onItemSelected: position="+i);
+                Log.i(TAG, "onItemSelected: " + list_A2Z[i]);
+                Log.i(TAG, "onItemSelected: position=" + i);
                 A2Z = list_A2Z[i];
             }
 
@@ -209,6 +239,9 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
         tv_back.setOnClickListener(this);
         tv_next.setOnClickListener(this);
         iv_takePhoto.setOnClickListener(this);
+        et_positon.setOnClickListener(this);
+        tv_code.setOnClickListener(this);
+        tv_time.setOnClickListener(this);
 
         arr_image = new ArrayList<>();
         adapter = new IllegalParkingCommitImgRvAdapter(arr_image, mContext);
@@ -218,7 +251,37 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
         adapter.setOnImagelickListener(this);
         setRecyclerViewHeight(arr_image.size());
         recyclerView.setAdapter(adapter);
+
+        loadPaperNum();
+        timePickerDialog = new TimePickerDialog(mContext);
     }
+
+    private void loadPaperNum() {
+        RetrofitClient.createService(PaperNumAPI.class)
+                .httpGetPaperNum()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MySubscriber<BaseEntity<PaperNumAPI.EntityBean>>(mContext) {
+                    @Override
+                    public void onError(ExceptionHandle.ResponeThrowable responeThrowable) {
+                        Log.i(TAG, "onError: " + responeThrowable);
+                        ToastUtil.show(mContext,"抄告单获取失败，请点击抄告单号重新获取");
+                        isNumGot = false;
+                    }
+
+                    @Override
+                    public void onNext(BaseEntity<PaperNumAPI.EntityBean> entityBeanBaseEntity) {
+                        if (entityBeanBaseEntity.isState()) {
+                            tv_code.setText(entityBeanBaseEntity.getRtn().getJdsnum());
+                            isNumGot = true;
+                        } else {
+                            ToastUtil.show(mContext,"抄告单获取失败，请点击抄告单号重新获取");
+                            isNumGot = false;
+                        }
+                    }
+                });
+    }
+
 
     @Override
     public void onImageAddClick() {
@@ -240,8 +303,8 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
                 uri = getImageCropUri();
 //                cropOptions = new CropOptions.Builder().setAspectX(1).setAspectY(1).setWithOwnCrop(false).create();
                 //设置压缩参数
-                compressConfig = new CompressConfig.Builder().setMaxSize(50 * 1024).setMaxPixel(400).create();
-                takePhoto.onEnableCompress(compressConfig, true); //设置为需要压缩
+//                compressConfig = new CompressConfig.Builder().setMaxSize(50 * 1024).setMaxPixel(400).create();
+//                takePhoto.onEnableCompress(compressConfig, true); //设置为需要压缩
                 takePhoto.onPickFromCapture(uri);
             }
         }
@@ -317,50 +380,57 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
 //                        Log.i(TAG, "onNext: "+s);
 //                    }
 //                });
-
+        showLoadingDialog();
         OkHttpUtils.post().url("http://jisucpsb.market.alicloudapi.com/licenseplaterecognition/recognize")
                 .addHeader("X-Ca-Key", "24553193")
                 .addHeader("Authorization", "APPCODE 2e476d97d6994a489afb3491b44a2578")
                 .addParams("pic", img).build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-                Log.i(TAG, "onError: "+e.toString());
+                Log.i(TAG, "onError: " + e.toString());
+                ToastUtils.showToast(mContext, "识别失败，请重新识别");
+                dismissLoadingDialog();
             }
 
             @Override
             public void onResponse(final String response, int id) {
-                Log.i(TAG, "onResponse: "+response);
-                CarNumRecgnizeEntity carNumRecgnizeEntity = gson.fromJson(response,CarNumRecgnizeEntity.class);
-                if (carNumRecgnizeEntity.getStatus().equals("0")) {
-                    String carNum = carNumRecgnizeEntity.getResult().getNumber();
-                    et_num.setText(carNum.substring(2));
+                dismissLoadingDialog();
+                Log.i(TAG, "onResponse: " + response);
+                if (response.contains("status")) {
 
-                    String prov = String.valueOf(carNum.charAt(0));
-                    String a2z = String.valueOf(carNum.charAt(1));
+                    CarNumRecgnizeEntity carNumRecgnizeEntity = gson.fromJson(response, CarNumRecgnizeEntity.class);
+                    if (carNumRecgnizeEntity.getStatus().equals("0")) {
+                        String carNum = carNumRecgnizeEntity.getResult().getNumber();
+                        et_num.setText(carNum.substring(2));
 
-                    for (int i = 0; i < list_province.length; i++) {
-                        if (prov.equals(list_province[i])) {
-                            sp_province.setSelection(i);
-                            province = prov;
-                            break;
+                        String prov = String.valueOf(carNum.charAt(0));
+                        String a2z = String.valueOf(carNum.charAt(1));
+
+                        for (int i = 0; i < list_province.length; i++) {
+                            if (prov.equals(list_province[i])) {
+                                sp_province.setSelection(i);
+                                province = prov;
+                                break;
+                            }
                         }
-                    }
-                    for (int i = 0; i < list_A2Z.length; i++) {
-                        if (a2z.equals(list_A2Z[i])) {
-                            sp_A2Z.setSelection(i);
-                            A2Z = a2z;
-                            Log.i(TAG, "onResponse: position="+i);
-                            Log.i(TAG, "onResponse: "+list_A2Z[i]);
-                            Log.i(TAG, "onResponse: "+a2z);
-                            break;
+                        for (int i = 0; i < list_A2Z.length; i++) {
+                            if (a2z.equals(list_A2Z[i])) {
+                                sp_A2Z.setSelection(i);
+                                A2Z = a2z;
+                                Log.i(TAG, "onResponse: position=" + i);
+                                Log.i(TAG, "onResponse: " + list_A2Z[i]);
+                                Log.i(TAG, "onResponse: " + a2z);
+                                break;
+                            }
                         }
-                    }
 
+                    } else {
+                        ToastUtils.showToast(mContext, "识别失败，请重新识别");
+                    }
                 }else {
-                    ToastUtils.showToast(mContext,"识别失败，请重新识别");
+                    ToastUtils.showToast(mContext, "识别失败，请重新识别");
                 }
             }
-
 
 
         });
@@ -375,11 +445,16 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
                     if (et_num.getText().toString().length() == 5) {
 
                         if (!et_positon.getText().toString().equals("")) {
-                            print();
+                            if (isNumGot) {
+
+                                print();
+                            }else {
+                                ToastUtil.show(mContext,"抄告单获取失败，请点击抄告单号重新获取");
+                            }
                         } else {
                             ToastUtils.showToast(mContext, "请输入地点信息");
                         }
-                    }else {
+                    } else {
                         ToastUtils.showToast(mContext, "请输入正确的5位车牌号码");
                     }
                 } else {
@@ -391,6 +466,7 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
             case R.id.iv_heaer_back:
                 finish();
                 break;
+            case R.id.tv_illegalParking_time:
             case R.id.iv_illegalParking_choseTime:
                 choseTime();
                 break;
@@ -398,16 +474,47 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
                 startActivityForResult(new Intent(mContext, TiandiMapActivity.class), Constants.RESULTCODE_TIANDITU);
                 break;
             case R.id.tv_commitIllegalParking_next:
-                Intent intent = new Intent(mContext, IllegalParkingTakePhotoActivity.class);
-                Log.i(TAG, "onNext: " + tv_time.getText().toString());
-                intent.putExtra("Time", tv_time.getText().toString());
-                intent.putExtra("Position", et_positon.getText().toString());
-                intent.putExtra("CarNum", province + A2Z + et_num.getText().toString());
-                intent.putExtra("Code", tv_code.getText().toString());
-                startActivity(intent);
+                if (!et_num.getText().toString().equals("")) {
+                    if (et_num.getText().toString().length() == 5) {
+
+                        if (!et_positon.getText().toString().equals("")) {
+                            if (isNumGot) {
+
+                                Intent intent = new Intent(mContext, IllegalParkingTakePhotoActivity.class);
+                                Log.i(TAG, "onNext: " + tv_time.getText().toString());
+                                intent.putExtra("Time", tv_time.getText().toString());
+                                intent.putExtra("Position", et_positon.getText().toString());
+                                intent.putExtra("CarNum", province + A2Z + et_num.getText().toString());
+                                intent.putExtra("Code", tv_code.getText().toString());
+                                intent.putExtra("RoadId",roadId);
+                                startActivity(intent);
+                            }else {
+                                ToastUtil.show(mContext,"抄告单获取失败，请点击抄告单号重新获取");
+                            }
+                        } else {
+                            ToastUtils.showToast(mContext, "请输入地点信息");
+                        }
+                    } else {
+                        ToastUtils.showToast(mContext, "请输入正确的5位车牌号码");
+                    }
+                } else {
+                    ToastUtils.showToast(mContext, "请输入车牌号");
+                }
+
                 break;
             case R.id.iv_commitParking_takePhoto:
                 takePhoto();
+                break;
+            case R.id.et_illegalparkingcommit_position:
+                startActivityForResult(new Intent(mContext, RoadSearchActivity.class), Constants.RESULTCODE_ROAD);
+                break;
+            case R.id.tv_illegalParking_code:
+                if (!isNumGot) {
+
+                    loadPaperNum();
+                }
+                break;
+
         }
     }
 
@@ -424,7 +531,7 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
             uri = getImageCropUri();
 //                cropOptions = new CropOptions.Builder().setAspectX(1).setAspectY(1).setWithOwnCrop(false).create();
             //设置压缩参数
-            compressConfig = new CompressConfig.Builder().setMaxSize(50 * 1024).setMaxPixel(400).create();
+            compressConfig = new CompressConfig.Builder().setMaxSize(Constants.PIC_MAXSIZE * 1024).setMaxPixel(Constants.COMPRESSRATE).create();
             takePhoto.onEnableCompress(compressConfig, true); //设置为需要压缩
             takePhoto.onPickFromCapture(uri);
 
@@ -447,12 +554,14 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
                     public void onServiceDisconnected(ComponentName name) {
                         // TODO Auto-generated method stub
                         Log.i(TAG, "onServiceDisconnected: ");
+                        isServiceConnected = false;
                     }
 
                     @Override
                     public void onServiceConnected(ComponentName name, IBinder service) {
                         // TODO Auto-generated method stub
                         //绑定成功
+                        isServiceConnected = true;
                         Log.i(TAG, "onServiceConnected: ");
                         binder = (IMyBinder) service;
                         Set<BluetoothDevice> devices = BluetoothAdapter.getDefaultAdapter().getBondedDevices();
@@ -590,8 +699,8 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
         //车牌
         list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
         list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(1));
-        Log.i(TAG, "formAndPrint: "+A2Z);
-        byte[] data_carNum = strTobytes(A2Z + ""+et_num.getText().toString());
+        Log.i(TAG, "formAndPrint: " + A2Z);
+        byte[] data_carNum = strTobytes(A2Z + "" + et_num.getText().toString());
         list.add(data_carNum);
 
         list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
@@ -610,6 +719,7 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
         list.add(data_Position);
 
         list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
+        list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(0));
         byte[] data_content2 = strTobytes("实施的停车行为违反了《道路交通安全法》第56条之规定。请您持本通知书，驾驶证，行驶证在15日内，到");
         list.add(data_content2);
 
@@ -645,7 +755,6 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
         list.add(data_call);
         list.add(DataForSendToPrinterPos58.printAndFeedLine());
         list.add(DataForSendToPrinterPos58.printAndFeedForward(1));
-
 
 
         list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(0));
@@ -705,8 +814,8 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
         //车牌
         list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
         list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(1));
-        Log.i(TAG, "formAndPrint: "+A2Z);
-        byte[] data_carNum = strTobytes(A2Z + ""+et_num.getText().toString());
+        Log.i(TAG, "formAndPrint: " + A2Z);
+        byte[] data_carNum = strTobytes(A2Z + "" + et_num.getText().toString());
         list.add(data_carNum);
 
         list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
@@ -725,6 +834,7 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
         list.add(data_Position);
 
         list.add(DataForSendToPrinterPos58.selectOrCancelChineseCharUnderLineModel(0));
+        list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(0));
         byte[] data_content2 = strTobytes("实施的停车行为违反了《道路交通安全法》第56条之规定。请您持本通知书，驾驶证，行驶证在15日内，到");
         list.add(data_content2);
 
@@ -762,7 +872,6 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
         list.add(DataForSendToPrinterPos58.printAndFeedForward(1));
 
 
-
         list.add(DataForSendToPrinterPos58.selectOrCancelUnderlineModel(0));
         byte[] beizhu = strTobytes("备注：机动车所有人登记的住所地址或联系电话发生变化的，请及时向登记地车管所申请变更备案。");
         list.add(beizhu);
@@ -789,24 +898,32 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
     protected void onStop() {
         super.onStop();
         if (conn != null) {
-            if (isConnected) {
+            if (isServiceConnected) {
                 unbindService(conn);
             }
+
 //            conn.onServiceConnected();
         }
     }
 
 
     private void choseTime() {
-        TimeSelector timeSelector = new TimeSelector(this, new TimeSelector.ResultHandler() {
-            @Override
-            public void handle(String time) {
-                time_chose = time;
-                tv_time.setText(time);
-            }
-        }, TimeUtils.getFormedTime("yyyy-MM-dd") + " 00:00", TimeUtils.getFormedTime("yyyy-MM-dd hh:mm"));
-        timeSelector.setIsLoop(true);
-        timeSelector.show();
+        timePickerDialog.showPPw(tv_bottom);
+    }
+
+    @Override
+    public void positiveListener() {
+        String year = timePickerDialog.getYear()+"";
+        String months = timePickerDialog.getMonth()+"";
+        String day = timePickerDialog.getDay()+"";
+        String hour = timePickerDialog.getHour()+"";
+        String minutes = timePickerDialog.getMinute()+"";
+        tv_time.setText(year+"-"+months+"-"+day+" "+hour+":"+minutes);
+    }
+
+    @Override
+    public void negativeListener() {
+
     }
 
 

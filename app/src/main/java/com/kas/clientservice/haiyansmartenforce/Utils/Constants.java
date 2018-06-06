@@ -14,6 +14,9 @@ public class Constants {
     public static final String LOGINTIME = "LOGINTIME";
     public static int RESULTCODE_TIANDITU = 100;
     public static int RESULTCODE_CASE_TYPE = 101;
+    public static int RESULTCODE_ROAD= 102;
+    public static int COMPRESSRATE = 1500;
+    public static int PIC_MAXSIZE = 100;
 
     public class MainModule{
         public static final int TINGCHESHOUFEI = 1;

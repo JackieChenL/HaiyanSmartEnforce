@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_road_search"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context="com.kas.clientservice.haiyansmartenforce.Module.RoadSearch.RoadSearchActivity">
+
+    <include layout="@layout/header"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/grey_devider"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/tv_roadSearch_btn"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_blue_btn"
+            android:text="搜索"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_margin="5dp"
+            android:layout_alignParentRight="true"/>
+
+        <EditText
+            android:id="@+id/et_roadSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/tv_roadSearch_btn"
+            android:hint="请输入位置关键字"
+            android:textSize="15sp"
+            android:singleLine="true"
+            android:layout_marginLeft="10dp"/>
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/grey_devider"/>
+
+    <ListView
+        android:id="@+id/lv_roadSearch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/grey_devider"
+        android:dividerHeight="1dp"
+        android:padding="5dp"
+        android:scrollbars="none">
+
+    </ListView>
+
+</LinearLayout>

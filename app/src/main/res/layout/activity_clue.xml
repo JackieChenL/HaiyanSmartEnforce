@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_clue"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.kas.clientservice.haiyansmartenforce.Module.CueProcessing.ClueActivity">
+    <include layout="@layout/header"
+    android:id="@+id/header"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:paddingLeft="25dp" >
+
+        <TextView
+            android:id="@+id/tv_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:text="开始时间"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/tv_task_startTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/tv_start"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:hint="点击选择时间"
+            />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="15dp"
+        android:background="#e3e3e3" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:paddingLeft="25dp" >
+
+        <TextView
+            android:id="@+id/tv_ren"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:text="结束时间"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/tv_task_endTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/tv_ren"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:hint="点击选择时间"
+            />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="15dp"
+        android:background="#e3e3e3" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:paddingLeft="25dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true" >
+
+        <TextView
+            android:id="@+id/tv_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:text="线索名称"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/et_task_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/tv_add"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:background="@null"
+            android:singleLine="true"
+            android:hint="请输入线索名称"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:paddingBottom="3dp"
+        >
+        <Button
+            android:id="@+id/bt_task_listQuery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="确定"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/but_case"
+            android:padding="12dp"
+            android:textColor="@color/action_bar_blue"
+            />
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <ListView
+        android:id="@+id/lv_task_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/bg"
+        android:dividerHeight="7dp"
+        android:layout_marginTop="5dp"
+        ></ListView>
+    </ScrollView>
+</LinearLayout>
+

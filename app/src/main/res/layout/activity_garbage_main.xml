@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@drawable/loginbg">
+    <Button
+        android:id="@+id/bt_qrcode"
+        android:layout_width="200dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:layout_marginLeft="20dp"
+        android:text="扫描二维码"
+        android:textSize="30dp"
+        android:background="@drawable/shape_log"
+        android:textColor="@color/white" />
+    <Button
+        android:id="@+id/bt_map"
+        android:layout_width="200dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:text="周       边"
+        android:textSize="30dp"
+        android:background="@drawable/shape_log"
+        android:textColor="@color/white" />
+    <!--<View-->
+    <!--android:id="@+id/ve_main"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--/>-->
+    <Button
+        android:id="@+id/bt_search_code"
+        android:layout_width="200dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="20dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="搜索编号"
+        android:textSize="30dp"
+        android:background="@drawable/shape_log"
+        android:textColor="@color/white"/>
+
+    <Button
+        android:id="@+id/bt_doorplate"
+        android:layout_width="200dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="center"
+        android:text="搜索地址"
+        android:textSize="30dp"
+        android:background="@drawable/shape_log"
+        android:textColor="@color/white"/>
+    <Button
+        android:id="@+id/bt_huzhu"
+        android:layout_width="200dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="center"
+        android:text="搜索户主"
+        android:textSize="30dp"
+        android:background="@drawable/shape_log"
+        android:textColor="@color/white"/>
+
+</LinearLayout>

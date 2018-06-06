@@ -102,6 +102,8 @@ public class CaseTypeActivity extends BaseActivity {
                     intent.putExtra("TypeName",list.get(i).getName());
                     intent.putExtra("BigClass",bigClass);
                     intent.putExtra("SmallClass",list.get(i).getName());
+                    intent.putExtra("SmallCode",list.get(i).getSmallcallCode());
+                    Log.i(TAG, "onItemClick: "+list.get(i).getSmallcallCode());
 //                    intent.putExtra("TypeCode",list.get(i).getCode());
                     Log.i(TAG, "onItemClick: "+list.get(i).getName());
                     setResult(Constants.RESULTCODE_CASE_TYPE,intent);
@@ -112,16 +114,11 @@ public class CaseTypeActivity extends BaseActivity {
     }
 
     private void loadBigClassData() {
-        RetrofitClient.createService(CaseTypeAPI.class)
+        RetrofitClient.createService(CaseTypeAPI.class,"http://117.149.146.131:86/")
                 .httpGetCaseType(RequestUrl.getBig, "1")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new MySubscriber<BaseEntity<List<CaseTypeEntity>>>(mContext) {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
 
                     @Override
                     public void onError(ExceptionHandle.ResponeThrowable responeThrowable) {
@@ -139,17 +136,11 @@ public class CaseTypeActivity extends BaseActivity {
     }
 
     private void loadSmallClassData(String type) {
-        RetrofitClient.createService(CaseTypeAPI.class)
+        RetrofitClient.createService(CaseTypeAPI.class,"http://117.149.146.131:86/")
                 .httpGetCaseTypeSub(RequestUrl.getSmall, type)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new MySubscriber<BaseEntity<List<CaseTypeEntity>>>(mContext) {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-
                     @Override
                     public void onError(ExceptionHandle.ResponeThrowable responeThrowable) {
                         Log.i(TAG, "onError: " + responeThrowable.toString());

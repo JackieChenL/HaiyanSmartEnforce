@@ -22,8 +22,8 @@ public class RetrofitClient {
     //所有的联网地址 统一成https
 //    public static String mBaseUrl = "http://111.1.31.184:90/";
     //海盐
-//    public static String mBaseUrl = "http://111.1.31.210:88/";
-    public static String mBaseUrl = "http://hywx.hnzhzf.top/";
+    public static String mBaseUrl = "http://117.149.146.131/";
+//    public static String mBaseUrl = "http://hywx.hnzhzf.top/";
 //    public static String mBaseUrl = "http://112.13.194.180:82/";
     private static Gson gson = new Gson();
 
@@ -55,6 +55,13 @@ public class RetrofitClient {
     public static <S> S createService(Class<S> serviceClass, String baseUrl) {
         Retrofit retrofit = builder
                 .baseUrl(baseUrl)
+                .client(addLogClient(httpClient).build())
+                .build();
+        return retrofit.create(serviceClass);
+    }
+    public static <S> S createService2(Class<S> serviceClass) {
+        Retrofit retrofit = builder
+                .baseUrl(RequestUrl.baseUrl)
                 .client(addLogClient(httpClient).build())
                 .build();
         return retrofit.create(serviceClass);

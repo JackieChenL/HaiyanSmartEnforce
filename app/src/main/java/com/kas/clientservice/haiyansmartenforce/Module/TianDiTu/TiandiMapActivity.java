@@ -119,7 +119,7 @@ public class TiandiMapActivity extends BaseActivity implements View.OnClickListe
             //得到mMapView的控制权,可以用它控制和驱动平移和缩放
             mMapController = mMapView.getController();
             //设置地图zoom级别
-            mMapController.setZoom(100);
+            mMapController.setZoom(500);
             mMapView.setLogoPos(MapView.LOGO_LEFT_TOP);
             mMyLocation = new MyOverlay(this, mMapView);
             mMapView.addOverlay(mMyLocation);
