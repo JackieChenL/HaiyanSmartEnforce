@@ -14,7 +14,8 @@ import retrofit2.http.POST;
  */
 
 public interface LoginAPI {
-    @POST("system/theme/anjuan/wzlogin.ashx")
+    @POST("system/theme/anjuan/login.ashx")
     @FormUrlEncoded
-    rx.Observable<BaseEntity<UserInfo>> httpLogin(@Field("Opername")String userName, @Field("OperPwd")String paw);
+    rx.Observable<BaseEntity<UserInfo>> httpLogin(@Field("Opername")String userName, @Field("OperPwd")String paw,@Field("versionNumber")String versionNumber,@Field("UniqueTer")String imei);
+
 }

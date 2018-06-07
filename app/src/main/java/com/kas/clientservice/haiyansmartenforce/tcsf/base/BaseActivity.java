@@ -16,7 +16,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
-import com.alibaba.fastjson.JSON;
 import com.kas.clientservice.haiyansmartenforce.MyApplication;
 import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
 import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
@@ -24,7 +23,6 @@ import com.kas.clientservice.haiyansmartenforce.tcsf.intf.PermissonCallBack;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.LogUtil;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.ToastUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,15 +34,15 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected final static String TAG="TAG";
 
   protected  String getZFRYID(){
-     return UserSingleton.USERINFO.getZFRYID();
+     return UserSingleton.USERINFO.getTollCollectorID();
   }
 
   protected  String getOpername(){
      return UserSingleton.getInstance().getUserAccount(aty);
   }
 
-  protected  List<UserInfo.RoadBean> getRoadBeanList(){
-     return UserSingleton.USERINFO.getRoad();
+  protected  List<UserInfo.TollCollectorBean.RoadBean> getRoadBeanList(){
+     return UserSingleton.USERINFO.getTollCollector().getRoad();
   }
 
    protected  interface Pid{

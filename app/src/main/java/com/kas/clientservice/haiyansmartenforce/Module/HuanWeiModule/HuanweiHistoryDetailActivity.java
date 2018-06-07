@@ -85,15 +85,15 @@ public class HuanweiHistoryDetailActivity extends BaseActivity implements View.O
 
         id = getIntent().getStringExtra("id");
         initList();
-        if (UserSingleton.USERINFO.getType().equals("6")) {
+        if (UserSingleton.USERINFO.getSWYTType().equals("6")) {
 
             loadCommitPeople();
         }
-        if (UserSingleton.USERINFO.getType().equals("5")) {
+        if (UserSingleton.USERINFO.getSWYTType().equals("5")) {
             ll_name.setVisibility(View.GONE);
             loadCheckPeople();
         }
-        if (UserSingleton.USERINFO.getType().equals("7")) {
+        if (UserSingleton.USERINFO.getSWYTType().equals("7")) {
 
             loadHandlePeople();
         }
@@ -101,7 +101,7 @@ public class HuanweiHistoryDetailActivity extends BaseActivity implements View.O
 
     private void loadHandlePeople() {
         RetrofitClient.createService(HuanweiAPI.class)
-                .httpGetHandlePeopleHistoryDetai(UserSingleton.USERINFO.getZFRYID(),id)
+                .httpGetHandlePeopleHistoryDetai(UserSingleton.USERINFO.getChangeNameID(),id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new MySubscriber<BaseEntity<HuanweiAPI.HistoryDetail_checkEntity>>(mContext) {
@@ -150,7 +150,7 @@ public class HuanweiHistoryDetailActivity extends BaseActivity implements View.O
 
     private void loadCheckPeople() {
         RetrofitClient.createService(HuanweiAPI.class)
-                .httpGetCheckPeopleHistoryDetai(UserSingleton.USERINFO.getZFRYID(),id)
+                .httpGetCheckPeopleHistoryDetai(UserSingleton.USERINFO.getReviewNameID(),id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new MySubscriber<BaseEntity<HuanweiAPI.HistoryDetail_checkEntity>>(mContext) {
@@ -199,7 +199,7 @@ public class HuanweiHistoryDetailActivity extends BaseActivity implements View.O
 
     private void loadCommitPeople() {
         RetrofitClient.createService(HuanweiAPI.class)
-                .httpGetCommitPeopleHistoryDetai(UserSingleton.USERINFO.getZFRYID(),id)
+                .httpGetCommitPeopleHistoryDetai(UserSingleton.USERINFO.getCheckNameID(),id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new MySubscriber<BaseEntity<HuanweiAPI.HistoryDetail_commitEntity>>(mContext) {

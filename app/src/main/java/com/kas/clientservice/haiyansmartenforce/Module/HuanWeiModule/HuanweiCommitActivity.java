@@ -303,7 +303,7 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
     private void commit() {
         Log.i(TAG, "commit: "+BitmapToBase64.bitmapListToBase64(arr_image));
         RetrofitClient.createService(HuanweiAPI.class)
-                .httpHuanweiCommit(UserSingleton.USERINFO.getZFRYID(),
+                .httpHuanweiCommit(UserSingleton.USERINFO.getCheckNameID(),
                         contentId,
                         roadName,
                         formLocation(longitude,latitude),

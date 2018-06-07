@@ -22,5 +22,6 @@ public class Constants {
         public static final int TINGCHESHOUFEI = 1;
         public static final int WEIZHANGTINGCHE = 2;
         public static final int ANJIANCHAXUN = 3;
+        public static final int GABAGE = 4;
     }
 }

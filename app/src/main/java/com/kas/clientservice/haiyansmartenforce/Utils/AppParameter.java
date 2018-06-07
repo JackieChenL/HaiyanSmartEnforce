@@ -3,6 +3,7 @@ package com.kas.clientservice.haiyansmartenforce.Utils;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.telephony.TelephonyManager;
 
 /**
  * Created by JackieChen on 2017/10/16.
@@ -36,5 +37,12 @@ public class AppParameter {
     }
     public static String getApplicationId(Context mContext){
        return mContext.getApplicationInfo().processName;
+    }
+
+    public static String getIMEI(Context context) {
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
+        String imei = telephonyManager.getDeviceId();
+
+        return imei;
     }
 }

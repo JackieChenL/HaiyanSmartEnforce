@@ -19,6 +19,7 @@ import com.kas.clientservice.haiyansmartenforce.Module.Register.RegisterActivity
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
 import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
+import com.kas.clientservice.haiyansmartenforce.Utils.AppParameter;
 import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
 import com.kas.clientservice.haiyansmartenforce.Utils.SPBuild;
 import com.kas.clientservice.haiyansmartenforce.Utils.SPUtils;
@@ -103,7 +104,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         if (!et_userName.getText().toString().equals("")) {
             if (!et_psw.getText().toString().equals("")) {
                 RetrofitClient.createService(LoginAPI.class)
-                        .httpLogin(et_userName.getText().toString(), et_psw.getText().toString())
+                        .httpLogin(et_userName.getText().toString(), et_psw.getText().toString(), AppParameter.getVersionCode(mContext)+"",AppParameter.getIMEI(mContext))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new MySubscriber<BaseEntity<UserInfo>>(mContext) {

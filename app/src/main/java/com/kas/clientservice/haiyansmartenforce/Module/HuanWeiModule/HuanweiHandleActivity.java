@@ -87,7 +87,7 @@ public class HuanweiHandleActivity extends BaseActivity implements View.OnClickL
     }
     private void loadData() {
         RetrofitClient.createService(HuanweiAPI.class)
-                .httpHandleDetail(UserSingleton.USERINFO.getZFRYID(), id)
+                .httpHandleDetail(UserSingleton.USERINFO.getChangeNameID(), id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new MySubscriber<BaseEntity<HuanweiHandleDetailEntity>>(mContext) {

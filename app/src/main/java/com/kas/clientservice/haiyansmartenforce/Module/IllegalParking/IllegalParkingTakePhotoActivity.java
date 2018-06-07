@@ -244,7 +244,7 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
 //        Log.i(TAG, "commit: ZFRYID=" + UserSingleton.USERINFO.getZFRYID() + " WFtime=" + time + " WFaddress=" + position + " WFAddressZB=" + roadId + " Carnum=" + carNum
 //                + " Img=" + bitmap_string + " UpType=" + "enterprise" + " jdsnum=" + code);
         OkHttpUtils.post().url(RetrofitClient.mBaseUrl + "system/theme/anjuan/WFHandler.ashx")
-                .addParams("ZFRYID", UserSingleton.USERINFO.getZFRYID())
+                .addParams("ZFRYID", UserSingleton.USERINFO.getLawEnforcementOfficialsId())
                 .addParams("WFtime", time + ":00")
                 .addParams("WFaddress", position)
                 .addParams("WFAddressZB", roadId)

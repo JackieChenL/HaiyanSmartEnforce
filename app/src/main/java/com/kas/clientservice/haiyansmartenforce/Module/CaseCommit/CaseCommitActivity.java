@@ -321,7 +321,7 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
         RetrofitClient.createService(CaseCommit.class,"http://117.149.146.131:86/")
                 .httpCaseCommit("zmninsertproject",
                         "1",
-                        UserSingleton.USERINFO.getZFRYID(),
+                        UserSingleton.USERINFO.getPublicUsersID(),
                         bigClass,
                         smallCode,
                         gridcode+"",

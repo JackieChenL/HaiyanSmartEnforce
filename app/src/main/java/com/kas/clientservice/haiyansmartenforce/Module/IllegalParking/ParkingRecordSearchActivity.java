@@ -137,7 +137,7 @@ public class ParkingRecordSearchActivity extends BaseActivity implements View.On
 
     private void submit() {
         RetrofitClient.createService(ParkingRecordSearchAPI.class)
-                .httpParkingSearch(UserSingleton.USERINFO.getZFRYID(),
+                .httpParkingSearch(UserSingleton.USERINFO.getLawEnforcementOfficialsId(),
                         province + abc + et_num.getText().toString(),
                         tv_startTime.getText().toString(),
                         tv_endTime.getText().toString(),

@@ -104,8 +104,8 @@
         <activity android:name=".Module.Garbage.RankActivity" />
         <activity android:name=".Module.Garbage.ScanActivity" />
         <activity android:name=".Module.CueProcessing.ClueActivity" />
-        <activity android:name=".Module.Laws.LawsActivity"></activity>
-        <!--</activity>-->
+        <activity android:name=".Module.Laws.LawsActivity" />
+        <!-- </activity> -->
 
         <activity android:name=".Module.RoadSearch.RoadSearchActivity" />
         <activity android:name=".Module.HuanWeiModule.HuanWeiEntryActivity" />
@@ -117,7 +117,8 @@
         <activity android:name=".Module.HuanWeiModule.HuanweiHistoryActivity" />
         <activity android:name=".Module.HuanWeiModule.HuanweiHistoryDetailActivity" />
         <activity android:name=".Module.CaseCommit.CaseSearchActivity" />
-        <activity android:name=".Module.CaseCommit.CaseDetailActivity"></activity>
+        <activity android:name=".Module.CaseCommit.CaseDetailActivity" />
+        <activity android:name=".Module.XieTong.XieTongActivity"></activity>
     </application>
 
 </manifest>

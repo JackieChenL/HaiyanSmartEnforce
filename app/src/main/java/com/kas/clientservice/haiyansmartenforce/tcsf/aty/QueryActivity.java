@@ -14,10 +14,8 @@ import android.widget.TextView;
 
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
-import com.kas.clientservice.haiyansmartenforce.MyApplication;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
-import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
 import com.kas.clientservice.haiyansmartenforce.tcsf.adapter.ExitListAdapter;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.HTTP_HOST;
@@ -116,7 +114,7 @@ public class QueryActivity extends BaseActivity implements AdapterView.OnItemSel
                 doQueryList();
                 break;
             case R.id.tev_pwbh:
-                List<UserInfo.RoadBean> roadBeanList = getRoadBeanList();
+                List<UserInfo.TollCollectorBean.RoadBean> roadBeanList = getRoadBeanList();
                 if (roadBeanList==null||roadBeanList.size()==0){
                     show("获取车位列表为空");
                 }else{

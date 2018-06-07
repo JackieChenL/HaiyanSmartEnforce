@@ -36,7 +36,7 @@ public class CaseDetailActivity extends BaseActivity {
     @BindView(R.id.iv_heaer_back)
     ImageView iv_back;
     @BindView(R.id.rv_caseDetail)
-            RecyclerView recyclerView;
+    RecyclerView recyclerView;
 
     CaseSearchEntity caseSearchEntity;
     @Override
