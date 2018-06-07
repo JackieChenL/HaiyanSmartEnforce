@@ -8,11 +8,12 @@ public class HTTP_HOST {
     private static final String URL_BASE="http://hywx.hnzhzf.top/system/theme/credit/";
     /**停车**/
     public static final String URL_PARK = URL_BASE+"TCHandler.ashx";
-   /**泊位占用列表 type:{2:全部 1：占用:0：空闲}**/
+    /**泊位占用列表 type:{2:全部 1：占用:0：空闲}**/
     public static final String URL_PARK_LIST = URL_BASE+"YZYBWHlist.ashx";
     /**离开**/
     public static final String URL_PARK_EXIT =URL_BASE+ "LK.ashx";
     /**停车收费选择微信支付扫描后上传服务器扣费**/
+    //auth_code:{-1:现金正常；-2：异常；其他微信授权码}
     public static final String URL_WXPAY =URL_BASE+ "wxpay.ashx";
 
 

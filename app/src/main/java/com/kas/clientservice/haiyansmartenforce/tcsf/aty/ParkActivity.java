@@ -10,6 +10,8 @@ import android.provider.MediaStore;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.ReplacementTransformationMethod;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,6 +31,7 @@ import com.kas.clientservice.haiyansmartenforce.tcsf.base.NetResultBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.bean.CpBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.bean.PicBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.bean.TcListBeanResult;
+import com.kas.clientservice.haiyansmartenforce.tcsf.dialog.WarningListDialog;
 import com.kas.clientservice.haiyansmartenforce.tcsf.impl.NoFastClickLisener;
 import com.kas.clientservice.haiyansmartenforce.tcsf.intf.BeanCallBack;
 import com.kas.clientservice.haiyansmartenforce.tcsf.intf.PermissonCallBack;
@@ -78,6 +81,8 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
 
 
     private String cphm, trsj, pwbh;
+
+    private boolean isNeedQuery = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +139,7 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
         sp_province.setOnItemSelectedListener(this);
         sp_ABC.setOnItemSelectedListener(this);
         et_cp_num.setTransformationMethod(new UpperCaseTransform());
+        et_cp_num.addTextChangedListener(watcher);
         changeState(true, tev_print, tev_submit);
     }
 
@@ -149,6 +155,7 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
         tev_trsj.setText(DateUtil.currentTime());
         sp_province.setSelection(0);
         sp_ABC.setSelection(0);
+
 
     }
 
@@ -231,12 +238,14 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
         et_cp_num.setText(num);
         for (int i = 0; i < arr_province.length; i++) {
             if (arr_province[i].equals(province)) {
+                isNeedQuery = false;
                 sp_province.setSelection(i);
                 break;
             }
         }
         for (int i = 0; i < arr_abc.length; i++) {
             if (arr_abc[i].equals(abc)) {
+                isNeedQuery = false;
                 sp_ABC.setSelection(i);
                 break;
             }
@@ -270,7 +279,10 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
                 break;
         }
 
-
+        if (isNeedQuery) {
+            watcher.afterTextChanged(et_cp_num.getText());
+        }
+        isNeedQuery = true;
     }
 
     @Override
@@ -426,18 +438,18 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
                     cphm = province + A2Z + et_cp_num.getText().toString().trim();
                     trsj = tev_trsj.getText().toString().trim();
                     pwbh = tev_pwbh.getText().toString().trim();
-                    String pic = getBase64bmpStr();
-                    if (cphm.length()!=7){
+                    if (cphm.length() != 7) {
                         show("车牌号码长度错误！");
-                    }else  if (!(trsj.length() == 0 || pwbh.length() == 0 || pic.length() == 0)) {
+                    } else if (!(trsj.length() == 0 || pwbh.length() == 0)) {
+                        String pic = getBase64bmpStr();
                         final String road = pwbh.split("--")[0];
                         final String berthName = pwbh.split("--")[1];
-
                         OkHttpUtils.post().url(HTTP_HOST.URL_PARK)
                                 .addParams("UCarnum", cphm).addParams("UpType", "enterprise")
                                 .addParams("Road", road).addParams("StartTime", trsj)
                                 .addParams("Img", pic).addParams("BerthName", berthName)
-                                .addParams("SBYID", getZFRYID()).build().execute(new BeanCallBack(aty, "数据提交中") {
+                                .addParams("SBYID", getZFRYID())
+                                .build().execute(new BeanCallBack(aty, "数据提交中") {
 
                             @Override
                             public void handleBeanResult(NetResultBean bean) {
@@ -453,7 +465,7 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
                         });
 
                     } else {
-                        show("数据不完整,注意至少要提交一张图片哦！");
+                        show("数据不完整！");
                     }
                     break;
             }
@@ -462,5 +474,84 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
 
     };
 
+    TextWatcher watcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String cphm = province + A2Z + s.toString().trim();
+            if (cphm.length() == 7) {
+                OkHttpUtils.post().url(HTTP_HOST.URL_PARK_LIST)
+                        .addParams("Opername", getOpername())
+                        .addParams("type", "1")
+                        .addParams("carnum", cphm)
+                        .build().execute(new BeanCallBack(aty, null) {
+                    @Override
+                    public void handleBeanResult(NetResultBean bean) {
+                        if (bean.State && bean.total > 0) {
+                            //异常数据存在，只修改一条数据
+                            final List<TcListBeanResult> list = bean.getResultBeanList(TcListBeanResult.class);
+                            new WarningListDialog(aty, list, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    erroExit(list.get(0));
+                                }
+                            }).show();
+                        }
+                    }
+                });
+            }
+        }
+    };
+
+    //异常离开:不处理具体返回值，不提示
+    private void erroExitPayMoney(TcListBeanResult bean) {
+        OkHttpUtils.post().url(HTTP_HOST.URL_WXPAY)
+                .addParams("auth_code", "-2")
+                .addParams("body", bean.carnum)
+                .addParams("fee", "0")
+                .addParams("btid", bean.btid + "")
+                .build().execute(new BeanCallBack(aty, null) {
+
+            @Override
+            public void handleBeanResult(NetResultBean bean) {
+            }
+        });
+    }
+
+
+    private void erroExit(final TcListBeanResult bean) {
+        String endTime = DateUtil.currentTime();
+        String lengthTime = DateUtil.getTimeLenth(endTime, bean.starttime);
+        long cost = DateUtil.calMoney(endTime, bean.starttime);
+        OkHttpUtils.post().url(HTTP_HOST.URL_PARK_EXIT)
+                .addParams("Opername", getOpername())
+                .addParams("type", "1")
+                .addParams("stoptime", endTime)
+                .addParams("money", cost + "元")
+                .addParams("btid", bean.btid + "")
+                .addParams("LengthTime", lengthTime)
+                .build().execute(new BeanCallBack(aty, null) {
+
+            @Override
+            public void handleBeanResult(NetResultBean result) {
+                if (result.State) {
+                    erroExitPayMoney(bean);
+                }
+
+            }
+
+        });
+
+
+    }
 
 }

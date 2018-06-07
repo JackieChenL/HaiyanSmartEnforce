@@ -60,7 +60,9 @@ public class ExitListActivity extends BaseActivity implements View.OnClickListen
     private void doNetworkList() {
         OkHttpUtils.post().url(HTTP_HOST.URL_PARK_LIST)
                 .addParams("Opername",getOpername())
-                .addParams("type","1").build().execute(new BeanCallBack(aty, null) {
+                .addParams("type","1")
+                .addParams("carnum","")
+                .build().execute(new BeanCallBack(aty, null) {
             @Override
             public void handleBeanResult(NetResultBean bean) {
 
