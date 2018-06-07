@@ -227,7 +227,7 @@ public class HuanweiHandleCommitActivity extends BaseActivity implements TakePho
     private void commit() {
         Log.i(TAG, "commit: "+type);
         RetrofitClient.createService(HuanweiAPI.class)
-                .httpHandleCommit(UserSingleton.USERINFO.getZFRYID(),
+                .httpHandleCommit(UserSingleton.USERINFO.getChangeNameID(),
                         id,
                         editText.getText().toString(),
                         "enterprise",

@@ -38,6 +38,8 @@ public class HuanweiHistoryActivity extends BaseActivity implements View.OnClick
 
     List<HuanweiListEntity.BoardBean> list;
     HuanweiListAdapter huanweiListAdapter;
+    int type = 0;
+    String id = "";
 
     @Override
     protected int getLayoutId() {
@@ -56,6 +58,20 @@ public class HuanweiHistoryActivity extends BaseActivity implements View.OnClick
         iv_back.setOnClickListener(this);
         iv_fresh.setOnClickListener(this);
         iv_fresh.setVisibility(View.VISIBLE);
+        tv_title.setText("历史记录");
+        type = getIntent().getIntExtra("type",0);
+        Log.i(TAG, "initResAndListener: "+type);
+        switch (type) {
+            case 5:
+                id = UserSingleton.USERINFO.getReviewNameID();
+                break;
+            case 6:
+                id = UserSingleton.USERINFO.getCheckNameID();
+                break;
+            case 7:
+                id = UserSingleton.USERINFO.getChangeNameID();
+                break;
+        }
         initListView();
         loadData();
 
@@ -79,7 +95,7 @@ public class HuanweiHistoryActivity extends BaseActivity implements View.OnClick
     }
     private void loadData() {
         RetrofitClient.createService(HuanweiAPI.class)
-                .httpGetHistoryList(UserSingleton.USERINFO.getZFRYID())
+                .httpGetHistoryList(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new MySubscriber<BaseEntity<HuanweiListEntity>>(mContext) {

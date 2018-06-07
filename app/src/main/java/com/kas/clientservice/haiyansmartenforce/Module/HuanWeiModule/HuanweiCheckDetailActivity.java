@@ -119,7 +119,7 @@ public class HuanweiCheckDetailActivity extends BaseActivity implements View.OnC
 
     private void loadData() {
         RetrofitClient.createService(HuanweiAPI.class)
-                .httpGetCheckDetail(UserSingleton.USERINFO.getZFRYID(), id)
+                .httpGetCheckDetail(UserSingleton.USERINFO.getReviewNameID(), id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new MySubscriber<BaseEntity<HuanweiCheckDetailEntity>>(mContext) {

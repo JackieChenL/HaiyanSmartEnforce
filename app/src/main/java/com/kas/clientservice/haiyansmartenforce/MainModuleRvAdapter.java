@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
 import com.kas.clientservice.haiyansmartenforce.Utils.Dp2pxUtil;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -25,10 +24,10 @@ import java.util.List;
 public class MainModuleRvAdapter extends RecyclerView.Adapter<MainModuleRvAdapter.ViewHolder>{
 
     Context mContext;
-    List<UserInfo.BoardBean> list;
+    List<UserInfo.UIBean> list;
     LayoutInflater inflater;
 
-    public MainModuleRvAdapter(List<UserInfo.BoardBean> list, Context mContext) {
+    public MainModuleRvAdapter(List<UserInfo.UIBean> list, Context mContext) {
         this.list = list;
         this.mContext = mContext;
         inflater = LayoutInflater.from(mContext);

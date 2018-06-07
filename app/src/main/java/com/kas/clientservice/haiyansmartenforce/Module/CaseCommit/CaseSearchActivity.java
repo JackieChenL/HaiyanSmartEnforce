@@ -110,10 +110,10 @@ public class CaseSearchActivity extends BaseActivity implements View.OnClickList
     private void submit() {
         showLoadingDialog();
 
-        Log.i(TAG, "submit: id="+UserSingleton.USERINFO.getZFRYID()+"  "+tv_startTime.getText().toString()+"  "+tv_endTime.getText().toString()+" code="+et_code.getText().toString());
+        Log.i(TAG, "submit: id="+UserSingleton.USERINFO.getPublicUsersID()+"  "+tv_startTime.getText().toString()+"  "+tv_endTime.getText().toString()+" code="+et_code.getText().toString());
         OkHttpUtils.post().url(RequestUrl.baseUrl)
                 .addParams("optionName", "zmnsearchproject")
-                .addParams("userid", UserSingleton.USERINFO.getZFRYID())
+                .addParams("userid", UserSingleton.USERINFO.getPublicUsersID())
                 .addParams("projcode", "")
                 .addParams("starttime", tv_startTime.getText().toString())
                 .addParams("endtime", tv_endTime.getText().toString())

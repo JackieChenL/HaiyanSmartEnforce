@@ -39,11 +39,20 @@ public class HuanWeiEntryActivity extends BaseActivity implements View.OnClickLi
         super.initResAndListener();
 
 
-        type = UserSingleton.USERINFO.getType();
+        if (UserSingleton.USERINFO.getReviewName()!=null&&!UserSingleton.USERINFO.getReviewName().getType().equals("0")) {
+            type = UserSingleton.USERINFO.getReviewName().getType();
+        }
+        if (UserSingleton.USERINFO.getChangeName()!=null&&!UserSingleton.USERINFO.getChangeName().getType().equals("0")) {
+            type = UserSingleton.USERINFO.getChangeName().getType();
+        }
+        if (UserSingleton.USERINFO.getCheckName()!=null&&!UserSingleton.USERINFO.getCheckName().getType().equals("0")) {
+            type = UserSingleton.USERINFO.getCheckName().getType();
+        }
         Log.i(TAG, "initResAndListener: "+type);
         if (type.equals("5")) {
             tv_handle.setText("审核");
             typeId = 5;
+            type = UserSingleton.USERINFO.getReviewName().getType();
         }else if (type.equals("6")){
             tv_handle.setText("检查录入");
             typeId = 6;
@@ -82,7 +91,9 @@ public class HuanWeiEntryActivity extends BaseActivity implements View.OnClickLi
                 }
                 break;
             case R.id.tv_huanwei_search:
-                startActivity(new Intent(mContext,HuanweiHistoryActivity.class));
+                Intent intent = new Intent(mContext,HuanweiHistoryActivity.class);
+                intent.putExtra("type",typeId);
+                startActivity(intent);
                 break;
 
         }

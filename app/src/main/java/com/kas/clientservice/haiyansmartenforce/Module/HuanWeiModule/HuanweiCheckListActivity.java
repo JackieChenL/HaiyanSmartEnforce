@@ -37,6 +37,7 @@ public class HuanweiCheckListActivity extends BaseActivity implements View.OnCli
 
     List<HuanweiListEntity.BoardBean> list;
     HuanweiListAdapter huanweiListAdapter;
+    String id = "";
     int type;
     @Override
     protected int getLayoutId() {
@@ -55,8 +56,10 @@ public class HuanweiCheckListActivity extends BaseActivity implements View.OnCli
         type = getIntent().getIntExtra("Type",0);
         if (type == 5) {
             tv_title.setText("审核");
+            id = UserSingleton.USERINFO.getReviewNameID();
         }else if (type == 7){
             tv_title.setText("整改");
+            id = UserSingleton.USERINFO.getChangeNameID();
         }
         iv_back.setOnClickListener(this);
         iv_fresh.setOnClickListener(this);
@@ -96,7 +99,7 @@ public class HuanweiCheckListActivity extends BaseActivity implements View.OnCli
 
     private void loadData() {
         RetrofitClient.createService(HuanweiAPI.class)
-                .httpGetCheckList(UserSingleton.USERINFO.getZFRYID())
+                .httpGetCheckList(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new MySubscriber<BaseEntity<HuanweiListEntity>>(mContext) {

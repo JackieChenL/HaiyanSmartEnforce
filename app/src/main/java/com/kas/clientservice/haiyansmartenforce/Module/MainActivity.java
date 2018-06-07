@@ -16,10 +16,12 @@ import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.MainModuleRvAdapter;
 import com.kas.clientservice.haiyansmartenforce.Module.CaseCommit.CaseCommitActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.CaseCommit.CaseSearchActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.Garbage.GarbageMainActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.History.HistoryActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.HuanWeiModule.HuanWeiEntryActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ParkingRecordSearchActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.XieTong.XieTongActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
 import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
@@ -57,7 +59,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     ArrayList<String> list_detail;
     ArrayList<String> list_imageURL;
     List<String> list_headline;
-    List<UserInfo.BoardBean> list_module;
+    List<UserInfo.UIBean> list_module;
     private List<View> views = new ArrayList<>();
 
     @Override
@@ -98,7 +100,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         recyclerView.setAdapter(adapter);
 
         list_module.clear();
-        list_module.addAll(UserSingleton.USERINFO.getBoard());
+        list_module.addAll(UserSingleton.USERINFO.getUI());
         adapter.notifyDataSetChanged();
         setRecyclerViewHeight(list_module.size());
 
@@ -211,6 +213,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case Constants.MainModule.ANJIANCHAXUN:
                 startActivity(new Intent(mContext, ParkingRecordSearchActivity.class));
                 break;
+            case Constants.MainModule.GABAGE:
+                startActivity(new Intent(mContext, GarbageMainActivity.class));
+                break;
             case 5:
                  intent = new Intent(mContext, HuanWeiEntryActivity.class);
 //                intent.putExtra("TypeId",UserSingleton.USERINFO.getType());
@@ -223,6 +228,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case 7:
                 intent = new Intent(mContext,CaseSearchActivity.class);
                 startActivity(intent);
+                break;
+            case 18:
+                startActivity(new Intent(mContext, XieTongActivity.class));
                 break;
         }
     }
