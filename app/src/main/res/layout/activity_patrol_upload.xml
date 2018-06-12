@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/header" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView style="@style/divider"
+                android:layout_height="15dp"/>
+
+
+            <LinearLayout style="@style/item_style_lin">
+
+                <TextView
+                    style="@style/item_style_l"
+                    android:text="收费员:" />
+
+                <TextView
+                    android:id="@+id/tev_name"
+                    style="@style/item_center_style" />
+
+
+            </LinearLayout>
+
+            <TextView style="@style/divider" />
+
+
+            <LinearLayout style="@style/item_style_lin">
+
+                <TextView
+                    style="@style/item_style_l"
+                    android:text="时间: " />
+
+                <TextView
+                    android:id="@+id/tev_time"
+                    style="@style/item_center_style" />
+
+
+            </LinearLayout>
+
+            <TextView style="@style/divider" />
+
+
+            <LinearLayout style="@style/item_style_lin">
+
+                <TextView
+                    style="@style/item_style_l"
+                    android:text="督查问题:" />
+
+                <EditText
+                    android:id="@+id/edt_describe"
+                    style="@style/item_center_style"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/shape_black_border"
+                    android:hint="请输入现场督查情况"
+                    android:minLines="5"
+                    android:padding="3dp"
+                    android:textSize="15sp"
+                     />
+
+
+            </LinearLayout>
+
+            <TextView style="@style/divider" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:padding="10dp"
+                >
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+    </ScrollView>
+    <include layout="@layout/footer_common"/>
+</LinearLayout>
+

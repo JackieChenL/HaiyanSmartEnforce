@@ -112,11 +112,17 @@
 
                 </LinearLayout>
 
-                <LinearLayout style="@style/lin_tcsf">
+                <LinearLayout
+                    android:id="@+id/llt_check"
 
-                    <ImageView style="@style/imv_tcsf" />
+                    style="@style/lin_tcsf">
 
-                    <TextView style="@style/tev_tcsf" />
+                    <ImageView
+                        style="@style/imv_tcsf" />
+
+                    <TextView
+                        style="@style/tev_tcsf"
+                        android:text="对账"/>
 
                 </LinearLayout>
             </LinearLayout>

@@ -14,15 +14,22 @@ import android.widget.TextView;
 
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
+import com.bigkoo.pickerview.TimePickerView;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
 import com.kas.clientservice.haiyansmartenforce.tcsf.adapter.ExitListAdapter;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.HTTP_HOST;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.NetResultBean;
+import com.kas.clientservice.haiyansmartenforce.tcsf.base.TitleActivity;
 import com.kas.clientservice.haiyansmartenforce.tcsf.bean.TcListBeanResult;
 import com.kas.clientservice.haiyansmartenforce.tcsf.intf.BeanCallBack;
+import com.kas.clientservice.haiyansmartenforce.tcsf.util.DateUtil;
+import com.kas.clientservice.haiyansmartenforce.tcsf.util.TimePickerUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
+
+import org.feezu.liuli.timeselector.Utils.TextUtil;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +37,9 @@ import java.util.List;
 /**
  * 查询页面
  */
-public class QueryActivity extends BaseActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+public class QueryActivity extends TitleActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
     private Spinner sp_province, sp_ABC;
     private EditText et_cp_num;
-    private ImageView iv_heaer_back;
-    private TextView tv_header_title;
     private TextView tev_query;
     private RecyclerView rv;
 
@@ -52,36 +57,7 @@ public class QueryActivity extends BaseActivity implements AdapterView.OnItemSel
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_query);
-        iv_heaer_back = (ImageView) findViewById(R.id.iv_heaer_back);
-        sp_province = (Spinner) findViewById(R.id.sp_province);
-        sp_ABC = (Spinner) findViewById(R.id.sp_ABC);
-        et_cp_num = (EditText) findViewById(R.id.et_cp_num);
-        tv_header_title = (TextView) findViewById(R.id.tv_header_title);
-        tev_query = (TextView) findViewById(R.id.tev_query);
-        tev_pwbh = (TextView) findViewById(R.id.tev_pwbh);
-        rv = (RecyclerView) findViewById(R.id.rv);
-        iv_heaer_back.setOnClickListener(this);
-        tev_pwbh.setOnClickListener(this);
-        sp_province.setOnItemSelectedListener(this);
-        sp_ABC.setOnItemSelectedListener(this);
-        et_cp_num.setTransformationMethod(new UpperCaseTransform());
-        tev_query.setOnClickListener(this);
-        tv_header_title.setText("历史查询");
-        arr_province = getResources().getStringArray(R.array.provinceName);
-        arr_abc = getResources().getStringArray(R.array.A2Z);
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(aty);
-        rv.setLayoutManager(layoutManager);
-        adapter = new ExitListAdapter(list, aty);
-        adapter.setOnItemClickListener(new ExitListAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int p) {
-                startActivity(new Intent(aty, HistoryActivity.class).putExtra("TcListBeanResult", list.get(p)));
-
-
-            }
-        });
-        rv.setAdapter(adapter);
     }
 
 
@@ -107,17 +83,14 @@ public class QueryActivity extends BaseActivity implements AdapterView.OnItemSel
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_heaer_back:
-                finish();
-                break;
             case R.id.tev_query:
                 doQueryList();
                 break;
             case R.id.tev_pwbh:
                 List<UserInfo.TollCollectorBean.RoadBean> roadBeanList = getRoadBeanList();
-                if (roadBeanList==null||roadBeanList.size()==0){
+                if (roadBeanList == null || roadBeanList.size() == 0) {
                     show("获取车位列表为空");
-                }else{
+                } else {
                     arr = new String[roadBeanList.size()];
                     for (int i = 0; i < roadBeanList.size(); i++) {
                         arr[i] = roadBeanList.get(i).Berthname;
@@ -146,7 +119,7 @@ public class QueryActivity extends BaseActivity implements AdapterView.OnItemSel
         String pwbh = tev_pwbh.getText().toString();
         String carNumber = province + A2Z + cp;
         OkHttpUtils.post().url(HTTP_HOST.URL_PARK_LIST)
-                .addParams("Opername",getOpername())
+                .addParams("Opername", getOpername())
                 .addParams("type", "2")
                 .addParams("Berthname", pwbh)
                 .addParams("carnum", carNumber)
@@ -164,13 +137,54 @@ public class QueryActivity extends BaseActivity implements AdapterView.OnItemSel
             if (bean.total > 0) {
                 list.addAll(bean.getResultBeanList(TcListBeanResult.class));
             } else {
-                show("获取占用车辆列表为空");
+                show("查询结果为空");
             }
         } else {
-            show(bean.ErrorMsg);
+            warningShow(bean.ErrorMsg);
         }
 
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void findViewBy() {
+        sp_province = (Spinner) findViewById(R.id.sp_province);
+        sp_ABC = (Spinner) findViewById(R.id.sp_ABC);
+        et_cp_num = (EditText) findViewById(R.id.et_cp_num);
+        tev_query = (TextView) findViewById(R.id.tev_query);
+        tev_pwbh = (TextView) findViewById(R.id.tev_pwbh);
+        rv = (RecyclerView) findViewById(R.id.rv);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(aty);
+        rv.setLayoutManager(layoutManager);
+
+
+    }
+
+    @Override
+    protected void setTitleTxt() {
+        tv_header_title.setText("历史查询");
+    }
+
+    @Override
+    protected void initData() {
+        tev_pwbh.setOnClickListener(this);
+        sp_province.setOnItemSelectedListener(this);
+        sp_ABC.setOnItemSelectedListener(this);
+        et_cp_num.setTransformationMethod(new UpperCaseTransform());
+        tev_query.setOnClickListener(this);
+        arr_province = getResources().getStringArray(R.array.provinceName);
+        arr_abc = getResources().getStringArray(R.array.A2Z);
+
+        adapter = new ExitListAdapter(list, aty);
+        adapter.setOnItemClickListener(new ExitListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int p) {
+                startActivity(new Intent(aty, HistoryActivity.class).putExtra("TcListBeanResult", list.get(p)));
+
+
+            }
+        });
+        rv.setAdapter(adapter);
     }
 
 

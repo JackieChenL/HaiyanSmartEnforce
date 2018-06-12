@@ -22,6 +22,7 @@ import com.kas.clientservice.haiyansmartenforce.tcsf.base.HTTP_HOST;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.NetResultBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.bean.TcListBeanResult;
 import com.kas.clientservice.haiyansmartenforce.tcsf.dialog.InfoDialog;
+import com.kas.clientservice.haiyansmartenforce.tcsf.dialog.PayInfoDialog;
 import com.kas.clientservice.haiyansmartenforce.tcsf.impl.NoFastClickLisener;
 import com.kas.clientservice.haiyansmartenforce.tcsf.intf.BeanCallBack;
 import com.kas.clientservice.haiyansmartenforce.tcsf.util.DateUtil;
@@ -43,8 +44,6 @@ import static com.google.zxing.integration.android.IntentIntegrator.REQUEST_CODE
 public class ExitActivity extends PrintActivity {
     private TextView tev_cphm, tev_trsj, tev_pwbh, tev_lksj, tev_tcfy;
     private TextView tev_print, tev_submit;
-    private ImageView iv_heaer_back;
-    private TextView tv_header_title;
 
     private String endTime;
     private long cost;
@@ -56,29 +55,6 @@ public class ExitActivity extends PrintActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exitinging);
-        bean = (TcListBeanResult) getIntent().getSerializableExtra("TcListBeanResult");
-        tev_cphm = (TextView) findViewById(R.id.tev_cphm);
-        tev_trsj = (TextView) findViewById(R.id.tev_trsj);
-        tev_pwbh = (TextView) findViewById(R.id.tev_pwbh);
-        tev_lksj = (TextView) findViewById(R.id.tev_lksj);
-        tev_tcfy = (TextView) findViewById(R.id.tev_tcfy);
-        tev_print = (TextView) findViewById(R.id.tev_print);
-        tev_submit = (TextView) findViewById(R.id.tev_submit);
-        iv_heaer_back = (ImageView) findViewById(R.id.iv_heaer_back);
-        tv_header_title = (TextView) findViewById(R.id.tv_header_title);
-        tv_header_title.setText("离开收费");
-        iv_heaer_back.setOnClickListener(FastClickLister);
-        tev_print.setOnClickListener(FastClickLister);
-        tev_submit.setOnClickListener(FastClickLister);
-        endTime = DateUtil.currentTime();
-        cost = DateUtil.calMoney(endTime, bean.starttime);
-        lengthTime = DateUtil.getTimeLenth(endTime, bean.starttime);
-        tev_cphm.setText(bean.carnum);
-        tev_pwbh.setText(bean.Berthname);
-        tev_trsj.setText(bean.starttime);
-        tev_lksj.setText(endTime);
-        tev_tcfy.setText(cost + "元");
-        changeState(true, tev_print, tev_submit);
     }
 
     @Override
@@ -108,11 +84,7 @@ public class ExitActivity extends PrintActivity {
     NoFastClickLisener FastClickLister = new NoFastClickLisener() {
         @Override
         public void onNoFastClickListener(View v) {
-            super.onClick(v);
             switch (v.getId()) {
-                case R.id.iv_heaer_back:
-                    finish();
-                    break;
                 case R.id.tev_print:
                     String[] body = new String[]{"车牌号码：" + bean.carnum, "停入时间：" + bean.starttime,
                             "泊位编号：" + bean.Berthname, "离开时间：" + endTime, "停车费用：" + cost};
@@ -137,7 +109,7 @@ public class ExitActivity extends PrintActivity {
 //                                showPayCash("本次停车将收取"+cost+"元");
                                 showcustomer("本次停车将收取" + cost + "元");
                             } else {
-                                show(bean.ErrorMsg);
+                                warningShow(bean.ErrorMsg);
                             }
 
                         }
@@ -155,17 +127,26 @@ public class ExitActivity extends PrintActivity {
             SpannableStringBuilder spannable = new SpannableStringBuilder(body);
             spannable.setSpan(new ForegroundColorSpan(Color.RED), 7, body.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             spannable.setSpan(new AbsoluteSizeSpan(25, true), 7, body.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            InfoDialog dialog = new InfoDialog(this, "提示", "", "现金", "微信", new InfoDialog.OnBtnClickListener() {
-                @Override
-                public void onLeftClick() {
-                    doSuccessInfo("-1");
-                }
+            PayInfoDialog dialog = new PayInfoDialog(this, new View.OnClickListener() {
 
                 @Override
-                public void onRightClick() {
-                    startActivityForResult(new Intent(aty, ScanActivity.class), REQUEST_CODE);
+                public void onClick(View v) {
+                    switch (v.getId()) {
+                        case R.id.tev_money:
+                            doSuccessInfo("-1");
+                            break;
+                        case R.id.tev_weixin:
+                            startActivityForResult(new Intent(aty, ScanActivity.class), REQUEST_CODE);
+                            break;
+                        case R.id.tev_none:
+                            doSuccessInfo("-2");
+                            break;
+                    }
                 }
+
+
             });
+
             dialog.showSpinnerString(spannable);
 
         } else {
@@ -179,14 +160,16 @@ public class ExitActivity extends PrintActivity {
         if (cost == 0) {
             doSuccessInfo("-1");
         } else {
-            final String[] arr = new String[]{"现金", "微信"};
+            final String[] arr = new String[]{"现金", "微信", "拒付"};
             new AlertView("收费", body, null, null, arr, aty, null, new OnItemClickListener() {
                 @Override
                 public void onItemClick(Object o, int position) {
                     if (position == 0) {
                         doSuccessInfo("-1");
-                    } else {
+                    } else if (position == 1) {
                         startActivityForResult(new Intent(aty, ScanActivity.class), REQUEST_CODE);
+                    } else if (position == 2) {
+                        doSuccessInfo("-2");
                     }
                 }
             }).show();
@@ -220,4 +203,38 @@ public class ExitActivity extends PrintActivity {
         });
     }
 
+    @Override
+    protected void findViewBy() {
+
+        tev_cphm = (TextView) findViewById(R.id.tev_cphm);
+        tev_trsj = (TextView) findViewById(R.id.tev_trsj);
+        tev_pwbh = (TextView) findViewById(R.id.tev_pwbh);
+        tev_lksj = (TextView) findViewById(R.id.tev_lksj);
+        tev_tcfy = (TextView) findViewById(R.id.tev_tcfy);
+        tev_print = (TextView) findViewById(R.id.tev_print);
+        tev_submit = (TextView) findViewById(R.id.tev_submit);
+
+    }
+
+    @Override
+    protected void setTitleTxt() {
+        tv_header_title.setText("离开收费");
+    }
+
+    @Override
+    protected void initData() {
+        bean = (TcListBeanResult) getIntent().getSerializableExtra("TcListBeanResult");
+        tev_print.setOnClickListener(FastClickLister);
+        tev_submit.setOnClickListener(FastClickLister);
+        endTime = DateUtil.currentTime();
+        cost = DateUtil.calMoney(endTime, bean.starttime);
+        lengthTime = DateUtil.getTimeLenth(endTime, bean.starttime);
+        tev_cphm.setText(bean.carnum);
+        tev_pwbh.setText(bean.Berthname);
+        tev_trsj.setText(bean.starttime);
+        tev_lksj.setText(endTime);
+        tev_tcfy.setText(cost + "元");
+        changeState(true, tev_print, tev_submit);
+
+    }
 }

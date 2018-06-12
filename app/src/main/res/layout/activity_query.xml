@@ -34,23 +34,23 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
-                        android:text="车牌号码"
+                        android:text="车牌号码:"
                         android:textColor="@color/text_black"
                         android:textSize="17sp" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="55dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:paddingLeft="20dp">
+                        android:paddingLeft="10dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -97,7 +97,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="35dp"
                                 android:layout_marginLeft="10dp"
-                                android:layout_marginRight="20dp"
+                                android:layout_marginRight="10dp"
                                 android:layout_weight="2.5"
                                 android:background="@drawable/shape_black_border"
                                 android:cursorVisible="false"
@@ -105,7 +105,7 @@
                                 android:gravity="center_vertical"
                                 android:maxLength="5"
                                 android:paddingLeft="5dp"
-                                android:textColorHint="@color/grey_400"
+                                android:textColorHint="@color/grey_500"
                                 android:textSize="15sp" />
 
                         </LinearLayout>
@@ -123,7 +123,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_gravity="center_vertical">
 
                     <TextView
@@ -137,26 +137,21 @@
                         android:textSize="17sp" />
 
 
-                    <TextView
-                        android:id="@+id/tev_pwbh_r"
-                        android:layout_width="1dp"
-                        android:layout_height="1dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true" />
 
                     <TextView
                         android:id="@+id/tev_pwbh"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_toLeftOf="@+id/tev_pwbh_r"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:paddingLeft="5dp"
                         android:layout_toRightOf="@+id/tev_pwbh_l"
                         android:background="@drawable/shape_black_border"
                         android:clickable="true"
                         android:gravity="center_vertical"
-                        android:paddingLeft="10dp"
                         android:textSize="17sp" />
 
                 </RelativeLayout>
@@ -174,6 +169,8 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/shape_blue_btn"
                     android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginRight="20dp"
                     android:gravity="center"
                     android:clickable="true"
@@ -184,7 +181,7 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="15dp"
+                    android:layout_height="1dp"
                     android:background="@color/grey_100" />
 
 

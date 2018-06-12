@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.BaseActivity;
+import com.kas.clientservice.haiyansmartenforce.tcsf.base.TitleActivity;
 import com.kas.clientservice.haiyansmartenforce.tcsf.intf.PermissonCallBack;
 
 import net.xprinter.service.XprinterService;
@@ -28,7 +29,7 @@ import java.util.Set;
 /**
  * 打印页面，接收一段打印数据
  */
-public abstract class PrintActivity extends BaseActivity {
+public abstract class PrintActivity extends TitleActivity {
     private IMyBinder binder;
     private ServiceConnection conn;
     private BluetoothDevice device;
@@ -58,7 +59,6 @@ public abstract class PrintActivity extends BaseActivity {
 
             @Override
             public void onsucess() {
-                Log.i(TAG, "onsucess: 打印成功");
                  onPrintSuccess();
 //                finish();
             }
@@ -66,7 +66,6 @@ public abstract class PrintActivity extends BaseActivity {
             @Override
             public void onfailed() {
                 isConnected = false;
-                Log.i(TAG, "onfailed: 打印失败，请重新连接");
                 show( "打印失败，请重新打印");
             }
         }, new ProcessData() {
@@ -84,18 +83,13 @@ public abstract class PrintActivity extends BaseActivity {
 
         String[] footer = new String[]{"\n" +
                 "温馨提醒：您的车辆已经停入海盐县停车收费点，如您已产生停车管理费，请向附近的收费管理员缴纳相应的停车管理费，并索要发票，服从车辆停放管理，做有道德好公民。",
-                "收费标准：按盐政发【2012】72号、盐价【2012】25号，30分钟内免费停车，第1小时3元，第二小时以后5元/小时",
+                "收费标准：盐政发〔2013〕51号及盐政函〔2013〕129号，30分钟内免费停车，第1小时3元，第二小时以后5元/小时",
                 "联系电话：" + "0573-86113170", "海盐县停车管理中心"};
 
         return footer;
     }
 
 
-//
-//    收费标准：按盐政发【2012】72号、盐价【2012】25号，30分钟内免费停车，第1小时3元，第二小时以后5元/小时
-//    联系电话：
-//
-//    海盐县停车管理中心
 
     /**
      * 打印之前先连接打印机
@@ -126,7 +120,6 @@ public abstract class PrintActivity extends BaseActivity {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 //绑定成功
-                Log.i(TAG, "onServiceConnected: ");
                 binder = (IMyBinder) service;
                 Set<BluetoothDevice> devices = BluetoothAdapter.getDefaultAdapter().getBondedDevices();
                 if (devices.size() > 0) {
@@ -150,7 +143,6 @@ public abstract class PrintActivity extends BaseActivity {
 
                                 @Override
                                 public void onsucess() {
-                                    Log.i(TAG, "acceptdatafromprinter onsucess: ");
 //                                        Intent intent = new Intent(aty, XprinterService.class);
 //                                        bindService(intent, conn, BIND_AUTO_CREATE);
                                 }
@@ -166,7 +158,6 @@ public abstract class PrintActivity extends BaseActivity {
 
                         @Override
                         public void onfailed() {
-                            Log.i(TAG, "打印机连接失败: ");
                             isConnected = false;
                             show( "打印机连接失败");
                         }

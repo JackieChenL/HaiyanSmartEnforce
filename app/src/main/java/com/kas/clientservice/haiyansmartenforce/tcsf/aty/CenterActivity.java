@@ -7,15 +7,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bigkoo.alertview.AlertView;
-import com.bigkoo.alertview.OnItemClickListener;
 import com.kas.clientservice.haiyansmartenforce.R;
+import com.kas.clientservice.haiyansmartenforce.tcsf.patrol.SearchActivity;
 import com.kas.clientservice.haiyansmartenforce.tcsf.base.BaseActivity;
 
 public class CenterActivity extends BaseActivity implements View.OnClickListener {
 
 
-    private LinearLayout llt_park, llt_exit, llt_query, llt_bj, llt_setting;
+    private LinearLayout llt_park, llt_exit, llt_query, llt_bj, llt_setting, llt_check;
     private ImageView iv_heaer_back;
     private TextView tv_header_title;
 
@@ -28,6 +27,7 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
         llt_query = (LinearLayout) findViewById(R.id.llt_query);
         llt_bj = (LinearLayout) findViewById(R.id.llt_bj);
         llt_setting = (LinearLayout) findViewById(R.id.llt_setting);
+        llt_check = (LinearLayout) findViewById(R.id.llt_check);
         iv_heaer_back = (ImageView) findViewById(R.id.iv_heaer_back);
         tv_header_title = (TextView) findViewById(R.id.tv_header_title);
         initAction();
@@ -41,6 +41,7 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
         llt_query.setOnClickListener(this);
         llt_bj.setOnClickListener(this);
         llt_setting.setOnClickListener(this);
+        llt_check.setOnClickListener(this);
         iv_heaer_back.setOnClickListener(this);
 
     }
@@ -69,11 +70,16 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.llt_setting:
                 show("设置功能开发中");
+//                TODO
+//                startActivity(new Intent(aty, SearchActivity.class));
+                break;
+            case R.id.llt_check:
+                startActivity(new Intent(aty, CheckingActivity.class));
                 break;
 
 
             default:
-                ;
+                break;
 
 
         }

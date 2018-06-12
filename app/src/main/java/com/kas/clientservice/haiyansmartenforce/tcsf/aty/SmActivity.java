@@ -114,7 +114,7 @@ public class SmActivity extends BaseActivity {
             public void run() {
                 ProgressDialogUtil.hide();
                 if (!isResponse) {
-                    show( msg);
+                    warningShow( msg);
                     preSurfaceView.getPreView().onFail();
                 } else {
                     Intent intent = new Intent();
