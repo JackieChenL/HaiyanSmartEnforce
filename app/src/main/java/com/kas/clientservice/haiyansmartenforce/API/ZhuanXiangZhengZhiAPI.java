@@ -5,6 +5,8 @@ import com.kas.clientservice.haiyansmartenforce.Entity.ZXZZclassEntity;
 
 import java.util.List;
 
+import okhttp3.RequestBody;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -22,8 +24,8 @@ public interface ZhuanXiangZhengZhiAPI {
     Observable<ZXZZclassEntity> httpZXZZgetClass();
 
     @POST("special/api/SpecialClass/SaveSpecial")
-    @FormUrlEncoded
-    Observable<BaseEntity> httpZXZZcommit(@Field("special")String special);
+    Observable<BaseEntity> httpZXZZcommit(@Body RequestBody special);
+
 
     @POST("Mobile/UploadImg.ashx")
     @FormUrlEncoded

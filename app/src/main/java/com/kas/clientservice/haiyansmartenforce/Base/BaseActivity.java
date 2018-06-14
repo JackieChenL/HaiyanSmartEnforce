@@ -25,7 +25,7 @@ import rx.subscriptions.CompositeSubscription;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    protected String TAG = "@Author:chenlong_"+getTAG();
+    protected String TAG = "@Author:chenlong_" + getTAG();
 
     protected abstract int getLayoutId();
 
@@ -108,7 +108,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
 
-
         Window window = getWindow();
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 //            // Translucent status bar
@@ -121,7 +120,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
 
-
         initResAndListener();
 
     }
@@ -131,7 +129,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void initResAndListener() {
 
     }
-
 
 
     @Override
@@ -174,14 +171,18 @@ public abstract class BaseActivity extends AppCompatActivity {
         ToastUtils.showToast(mContext, "网络错误");
     }
 
-    public String getTime(){
+    public String getTime() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");// HH:mm:ss
 //获取当前时间
         Date date = new Date(System.currentTimeMillis());
         return simpleDateFormat.format(date);
     }
 
-    public String formLocation(String longitude,String latitude){
-        return longitude+","+latitude;
+    public String formLocation(String longitude, String latitude) {
+
+        return longitude + "," + latitude;
     }
+
+
+
 }

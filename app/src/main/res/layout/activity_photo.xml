@@ -1,32 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
     <include
-        android:id="@+id/title"
+        android:id="@+id/head"
+        layout="@layout/header" />
+
+    <LinearLayout
+        android:id="@+id/ll_vedio"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/activity_title"
-        />
+        android:layout_height="100dp"
+        android:layout_below="@id/head">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:text="视频附件"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:textSize="16sp"
+            android:textColor="@color/grey_900"
+             />
+
+        <ImageView
+            android:id="@+id/iv_vedio"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/photo"
+            android:background="@drawable/shape_blue_stroke"
+            android:padding="5dp"/>
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/ll_vedio"
         android:orientation="vertical">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_illegalParkingCommit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-            android:padding="10dp"
-            >
+            android:padding="10dp">
 
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>
+
     <Button
         android:id="@+id/bt_upload"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_log"
-        android:text="上传"
-        android:textSize="30dp"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/shape_blue_btn"
+        android:text="上 传"
+        android:textSize="17dp"
+        android:textColor="@color/white"/>
 </RelativeLayout>

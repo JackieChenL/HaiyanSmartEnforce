@@ -16,9 +16,11 @@ import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.MainModuleRvAdapter;
 import com.kas.clientservice.haiyansmartenforce.Module.CaseCommit.CaseCommitActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.CaseCommit.CaseSearchActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.FaceCompare.FaceCompareActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.Garbage.GarbageMainActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.History.HistoryActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.HuanWeiModule.HuanWeiEntryActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.HuochaiCredit.HuochaiCreditActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ParkingRecordSearchActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.XieTong.XieTongActivity;
@@ -52,6 +54,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     LinearLayout ll_lishijilu;
     @BindView(R.id.rv_main)
     RecyclerView recyclerView;
+    @BindView(R.id.iv_main_search)
+    ImageView iv_search;
     @BindView(R.id.llt_tcjf)
     LinearLayout llt_tcjf;
 
@@ -81,6 +85,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         ll_wentishangbao.setOnClickListener(this);
         ll_lishijilu.setOnClickListener(this);
         llt_tcjf.setOnClickListener(this);
+        iv_search.setOnClickListener(this);
         initBanner();
         initVerticalBanner();
         initRv();
@@ -175,6 +180,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.llt_tcjf:
                 startActivity(new Intent(mContext, CenterActivity.class));
                 break;
+            case R.id.iv_main_search:
+                startActivity(new Intent(mContext, FaceCompareActivity.class));
+                break;
         }
     }
 
@@ -231,6 +239,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case 18:
                 startActivity(new Intent(mContext, XieTongActivity.class));
+                break;
+            case 20:
+                startActivity(new Intent(mContext,HuochaiCreditActivity.class));
                 break;
         }
     }

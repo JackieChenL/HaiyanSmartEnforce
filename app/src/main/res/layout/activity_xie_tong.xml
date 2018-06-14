@@ -4,6 +4,7 @@
     android:id="@+id/activity_xie_tong"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="com.kas.clientservice.haiyansmartenforce.Module.XieTong.XieTongActivity">
 
     <include

@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import okhttp3.RequestBody;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -275,6 +276,7 @@ public class XieTongActivity extends BaseActivity implements View.OnClickListene
                 dialogInterface.dismiss();
             }
         });
+        alertDialog.create().show();
     }
 
     private void commit() {
@@ -291,26 +293,34 @@ public class XieTongActivity extends BaseActivity implements View.OnClickListene
         if (str_img_after.endsWith("|")) {
             cc = str_img_after.substring(0, str_img_after.length() - 1);
         }
-        Log.i(TAG, "commit: "+cc);
+        Log.i(TAG, "commit: " + cc);
         ZXZZCommitEntity zxzzCommitEntity = new ZXZZCommitEntity("0", 1, classId, 1, tv_location.getText().toString(),
                 et_address.getText().toString(),
                 et_describe.getText().toString(), cc,
                 "", UserSingleton.USERINFO.getPublicUsersID());
+        Special special = new Special(zxzzCommitEntity);
 
-
+        Log.i(TAG, "commit: " + gson.toJson(special));
+        RequestBody requestBody = parseBodyToJson(special);
         RetrofitClient.createService(ZhuanXiangZhengZhiAPI.class)
-                .httpZXZZcommit(gson.toJson(zxzzCommitEntity))
+                .httpZXZZcommit(requestBody)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new MySubscriber<BaseEntity>(mContext) {
                     @Override
                     public void onError(ExceptionHandle.ResponeThrowable responeThrowable) {
+                        showNetErrorToast();
 
+                        Log.i(TAG, "onError: " + responeThrowable.toString());
                     }
 
                     @Override
                     public void onNext(BaseEntity baseEntity) {
-
+                        if (baseEntity.isState()) {
+                            ToastUtils.showToast(mContext, "提交成功");
+                        } else {
+                            ToastUtils.showToast(mContext, baseEntity.getErrorMsg());
+                        }
                     }
                 });
 
@@ -323,29 +333,38 @@ public class XieTongActivity extends BaseActivity implements View.OnClickListene
         Log.i(TAG, "takeSuccess: length=" + bmp.getByteCount() / 1024 / 128);
         Bitmap water_bitmap = WaterMaskImageUtil.drawTextToRightBottom(mContext, bmp, getTime(), 8, getResources().getColor(R.color.orange), 5, 5);
         Log.i(TAG, "takeSuccess: length=" + water_bitmap.getByteCount() / 1024 / 128);
+        int flag = arr_image.size();
         arr_image.add(water_bitmap);
-        arr_uri.add(saveImageToLocal(water_bitmap, mContext));
+        String uri = saveImageToLocal(water_bitmap, mContext);
+        Log.i(TAG, "takeSuccess: " + uri);
+        arr_uri.add(uri);
 
-//        String uri = String.valueOf(Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), water_bitmap, null,null)));
-//        setRecyclerViewHeight(arr_image.size());
-        uploadIMG(BitmapToBase64.bitmapToBase64(water_bitmap));
+//        File file = null;
+//        file = new File(uri);
+        uploadIMG(BitmapToBase64.bitmapToBase64(water_bitmap), flag);
+//        Log.i(TAG, "takeSuccess: " + file.getPath());
         adapter.notifyDataSetChanged();
     }
 
-    private void uploadIMG(String img) {
-        RetrofitClient.createService(ZhuanXiangZhengZhiAPI.class,"http://112.17.19.118:91/")
+    private void uploadIMG(String img, final int flag) {
+//        RequestBody requestFile =
+//                RequestBody.create(MediaType.parse("multipart/form-data"), img);
+        RetrofitClient.createService(ZhuanXiangZhengZhiAPI.class, "http://112.17.19.118:91/")
                 .httpZXZZimg(img)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new MySubscriber<ZhuanXiangZhengZhiAPI.UploadImgEntity>(mContext) {
                     @Override
                     public void onError(ExceptionHandle.ResponeThrowable responeThrowable) {
-                        Log.i(TAG, "onError: "+responeThrowable.toString());
+                        Log.i(TAG, "onError: " + responeThrowable.toString());
+                        arr_image.remove(flag);
+                        arr_uri.remove(flag);
+                        adapter.notifyDataSetChanged();
                     }
 
                     @Override
                     public void onNext(ZhuanXiangZhengZhiAPI.UploadImgEntity s) {
-                        Log.i(TAG, "onNext: " + s);
+                        Log.i(TAG, "onNext: " + gson.toJson(s));
                         list_url.add(s.getKS().get(0));
                     }
                 });
@@ -437,6 +456,14 @@ public class XieTongActivity extends BaseActivity implements View.OnClickListene
             UploadOriginSpe = uploadOriginSpe;
             UploadReturnSpe = uploadReturnSpe;
             UserIDSpe = userIDSpe;
+        }
+    }
+
+    class Special {
+        ZXZZCommitEntity Special;
+
+        public Special(ZXZZCommitEntity zxzzCommitEntity) {
+            this.Special = zxzzCommitEntity;
         }
     }
 }
