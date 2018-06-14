@@ -30,16 +30,10 @@ public class UserInfo {
     public CheckNameBean CheckName;
     public ChangeNameBean ChangeName;
     public ClassifyingRubbishBean ClassifyingRubbish;
+    public ParkingSupervisorBean ParkingSupervisor;
     public NameBean Name;
     public List<UIBean> UI;
 
-    private String PublicUsersID;
-    private String TollCollectorID;
-    private String LawEnforcementOfficialsId;
-    private String CheckNameID;
-    private String ReviewNameID;
-    private String ChangeNameID;
-    private String ClassifyingRubbishId;
 
     public String getChangeNameID() {
         return getChangeName().getChangeNameID();
@@ -69,6 +63,11 @@ public class UserInfo {
         return getTollCollector().getTollCollectorID();
     }
 
+
+    public String getParkingSupervisorId() {
+        return ParkingSupervisor.ParkingSupervisorId;
+    }
+
     public static class PublicUsersBean {
         /**
          * PublicUsersID : 1
@@ -87,6 +86,19 @@ public class UserInfo {
         }
     }
 
+    public static class ParkingSupervisorBean {
+
+
+
+        /**
+         * ParkingSupervisorId : 1
+         * type : 8
+         */
+
+        public String ParkingSupervisorId;
+        public String type;
+    }
+
     public static class TollCollectorBean {
         /**
          * TollCollectorID : 1
@@ -96,10 +108,10 @@ public class UserInfo {
 
         public String TollCollectorID;
         public String type;
-        public List<RoadBean> Road;
+        public List<RoadBean> road;
 
         public List<RoadBean> getRoad() {
-            return Road;
+            return road;
         }
 
         public String getTollCollectorID() {

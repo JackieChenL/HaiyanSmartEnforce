@@ -87,10 +87,14 @@
         <activity android:name=".tcsf.aty.ExitListActivity" />
         <activity android:name=".tcsf.aty.ExitActivity" />
         <activity android:name=".tcsf.aty.QueryActivity" />
+        <activity android:name=".tcsf.aty.CheckingActivity" />
         <activity android:name=".tcsf.aty.SmActivity" />
         <activity android:name=".tcsf.aty.HistoryActivity" />
         <activity android:name=".tcsf.zxing.ScanActivity" />
-        <!-- <activity android:name=".tcsf.aty.loginActivity"> -->
+
+        <activity android:name=".tcsf.patrol.SearchActivity" />
+        <activity android:name=".tcsf.patrol.DetailActivity" />
+        <activity android:name=".tcsf.patrol.UploadActivity" />
 
 
         <!-- </activity> -->

@@ -34,6 +34,7 @@ public class NetResultBean {
     }
 
     public NetResultBean() {
+
     }
 
 

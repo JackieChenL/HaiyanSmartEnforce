@@ -10,6 +10,8 @@ import android.provider.MediaStore;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.ReplacementTransformationMethod;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,6 +31,7 @@ import com.kas.clientservice.haiyansmartenforce.tcsf.base.NetResultBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.bean.CpBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.bean.PicBean;
 import com.kas.clientservice.haiyansmartenforce.tcsf.bean.TcListBeanResult;
+import com.kas.clientservice.haiyansmartenforce.tcsf.dialog.WarningListDialog;
 import com.kas.clientservice.haiyansmartenforce.tcsf.impl.NoFastClickLisener;
 import com.kas.clientservice.haiyansmartenforce.tcsf.intf.BeanCallBack;
 import com.kas.clientservice.haiyansmartenforce.tcsf.intf.PermissonCallBack;
@@ -57,8 +60,6 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
     private ImageView imv_sm;
     private Spinner sp_province, sp_ABC;
     private EditText et_cp_num;
-    private ImageView iv_heaer_back;
-    private TextView tv_header_title;
     private TextView tev_print, tev_submit;
     private TextView tev_trsj, tev_pwbh;
     private File file;
@@ -79,62 +80,13 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
 
     private String cphm, trsj, pwbh;
 
+    private boolean isNeedQuery = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_parking);
 
-        tev_trsj = (TextView) findViewById(R.id.tev_trsj);
-        tev_pwbh = (TextView) findViewById(R.id.tev_pwbh);
-        tev_print = (TextView) findViewById(R.id.tev_print);
-        tev_submit = (TextView) findViewById(R.id.tev_submit);
-        rv = (RecyclerView) findViewById(R.id.rv);
-        iv_heaer_back = (ImageView) findViewById(R.id.iv_heaer_back);
-        imv_sm = (ImageView) findViewById(R.id.imv_sm);
-        sp_province = (Spinner) findViewById(R.id.sp_province);
-        sp_ABC = (Spinner) findViewById(R.id.sp_ABC);
-        et_cp_num = (EditText) findViewById(R.id.et_cp_num);
-        tv_header_title = (TextView) findViewById(R.id.tv_header_title);
-
-        arr_province = getResources().getStringArray(R.array.provinceName);
-        arr_abc = getResources().getStringArray(R.array.A2Z);
-        tv_header_title.setText("停车收费");
-        tev_trsj.setText(DateUtil.currentTime());
-        arr_image = new ArrayList<PicBean>();
-        adapter = new ImageAdapter(arr_image, aty);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(aty, 2, LinearLayout.VERTICAL, false);
-        rv.setLayoutManager(layoutManager);
-        adapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
-            @Override
-            public void onImageAddClick() {
-                takePhoto(CAMERA);
-
-            }
-
-            @Override
-            public void onDelImageClick(int p) {
-                arr_image.remove(p);
-                setRecyclerViewHeight(arr_image.size());
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-
-        setRecyclerViewHeight(arr_image.size());
-        rv.setAdapter(adapter);
-
-
-        tev_pwbh.setOnClickListener(FastClickLister);
-        tev_submit.setOnClickListener(FastClickLister);
-        tev_print.setOnClickListener(FastClickLister);
-        tev_trsj.setOnClickListener(FastClickLister);
-        imv_sm.setOnClickListener(FastClickLister);
-        iv_heaer_back.setOnClickListener(FastClickLister);
-        sp_province.setOnItemSelectedListener(this);
-        sp_ABC.setOnItemSelectedListener(this);
-        et_cp_num.setTransformationMethod(new UpperCaseTransform());
-        changeState(true, tev_print, tev_submit);
     }
 
     @Override
@@ -149,6 +101,7 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
         tev_trsj.setText(DateUtil.currentTime());
         sp_province.setSelection(0);
         sp_ABC.setSelection(0);
+
 
     }
 
@@ -228,20 +181,21 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
         String province = String.valueOf(carNum.charAt(0));
         String abc = String.valueOf(carNum.charAt(1));
         String num = carNum.substring(2, carNum.length());
-        et_cp_num.setText(num);
         for (int i = 0; i < arr_province.length; i++) {
             if (arr_province[i].equals(province)) {
+                isNeedQuery = false;
                 sp_province.setSelection(i);
                 break;
             }
         }
         for (int i = 0; i < arr_abc.length; i++) {
             if (arr_abc[i].equals(abc)) {
+                isNeedQuery = false;
                 sp_ABC.setSelection(i);
                 break;
             }
         }
-
+        et_cp_num.setText(num);
 
     }
 
@@ -261,6 +215,7 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        closeKeybord();
         switch (parent.getId()) {
             case R.id.sp_province:
                 province = arr_province[position];
@@ -270,11 +225,81 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
                 break;
         }
 
-
+        if (isNeedQuery) {
+            watcher.afterTextChanged(et_cp_num.getText());
+        }
+        isNeedQuery = true;
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
+    protected void findViewBy() {
+
+
+        tev_trsj = (TextView) findViewById(R.id.tev_trsj);
+        tev_pwbh = (TextView) findViewById(R.id.tev_pwbh);
+        tev_print = (TextView) findViewById(R.id.tev_print);
+        tev_submit = (TextView) findViewById(R.id.tev_submit);
+        rv = (RecyclerView) findViewById(R.id.rv);
+        imv_sm = (ImageView) findViewById(R.id.imv_sm);
+        sp_province = (Spinner) findViewById(R.id.sp_province);
+        sp_ABC = (Spinner) findViewById(R.id.sp_ABC);
+        et_cp_num = (EditText) findViewById(R.id.et_cp_num);
+
+
+
+    }
+
+    @Override
+    protected void setTitleTxt() {
+        tv_header_title.setText("停车收费");
+
+    }
+
+    @Override
+    protected void initData() {
+        arr_province = getResources().getStringArray(R.array.provinceName);
+        arr_abc = getResources().getStringArray(R.array.A2Z);
+
+        tev_trsj.setText(DateUtil.currentTime());
+        arr_image = new ArrayList<PicBean>();
+        adapter = new ImageAdapter(arr_image, aty);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(aty, 2, LinearLayout.VERTICAL, false);
+        rv.setLayoutManager(layoutManager);
+        adapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
+            @Override
+            public void onImageAddClick() {
+                takePhoto(CAMERA);
+
+            }
+
+            @Override
+            public void onDelImageClick(int p) {
+                arr_image.remove(p);
+                setRecyclerViewHeight(arr_image.size());
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+
+        setRecyclerViewHeight(arr_image.size());
+        rv.setAdapter(adapter);
+
+
+        tev_pwbh.setOnClickListener(FastClickLister);
+        tev_submit.setOnClickListener(FastClickLister);
+        tev_print.setOnClickListener(FastClickLister);
+        tev_trsj.setOnClickListener(FastClickLister);
+        imv_sm.setOnClickListener(FastClickLister);
+        sp_province.setOnItemSelectedListener(this);
+        sp_ABC.setOnItemSelectedListener(this);
+        et_cp_num.setTransformationMethod(new UpperCaseTransform());
+        et_cp_num.addTextChangedListener(watcher);
+        changeState(true, tev_print, tev_submit);
 
     }
 
@@ -319,7 +344,7 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
                         show("可用车位为0");
                     }
                 } else {
-                    show(bean.ErrorMsg);
+                    warningShow(bean.ErrorMsg);
                 }
 
 
@@ -333,34 +358,43 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
 
 
     private void recognition() {
-        ProgressDialogUtil.show(aty, "正在识别.....");
-        final Bitmap bmp = ImgUtil.getimage(file.getAbsolutePath());
-        final String base64bmp = ImgUtil.bitmapToBase64(bmp);
-        OkHttpUtils.post().url(url)
-                .addHeader("X-Ca-Key", AppKey)
-                .addHeader("Authorization", AppCode)
-                .addParams("pic", base64bmp).build().execute(new StringCallback() {
+        try {
+            ProgressDialogUtil.show(aty, "正在识别.....");
+            final Bitmap bmp = ImgUtil.getimage(file.getAbsolutePath());
+            final String base64bmp = ImgUtil.bitmapToBase64(bmp);
+            OkHttpUtils.post().url(url)
+                    .addHeader("X-Ca-Key", AppKey)
+                    .addHeader("Authorization", AppCode)
+                    .addParams("pic", base64bmp).build().execute(new StringCallback() {
 
-                                                                 @Override
-                                                                 public void onError(Call call, Exception e, int id) {
-                                                                     onCpjxReturn(false, "图片解析异常", bmp);
-                                                                 }
-
-                                                                 @Override
-                                                                 public void onResponse(String response, int id) {
-                                                                     log(response);
-                                                                     final CpBean bean = JSON.parseObject(response, CpBean.class);
-                                                                     if (bean.status.equals("0") && bean.result != null) {
-                                                                         onCpjxReturn(true, bean.result.number, bmp);
-                                                                     } else {
-                                                                         onCpjxReturn(false, "车牌解析错误", bmp);
+                                                                     @Override
+                                                                     public void onError(Call call, Exception e, int id) {
+                                                                         onCpjxReturn(false, "图片解析异常", null);
                                                                      }
+
+                                                                     @Override
+                                                                     public void onResponse(String response, int id) {
+                                                                         log(response);
+                                                                         try {
+                                                                             final CpBean bean = JSON.parseObject(response, CpBean.class);
+                                                                             if (bean.status.equals("0") && bean.result != null) {
+                                                                                 onCpjxReturn(true, bean.result.number, bmp);
+                                                                             } else {
+                                                                                 onCpjxReturn(false, "车牌解析错误", null);
+                                                                             }
+                                                                         } catch (Exception e) {
+                                                                             onCpjxReturn(false, "车牌解析错误", null);
+                                                                         }
+
+                                                                     }
+
+
                                                                  }
 
-
-                                                             }
-
-        );
+            );
+        } catch (Exception e) {
+            onCpjxReturn(false, "车牌解析异常", null);
+        }
 
     }
 
@@ -371,16 +405,20 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
             public void run() {
                 ProgressDialogUtil.hide();
                 if (!isResponse) {
-                    show(msg);
+                    warningShow(msg);
                 } else {
-                    if (bmp != null) {
-                        arr_image.remove(0);
+                    if (msg.length() != 7) {
+                        warningShow("车牌识别失败");
+                    } else {
+                        if (bmp != null) {
+                            arr_image.remove(0);
+                        }
+                        bmp = bitmap;
+                        doCarNum(msg);
+                        arr_image.add(0, new PicBean(true, bmp));
+                        setRecyclerViewHeight(arr_image.size());
+                        adapter.notifyDataSetChanged();
                     }
-                    bmp = bitmap;
-                    doCarNum(msg);
-                    arr_image.add(0, new PicBean(true, bmp));
-                    setRecyclerViewHeight(arr_image.size());
-                    adapter.notifyDataSetChanged();
                 }
 
 
@@ -393,15 +431,11 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
     NoFastClickLisener FastClickLister = new NoFastClickLisener() {
         @Override
         public void onNoFastClickListener(View v) {
-            super.onClick(v);
+            closeKeybord();
             switch (v.getId()) {
                 case R.id.tev_pwbh:
                     doQueryEmptyList();
                     break;
-                case R.id.iv_heaer_back:
-                    finish();
-                    break;
-
                 case R.id.tev_trsj:
                     break;
                 case R.id.imv_sm:
@@ -416,7 +450,7 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
                         ArrayList<byte[]> list = (new PrintUtil("停车收费小票", null, body, getFooterString())).getData();
                         doCheckConnection(list);
                     } else {
-                        show("数据不完整");
+                        warningShow("数据不完整");
                     }
 
 
@@ -426,18 +460,18 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
                     cphm = province + A2Z + et_cp_num.getText().toString().trim();
                     trsj = tev_trsj.getText().toString().trim();
                     pwbh = tev_pwbh.getText().toString().trim();
-                    String pic = getBase64bmpStr();
-                    if (cphm.length()!=7){
-                        show("车牌号码长度错误！");
-                    }else  if (!(trsj.length() == 0 || pwbh.length() == 0 || pic.length() == 0)) {
+                    if (cphm.length() != 7) {
+                        warningShow("车牌号码长度错误！");
+                    } else if (!(trsj.length() == 0 || pwbh.length() == 0)) {
+                        String pic = getBase64bmpStr();
                         final String road = pwbh.split("--")[0];
                         final String berthName = pwbh.split("--")[1];
-
                         OkHttpUtils.post().url(HTTP_HOST.URL_PARK)
                                 .addParams("UCarnum", cphm).addParams("UpType", "enterprise")
                                 .addParams("Road", road).addParams("StartTime", trsj)
                                 .addParams("Img", pic).addParams("BerthName", berthName)
-                                .addParams("SBYID", getZFRYID()).build().execute(new BeanCallBack(aty, "数据提交中") {
+                                .addParams("SBYID", getZFRYID())
+                                .build().execute(new BeanCallBack(aty, "数据提交中") {
 
                             @Override
                             public void handleBeanResult(NetResultBean bean) {
@@ -445,7 +479,7 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
                                     show("提交数据到服务器成功");
                                     changeState(false, tev_print, tev_submit);
                                 } else {
-                                    show(bean.ErrorMsg);
+                                    warningShow(bean.ErrorMsg);
                                 }
 
                             }
@@ -453,7 +487,7 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
                         });
 
                     } else {
-                        show("数据不完整,注意至少要提交一张图片哦！");
+                        warningShow("数据不完整！");
                     }
                     break;
             }
@@ -462,5 +496,84 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
 
     };
 
+    TextWatcher watcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String cphm = province + A2Z + s.toString().trim();
+            if (cphm.length() == 7) {
+                OkHttpUtils.post().url(HTTP_HOST.URL_PARK_LIST)
+                        .addParams("Opername", getOpername())
+                        .addParams("type", "1")
+                        .addParams("carnum", cphm)
+                        .build().execute(new BeanCallBack(aty, null) {
+                    @Override
+                    public void handleBeanResult(NetResultBean bean) {
+                        if (bean.State && bean.total > 0) {
+                            //异常数据存在，只修改一条数据
+                            final List<TcListBeanResult> list = bean.getResultBeanList(TcListBeanResult.class);
+                            new WarningListDialog(aty, list, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    erroExit(list.get(0));
+                                }
+                            }).show();
+                        }
+                    }
+                });
+            }
+        }
+    };
+
+    //异常离开:不处理具体返回值，不提示
+    private void erroExitPayMoney(TcListBeanResult bean, long cost) {
+        OkHttpUtils.post().url(HTTP_HOST.URL_WXPAY)
+                .addParams("auth_code", "-2")
+                .addParams("body", bean.carnum)
+                .addParams("fee", cost * 100 + "")
+                .addParams("btid", bean.btid + "")
+                .build().execute(new BeanCallBack(aty, null) {
+
+            @Override
+            public void handleBeanResult(NetResultBean bean) {
+            }
+        });
+    }
+
+
+    private void erroExit(final TcListBeanResult bean) {
+        String endTime = DateUtil.currentTime();
+        String lengthTime = DateUtil.getTimeLenth(endTime, bean.starttime);
+        final long cost = DateUtil.calMoney(endTime, bean.starttime);
+        OkHttpUtils.post().url(HTTP_HOST.URL_PARK_EXIT)
+                .addParams("Opername", getOpername())
+                .addParams("type", "1")
+                .addParams("stoptime", endTime)
+                .addParams("money", cost + "")
+                .addParams("btid", bean.btid + "")
+                .addParams("LengthTime", lengthTime)
+                .build().execute(new BeanCallBack(aty, null) {
+
+            @Override
+            public void handleBeanResult(NetResultBean result) {
+                if (result.State) {
+                    erroExitPayMoney(bean, cost);
+                }
+
+            }
+
+        });
+
+
+    }
 
 }

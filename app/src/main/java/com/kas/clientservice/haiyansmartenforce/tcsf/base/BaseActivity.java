@@ -2,6 +2,7 @@ package com.kas.clientservice.haiyansmartenforce.tcsf.base;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -15,7 +16,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
+import com.bigkoo.alertview.AlertView;
 import com.kas.clientservice.haiyansmartenforce.MyApplication;
 import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
 import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
@@ -31,47 +35,55 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected int requestCode;
     protected Activity aty;
     protected MyApplication app;
-    protected final static String TAG="TAG";
+    protected final static String TAG = "TAG";
 
-  protected  String getZFRYID(){
-     return UserSingleton.USERINFO.getTollCollectorID();
-  }
+    protected String getZFRYID() {
+        return UserSingleton.USERINFO.getTollCollectorID();
+    }
 
-  protected  String getOpername(){
-     return UserSingleton.getInstance().getUserAccount(aty);
-  }
+    protected String getOpername() {
+        return UserSingleton.getInstance().getUserAccount(aty);
+    }
 
-  protected  List<UserInfo.TollCollectorBean.RoadBean> getRoadBeanList(){
-     return UserSingleton.USERINFO.getTollCollector().getRoad();
-  }
+    protected List<UserInfo.TollCollectorBean.RoadBean> getRoadBeanList() {
+        return UserSingleton.USERINFO.getTollCollector().getRoad();
+    }
 
-   protected  interface Pid{
-       int CAMERA=1001;
-       int FILE=1002;
-       int LOCATION=1003;
-   }
+    protected interface Pid {
+        int CAMERA = 1001;
+        int FILE = 1002;
+        int LOCATION = 1003;
+    }
 
 
+    protected void log(String msg) {
+        LogUtil.e(TAG, msg + "---------->");
+    }
 
-   protected  void log(String msg){
-       LogUtil.e(TAG,msg+"---------->");
-   }
+    protected void log(String TAG, String MSG) {
+        LogUtil.e(TAG, MSG + "---------->");
+    }
 
-   protected  void log(String TAG,String MSG){
-       LogUtil.e(TAG,MSG+"---------->");
-   }
+    protected void show(String MSG) {
+        ToastUtil.show(aty, MSG);
+    }
 
-   protected  void show(String MSG){
-       ToastUtil.show(aty,MSG);
-   }
+    protected void warningShow(String MSG) {
+        new AlertView("提醒", MSG, "确定", null, null, aty, AlertView.Style.Alert, null
+        ).show();
+    }
+
+    protected String getText(TextView tev) {
+        return tev.getText().toString().trim();
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         aty = this;
-        app= (MyApplication) getApplication();
+        app = (MyApplication) getApplication();
     }
 
     @Override
@@ -95,6 +107,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    protected void closeKeybord() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isActive() && getWindow().getCurrentFocus() != null)
+            imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -104,7 +122,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
 //                    if (callBack != null)
 //                      callBack.onPermissionDenied();
-                      // TODO:具体权限被禁细分
+                    // TODO:具体权限被禁细分
                     show("该权限为必要权限，如禁止可能导致程序异常");
                 } else {
                     if (callBack != null)
@@ -113,8 +131,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         }
     }
-
-
 
 
     protected void goToAppSetting(int requestCode) {
@@ -154,9 +170,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         this.requestCode = requestPermissionCode;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            switch (requestPermissionCode){
-                case Pid.CAMERA  :
-                   int camera= ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+            switch (requestPermissionCode) {
+                case Pid.CAMERA:
+                    int camera = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
                     if (camera != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, requestPermissionCode);
                     } else {
@@ -164,18 +180,18 @@ public abstract class BaseActivity extends AppCompatActivity {
                     }
 
                     break;
-                case Pid.FILE  :
-                    int file= ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+                case Pid.FILE:
+                    int file = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
                     if (file != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestPermissionCode);
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestPermissionCode);
                     } else {
                         callBack.onPerMissionSuccess();
                     }
                     break;
-                case Pid.LOCATION  :
-                    int location= ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
+                case Pid.LOCATION:
+                    int location = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
                     if (location != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION}, requestPermissionCode);
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, requestPermissionCode);
                     } else {
                         callBack.onPerMissionSuccess();
                     }
