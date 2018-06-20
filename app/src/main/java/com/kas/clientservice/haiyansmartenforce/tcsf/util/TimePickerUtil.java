@@ -14,7 +14,7 @@ import java.util.Date;
 
 public class TimePickerUtil {
 
-    public static TimePickerView getYMDHMTimePicker(Context context) {
+    public static TimePickerView getYMDTimePicker(Context context) {
         Calendar startDate = Calendar.getInstance();
         startDate.set(startDate.get(Calendar.YEAR) - 1, 0, 1, 0, 0);
         Calendar endDate = DateUtil.str2Calendar(DateUtil.currentTime(), DateUtil.YMDHM);
@@ -22,13 +22,13 @@ public class TimePickerUtil {
             @Override
             public void onTimeSelect(Date date, View v) {
                 if (v != null && v instanceof TextView) {
-                    ((TextView) v).setText(DateUtil.getFormatDate(date, DateUtil.YMDHM));
+                    ((TextView) v).setText(DateUtil.getFormatDate(date, DateUtil.YMD));
                 }
 
             }
         })
-                .setType(new boolean[]{true, true, true, true, true, false})
-                .setLabel("年", "月", "日", "时", "分", "")
+                .setType(new boolean[]{true, true, true, false, false, false})
+                .setLabel("年", "月", "日", "", "", "")
                 .isCenterLabel(false)
                 .setContentSize(22)
                 .setSubmitColor(Color.parseColor("#2fb2e7"))
