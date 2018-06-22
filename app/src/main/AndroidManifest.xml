@@ -90,6 +90,7 @@
         <activity android:name=".tcsf.aty.CheckingActivity" />
         <activity android:name=".tcsf.aty.SmActivity" />
         <activity android:name=".tcsf.aty.HistoryActivity" />
+        <activity android:name=".tcsf.aty.RePayActivity" />
         <activity android:name=".tcsf.zxing.ScanActivity" />
 
         <activity android:name=".tcsf.patrol.SearchActivity" />

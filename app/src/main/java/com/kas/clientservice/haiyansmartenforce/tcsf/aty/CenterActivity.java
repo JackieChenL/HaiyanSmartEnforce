@@ -57,7 +57,6 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
                 startActivity(new Intent(aty, ParkActivity.class));
                 break;
 
-
             case R.id.llt_exit:
                 startActivity(new Intent(aty, ExitListActivity.class));
                 break;
@@ -66,11 +65,10 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
                 startActivity(new Intent(aty, QueryActivity.class));
                 break;
             case R.id.llt_bj:
-                show("补缴功能开发中");
+                startActivity(new Intent(aty, RePayActivity.class));
                 break;
             case R.id.llt_setting:
                 show("设置功能开发中");
-//                TODO
 //                startActivity(new Intent(aty, SearchActivity.class));
                 break;
             case R.id.llt_check:
@@ -78,8 +76,6 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
                 break;
 
 
-            default:
-                break;
 
 
         }

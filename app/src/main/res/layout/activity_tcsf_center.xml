@@ -118,7 +118,8 @@
                     style="@style/lin_tcsf">
 
                     <ImageView
-                        style="@style/imv_tcsf" />
+                        style="@style/imv_tcsf"
+                        android:src="@drawable/tcsf_icon_check"/>
 
                     <TextView
                         style="@style/tev_tcsf"
