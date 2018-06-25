@@ -103,4 +103,192 @@
         <item>街面秩序</item>
         <item>扩展事件</item>
     </string-array>
+
+    <string-array name="nations">
+        <item>汉族</item>
+        <item>蒙古族</item>
+        <item>满族</item>
+        <item>朝鲜族</item>
+        <item>赫哲族</item>
+        <item>达斡尔族</item>
+        <item>鄂温克族</item>
+        <item>鄂伦春族</item>
+        <item>回族</item>
+        <item>东乡族</item>
+        <item>土族</item>
+        <item>撒拉族</item>
+        <item>保安族</item>
+        <item>裕固族</item>
+        <item>维吾尔族</item>
+        <item>哈萨克族</item>
+        <item>柯尔克孜族</item>
+        <item>锡伯族</item>
+        <item>塔吉克族</item>
+        <item>乌孜别克族</item>
+        <item>俄罗斯族</item>
+        <item>塔塔尔族</item>
+        <item>藏族</item>
+        <item>门巴族</item>
+        <item>珞巴族</item>
+        <item>羌族</item>
+        <item>彝族</item>
+        <item>白族</item>
+        <item>哈尼族</item>
+        <item>傣族</item>
+        <item>傈僳族</item>
+        <item>佤族</item>
+        <item>拉祜族</item>
+        <item>纳西族</item>
+        <item>景颇族</item>
+        <item>布朗族</item>
+        <item>阿昌族</item>
+        <item>普米族</item>
+        <item>怒族</item>
+        <item>德昂族</item>
+        <item>独龙族</item>
+        <item>基诺族</item>
+        <item>苗族</item>
+        <item>布依族</item>
+        <item>侗族</item>
+        <item>水族</item>
+        <item>仡佬族</item>
+        <item>壮族</item>
+        <item>瑶族</item>
+        <item>仫佬族</item>
+        <item>毛南族</item>
+        <item>京族</item>
+        <item>土家族</item>
+        <item>黎族</item>
+        <item>畲族</item>
+        <item>高山族</item>
+    </string-array>
+
+
+    <string-array name="sex">
+        <item>男</item>
+        <item>女</item>
+    </string-array>
+
+
+
+    <string-array name="area">
+        <item>海宁市</item>
+        <item>硖石街道</item>
+        <item>海洲街道</item>
+        <item>海昌街道</item>
+        <item>马桥街道</item>
+        <item>许村镇</item>
+        <item>长安镇</item>
+        <item>周王庙镇</item>
+        <item>丁桥镇</item>
+        <item>斜桥镇</item>
+        <item>黄湾镇</item>
+        <item>盐官镇</item>
+        <item>袁花镇</item>
+        <item>尖山新区</item>
+        <item>其他</item>
+    </string-array>
+
+
+    <string-array name="qyfl">
+        <item>自然人</item>
+        <item>营利法人</item>
+        <item>非营利法人</item>
+        <item>特别法人</item>
+        <item>非法人组织</item>
+    </string-array>
+
+    <string-array name="qyxz">
+        <item>个体工商户</item>
+        <item>农村承包经营户</item>
+
+        <item>有限责任公司</item>
+        <item>股份有限公司</item>
+        <item>其他企业法人</item>
+
+        <item>事业单位</item>
+        <item>社会团体</item>
+        <item>基金会</item>
+        <item>社会服务机构</item>
+
+        <item>机关法人</item>
+        <item>农村集体经济组织法人</item>
+        <item>城镇农村的合作经济组织法人</item>
+        <item>基层群众性自治组织法人</item>
+
+        <item>个人独资企业</item>
+        <item>合伙企业</item>
+        <item>不具有法人资格的专业服务机构</item>
+
+    </string-array>
+
+
+
+    <string-array name="live_status">
+        <item>经营者或法定代表人%1$s到达现场陪同执法人员检查</item>
+        <item>现场负责人%1$s到达现场陪同执法人员检查</item>
+        <item>经联系，当事人拒绝到场，故要求见证人%1$s陪同执法人员检查</item>
+    </string-array>
+
+
+    <string-array name="zjlx">
+        <item>统一识别代码</item>
+        <item>注册号</item>
+        <item>组织机构代码证</item>
+    </string-array>
+
+    <string-array name="jyzk">
+        <item>续存</item>
+        <item>停止</item>
+    </string-array>
+
+
+
+    <string-array name="sqlx">
+        <item>扣押申请</item>
+        <item>先行登记</item>
+    </string-array>
+
+
+    <string-array name="save_type">
+        <item>异地暂存</item>
+        <item>长期保存</item>
+    </string-array>
+
+    <string-array name="save_house">
+        <item>暂存仓库</item>
+        <item>转存仓库</item>
+    </string-array>
+
+    <string-array name="wpfl">
+        <item>交通工具类</item>
+        <item>经营工具类</item>
+        <item>水果食品类</item>
+        <item>服饰服装类</item>
+        <item>其他</item>
+    </string-array>
+
+    //id为指数运算2^x
+    <string-array name="case_status">
+        <item>保存</item>
+        <item>提交</item>
+        <item>退回</item>
+        <item>中止</item>
+        <item>完成</item>
+        <item>删除</item>
+        <item>锁定</item>
+        <item>非实质退回</item>
+    </string-array>
+
+
+
+    <string-array name="inAType">
+        <item>中介报告</item>
+        <item>限期改正</item>
+        <item>扣押申请</item>
+        <item>解除扣押申请</item>
+        <item>土地绘测</item>
+        <item>先行登记保存</item>
+        <item>出库申请</item>
+    </string-array>
 </resources>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+       android:id="@+id/llt_qy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+
+        <RelativeLayout
+            style="@style/item_style_rtl">
+
+            <TextView
+                android:id="@+id/tev_qymc_l"
+                style="@style/item_style_l"
+                android:text="企业名称:" />
+
+
+            <TextView
+                android:id="@+id/tev_qymc_r"
+                style="@style/item_style_r"
+                android:background="@drawable/listicon_search" />
+
+            <EditText
+                android:id="@+id/edt_qymc"
+                style="@style/item_style_center"
+                android:hint="请输入企业名称"
+                android:layout_toLeftOf="@+id/tev_qymc_r"
+                android:layout_toRightOf="@+id/tev_qymc_l" />
+
+        </RelativeLayout>
+
+        <TextView style="@style/item_divider" />
+
+
+
+        <RelativeLayout
+            style="@style/item_style_rtl">
+
+            <TextView
+                android:id="@+id/tev_fzr_l"
+                style="@style/item_style_l"
+                android:text="负责人:" />
+
+
+            <TextView
+                android:id="@+id/tev_fzr_r"
+                style="@style/item_style_r"
+                android:background="@drawable/listicon_search" />
+
+            <EditText
+                android:id="@+id/edt_fzr"
+                style="@style/item_style_center"
+                android:hint="请输入负责人"
+                android:layout_toLeftOf="@+id/tev_fzr_r"
+                android:layout_toRightOf="@+id/tev_fzr_l" />
+
+        </RelativeLayout>
+
+        <TextView style="@style/item_divider" />
+
+
+
+    <RelativeLayout
+        style="@style/item_style_rtl">
+
+        <TextView
+            android:id="@+id/tev_dzmc_l"
+            style="@style/item_style_l"
+            android:text="店招名称:" />
+
+
+
+        <EditText
+            android:id="@+id/edt_dzmc"
+            style="@style/item_style_center"
+            android:hint="请输入店招名称"
+            android:layout_toRightOf="@+id/tev_dzmc_l" />
+
+    </RelativeLayout>
+
+    <TextView style="@style/item_divider" />
+
+
+
+
+        <RelativeLayout
+            style="@style/item_style_rtl">
+
+            <TextView
+                android:id="@+id/tev_lxfs_l"
+                style="@style/item_style_l"
+                android:text="联系方式:" />
+
+
+
+
+            <EditText
+                android:id="@+id/edt_lxfs"
+                style="@style/item_style_center"
+                android:hint="请输入联系方式"
+                android:inputType="phone"
+                android:layout_toRightOf="@+id/tev_lxfs_l" />
+
+        </RelativeLayout>
+
+    <TextView style="@style/item_divider" />
+
+        <RelativeLayout
+            style="@style/item_style_rtl">
+
+            <TextView
+                android:id="@+id/tev_dwfl_l"
+                style="@style/item_style_l"
+                android:text="单位分类:" />
+            <TextView
+                android:id="@+id/tev_dwfl"
+                style="@style/item_style_center"
+                android:hint="请选择单位分类"
+                android:layout_toRightOf="@+id/tev_dwfl_l" />
+
+        </RelativeLayout>
+    <TextView style="@style/item_divider" />
+        <RelativeLayout
+            style="@style/item_style_rtl">
+
+            <TextView
+                android:id="@+id/tev_dwxz_l"
+                style="@style/item_style_l"
+                android:text="单位性质:" />
+
+            <TextView
+                android:id="@+id/tev_dwxz"
+                style="@style/item_style_center"
+                android:hint="请选择单位性质"
+                android:layout_toRightOf="@+id/tev_dwxz_l" />
+
+        </RelativeLayout>
+
+    <TextView style="@style/item_divider" />
+        <RelativeLayout
+            style="@style/item_style_rtl">
+
+            <TextView
+                android:id="@+id/tev_ssqy_l"
+                style="@style/item_style_l"
+                android:text="所属区域:" />
+
+            <TextView
+                android:id="@+id/tev_ssqy"
+                style="@style/item_style_center"
+                android:hint="请选择所属区域"
+                android:layout_toRightOf="@+id/tev_ssqy_l" />
+
+        </RelativeLayout>
+
+    </LinearLayout>

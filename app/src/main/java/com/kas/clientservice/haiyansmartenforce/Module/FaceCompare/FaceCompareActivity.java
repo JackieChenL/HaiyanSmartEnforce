@@ -18,7 +18,10 @@ import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
 import com.jph.takephoto.compress.CompressConfig;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
+import com.kas.clientservice.haiyansmartenforce.Entity.FaceAddEntity;
 import com.kas.clientservice.haiyansmartenforce.Entity.FaceCompareEntity;
+import com.kas.clientservice.haiyansmartenforce.Entity.FaceDetectEntity;
+import com.kas.clientservice.haiyansmartenforce.Entity.FaceSearchEntity;
 import com.kas.clientservice.haiyansmartenforce.Entity.IdentityCardScanEntity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitImgRvAdapter;
 import com.kas.clientservice.haiyansmartenforce.R;
@@ -52,6 +55,14 @@ public class FaceCompareActivity extends BaseActivity implements View.OnClickLis
     TextView tv_idInfo;
     @BindView(R.id.tv_faceCompare_idScan)
     TextView tv_idScan;
+    @BindView(R.id.tv_faceCompare_add)
+    TextView tv_add;
+    @BindView(R.id.tv_faceCompare_search)
+    TextView tv_search;
+    @BindView(R.id.iv_faceCompare_merge)
+    ImageView iv_merge;
+    @BindView(R.id.tv_faceCompare_margeInfo)
+    TextView tv_mergeInfo;
 
     TakePhoto takePhoto;
     List<Bitmap> arr_image;
@@ -60,9 +71,11 @@ public class FaceCompareActivity extends BaseActivity implements View.OnClickLis
     private CompressConfig compressConfig;
     Uri uri;
     int flag;
-    Bitmap bitmap1, bitmap2, bitmap_id;
+    Bitmap bitmap1, bitmap2, bitmap_id, bitmap_search;
     String key = "sKj1t5aXkYE3YxuW7C1zHOGedavfYcuy";
     String secret = "L30fJ2ZlJ3n4RVuBGKNPrNdJtEotIzfC";
+    String faceset_token = "f303a4c5d30558e28befe8924750ff71";
+    String faceToken = "";
 
     public TakePhoto getTakePhoto() {
         if (takePhoto == null) {
@@ -115,6 +128,9 @@ public class FaceCompareActivity extends BaseActivity implements View.OnClickLis
         tv_btn.setOnClickListener(this);
         iv_identity.setOnClickListener(this);
         tv_idScan.setOnClickListener(this);
+        tv_add.setOnClickListener(this);
+        tv_search.setOnClickListener(this);
+        iv_merge.setOnClickListener(this);
     }
 
     @Override
@@ -147,7 +163,117 @@ public class FaceCompareActivity extends BaseActivity implements View.OnClickLis
                     scan();
                 }
                 break;
+            case R.id.tv_faceCompare_add:
+                if (bitmap_search != null) {
+                    if (faceToken.equals("")) {
+                        detect();
+                    } else {
+                        add(faceToken);
+                    }
+                }
+//                add();
+                break;
+            case R.id.tv_faceCompare_search:
+                if (bitmap_search != null) {
+                    search();
+                }
+                break;
+            case R.id.iv_faceCompare_merge:
+                flag = 4;
+                takePhoto();
+                break;
         }
+    }
+
+    private void detect() {
+        showLoadingDialog();
+        OkHttpUtils.post().url("https://api-cn.faceplusplus.com/facepp/v3/detect")
+                .addParams("api_key", key)
+                .addParams("api_secret", secret)
+                .addParams("image_base64", BitmapToBase64.bitmapToBase64(bitmap_search))
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                dismissLoadingDialog();
+                Log.i(TAG, "onError: " + e.toString());
+                showNetErrorToast();
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                dismissLoadingDialog();
+                Log.i(TAG, "onResponse: " + response);
+                FaceDetectEntity faceDetectEntity = gson.fromJson(response, FaceDetectEntity.class);
+                if (faceDetectEntity.getFaces() != null && faceDetectEntity.getFaces().size() > 0) {
+                    String token = faceDetectEntity.getFaces().get(0).getFace_token();
+                    add(token);
+                } else {
+                    ToastUtils.showToast(mContext, "未检测到人脸");
+                }
+            }
+        });
+    }
+
+    private void search() {
+        showLoadingDialog();
+        OkHttpUtils.post().url("https://api-cn.faceplusplus.com/facepp/v3/search")
+                .addParams("api_key", key)
+                .addParams("api_secret", secret)
+                .addParams("image_base64", BitmapToBase64.bitmapToBase64(bitmap_search))
+                .addParams("faceset_token", faceset_token)
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                dismissLoadingDialog();
+                Log.i(TAG, "onError: " + e.toString());
+                showNetErrorToast();
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                dismissLoadingDialog();
+                Log.i(TAG, "onResponse: " + response);
+                FaceSearchEntity faceSearchEntity = gson.fromJson(response, FaceSearchEntity.class);
+                if (faceSearchEntity.getResults() != null && faceSearchEntity.getResults().size() > 0) {
+                    FaceSearchEntity.ResultsBean resultsBean = faceSearchEntity.getResults().get(0);
+                    double confidence = resultsBean.getConfidence();
+                    String token = resultsBean.getFace_token();
+                    tv_mergeInfo.setText("face_token:"+token+"\n"+"匹配度："+confidence);
+                } else {
+                    ToastUtils.showToast(mContext, "未得到匹配数据");
+                }
+            }
+        });
+    }
+
+    private void add(String token) {
+        showLoadingDialog();
+        OkHttpUtils.post().url("https://api-cn.faceplusplus.com/facepp/v3/faceset/addface")
+                .addParams("api_key", key)
+                .addParams("api_secret", secret)
+                .addParams("faceset_token", faceset_token)
+                .addParams("face_tokens", token)
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                dismissLoadingDialog();
+                Log.i(TAG, "onError: " + e.toString());
+                showNetErrorToast();
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                dismissLoadingDialog();
+                Log.i(TAG, "onResponse: " + response);
+                FaceAddEntity faceAddEntity = gson.fromJson(response, FaceAddEntity.class);
+                if (faceAddEntity.getFace_added() > 0) {
+                    ToastUtils.showToast(mContext, "成功录入" + faceAddEntity.getFace_added() + "张照片，共" + faceAddEntity.getFace_count() + "张照片");
+                    faceToken = "";
+                } else {
+                    ToastUtils.showToast(mContext, "录入失败");
+                }
+            }
+        });
     }
 
     private void scan() {
@@ -169,15 +295,15 @@ public class FaceCompareActivity extends BaseActivity implements View.OnClickLis
                 dismissLoadingDialog();
                 Log.i(TAG, "onResponse: " + response);
                 IdentityCardScanEntity identityCardScanEntity = gson.fromJson(response, IdentityCardScanEntity.class);
-                if (identityCardScanEntity.getCards() != null&&identityCardScanEntity.getCards().size()>0) {
+                if (identityCardScanEntity.getCards() != null && identityCardScanEntity.getCards().size() > 0) {
                     IdentityCardScanEntity.CardsBean cardsBean = identityCardScanEntity.getCards().get(0);
                     if (cardsBean.getSide().equals("front")) {
                         tv_idInfo.setText(cardsBean.getName() + "\n" + cardsBean.getBirthday() + "\n" + cardsBean.getId_card_number() + "\n" + cardsBean.getAddress());
-                    }else {
-                        tv_idInfo.setText(cardsBean.getIssued_by()+"\n"+cardsBean.getValid_date());
+                    } else {
+                        tv_idInfo.setText(cardsBean.getIssued_by() + "\n" + cardsBean.getValid_date());
                     }
-                }else {
-                    ToastUtils.showToast(mContext,"未识别到证件");
+                } else {
+                    ToastUtils.showToast(mContext, "未识别到证件");
                 }
             }
         });
@@ -248,6 +374,9 @@ public class FaceCompareActivity extends BaseActivity implements View.OnClickLis
         } else if (flag == 3) {
             bitmap_id = bmp;
             iv_identity.setImageBitmap(bmp);
+        } else if (flag == 4) {
+            bitmap_search = bmp;
+            iv_merge.setImageBitmap(bmp);
         }
     }
 

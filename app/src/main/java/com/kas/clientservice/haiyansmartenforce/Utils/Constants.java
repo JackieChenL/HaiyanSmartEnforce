@@ -24,4 +24,8 @@ public class Constants {
         public static final int ANJIANCHAXUN = 3;
         public static final int GABAGE = 4;
     }
+    public static final String MSG_ACCOUNT = "admin";
+    public static final String MSG_PSW = "zjcoms";
+    public static final String MSG_NAME = "海盐县综合行政执法局";
+    public static final String MSG_SIGN = "BOgs93Xyu";
 }

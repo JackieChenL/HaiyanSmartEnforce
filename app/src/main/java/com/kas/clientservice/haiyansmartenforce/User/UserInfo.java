@@ -43,6 +43,10 @@ public class UserInfo {
         return getCheckName().getCheckNameID();
     }
 
+    public String getEnforceId(){
+        return getName().getUserID();
+    }
+
     public String getClassifyingRubbishId() {
         return getClassifyingRubbish().getClassifyingRubbishId();
     }
@@ -87,7 +91,6 @@ public class UserInfo {
     }
 
     public static class ParkingSupervisorBean {
-
 
 
         /**
@@ -327,15 +330,16 @@ public class UserInfo {
         return UI;
     }
 
-    public String getSWYTType(){
-        if (getCheckName()!=null&&!getCheckName().getType().equals("0")) {
+    public String getSWYTType() {
+        if (getCheckName() != null && !getCheckName().getType().equals("0")) {
             return getCheckName().getType();
         }
-        if (getReviewName()!=null&&!getReviewName().getType().equals("0")) {
+        if (getReviewName() != null && !getReviewName().getType().equals("0")) {
             return getReviewName().getType();
         }
-        if (getChangeName()!=null&&!getChangeName().getType().equals("0")) {
+        if (getChangeName() != null && !getChangeName().getType().equals("0")) {
             return getChangeName().getType();
-        }return "0";
+        }
+        return "0";
     }
 }

@@ -27,7 +27,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
@@ -199,7 +198,7 @@ public class PhotoActivity extends BaseActivity implements View.OnClickListener,
                 if (file_vedio!=null) {
                     commit();
                 }
-                Toast.makeText(this, "您已成功进行评价", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "您已成功进行评价", Toast.LENGTH_SHORT).show();
 //                finish();
                 break;
             case R.id.iv_vedio:
@@ -240,6 +239,7 @@ public class PhotoActivity extends BaseActivity implements View.OnClickListener,
 //                Log.i(TAG, "onResponse: "+response);
 //            }
 //        });
+        showLoadingDialog();
         OkHttpUtils
                 .post()
                 .addFile("mFile","fileName",file_vedio).url("http://117.149.146.131/special/api/SpecialClass/Upload")
@@ -247,12 +247,17 @@ public class PhotoActivity extends BaseActivity implements View.OnClickListener,
                 .execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
+                dismissLoadingDialog();
                 Log.i(TAG, "onError: "+e.toString());
             }
 
             @Override
             public void onResponse(String response, int id) {
+                dismissLoadingDialog();
                 Log.i(TAG, "onResponse: "+response);
+                if (response.contains("成功")) {
+                    ToastUtils.showToast(mContext,"提交成功");
+                }
             }
         });
 //        RetrofitClient.createService(UpLoadFileAPI.class)

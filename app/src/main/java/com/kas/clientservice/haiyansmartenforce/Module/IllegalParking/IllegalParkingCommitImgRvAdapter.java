@@ -65,7 +65,7 @@ public class IllegalParkingCommitImgRvAdapter extends RecyclerView.Adapter<Illeg
                     onImagelickListener.onImageClick(position);
                 }
             });
-            holder.tv_time.setText(TimeUtils.getFormedTime("MM-dd hh:mm:ss"));
+            holder.tv_time.setText(TimeUtils.getFormedTime("MM-dd HH:mm:ss"));
             holder.iv_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

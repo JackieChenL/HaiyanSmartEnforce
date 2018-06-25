@@ -91,11 +91,9 @@
         <activity android:name=".tcsf.aty.SmActivity" />
         <activity android:name=".tcsf.aty.HistoryActivity" />
         <activity android:name=".tcsf.zxing.ScanActivity" />
-
         <activity android:name=".tcsf.patrol.SearchActivity" />
         <activity android:name=".tcsf.patrol.DetailActivity" />
         <activity android:name=".tcsf.patrol.UploadActivity" />
-
 
         <!-- </activity> -->
         <!-- </activity> -->
@@ -124,7 +122,10 @@
         <activity android:name=".Module.XieTong.XieTongActivity" />
         <activity android:name=".Module.HuochaiCredit.HuochaiCreditActivity" />
         <activity android:name=".Module.FaceCompare.FaceCompareActivity" />
-        <activity android:name=".Module.SmartEnforce.AddDiscoverActivity"></activity>
+        <activity android:name=".Module.SmartEnforce.AddDiscoverActivity" />
+        <activity android:name=".Module.SmartEnforce.aty.function1.NewQueryActivity" />
+        <activity android:name=".Module.SmartEnforce.tianditu.TiandituMapActivity" />
+        <activity android:name=".Module.Register.ResetPswActivity"></activity>
     </application>
 
 </manifest>

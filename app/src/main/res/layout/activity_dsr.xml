@@ -1,0 +1,86 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/header" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/tev_dsrlx_l"
+                        style="@style/item_style_l"
+                        android:text="当事人类型:" />
+
+
+
+                    <RadioGroup
+                        android:id="@+id/rg_dsrlx"
+                        style="@style/rg_horizontal"
+                        android:layout_toRightOf="@+id/tev_dsrlx_l"
+                        >
+                        <RadioButton
+                            android:id="@+id/rbtn_qy"
+                            style="@style/item_rb"
+                            android:checked="true"
+                            android:text="企业"/>
+                        <RadioButton
+                            android:id="@+id/rbtn_person"
+                            style="@style/item_rb"
+                            android:text="自然人"/>
+
+                        <RadioButton
+                            android:id="@+id/rbtn_secret"
+                            style="@style/item_rb"
+                            android:text="匿名"/>
+
+                    </RadioGroup>
+
+                </RelativeLayout>
+
+                <TextView style="@style/item_divider" />
+
+                <include layout="@layout/qiye"/>
+                <include layout="@layout/person"
+                    android:visibility="gone"
+                    />
+
+
+                <TextView style="@style/item_divider" />
+
+
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+    </LinearLayout>
+
+
+    <include layout="@layout/footer" />
+
+</RelativeLayout>

@@ -16,6 +16,7 @@ import com.kas.clientservice.haiyansmartenforce.Http.MySubscriber;
 import com.kas.clientservice.haiyansmartenforce.Http.RetrofitClient;
 import com.kas.clientservice.haiyansmartenforce.Module.MainActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.Register.RegisterActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.Register.ResetPswActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
 import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
@@ -43,6 +44,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     EditText et_psw;
     @BindView(R.id.tv_register)
     TextView tv_register;
+    @BindView(R.id.tv_login_forget)
+    TextView tv_forget;
 
     @Override
     protected int getLayoutId() {
@@ -62,7 +65,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         tv_title.setText("登录");
         tv_login.setOnClickListener(this);
         tv_register.setOnClickListener(this);
-
+        tv_forget.setOnClickListener(this);
         String userName = UserSingleton.getInstance().getUserAccount(this);
         String psw = UserSingleton.getInstance().getUserPassword(this);
         if (userName!=null) {
@@ -95,6 +98,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.tv_register:
                 startActivityForResult(new Intent(mContext, RegisterActivity.class),100);
+                break;
+            case R.id.tv_login_forget:
+                startActivity(new Intent(mContext, ResetPswActivity.class));
                 break;
         }
     }

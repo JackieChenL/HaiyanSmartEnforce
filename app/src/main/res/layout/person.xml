@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llt_person"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        style="@style/item_style_rtl">
+
+        <TextView
+            android:id="@+id/tev_name_l_p"
+            style="@style/item_style_l"
+            android:text="姓名:" />
+
+
+        <TextView
+            android:id="@+id/tev_name_r_p"
+            style="@style/item_style_r"
+            android:background="@drawable/listicon_search" />
+
+        <EditText
+            android:id="@+id/edt_name_p"
+            style="@style/item_style_center"
+            android:hint="请输入姓名"
+            android:layout_toLeftOf="@+id/tev_name_r_p"
+            android:layout_toRightOf="@+id/tev_name_l_p" />
+
+    </RelativeLayout>
+
+    <TextView style="@style/item_divider" />
+
+
+
+
+    <RelativeLayout
+        style="@style/item_style_rtl">
+
+        <TextView
+            android:id="@+id/tev_sfzh_l_p"
+            style="@style/item_style_l"
+            android:text="身份证号:" />
+
+
+        <TextView
+            android:id="@+id/tev_sfzh_r_p"
+            style="@style/item_style_r" />
+
+        <EditText
+            android:id="@+id/edt_sfzh_p"
+            style="@style/item_style_center"
+            android:hint="请输入身份证号"
+            android:layout_toLeftOf="@+id/tev_sfzh_r_p"
+            android:layout_toRightOf="@+id/tev_sfzh_l_p" />
+
+    </RelativeLayout>
+    <TextView style="@style/item_divider" />
+
+
+    <RelativeLayout
+        style="@style/item_style_rtl">
+
+        <TextView
+            android:id="@+id/tev_lxfs_l_p"
+            style="@style/item_style_l"
+            android:text="联系方式:" />
+
+
+        <TextView
+            android:id="@+id/tev_lxfs_r_p"
+            style="@style/item_style_r" />
+
+        <EditText
+            android:id="@+id/edt_lxfs_p"
+            style="@style/item_style_center"
+            android:hint="请输入联系方式"
+            android:inputType="phone"
+            android:layout_toLeftOf="@+id/tev_lxfs_r_p"
+            android:layout_toRightOf="@+id/tev_lxfs_l_p" />
+
+    </RelativeLayout>
+
+</LinearLayout>

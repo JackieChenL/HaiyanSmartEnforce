@@ -57,7 +57,8 @@ import rx.schedulers.Schedulers;
 import static com.kas.clientservice.haiyansmartenforce.Utils.Utils.getImageCropUri;
 
 public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.TakeResultListener, IllegalParkingCommitImgRvAdapter.OnImageAddClickListener, IllegalParkingCommitImgRvAdapter.OnImagelickListener, IllegalParkingCommitImgRvAdapter.OnImgDeleteClickListener, View.OnClickListener {
-
+    @BindView(R.id.tv_header_title)
+    TextView tv_title;
     @BindView(R.id.tv_huanwei_commit_btn)
     TextView tv_btn;
     @BindView(R.id.tv_huanwei_commit_content)
@@ -69,7 +70,7 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
     @BindView(R.id.tv_huanwei_commit_project)
     TextView tv_project;
     @BindView(R.id.rv_huanwie_commit)
-            RecyclerView recyclerView;
+    RecyclerView recyclerView;
     @BindView(R.id.et_huanwei_commit_descripe)
     EditText editText;
 
@@ -92,6 +93,7 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
     PopupWindow ppw_content;
     HuanweiContentAdapter huanweiContentAdapter;
     String roadName = "";
+
     public TakePhoto getTakePhoto() {
         if (takePhoto == null) {
             takePhoto = new TakePhotoImpl(this, this);
@@ -147,6 +149,7 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
     protected void initResAndListener() {
         super.initResAndListener();
 
+        tv_title.setText("上报");
         tv_project.setOnClickListener(this);
         tv_content.setOnClickListener(this);
         tv_position.setOnClickListener(this);
@@ -161,7 +164,7 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
     private void initList() {
         arr_image = new ArrayList<>();
         adapter = new IllegalParkingCommitImgRvAdapter(arr_image, mContext);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(mContext, 2, LinearLayout.VERTICAL, false){
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(mContext, 2, LinearLayout.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -174,6 +177,7 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
         setRecyclerViewHeight(arr_image.size());
         recyclerView.setAdapter(adapter);
     }
+
     public void setRecyclerViewHeight(int size) {
         int height = ((size / 2) + 1) * 140 + 30;
         LinearLayoutCompat.LayoutParams layoutParams = new LinearLayoutCompat.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Dp2pxUtil.dip2px(mContext, height));
@@ -256,35 +260,35 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
                 finish();
                 break;
             case R.id.tv_huanwei_commit_project:
-                ppw.showAsDropDown(tv_project,0,0);
+                ppw.showAsDropDown(tv_project, 0, 0);
                 loadProjectData();
                 break;
             case R.id.tv_huanwei_commit_content:
                 if (!projectName.equals("")) {
 
-                    ppw_content.showAsDropDown(tv_content,0,0);
+                    ppw_content.showAsDropDown(tv_content, 0, 0);
                     loadContentData();
-                }else {
-                    ToastUtils.showToast(mContext,"请选择项目");
+                } else {
+                    ToastUtils.showToast(mContext, "请选择项目");
                 }
                 break;
             case R.id.tv_huanwei_commit_position:
-                startActivityForResult(new Intent(mContext, RoadSearchActivity.class),Constants.RESULTCODE_ROAD);
+                startActivityForResult(new Intent(mContext, RoadSearchActivity.class), Constants.RESULTCODE_ROAD);
                 break;
             case R.id.iv_huanwei_commit_location:
-                startActivityForResult(new Intent(mContext, TiandiMapActivity.class),Constants.RESULTCODE_TIANDITU);
+                startActivityForResult(new Intent(mContext, TiandiMapActivity.class), Constants.RESULTCODE_TIANDITU);
                 break;
             case R.id.tv_huanwei_commit_btn:
                 if (projectName.equals("")) {
-                    ToastUtils.showToast(mContext,"请选择项目");
+                    ToastUtils.showToast(mContext, "请选择项目");
                     break;
                 }
                 if (contentName.equals("")) {
-                    ToastUtils.showToast(mContext,"请选择内容");
+                    ToastUtils.showToast(mContext, "请选择内容");
                     break;
                 }
                 if (roadName.equals("")) {
-                    ToastUtils.showToast(mContext,"请选择路段");
+                    ToastUtils.showToast(mContext, "请选择路段");
                     break;
                 }
 //                if (longitude.equals("")) {
@@ -292,7 +296,7 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
 //                    break;
 //                }
                 if (editText.getText().toString().equals("")) {
-                    ToastUtils.showToast(mContext,"请输入描述信息");
+                    ToastUtils.showToast(mContext, "请输入描述信息");
                     break;
                 }
                 commit();
@@ -301,12 +305,12 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
     }
 
     private void commit() {
-        Log.i(TAG, "commit: "+BitmapToBase64.bitmapListToBase64(arr_image));
+        Log.i(TAG, "commit: " + BitmapToBase64.bitmapListToBase64(arr_image));
         RetrofitClient.createService(HuanweiAPI.class)
                 .httpHuanweiCommit(UserSingleton.USERINFO.getCheckNameID(),
                         contentId,
                         roadName,
-                        formLocation(longitude,latitude),
+                        formLocation(longitude, latitude),
                         editText.getText().toString(),
                         "enterprise",
                         BitmapToBase64.bitmapListToBase64(arr_image))
@@ -315,17 +319,17 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
                 .subscribe(new MySubscriber<BaseEntity>(mContext) {
                     @Override
                     public void onError(ExceptionHandle.ResponeThrowable responeThrowable) {
-                        Log.i(TAG, "onError: "+responeThrowable.toString());
-                        ToastUtils.showToast(mContext,"网络错误");
+                        Log.i(TAG, "onError: " + responeThrowable.toString());
+                        ToastUtils.showToast(mContext, "网络错误");
                     }
 
                     @Override
                     public void onNext(BaseEntity s) {
                         if (s.isState()) {
-                            ToastUtils.showToast(mContext,"提交成功");
+                            ToastUtils.showToast(mContext, "提交成功");
                             finish();
-                        }else {
-                            ToastUtils.showToast(mContext,s.getErrorMsg());
+                        } else {
+                            ToastUtils.showToast(mContext, s.getErrorMsg());
                         }
                     }
                 });
@@ -333,10 +337,10 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
 
     private void loadContentPPW() {
 
-        View view = LayoutInflater.from(mContext).inflate(R.layout.ppw_project,null);
-        ppw_content = new PopupWindow(view,LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.ppw_project, null);
+        ppw_content = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         ListView lv = (ListView) view.findViewById(R.id.lv_ppw_project);
-        huanweiContentAdapter = new HuanweiContentAdapter(list_content,mContext);
+        huanweiContentAdapter = new HuanweiContentAdapter(list_content, mContext);
         lv.setAdapter(huanweiContentAdapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -354,11 +358,11 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
     }
 
     private void loadPPw() {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.ppw_project,null);
-        ppw = new PopupWindow(view,Dp2pxUtil.dip2px(mContext,200), LinearLayout.LayoutParams.WRAP_CONTENT);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.ppw_project, null);
+        ppw = new PopupWindow(view, Dp2pxUtil.dip2px(mContext, 200), LinearLayout.LayoutParams.WRAP_CONTENT);
         ListView lv = (ListView) view.findViewById(R.id.lv_ppw_project);
         list = new ArrayList<>();
-        huanweiProjectAdapter = new HuanweiProjectAdapter(list,mContext);
+        huanweiProjectAdapter = new HuanweiProjectAdapter(list, mContext);
         lv.setAdapter(huanweiProjectAdapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -383,7 +387,7 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
                 .subscribe(new MySubscriber<BaseEntity<HuanweiAPI.HuanweiProjectEntity[]>>(mContext) {
                     @Override
                     public void onError(ExceptionHandle.ResponeThrowable responeThrowable) {
-                        Log.i(TAG, "onError: "+responeThrowable.toString());
+                        Log.i(TAG, "onError: " + responeThrowable.toString());
                         showNetErrorToast();
                     }
 
@@ -391,13 +395,14 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
                     public void onNext(BaseEntity<HuanweiAPI.HuanweiProjectEntity[]> s) {
                         list.clear();
                         huanweiProjectAdapter.notifyDataSetChanged();
-                        Collections.addAll(list,s.getRtn());
-                        Log.i(TAG, "onNext: "+list.size());
+                        Collections.addAll(list, s.getRtn());
+                        Log.i(TAG, "onNext: " + list.size());
                         huanweiProjectAdapter.notifyDataSetChanged();
                     }
                 });
     }
-    private void loadContentData(){
+
+    private void loadContentData() {
         list_content.clear();
         adapter.notifyDataSetChanged();
         RetrofitClient.createService(HuanweiAPI.class)
@@ -413,7 +418,7 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
                     @Override
                     public void onNext(BaseEntity<HuanweiAPI.HuanweiContentEntity[]> s) {
 
-                        Collections.addAll(list_content,s.getRtn());
+                        Collections.addAll(list_content, s.getRtn());
                         adapter.notifyDataSetChanged();
                     }
                 });

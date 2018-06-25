@@ -514,4 +514,9 @@
     <color name="tip_color">#a85f03</color>
     <color name="event_message_from_tv">#818181</color>
     <color name="event_message_play_btn">#eeeeee</color>
+    <color name="sky_blue">#FF87CEE8</color>
+    <color name="dodge_blue">#FF1E90FF</color>
+    <color name="cancel_button_color">#ff8CACD0</color>
+    <color name="text_gray">#5c5656</color>
+    <color name="text_color">#cccccc</color>
 </resources>

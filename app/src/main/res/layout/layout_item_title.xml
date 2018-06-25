@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/item_style_lin"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tev_title"
+        style="@style/item_style_center"
+        android:gravity="center"
+        android:padding="10dp"
+        android:background="@drawable/border"
+        android:text="" />
+
+
+
+</LinearLayout>

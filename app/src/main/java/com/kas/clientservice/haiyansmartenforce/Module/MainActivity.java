@@ -11,8 +11,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.jorge.circlelibrary.ImageCycleView;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
+import com.kas.clientservice.haiyansmartenforce.Entity.BannerAdertisementEntity;
+import com.kas.clientservice.haiyansmartenforce.Entity.VerticalBannerEntity;
+import com.kas.clientservice.haiyansmartenforce.Http.RetrofitClient;
 import com.kas.clientservice.haiyansmartenforce.MainModuleRvAdapter;
 import com.kas.clientservice.haiyansmartenforce.Module.CaseCommit.CaseCommitActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.CaseCommit.CaseSearchActivity;
@@ -33,11 +37,15 @@ import com.kas.clientservice.haiyansmartenforce.Utils.Dp2pxUtil;
 import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 import com.kas.clientservice.haiyansmartenforce.Utils.UPMarqueeView;
 import com.kas.clientservice.haiyansmartenforce.tcsf.aty.CenterActivity;
+import com.kas.clientservice.haiyansmartenforce.tcsf.patrol.SearchActivity;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import okhttp3.Call;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, MainModuleRvAdapter.OnModuleClickListener {
     @BindView(R.id.ll_main_caseSearch)
@@ -62,7 +70,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     ArrayList<String> list_detail;
     ArrayList<String> list_imageURL;
-    List<String> list_headline;
+    List<String> list_headline = new ArrayList<>();
     List<UserInfo.UIBean> list_module;
     private List<View> views = new ArrayList<>();
 
@@ -86,9 +94,63 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         ll_lishijilu.setOnClickListener(this);
         llt_tcjf.setOnClickListener(this);
         iv_search.setOnClickListener(this);
-        initBanner();
+        loadBanner();
+        loadVerticalBanner();
+//        loadVerticalBanner();
         initVerticalBanner();
         initRv();
+    }
+
+    private void loadVerticalBanner() {
+        OkHttpUtils.get().url(RetrofitClient.mBaseUrl+"system/theme/news/InformDetail.ashx?id=")
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                Log.i(TAG, "onError: "+e.toString());
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                Log.i(TAG, "onResponse: "+response);
+                VerticalBannerEntity bean = gson.fromJson(response,VerticalBannerEntity.class);
+                if (bean.getState().equals("true")) {
+                    List<VerticalBannerEntity.RtnBean> list = bean.getRtn();
+                    if (list!=null&&list.size()>0) {
+                        for (int i = 0; i < list.size(); i++) {
+                            list_headline.add(list.get(i).getTitle());
+                        }
+                    }
+                    initVerticalBanner();
+                }
+            }
+        });
+    }
+
+    private void loadBanner() {
+        list_detail = new ArrayList<>();
+        list_imageURL = new ArrayList<>();
+        OkHttpUtils.get().url(RetrofitClient.mBaseUrl+"system/theme/news/NewsImg.ashx")
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                Log.i(TAG, "onError: "+e.toString());
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                BannerAdertisementEntity entity = gson.fromJson(response,BannerAdertisementEntity.class);
+                if (entity.getState().equals("true")) {
+                    if (entity.getRtn()!=null&&entity.getRtn().size()>0) {
+                        for (int i = 0; i < entity.getRtn().size(); i++) {
+                            BannerAdertisementEntity.RtnBean rtnBean = entity.getRtn().get(i);
+                            list_detail.add(rtnBean.getID()+"");
+                            list_imageURL.add(rtnBean.getLogoImg());
+                        }
+                        initBanner();
+                    }
+                }
+            }
+        });
     }
 
     private void initRv() {
@@ -131,15 +193,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void initBanner() {
-        list_detail = new ArrayList<>();
-        list_imageURL = new ArrayList<>();
-
-        list_detail.add("测试1");
-        list_detail.add("测试2");
-        list_detail.add("测试3");
-        list_imageURL.add("1");
-        list_imageURL.add("1");
-        list_imageURL.add("1");
 
         imageCycleView.setCycle_T(ImageCycleView.CYCLE_T.CYCLE_VIEW_NORMAL);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Dp2pxUtil.dip2px(mContext, 120));
@@ -148,7 +201,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         ImageCycleView.ImageCycleViewListener mAdCycleViewListener = new ImageCycleView.ImageCycleViewListener() {
             @Override
             public void displayImage(String imageURL, ImageView imageView) {
-                imageView.setImageResource(R.drawable.indexbananer);
+//                imageView.setImageResource(R.drawable.indexbananer);
+                Glide.with(mContext).load(imageURL).error(R.drawable.normal_pic).into(imageView);
             }
 
             @Override
@@ -187,10 +241,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void setView() {
-        list_headline = new ArrayList<>();
-        list_headline.add("测试");
-        list_headline.add("测试2");
-        list_headline.add("测试3");
         for (int i = 0; i < list_headline.size(); i++) {
             //设置滚动的单个布局
             LinearLayout moreView = (LinearLayout) LayoutInflater.from(mContext).inflate(R.layout.item_main_banner, null);
@@ -224,24 +274,30 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case Constants.MainModule.GABAGE:
                 startActivity(new Intent(mContext, GarbageMainActivity.class));
                 break;
-            case 5:
+            case 5://四位一体
                  intent = new Intent(mContext, HuanWeiEntryActivity.class);
 //                intent.putExtra("TypeId",UserSingleton.USERINFO.getType());
                 startActivity(intent);
                 break;
-            case 6:
+            case 6://案件提交
                 intent = new Intent(mContext,CaseCommitActivity.class);
                 startActivity(intent);
                 break;
-            case 7:
+            case 7://案件查询
                 intent = new Intent(mContext,CaseSearchActivity.class);
                 startActivity(intent);
                 break;
-            case 18:
+            case 18://专项政治
                 startActivity(new Intent(mContext, XieTongActivity.class));
                 break;
-            case 20:
+            case 19://
+                startActivity(new Intent(mContext, SearchActivity.class));
+                break;
+            case 20://火柴信用
                 startActivity(new Intent(mContext,HuochaiCreditActivity.class));
+                break;
+            case 21://巡查发现
+//                startActivity(new Intent(mContext, NewQueryActivity.class));
                 break;
         }
     }

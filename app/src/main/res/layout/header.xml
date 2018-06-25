@@ -34,6 +34,18 @@
         android:textColor="@color/app_original_blue"
         android:textSize="16sp"/>
 
+    <TextView
+        android:id="@+id/tv_header_right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:text="确定"
+        android:visibility="gone"
+        android:textColor="@color/app_original_blue"
+        android:textSize="16sp"/>
+
     <ImageView
         android:id="@+id/iv_header_refresh"
         android:layout_width="50dp"
