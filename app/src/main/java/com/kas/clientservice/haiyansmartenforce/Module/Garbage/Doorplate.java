@@ -55,7 +55,7 @@ public class Doorplate extends AppCompatActivity implements View.OnClickListener
         iv_title_back=(ImageView) findViewById(R.id.iv_title_back);
         iv_title_back.setOnClickListener(this);
         tv_title_name=(TextView) findViewById(R.id.tv_title_name);
-        tv_title_name.setText("搜索门牌");
+        tv_title_name.setText("搜索地址");
         tv_zhangsan=(TextView) findViewById(R.id.tv_zhangsan);
         tv_zhangsan.setOnClickListener(this);
         sp_town=(Spinner) findViewById(R.id.sp_town);
