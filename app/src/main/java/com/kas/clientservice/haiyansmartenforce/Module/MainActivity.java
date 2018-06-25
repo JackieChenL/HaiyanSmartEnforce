@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.jorge.circlelibrary.ImageCycleView;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
-import com.kas.clientservice.haiyansmartenforce.Entity.BannerAdertisementEntity;
+import com.kas.clientservice.haiyansmartenforce.Entity.BannerAdvertisementEntity;
 import com.kas.clientservice.haiyansmartenforce.Entity.VerticalBannerEntity;
 import com.kas.clientservice.haiyansmartenforce.Http.RetrofitClient;
 import com.kas.clientservice.haiyansmartenforce.MainModuleRvAdapter;
@@ -27,6 +27,7 @@ import com.kas.clientservice.haiyansmartenforce.Module.HuanWeiModule.HuanWeiEntr
 import com.kas.clientservice.haiyansmartenforce.Module.HuochaiCredit.HuochaiCreditActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ParkingRecordSearchActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.News.AdvDetailActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.XieTong.XieTongActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
@@ -34,7 +35,6 @@ import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
 import com.kas.clientservice.haiyansmartenforce.Utils.AppParameter;
 import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
 import com.kas.clientservice.haiyansmartenforce.Utils.Dp2pxUtil;
-import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 import com.kas.clientservice.haiyansmartenforce.Utils.UPMarqueeView;
 import com.kas.clientservice.haiyansmartenforce.tcsf.aty.CenterActivity;
 import com.kas.clientservice.haiyansmartenforce.tcsf.patrol.SearchActivity;
@@ -73,6 +73,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     List<String> list_headline = new ArrayList<>();
     List<UserInfo.UIBean> list_module;
     private List<View> views = new ArrayList<>();
+    List<BannerAdvertisementEntity.RtnBean> list_adv = new ArrayList<>();
+    List<VerticalBannerEntity.RtnBean> list_vertical = new ArrayList<>();
 
     @Override
     protected int getLayoutId() {
@@ -87,7 +89,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void initResAndListener() {
         super.initResAndListener();
-        Log.i(TAG, "initResAndListener: "+ AppParameter.getApplicationId(mContext));
+        Log.i(TAG, "initResAndListener: " + AppParameter.getApplicationId(mContext));
         ll_caseSearch.setOnClickListener(this);
         ll_quickCommit.setOnClickListener(this);
         ll_wentishangbao.setOnClickListener(this);
@@ -102,22 +104,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void loadVerticalBanner() {
-        OkHttpUtils.get().url(RetrofitClient.mBaseUrl+"system/theme/news/InformDetail.ashx?id=")
+        OkHttpUtils.get().url(RetrofitClient.mBaseUrl + "system/theme/news/InformDetail.ashx?id=")
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-                Log.i(TAG, "onError: "+e.toString());
+                Log.i(TAG, "onError: " + e.toString());
             }
 
             @Override
             public void onResponse(String response, int id) {
-                Log.i(TAG, "onResponse: "+response);
-                VerticalBannerEntity bean = gson.fromJson(response,VerticalBannerEntity.class);
+                Log.i(TAG, "onResponse: " + response);
+                VerticalBannerEntity bean = gson.fromJson(response, VerticalBannerEntity.class);
                 if (bean.getState().equals("true")) {
-                    List<VerticalBannerEntity.RtnBean> list = bean.getRtn();
-                    if (list!=null&&list.size()>0) {
-                        for (int i = 0; i < list.size(); i++) {
-                            list_headline.add(list.get(i).getTitle());
+                    list_vertical.clear();
+                    list_vertical.addAll(bean.getRtn());
+                    if (list_vertical != null && list_vertical.size() > 0) {
+                        for (int i = 0; i < list_vertical.size(); i++) {
+                            list_headline.add(list_vertical.get(i).getTitle());
                         }
                     }
                     initVerticalBanner();
@@ -129,21 +132,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private void loadBanner() {
         list_detail = new ArrayList<>();
         list_imageURL = new ArrayList<>();
-        OkHttpUtils.get().url(RetrofitClient.mBaseUrl+"system/theme/news/NewsImg.ashx")
+        OkHttpUtils.get().url(RetrofitClient.mBaseUrl + "system/theme/news/NewsImg.ashx")
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-                Log.i(TAG, "onError: "+e.toString());
+                Log.i(TAG, "onError: " + e.toString());
             }
 
             @Override
             public void onResponse(String response, int id) {
-                BannerAdertisementEntity entity = gson.fromJson(response,BannerAdertisementEntity.class);
+                BannerAdvertisementEntity entity = gson.fromJson(response, BannerAdvertisementEntity.class);
                 if (entity.getState().equals("true")) {
-                    if (entity.getRtn()!=null&&entity.getRtn().size()>0) {
+                    if (entity.getRtn() != null && entity.getRtn().size() > 0) {
+                        list_adv.clear();
+                        list_adv.addAll(entity.getRtn());
                         for (int i = 0; i < entity.getRtn().size(); i++) {
-                            BannerAdertisementEntity.RtnBean rtnBean = entity.getRtn().get(i);
-                            list_detail.add(rtnBean.getID()+"");
+                            BannerAdvertisementEntity.RtnBean rtnBean = entity.getRtn().get(i);
+                            list_detail.add(rtnBean.getID() + "");
                             list_imageURL.add(rtnBean.getLogoImg());
                         }
                         initBanner();
@@ -155,9 +160,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private void initRv() {
         list_module = new ArrayList<>();
-        MainModuleRvAdapter adapter = new MainModuleRvAdapter(list_module,mContext);
+        MainModuleRvAdapter adapter = new MainModuleRvAdapter(list_module, mContext);
         adapter.setOnModuleClickListener(this);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(mContext, 4, LinearLayout.VERTICAL, false){
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(mContext, 4, LinearLayout.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -173,14 +178,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
 
     }
+
     public void setRecyclerViewHeight(int size) {
         int height;
-        if (size%4 == 0) {
-            height = (size/4)*120+10;
-        }else {
-            height = (size/4+1)*120+10;
+        if (size % 4 == 0) {
+            height = (size / 4) * 120 + 10;
+        } else {
+            height = (size / 4 + 1) * 120 + 10;
         }
-        Log.i(TAG, "setRecyclerViewHeight: "+height);
+        Log.i(TAG, "setRecyclerViewHeight: " + height);
         LinearLayoutCompat.LayoutParams layoutParams = new LinearLayoutCompat.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Dp2pxUtil.dip2px(mContext, height));
         layoutParams.setMargins(Dp2pxUtil.dip2px(mContext, 10), 0, Dp2pxUtil.dip2px(mContext, 10), 0);
         recyclerView.setLayoutParams(new LinearLayout.LayoutParams(layoutParams));
@@ -207,7 +213,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
             @Override
             public void onImageClick(int position, View imageView) {
-                ToastUtils.showToast(mContext, "click");
+//                ToastUtils.showToast(mContext, "click");
+                Intent intent = new Intent(mContext, AdvDetailActivity.class);
+                intent.putExtra("id", list_adv.get(position).getID());
+                intent.putExtra("type", 1);
+                startActivity(intent);
             }
         };
         imageCycleView.setImageResources(list_detail, list_imageURL, mAdCycleViewListener);
@@ -252,6 +262,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             /**
              * 设置头条的点击事件
              */
+            final int finalI = i;
+            tv1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, AdvDetailActivity.class);
+                    intent.putExtra("type", 1);
+                    intent.putExtra("id",list_vertical.get(finalI).getID());
+                    startActivity(intent);
+                }
+            });
             //添加到循环滚动数组里面去
             views.add(moreView);
         }
@@ -259,7 +279,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onModuleClick(int type) {
-        Log.i(TAG, "onModuleClick: "+type);
+        Log.i(TAG, "onModuleClick: " + type);
         Intent intent;
         switch (type) {
             case Constants.MainModule.TINGCHESHOUFEI:
@@ -275,16 +295,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 startActivity(new Intent(mContext, GarbageMainActivity.class));
                 break;
             case 5://四位一体
-                 intent = new Intent(mContext, HuanWeiEntryActivity.class);
+                intent = new Intent(mContext, HuanWeiEntryActivity.class);
 //                intent.putExtra("TypeId",UserSingleton.USERINFO.getType());
                 startActivity(intent);
                 break;
             case 6://案件提交
-                intent = new Intent(mContext,CaseCommitActivity.class);
+                intent = new Intent(mContext, CaseCommitActivity.class);
                 startActivity(intent);
                 break;
             case 7://案件查询
-                intent = new Intent(mContext,CaseSearchActivity.class);
+                intent = new Intent(mContext, CaseSearchActivity.class);
                 startActivity(intent);
                 break;
             case 18://专项政治
@@ -294,7 +314,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 startActivity(new Intent(mContext, SearchActivity.class));
                 break;
             case 20://火柴信用
-                startActivity(new Intent(mContext,HuochaiCreditActivity.class));
+                startActivity(new Intent(mContext, HuochaiCreditActivity.class));
                 break;
             case 21://巡查发现
 //                startActivity(new Intent(mContext, NewQueryActivity.class));

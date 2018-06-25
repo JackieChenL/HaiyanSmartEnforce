@@ -69,6 +69,10 @@ public class HuanweiCheckDetailActivity extends BaseActivity implements View.OnC
     TextView tv_pass;
     @BindView(R.id.tv_huanwei_check_detail_nopass)
     TextView tv_noPass;
+    @BindView(R.id.tv_huanwei_check_detail_commit_town)
+    TextView tv_commit_town;
+    @BindView(R.id.tv_huanwei_check_detail_score)
+    TextView tv_score;
 
     String id = "";
     PopupWindow ppw;
@@ -105,11 +109,11 @@ public class HuanweiCheckDetailActivity extends BaseActivity implements View.OnC
         tv_noPass.setOnClickListener(this);
         id = getIntent().getStringExtra("id");
         status = getIntent().getStringExtra("status");
-        Log.i(TAG, "initResAndListener: "+status);
+        Log.i(TAG, "initResAndListener: " + status);
         if (status.equals("1")) {
             tv_back.setVisibility(View.GONE);
         }
-        if (status.equals("3")||status.equals("2")) {
+        if (status.equals("3") || status.equals("2")) {
             tv_chexiao.setVisibility(View.GONE);
         }
         initList();
@@ -140,8 +144,9 @@ public class HuanweiCheckDetailActivity extends BaseActivity implements View.OnC
                             tv_position.setText(huanweiCheckDetailEntity.getJCDD());
                             tv_time.setText(huanweiCheckDetailEntity.getStarttime());
                             tv_project.setText(huanweiCheckDetailEntity.getXM());
-
-                            if (huanweiCheckDetailEntity.getImg()!=null) {
+                            tv_commit_town.setText(huanweiCheckDetailEntity.getChecktown());
+                            tv_score.setText(huanweiCheckDetailEntity.getDeScore()+"");
+                            if (huanweiCheckDetailEntity.getImg() != null) {
                                 for (int i = 0; i < huanweiCheckDetailEntity.getImg().size(); i++) {
                                     list_img.add(huanweiCheckDetailEntity.getImg().get(i).getImg());
                                 }
@@ -150,14 +155,14 @@ public class HuanweiCheckDetailActivity extends BaseActivity implements View.OnC
                             }
 
 //                            list_img.addAll(huanweiCheckDetailEntity.getImg());
-                            if (s.getRtn().town.equals("无")||s.getRtn().town.equals("")) {
+                            if (s.getRtn().town.equals("无") || s.getRtn().town.equals("")) {
                                 needChoseTown = true;
                                 towns.addAll(s.getRtn().getTown());
                                 for (int i = 0; i < towns.size(); i++) {
                                     list_town.add(towns.get(i).getTown());
                                 }
                                 loadPPw();
-                            }else {
+                            } else {
                                 needChoseTown = false;
                                 tv_town.setText(s.getRtn().town);
                                 townId = s.getRtn().townid;

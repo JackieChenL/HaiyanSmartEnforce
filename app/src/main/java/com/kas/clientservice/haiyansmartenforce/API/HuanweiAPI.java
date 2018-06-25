@@ -36,6 +36,9 @@ public interface HuanweiAPI {
                                              @Field("jcddzb") String jcddzb,
                                              @Field("qkms") String qkms,
                                              @Field("UpType") String upType,
+                                             @Field("townid") String townid,
+                                             @Field("DeScore")String DeScore,
+                                             @Field("Shstate")String Shstate,
                                              @Field("Img") String Img);
 
     @GET("system/theme/hwjg/Hnewsshlist.ashx")

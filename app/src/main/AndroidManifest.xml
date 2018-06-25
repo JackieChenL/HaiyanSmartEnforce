@@ -123,10 +123,8 @@
         <activity android:name=".Module.XieTong.XieTongActivity" />
         <activity android:name=".Module.HuochaiCredit.HuochaiCreditActivity" />
         <activity android:name=".Module.FaceCompare.FaceCompareActivity" />
-        <activity android:name=".Module.SmartEnforce.AddDiscoverActivity" />
-        <activity android:name=".Module.SmartEnforce.aty.function1.NewQueryActivity" />
-        <activity android:name=".Module.SmartEnforce.tianditu.TiandituMapActivity" />
-        <activity android:name=".Module.Register.ResetPswActivity"></activity>
+        <activity android:name=".Module.Register.ResetPswActivity" />
+        <activity android:name=".Module.News.AdvDetailActivity"></activity>
     </application>
 
 </manifest>

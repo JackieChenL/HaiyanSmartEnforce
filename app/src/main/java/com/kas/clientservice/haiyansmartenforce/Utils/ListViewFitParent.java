@@ -1,5 +1,6 @@
 package com.kas.clientservice.haiyansmartenforce.Utils;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -27,6 +28,7 @@ public class ListViewFitParent {
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        Log.i("tag", "setListViewHeightBasedOnChildren: "+params.height);
         //listView.getDividerHeight()获取子项间分隔符占用的高度
         //params.height最后得到整个ListView完整显示需要的高度
         listView.setLayoutParams(params);

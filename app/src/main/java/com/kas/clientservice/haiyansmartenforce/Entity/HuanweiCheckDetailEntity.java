@@ -38,8 +38,31 @@ public class HuanweiCheckDetailEntity {
     public String Shstate;
     public String town;
     public String townid;
+    public String Checktown;
+    public String Checktownid;
+    public String DeScore;
     public List<ImgBean> Img;
     public List<TownBean> townlist;
+
+    public String getTownid() {
+        return townid;
+    }
+
+    public String getChecktown() {
+        return Checktown;
+    }
+
+    public String getChecktownid() {
+        return Checktownid;
+    }
+
+    public String getDeScore() {
+        return DeScore;
+    }
+
+    public List<TownBean> getTownlist() {
+        return townlist;
+    }
 
     public String getHoperid() {
         return hoperid;
