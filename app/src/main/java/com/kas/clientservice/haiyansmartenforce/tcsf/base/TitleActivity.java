@@ -1,6 +1,5 @@
 package com.kas.clientservice.haiyansmartenforce.tcsf.base;
 
-import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.view.View;
 import android.widget.ImageView;

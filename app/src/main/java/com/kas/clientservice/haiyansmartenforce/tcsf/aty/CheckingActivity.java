@@ -41,18 +41,18 @@ public class CheckingActivity extends TitleActivity implements View.OnClickListe
             case R.id.tev_startTime:
                 String startTime = getText(tev_startTime);
                 if (TextUtil.isEmpty(startTime)) {
-                    timePickerView.setDate(DateUtil.str2Calendar(DateUtil.currentTime(), DateUtil.YMDHM));
+                    timePickerView.setDate(DateUtil.str2Calendar(DateUtil.currentTime(), DateUtil.YMD));
                 } else {
-                    timePickerView.setDate(DateUtil.str2Calendar(startTime, DateUtil.YMDHM));
+                    timePickerView.setDate(DateUtil.str2Calendar(startTime, DateUtil.YMD));
                 }
                 timePickerView.show(tev_startTime);
                 break;
             case R.id.tev_endTime:
                 String endTime = getText(tev_endTime);
                 if (TextUtil.isEmpty(endTime)) {
-                    timePickerView.setDate(DateUtil.str2Calendar(DateUtil.currentTime(), DateUtil.YMDHM));
+                    timePickerView.setDate(DateUtil.str2Calendar(DateUtil.currentTime(), DateUtil.YMD));
                 } else {
-                    timePickerView.setDate(DateUtil.str2Calendar(endTime, DateUtil.YMDHM));
+                    timePickerView.setDate(DateUtil.str2Calendar(endTime, DateUtil.YMD));
                 }
                 timePickerView.show(tev_endTime);
                 break;
@@ -116,7 +116,7 @@ public class CheckingActivity extends TitleActivity implements View.OnClickListe
 
     @Override
     protected void initData() {
-        timePickerView = TimePickerUtil.getYMDHMTimePicker(aty);
+        timePickerView = TimePickerUtil.getYMDTimePicker(aty);
         tev_startTime.setOnClickListener(this);
         tev_endTime.setOnClickListener(this);
         tev_query.setOnClickListener(this);

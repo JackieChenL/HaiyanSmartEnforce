@@ -160,7 +160,7 @@ public class ExitActivity extends PrintActivity {
         if (cost == 0) {
             doSuccessInfo("-1");
         } else {
-            final String[] arr = new String[]{"现金", "微信", "拒付"};
+            final String[] arr = new String[]{"现金", "微信", "不交"};
             new AlertView("收费", body, null, null, arr, aty, null, new OnItemClickListener() {
                 @Override
                 public void onItemClick(Object o, int position) {

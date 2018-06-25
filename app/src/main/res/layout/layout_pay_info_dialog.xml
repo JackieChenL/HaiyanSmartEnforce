@@ -68,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:gravity="center"
-            android:text="拒付"
+            android:text="不交"
             android:textColor="@color/dialog_btn_color"
             android:textSize="20sp" />
 

@@ -23,46 +23,14 @@ public class DateUtil {
 
     public static String currentTime() {
         SimpleDateFormat simpleDateFormat;
-        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        simpleDateFormat = new SimpleDateFormat(YMDHMS);
         return simpleDateFormat.format(new Date());
-    }
-
-    public static String showDate(int day) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + day);
-        Date today = calendar.getTime();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        String result = format.format(today);
-        return result;
-    }
-
-    public static String getCost(String endTimeStr, String startTimeStr) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String retStr = "";
-        try {
-            long endTime = simpleDateFormat.parse(endTimeStr).getTime();
-            long startTime = simpleDateFormat.parse(startTimeStr).getTime();
-            long time = endTime - startTime;
-            if (time <= Time30M) {
-                retStr = "0";
-            } else if (time > Time30M && time <= Time1H) {
-                retStr = "3";
-            } else {
-//                Log.e("TTT",time+","+ (int)Math.ceil(time)+","+(int)Math.ceil(time/Time1H));
-                retStr = String.valueOf(((int) Math.ceil((double) time / Time1H)) * 5);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-            LogUtil.e("计费出错：", "startTimeStr:" + startTimeStr + ",endTimeStr" + endTimeStr);
-        }
-
-        return retStr + "元";
     }
 
 
     private static Calendar getCalendar(String timeStr) {
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(YMDHMS);
         try {
             Date date = simpleDateFormat.parse(timeStr);
             calendar.setTime(date);
@@ -107,17 +75,17 @@ public class DateUtil {
     }
 
     private static int cal(long len) {
-        int time_len;
+        int money;
         if (len >= 4 * Time1H) {
-            time_len = 18;
+            money = 18;
         } else if (len > Time1H) {
-            time_len = ((int) Math.ceil((double) len / Time1H)) * 5 - 2;
+            money = ((int) Math.ceil((double) len / Time1H)) * 5 - 2;
         } else if (len > Time30M) {
-            time_len = 3;
+            money = 3;
         } else {
-            time_len = 0;
+            money = 0;
         }
-        return time_len;
+        return money;
     }
 
 
@@ -176,7 +144,7 @@ public class DateUtil {
         try {
             result = new SimpleDateFormat(pattern).format(date);
         } catch (Exception e) {
-            result = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date);
+            result = new SimpleDateFormat(YMDHM).format(date);
         }
         return result;
     }
@@ -188,7 +156,7 @@ public class DateUtil {
             simpleDateFormat = new SimpleDateFormat(pattern);
             ret_str = simpleDateFormat.format(date);
         } catch (Exception e) {
-            simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            simpleDateFormat = new SimpleDateFormat(YMDHM);
             ret_str = simpleDateFormat.format(date);
         } finally {
             return ret_str;

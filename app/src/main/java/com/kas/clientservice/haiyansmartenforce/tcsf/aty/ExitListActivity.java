@@ -45,7 +45,6 @@ public class ExitListActivity extends TitleActivity {
                 .build().execute(new BeanCallBack(aty, null) {
             @Override
             public void handleBeanResult(NetResultBean bean) {
-
                 handleListNetResult(bean);
             }
         });

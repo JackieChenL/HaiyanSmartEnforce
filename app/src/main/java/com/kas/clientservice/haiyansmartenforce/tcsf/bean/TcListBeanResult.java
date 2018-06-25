@@ -28,7 +28,6 @@ public class TcListBeanResult extends BaseBean {
             case 1:
                 retStr="停入" ;
                 break ;
-
             default:
                 retStr="异常" ;
         }
