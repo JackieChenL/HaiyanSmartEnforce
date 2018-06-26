@@ -15,8 +15,6 @@ import smartenforce.base.ShowTitleActivity;
 import smartenforce.frament.EnforceListFragment;
 import smartenforce.frament.GoodsListFragment;
 
-
-
 public class EnforceActivity extends ShowTitleActivity implements RadioGroup.OnCheckedChangeListener {
     private LinearLayout llt_container;
     private RadioGroup rg;

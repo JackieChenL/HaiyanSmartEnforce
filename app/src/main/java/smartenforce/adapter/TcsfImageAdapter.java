@@ -13,7 +13,6 @@ import smartenforce.bean.tcsf.PicBean;
 
 import java.util.List;
 
-
 public class TcsfImageAdapter extends RecyclerView.Adapter<TcsfImageAdapter.ViewHolder>{
     List<PicBean> arr_bitmap;
     Context mContext;

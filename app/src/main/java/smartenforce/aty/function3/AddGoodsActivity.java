@@ -25,15 +25,10 @@ import smartenforce.widget.ProgressDialogUtil;
 
 public class AddGoodsActivity extends ShowTitleActivity {
     private TextView tev_GoodsClassifyIDWit;
-
     private EditText edt_NameWit, edt_CountWit, edt_ModelWit, edt_UnitWit, edt_RemarkWit;
     private ImageView imv_goods;
-
     private TextView tev_del, tev_save;
-
-
     private AddEnforceBean.WithholdGoodsValueBean goodsValueBean;
-
     private String[] array_wpfl;
     private AlertView alertView_wpfl;
 

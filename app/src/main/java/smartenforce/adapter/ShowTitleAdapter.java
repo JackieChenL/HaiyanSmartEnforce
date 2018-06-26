@@ -105,3 +105,4 @@ public class ShowTitleAdapter extends RecyclerView.Adapter<ShowTitleAdapter.View
 
 
 }
+

@@ -39,8 +39,6 @@ public class AddPictureActivity extends ShowPdfActivity {
     private RecyclerView rv_photo;
     private ImageAdapter adapter;
     private ArrayList<String> list = new ArrayList<String>();
-
-
     private int ID;
     private AddPictureBean addPictureBean;
 

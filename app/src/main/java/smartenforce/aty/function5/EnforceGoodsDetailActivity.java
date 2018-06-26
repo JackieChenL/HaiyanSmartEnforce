@@ -17,10 +17,8 @@ import smartenforce.bean.EnforceGoodsBean;
 
 public class EnforceGoodsDetailActivity extends ShowTitleActivity {
     private TextView tev_GoodsClassifyIDWit, tev_NameWit, tev_CountWit, tev_ModelWit, tev_UnitWit, tev_RemarkWit;
-
     private ImageView imv_goods;
     private EnforceGoodsBean enforceGoodsBean;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

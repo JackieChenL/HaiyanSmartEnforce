@@ -51,9 +51,7 @@ public class AddEnforceActivity extends ShowPdfActivity {
     private TextView tev_sqlx, tev_address, tev_start_time, tev_end_time;
     private ImageView imv_add;
     private EditText edt_describe, edt_suggest, edt_referNumber;
-
     private TextView tev_sqyj;
-
     private String[] array_sqlx;
     private TimePickerView timePickerView;
 

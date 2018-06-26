@@ -91,5 +91,4 @@ public class ExitListActivity extends ShowTitleActivity {
     }
 
 
-
 }

@@ -480,7 +480,3 @@ public class NewQueryActivity extends ShowTitleActivity {
 
 
 
-
-
-
-

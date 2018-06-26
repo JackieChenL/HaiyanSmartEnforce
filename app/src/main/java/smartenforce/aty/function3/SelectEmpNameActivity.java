@@ -20,7 +20,6 @@ import smartenforce.bean.GroupBean;
 import smartenforce.impl.NoFastClickLisener;
 import smartenforce.projectutil.PersonUtil;
 
-
 public class SelectEmpNameActivity extends ShowTitleActivity {
     private ExpandableListView expandlist;
     private Groupadapter groupadapter;

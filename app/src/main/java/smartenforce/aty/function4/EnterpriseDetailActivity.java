@@ -29,7 +29,6 @@ import smartenforce.impl.NoFastClickLisener;
 import smartenforce.projectutil.UpLoadImageUtil;
 import smartenforce.widget.FullyGridLayoutManager;
 
-
 public class EnterpriseDetailActivity extends ShowTitleActivity {
     private EditText edt_dz, edt_dwmc, edt_zjh, edt_zczj, edt_yzbm, edt_fzr;
     private EditText edt_sfz, edt_lxfs, edt_zw, edt_hjdz, edt_dwdz, edt_jyfw, edt_dwbq;

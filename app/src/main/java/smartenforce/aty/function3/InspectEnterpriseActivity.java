@@ -30,7 +30,6 @@ public class InspectEnterpriseActivity extends ShowTitleActivity {
     //经营者--法定代表人  经营场所--住所
     private TextView tev_operator, tev_address;
     private EnterpriseDetailBean enterpriseDetailBean;
-
     private List<Object> objList = new ArrayList<>();
 
 

@@ -31,7 +31,6 @@ public class LiveOrOtherActivity extends ShowTitleActivity {
     private EditText edt_name, edt_sfz, edt_address, edt_phone, edt_email;
     private TextView tev_sex, tev_mz, tev_search;
     private AlertView alertView_sex, alertView_nation;
-
     private String[] arr_sex, arr_nation;
     private int TYPE;
 

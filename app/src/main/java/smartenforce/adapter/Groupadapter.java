@@ -17,7 +17,6 @@ import java.util.List;
 import smartenforce.bean.GroupBean;
 
 
-
 public class Groupadapter extends BaseExpandableListAdapter {
     private Context context;
     private List<GroupBean> list;

@@ -8,7 +8,7 @@
     <include layout="@layout/layout_header" />
 
 
-    <com.kas.hainin.smartenforce.widget.view.PhotoView
+    <smartenforce.widget.view.PhotoView
         android:id="@+id/img_iv"
         android:background="@color/pic_image_background"
         android:layout_width="match_parent"

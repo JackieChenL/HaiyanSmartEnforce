@@ -38,15 +38,6 @@ public abstract class PrintActivity extends ShowTitleActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_print);
-//        bodyArray=getIntent().getStringArrayExtra("body");
-//        tev_print = (TextView) findViewById(R.id.tev_print);
-//        tev_print.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                doCheckConnection();
-//            }
-//        });
     }
 
 

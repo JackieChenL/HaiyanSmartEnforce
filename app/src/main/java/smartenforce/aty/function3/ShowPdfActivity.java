@@ -7,7 +7,6 @@ import smartenforce.base.ShowTitleActivity;
 import smartenforce.intf.PermissonCallBack;
 import smartenforce.projectutil.FileDownLoadUtil;
 
-
 public abstract class ShowPdfActivity extends ShowTitleActivity {
     AlertView alterView;
 

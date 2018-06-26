@@ -22,7 +22,6 @@ import smartenforce.projectutil.Base64Util;
 import smartenforce.util.UIUtil;
 import smartenforce.widget.ProgressDialogUtil;
 
-
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
     private List<String> arr_bitmap;
     private Context mContext;

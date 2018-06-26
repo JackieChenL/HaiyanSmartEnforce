@@ -29,12 +29,10 @@ import smartenforce.impl.NoFastClickLisener;
 import smartenforce.projectutil.UpLoadImageUtil;
 import smartenforce.util.RegexUtil;
 
-
 public class CitizenDetailActivity extends ShowTitleActivity {
     private EditText edt_name, edt_card, edt_mobile, edt_address, edt_postcode;
     private TextView tev_mz, tev_sex;
-   private ScrollView scv;
-
+    private ScrollView scv;
     private RecyclerView rv_photo;
     private ImageAdapter adapter;
     private ArrayList<String> list = new ArrayList<String>();

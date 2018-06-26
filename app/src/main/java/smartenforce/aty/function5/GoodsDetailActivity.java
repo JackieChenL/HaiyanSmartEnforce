@@ -33,7 +33,6 @@ public class GoodsDetailActivity extends ShowTitleActivity {
     private LinearLayout llt_action_footer,llt_nomal,llt_release;
     private TextView tev_repeating, tev_processing, tev_destroy;
     private GoodListBean goodListBean;
-
     private String state = "";
 
 

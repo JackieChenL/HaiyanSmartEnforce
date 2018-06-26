@@ -28,13 +28,10 @@ import smartenforce.util.ImgUtil;
 import smartenforce.widget.ProgressDialogUtil;
 
 public class AddGraphActivity extends ShowPdfActivity {
-
     private EditText edt_ExplainIch;
-
     private ImageView iv_item_add_graph;
     private String file_path = null;
     private int ID;
-
     private AddGraphBean addGraphBean;
 
     @Override

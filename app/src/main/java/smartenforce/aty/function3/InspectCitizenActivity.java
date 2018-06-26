@@ -29,13 +29,9 @@ import smartenforce.util.RegexUtil;
 public class InspectCitizenActivity extends ShowTitleActivity {
     private TextView tev_Name_search, tev_sex, tev_nation;
     private EditText edt_Name, edt_card, edt_phone, edt_address, edt_postcode;
-
     private AlertView alertView_sex, alertView_nation;
-
     private String[] arr_sex, arr_nation;
-
     private CitizenBean citizenBean;
-
     private List<Object> objList=new ArrayList<>();
 
 

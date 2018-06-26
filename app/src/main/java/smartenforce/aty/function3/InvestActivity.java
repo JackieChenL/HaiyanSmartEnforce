@@ -14,7 +14,6 @@ import smartenforce.base.ShowTitleActivity;
 import smartenforce.frament.InvestCaseFragment;
 import smartenforce.frament.InvestSourceFragment;
 
-
 public class InvestActivity extends ShowTitleActivity implements RadioGroup.OnCheckedChangeListener {
     private LinearLayout llt_container;
     private RadioGroup rg;

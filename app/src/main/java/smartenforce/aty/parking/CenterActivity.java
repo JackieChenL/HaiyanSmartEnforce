@@ -12,8 +12,6 @@ import com.kas.clientservice.haiyansmartenforce.R;
 import smartenforce.base.CommonActivity;
 
 public class CenterActivity extends CommonActivity implements View.OnClickListener {
-
-
     private LinearLayout llt_park, llt_exit, llt_query, llt_bj, llt_setting, llt_check;
     private ImageView iv_heaer_back;
     private TextView tv_header_title;

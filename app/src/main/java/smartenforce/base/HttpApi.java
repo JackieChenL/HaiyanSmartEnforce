@@ -36,34 +36,14 @@ public class HttpApi {
     //督察情况录入接口
     public static final String URL_CHECKADD=URL_BASE+ "ChecksAdd.ashx";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //获取案源列表
     public static final String SOURCE_INVESTLIST_LIST = MOBILE_BASE + "SourceInvestigationList.ashx";
     //获取案件列表
     public static final String CASE_INVESTLIST_LIST = MOBILE_BASE + "CaseInvestigationList.ashx";
 
-    /**  TODO:start ************************************************/
-
-
-
     //调查取证详情，巡查查询详情
     public static final String URL_SOURCEDETAIL = MOBILE_BASE + "SourceDetail.ashx";
 
-    /**  TODO:end ************************************************/
     //巡查查询列表
     public static final String URL_SOURCELIST = MOBILE_BASE + "SourceList.ashx";
 

@@ -19,7 +19,6 @@ import smartenforce.base.HttpApi;
 import smartenforce.bean.AddGraphBean;
 import smartenforce.bean.AddPictureBean;
 
-
 public class InquestDetailAdapter extends RecyclerView.Adapter<InquestDetailAdapter.ViewHolder> {
     private List<Object> list;
     private Context mContext;

@@ -34,8 +34,6 @@ public class QueryListActivity extends ShowTitleActivity implements XRecyclerVie
     private MyXRecyclerView xrcv_list;
 
     private TimePickerView timePickerView;
-
-
     private TextView tev_starttime, tev_endtime;
     private EditText edt_afdd, edt_dsr;
 

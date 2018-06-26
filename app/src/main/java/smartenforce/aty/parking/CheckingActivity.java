@@ -22,12 +22,9 @@ import smartenforce.projectutil.TimePickerUtil;
 import smartenforce.util.DateUtil;
 
 public class CheckingActivity extends ShowTitleActivity implements View.OnClickListener {
-
     private TextView tev_startTime, tev_endTime, tev_query;
-
     private LinearLayout llt_detail;
     private TextView tev_total, tev_money, tev_weixin, tev_count;
-
     private TimePickerView timePickerView;
 
     @Override

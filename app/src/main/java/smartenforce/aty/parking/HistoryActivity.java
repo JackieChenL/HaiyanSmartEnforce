@@ -30,9 +30,7 @@ public class HistoryActivity extends ShowTitleActivity {
     private TextView tev_cphm, tev_trsj, tev_pwbh, tev_lksj, tev_tcfy;
     private LinearLayout llt_footer;
     private TextView tev_left, tev_right;
-
     private TcListBeanResult bean;
-
     private int rePayMoney;
 
     @Override

@@ -570,8 +570,3 @@ public class EnterpriseOrCitizenActivity extends ShowTitleActivity implements Ra
 
 
 
-
-
-
-
-

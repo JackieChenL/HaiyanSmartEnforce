@@ -51,9 +51,7 @@ public class AddInquestActivity extends ShowPdfActivity {
     private EditText edt_AddressInq;
     private TextView tev_WorkPlaceInq;
     private LinearLayout llt_container;
-
     private TextView tev_EmpNameInq, tev_RecordManInq;
-
     private TextView tev_model_name;
     //type==1,2对应企业自然人不为空
     private int TYPE;

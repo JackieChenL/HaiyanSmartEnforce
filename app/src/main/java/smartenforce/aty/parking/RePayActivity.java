@@ -29,8 +29,6 @@ public class RePayActivity extends ShowTitleActivity implements AdapterView.OnIt
     private EditText et_cp_num;
     private TextView tev_query;
     private RecyclerView rv;
-
-
     String[] arr_province;
     String[] arr_abc;
     String province = "浙";

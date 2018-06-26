@@ -28,14 +28,10 @@ import smartenforce.util.DateUtil;
 
 
 public class ReleaseEnforceActivity extends ShowTitleActivity {
-
     private EnforceListBean enforceListBean;
     private ReleaseEnforceBean releaseEnforceBean;
-
-
     private TextView tev_sqlx, tev_release_time,tev_referNumber_title;
     private EditText edt_referNumber, edt_sqyj, edt_describe,edt_suggest;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

@@ -14,7 +14,6 @@ import smartenforce.base.ShowTitleActivity;
 import smartenforce.frament.CitizenFragment;
 import smartenforce.frament.EnterPriseFragment;
 
-
 //服务对象
 public class RecipientActivity extends ShowTitleActivity implements RadioGroup.OnCheckedChangeListener {
     private LinearLayout llt_container;

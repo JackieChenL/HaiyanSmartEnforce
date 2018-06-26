@@ -24,7 +24,6 @@ import smartenforce.bean.SourseBean;
 import smartenforce.impl.NoFastClickLisener;
 import smartenforce.intf.ItemListener;
 
-
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     private ItemListener listener;

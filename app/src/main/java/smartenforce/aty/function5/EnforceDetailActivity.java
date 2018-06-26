@@ -28,14 +28,10 @@ import smartenforce.widget.FullyLinearLayoutManager;
 
 
 public class EnforceDetailActivity extends ShowTitleActivity {
-
     private EnforceListBean enforceListBean;
-
-
     private TextView tev_sqlx, tev_address, tev_start_time, tev_end_time;
     private TextView tev_describe, tev_referNumber, tev_sqyj;
     private RecyclerView rcv_list;
-
     private ShowTitleAdapter adapter;
     private List<Object> list = new ArrayList<>();
 

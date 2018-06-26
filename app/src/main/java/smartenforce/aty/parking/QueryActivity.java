@@ -36,7 +36,6 @@ public class QueryActivity extends ShowTitleActivity implements AdapterView.OnIt
     private EditText et_cp_num;
     private TextView tev_query;
     private RecyclerView rv;
-
     private TextView tev_pwbh;
 
     String[] arr_province;

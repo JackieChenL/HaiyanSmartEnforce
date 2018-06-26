@@ -317,6 +317,3 @@ public class QueryDetailActivity extends ShowTitleActivity {
 
 
 
-
-
-

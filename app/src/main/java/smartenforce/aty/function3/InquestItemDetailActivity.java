@@ -31,17 +31,13 @@ import smartenforce.projectutil.FileDownLoadUtil;
 import smartenforce.widget.FullyLinearLayoutManager;
 
 public class InquestItemDetailActivity extends ShowTitleActivity {
-
     private int ID;
     private InquestBean bean;
-
     private final  int UpdateRequestID=100;
-
     private RecyclerView rcv_list;
     private InquestDetailAdapter adapter;
     private List<Object> objList = new ArrayList<>();
     private TextView tev_StartTimeInq, tev_EndTimeInq, tev_AddressInq;
-
     private LinearLayout llt_citizen;
     private TextView tev_Name_cit, tev_sex, tev_nation, tev_card_cit, tev_mobile_cit, tev_address_cit, tev_postcode_cit;
 

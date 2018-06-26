@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kas.clientservice.haiyansmartenforce.R;
+
 import smartenforce.bean.tcsf.TcListBeanResult;
 
 import java.util.List;
@@ -29,21 +30,21 @@ public class ExitListAdapter extends RecyclerView.Adapter<ExitListAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View  view = inflater.inflate(R.layout.item_exit, parent, false);
+        View view = inflater.inflate(R.layout.item_exit, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-                 holder.tev_cphm.setText(list.get(position).carnum);
-                 holder.tev_pwbh.setText(list.get(position).Berthname);
-                 holder.tev_trsj.setText(list.get(position).starttime);
+        holder.tev_cphm.setText(list.get(position).carnum);
+        holder.tev_pwbh.setText(list.get(position).Berthname);
+        holder.tev_trsj.setText(list.get(position).starttime);
         holder.llt_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if (onItemClickListener!=null){
-                   onItemClickListener.onItemClick(position);
-               }
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(position);
+                }
             }
         });
     }
@@ -60,8 +61,9 @@ public class ExitListAdapter extends RecyclerView.Adapter<ExitListAdapter.ViewHo
 
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tev_pwbh, tev_cphm,tev_trsj;
+        TextView tev_pwbh, tev_cphm, tev_trsj;
         LinearLayout llt_item;
+
         public ViewHolder(View itemView) {
             super(itemView);
             tev_pwbh = (TextView) itemView.findViewById(R.id.tev_pwbh);
@@ -82,3 +84,4 @@ public class ExitListAdapter extends RecyclerView.Adapter<ExitListAdapter.ViewHo
     }
 
 }
+

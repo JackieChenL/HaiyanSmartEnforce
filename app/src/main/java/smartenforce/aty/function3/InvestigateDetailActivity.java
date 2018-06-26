@@ -140,7 +140,6 @@ public class InvestigateDetailActivity extends ShowTitleActivity {
 
     }
 
-
     private void fillInvestigateDetail() {
         tev_ReferenceNumber.setText(investigateDetailBean.ReferenceNumber);
         tev_EntryTimeSou.setText(investigateDetailBean.EntryTimeSou);
