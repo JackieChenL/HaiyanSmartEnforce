@@ -312,7 +312,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 intent = new Intent(mContext, CaseSearchActivity.class);
                 startActivity(intent);
                 break;
-
             case 18://专项政治
                 startActivity(new Intent(mContext, XieTongActivity.class));
                 break;
