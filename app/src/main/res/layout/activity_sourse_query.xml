@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include
+        layout="@layout/layout_header" />
+
+
+    <RelativeLayout
+        style="@style/item_style_rtl">
+
+        <TextView
+            android:id="@+id/tev_starttime_l"
+            style="@style/item_style_l"
+            android:text="开始时间:" />
+
+        <TextView
+            android:id="@+id/tev_starttime"
+            style="@style/item_style_center"
+            android:hint="请选择开始时间"
+            android:layout_toRightOf="@+id/tev_starttime_l" />
+
+    </RelativeLayout>
+
+    <TextView style="@style/item_divider" />
+
+    <RelativeLayout
+        style="@style/item_style_rtl">
+
+        <TextView
+            android:id="@+id/tev_endtime_l"
+            style="@style/item_style_l"
+            android:text="结束时间:" />
+
+        <TextView
+            android:id="@+id/tev_endtime"
+            style="@style/item_style_center"
+            android:hint="请选择结束时间"
+            android:layout_toRightOf="@+id/tev_endtime_l" />
+
+    </RelativeLayout>
+
+
+    <TextView style="@style/item_divider" />
+
+
+    <RelativeLayout
+        style="@style/item_style_rtl">
+
+        <TextView
+            android:id="@+id/tev_afdd_l"
+            style="@style/item_style_l"
+            android:text="案发地点:" />
+
+        <EditText
+            android:id="@+id/edt_afdd"
+            style="@style/item_style_center"
+            android:hint="请填写案发地点"
+            android:layout_toRightOf="@+id/tev_afdd_l" />
+
+    </RelativeLayout>
+
+    <TextView style="@style/item_divider" />
+
+    <RelativeLayout
+        style="@style/item_style_rtl">
+
+        <TextView
+            android:id="@+id/tev_dsr_l"
+            style="@style/item_style_l"
+            android:text="当事人:" />
+
+        <EditText
+            android:id="@+id/edt_dsr"
+            style="@style/item_style_center"
+            android:hint="请填写当事人"
+            android:layout_toRightOf="@+id/tev_dsr_l" />
+
+    </RelativeLayout>
+
+    <TextView style="@style/item_divider" />
+
+
+    <Button
+        android:id="@+id/btn_query"
+        style="@style/btn_rl"
+        android:layout_height="45dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_weight="0"
+        android:text="查询"/>
+
+    <smartenforce.widget.MyXRecyclerView
+        android:id="@+id/xrcv_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+    </smartenforce.widget.MyXRecyclerView>
+
+
+
+</LinearLayout>

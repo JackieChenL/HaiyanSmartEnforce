@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llt_person"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_header" />
+
+    <ScrollView
+        android:id="@+id/scv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="15dp">
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_xm_l"
+                    style="@style/item_style_l"
+                    android:text="姓名:" />
+
+
+                <EditText
+                    android:id="@+id/edt_name"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_xm_l"
+                    android:hint="" />
+
+            </RelativeLayout>
+
+            <TextView style="@style/item_divider" />
+
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_sfzh_l"
+                    style="@style/item_style_l"
+                    android:text="身份证号:" />
+
+
+                <EditText
+                    android:id="@+id/edt_card"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_sfzh_l"
+                    android:hint="" />
+
+            </RelativeLayout>
+
+
+            <TextView style="@style/item_divider" />
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_lxfs_l"
+                    style="@style/item_style_l"
+                    android:text="联系方式:" />
+
+
+                <EditText
+                    android:id="@+id/edt_mobile"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_lxfs_l"
+                    android:hint=""
+                    android:inputType="phone" />
+
+            </RelativeLayout>
+
+            <TextView style="@style/item_divider"
+                android:layout_height="20dp"/>
+
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_xb_l"
+                    style="@style/item_style_l"
+                    android:text="性别:" />
+
+                <TextView
+                    android:id="@+id/tev_sex"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_xb_l"
+                    android:hint="" />
+
+
+            </RelativeLayout>
+
+            <TextView style="@style/item_divider" />
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_mz_l"
+                    style="@style/item_style_l"
+                    android:text="民族:" />
+
+
+                <TextView
+                    android:id="@+id/tev_mz"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_mz_l"
+                    android:hint="" />
+
+            </RelativeLayout>
+
+            <TextView style="@style/item_divider" />
+
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_lxdz_l"
+                    style="@style/item_style_l"
+                    android:text="联系地址:" />
+
+
+                <EditText
+                    android:id="@+id/edt_address"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_lxdz_l"
+                    android:hint="" />
+
+            </RelativeLayout>
+
+
+
+            <TextView style="@style/item_divider" />
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_yb_l"
+                    style="@style/item_style_l"
+                    android:text="邮编:" />
+
+
+                <EditText
+                    android:id="@+id/edt_postcode"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_yb_l"
+                    android:hint="" />
+
+            </RelativeLayout>
+
+            <TextView style="@style/item_divider" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</LinearLayout>

@@ -30,7 +30,6 @@ import com.kas.clientservice.haiyansmartenforce.Utils.BitmapToBase64;
 import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
 import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 import com.kas.clientservice.haiyansmartenforce.Utils.WaterMaskImageUtil;
-import com.kas.clientservice.haiyansmartenforce.tcsf.util.ToastUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -39,6 +38,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import okhttp3.Call;
+import smartenforce.util.ToastUtil;
 
 import static com.kas.clientservice.haiyansmartenforce.Utils.Utils.getImageCropUri;
 import static com.kas.clientservice.haiyansmartenforce.Utils.Utils.saveImageToLocal;

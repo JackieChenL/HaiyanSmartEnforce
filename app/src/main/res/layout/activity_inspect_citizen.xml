@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llt_enterprise"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_header" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_Name"
+                    style="@style/item_style_l"
+                    android:text="被检查人:" />
+
+
+                <TextView
+                    android:id="@+id/tev_Name_search"
+                    style="@style/item_style_r"
+                    android:background="@drawable/listicon_search" />
+
+                <EditText
+                    android:id="@+id/edt_Name"
+                    style="@style/item_style_center"
+                    android:layout_toLeftOf="@+id/tev_Name_search"
+                    android:layout_toRightOf="@+id/tev_Name"
+                    android:hint="" />
+
+            </RelativeLayout>
+
+            <TextView style="@style/item_divider" />
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_sex_l"
+                    style="@style/item_style_l"
+                    android:text="性别:" />
+
+
+
+                <TextView
+                    android:id="@+id/tev_sex"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_sex_l"
+                    android:hint="" />
+
+            </RelativeLayout>
+
+            <TextView style="@style/item_divider" />
+
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_nation_l"
+                    style="@style/item_style_l"
+                    android:text="民族:" />
+
+                <TextView
+                    android:id="@+id/tev_nation"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_nation_l"
+                    android:hint="" />
+
+            </RelativeLayout>
+
+            <TextView style="@style/item_divider" />
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_card_l"
+                    style="@style/item_style_l"
+                    android:text="身份证号:" />
+
+                <EditText
+                    android:id="@+id/edt_card"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_card_l"
+                    android:hint="" />
+
+            </RelativeLayout>
+
+            <TextView style="@style/item_divider" />
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_phone"
+                    style="@style/item_style_l"
+                    android:text="联系电话:" />
+
+                <EditText
+                    android:id="@+id/edt_phone"
+                    style="@style/item_style_center"
+                    android:inputType="phone"
+                    android:layout_toRightOf="@+id/tev_phone"
+                    android:hint="" />
+
+            </RelativeLayout>
+
+            <TextView style="@style/item_divider" />
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_address"
+                    style="@style/item_style_l"
+                    android:text="住址:" />
+
+                <EditText
+                    android:id="@+id/edt_address"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_address"
+                    android:hint="" />
+
+            </RelativeLayout>
+
+            <TextView style="@style/item_divider" />
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_postcode"
+                    style="@style/item_style_l"
+                    android:text="邮政编码:" />
+
+                <EditText
+                    android:id="@+id/edt_postcode"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_postcode"
+                    android:hint="" />
+
+            </RelativeLayout>
+
+            <TextView style="@style/item_divider" />
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</LinearLayout>

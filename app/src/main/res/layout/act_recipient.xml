@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_header" />
+
+    <RadioGroup
+        android:id="@+id/rg"
+        style="@style/rg_horizontal_customer"
+        android:layout_margin="0dp">
+
+        <RadioButton
+            android:id="@+id/rbtn_entertrise"
+            style="@style/item_rb_customer"
+            android:text="企业" />
+
+        <RadioButton
+            android:id="@+id/rbtn_citizen"
+            style="@style/item_rb_customer"
+            android:text="自然人" />
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:id="@+id/llt_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+
+</LinearLayout>

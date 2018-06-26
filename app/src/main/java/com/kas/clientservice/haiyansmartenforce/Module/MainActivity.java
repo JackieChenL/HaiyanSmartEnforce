@@ -36,8 +36,8 @@ import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
 import com.kas.clientservice.haiyansmartenforce.Utils.Dp2pxUtil;
 import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 import com.kas.clientservice.haiyansmartenforce.Utils.UPMarqueeView;
-import com.kas.clientservice.haiyansmartenforce.tcsf.aty.CenterActivity;
-import com.kas.clientservice.haiyansmartenforce.tcsf.patrol.SearchActivity;
+import smartenforce.aty.parking.CenterActivity;
+import smartenforce.aty.patrol.SearchActivity;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -46,6 +46,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import okhttp3.Call;
+import smartenforce.aty.function1.NewQueryActivity;
+import smartenforce.aty.function2.QueryListActivity;
+import smartenforce.aty.function3.InvestActivity;
+import smartenforce.aty.function4.RecipientActivity;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, MainModuleRvAdapter.OnModuleClickListener {
     @BindView(R.id.ll_main_caseSearch)
@@ -232,6 +236,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 startActivity(new Intent(mContext, HistoryActivity.class));
                 break;
             case R.id.llt_tcjf:
+
                 startActivity(new Intent(mContext, CenterActivity.class));
                 break;
             case R.id.iv_main_search:
@@ -264,6 +269,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         switch (type) {
             case Constants.MainModule.TINGCHESHOUFEI:
                 startActivity(new Intent(mContext, CenterActivity.class));
+
                 break;
             case Constants.MainModule.WEIZHANGTINGCHE:
                 startActivity(new Intent(mContext, IllegalParkingCommitActivity.class));
@@ -287,6 +293,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 intent = new Intent(mContext,CaseSearchActivity.class);
                 startActivity(intent);
                 break;
+
             case 18://专项政治
                 startActivity(new Intent(mContext, XieTongActivity.class));
                 break;
@@ -296,8 +303,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case 20://火柴信用
                 startActivity(new Intent(mContext,HuochaiCreditActivity.class));
                 break;
-            case 21://巡查发现
-//                startActivity(new Intent(mContext, NewQueryActivity.class));
+            case 21:
+                startActivity(new Intent(mContext, NewQueryActivity.class));
+                break;
+            case 22:
+                startActivity(new Intent(mContext, QueryListActivity.class));
+                break;
+            case 23:
+//                startActivity(new Intent(mContext, InvestActivity.class));
+                break;
+            case 24:
+                startActivity(new Intent(mContext, RecipientActivity.class));
                 break;
         }
     }

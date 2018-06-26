@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_header" />
+
+    <RelativeLayout
+        style="@style/item_style_rtl"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tev_ExplainIch_l"
+            style="@style/item_style_l"
+            android:text="情况说明:" />
+
+    </RelativeLayout>
+    <TextView style="@style/item_divider" />
+
+    <LinearLayout style="@style/item_style_lin">
+
+        <EditText
+            android:id="@+id/edt_ExplainIch"
+            style="@style/item_style_input"
+            android:background="@drawable/border"
+            android:hint="请输入说明"
+            android:minHeight="100dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:padding="3dp" />
+
+
+    </LinearLayout>
+    <TextView style="@style/item_divider" />
+
+    <ImageView
+        android:id="@+id/iv_item_add_graph"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/shape_blue_pic_chose"
+        android:clickable="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/add_pic" />
+
+</LinearLayout>
+
+

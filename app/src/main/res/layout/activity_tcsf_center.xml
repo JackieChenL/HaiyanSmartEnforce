@@ -6,7 +6,7 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:background="@color/grey_100"
-    tools:context="com.kas.clientservice.haiyansmartenforce.tcsf.aty.CenterActivity">
+    tools:context="com.kas.clientservice.haiyansmartenforce.smartenforce.aty.parking.CenterActivity">
 
     <include
         android:id="@+id/header"

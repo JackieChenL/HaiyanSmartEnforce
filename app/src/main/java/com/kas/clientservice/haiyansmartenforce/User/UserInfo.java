@@ -43,9 +43,6 @@ public class UserInfo {
         return getCheckName().getCheckNameID();
     }
 
-    public String getEnforceId(){
-        return getName().getUserID();
-    }
 
     public String getClassifyingRubbishId() {
         return getClassifyingRubbish().getClassifyingRubbishId();
@@ -248,26 +245,8 @@ public class UserInfo {
         public String NameDep;
         public String DepartmentID;
         public String type;
+        public String AddressDep;
 
-        public String getDepartmentID() {
-            return DepartmentID;
-        }
-
-        public String getNameDep() {
-            return NameDep;
-        }
-
-        public String getNameEmp() {
-            return NameEmp;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public String getUserID() {
-            return UserID;
-        }
     }
 
     public static class UIBean {

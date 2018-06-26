@@ -3,14 +3,17 @@
     style="@style/item_style_lin"
     android:orientation="vertical">
 
+
     <TextView
         android:id="@+id/tev_title"
         style="@style/item_style_center"
         android:gravity="center"
         android:padding="10dp"
-        android:background="@drawable/border"
-        android:text="" />
+        android:singleLine="false"
+        android:text=""
+        android:textColor="@color/app_original_blue" />
 
+    <View style="@style/item_divider" />
 
 
 </LinearLayout>

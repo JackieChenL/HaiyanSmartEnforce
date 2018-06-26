@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llt_person"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_header" />
+
+    <ScrollView
+        android:id="@+id/scv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="15dp"
+            android:orientation="vertical">
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_dwmc_l"
+                    style="@style/item_style_l"
+                    android:text="单位名称:" />
+
+
+
+                <EditText
+                    android:id="@+id/edt_dwmc"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_dwmc_l"
+                    android:hint=""
+                    />
+
+            </RelativeLayout>
+
+            <View style="@style/item_divider" />
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_fzr_l"
+                    style="@style/item_style_l"
+                    android:text="负责人:" />
+
+
+
+                <EditText
+                    android:id="@+id/edt_fzr"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_fzr_l"
+                    android:hint=""
+                    />
+
+            </RelativeLayout>
+
+            <View style="@style/item_divider" />
+
+
+
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_dz_l"
+                    style="@style/item_style_l"
+                    android:text="店招:" />
+
+
+
+                <EditText
+                    android:id="@+id/edt_dz"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_dz_l"
+                    android:hint=""
+                     />
+
+            </RelativeLayout>
+
+            <View style="@style/item_divider" />
+
+
+
+
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_dwfl_l"
+                    style="@style/item_style_l"
+                    android:text="单位分类:" />
+
+
+
+                <TextView
+                    android:id="@+id/tev_dwfl"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_dwfl_l"
+                    android:hint=""
+                     />
+
+            </RelativeLayout>
+
+            <View style="@style/item_divider" />
+
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_dwxz_l"
+                    style="@style/item_style_l"
+                    android:text="单位性质 :" />
+
+
+
+                <TextView
+                    android:id="@+id/tev_dwxz"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_dwxz_l"
+                    android:hint=""
+                     />
+
+            </RelativeLayout>
+
+            <View style="@style/item_divider" />
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_ssqy_l"
+                    style="@style/item_style_l"
+                    android:text="所属区域:" />
+
+
+
+                <TextView
+                    android:id="@+id/tev_ssqy"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_ssqy_l"
+                    android:hint=""
+                    />
+
+            </RelativeLayout>
+            <View style="@style/item_divider" />
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_lxfs_l"
+                    style="@style/item_style_l"
+                    android:text="联系方式:" />
+
+
+
+                <EditText
+                    android:id="@+id/edt_lxfs"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_lxfs_l"
+                    android:hint=""
+                    android:inputType="phone"
+                    />
+
+            </RelativeLayout>
+
+
+            <View style="@style/item_divider"
+                android:layout_height="20dp"/>
+
+
+            <RelativeLayout
+                android:visibility="gone"
+                style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_dwbq_l"
+                    style="@style/item_style_l"
+                    android:text="单位标签:" />
+
+
+
+                <EditText
+                    android:id="@+id/edt_dwbq"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_dwbq_l"
+                    android:hint=""
+                     />
+
+            </RelativeLayout>
+
+            <View style="@style/item_divider" />
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_zjlx_l"
+                    style="@style/item_style_l"
+                    android:text="证件类型:" />
+
+
+                <TextView
+                    android:id="@+id/tev_zjlx"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_zjlx_l"
+                    android:hint=""
+                     />
+
+            </RelativeLayout>
+
+            <View style="@style/item_divider" />
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_zjh_l"
+                    style="@style/item_style_l"
+                    android:text="证件号:" />
+
+
+
+                <EditText
+                    android:id="@+id/edt_zjh"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_zjh_l"
+                    android:hint=""
+                     />
+
+            </RelativeLayout>
+
+            <View style="@style/item_divider" />
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_zczj_l"
+                    style="@style/item_style_l"
+                    android:text="注册资金:" />
+
+
+
+                <EditText
+                    android:id="@+id/edt_zczj"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_zczj_l"
+                    android:hint=""
+                     />
+
+            </RelativeLayout>
+
+            <View style="@style/item_divider" />
+
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_clrq_l"
+                    style="@style/item_style_l"
+                    android:text="成立日期:" />
+
+
+
+                <TextView
+                    android:id="@+id/tev_clrq"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_clrq_l"
+                    android:hint=""
+                     />
+
+            </RelativeLayout>
+
+            <View style="@style/item_divider" />
+
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_jyzk_l"
+                    style="@style/item_style_l"
+                    android:text="经营状况:" />
+
+
+
+                <TextView
+                    android:id="@+id/tev_jyzk"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_jyzk_l"
+                    android:hint=""
+                     />
+
+            </RelativeLayout>
+
+            <View style="@style/item_divider" />
+
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_dwdz_l"
+                    style="@style/item_style_l"
+                    android:text="单位地址:" />
+
+
+
+                <EditText
+                    android:id="@+id/edt_dwdz"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_dwdz_l"
+                    android:hint=""
+                     />
+
+            </RelativeLayout>
+
+            <View style="@style/item_divider" />
+
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_yzbm_l"
+                    style="@style/item_style_l"
+                    android:text="邮政编码:" />
+
+
+
+                <EditText
+                    android:id="@+id/edt_yzbm"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_yzbm_l"
+                    android:hint=""
+                     />
+
+            </RelativeLayout>
+
+            <View style="@style/item_divider" />
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_sex_l"
+                    style="@style/item_style_l"
+                    android:text="性别:" />
+
+
+
+                <TextView
+                    android:id="@+id/tev_sex"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_sex_l"
+                    android:hint=""
+                     />
+
+            </RelativeLayout>
+
+            <View style="@style/item_divider" />
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_mz_l"
+                    style="@style/item_style_l"
+                    android:text="名族:" />
+
+
+
+                <TextView
+                    android:id="@+id/tev_mz"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_mz_l"
+                    android:hint=""
+                     />
+
+            </RelativeLayout>
+
+            <View style="@style/item_divider" />
+
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_sfz_l"
+                    style="@style/item_style_l"
+                    android:text="身份证:" />
+
+
+
+                <EditText
+                    android:id="@+id/edt_sfz"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_sfz_l"
+                    android:hint=""
+                     />
+
+            </RelativeLayout>
+
+            <View style="@style/item_divider" />
+
+
+
+
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_zw_l"
+                    style="@style/item_style_l"
+                    android:text="职务:" />
+
+
+
+                <EditText
+                    android:id="@+id/edt_zw"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_zw_l"
+                    android:hint=""
+                     />
+
+            </RelativeLayout>
+
+            <View style="@style/item_divider" />
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_hjdz_l"
+                    style="@style/item_style_l"
+                    android:text="户籍地址:" />
+
+
+
+                <EditText
+                    android:id="@+id/edt_hjdz"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_hjdz_l"
+                    android:hint=""
+                     />
+
+            </RelativeLayout>
+
+            <View style="@style/item_divider" />
+
+
+            <RelativeLayout style="@style/item_style_rtl">
+
+                <TextView
+                    android:id="@+id/tev_jyfw_l"
+                    style="@style/item_style_l"
+                    android:text="经营范围:" />
+
+
+
+                <EditText
+                    android:id="@+id/edt_jyfw"
+                    style="@style/item_style_center"
+                    android:layout_toRightOf="@+id/tev_jyfw_l"
+                    android:hint=""
+                     />
+
+            </RelativeLayout>
+
+            <View style="@style/item_divider" />
+
+            <TextView
+                style="@style/item_style_l"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="请拍店面全景照（不需要营业执照）"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</LinearLayout>

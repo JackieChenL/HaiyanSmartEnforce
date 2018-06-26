@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/item_style_lin">
+
+    <EditText
+        android:id="@+id/edt_input"
+        style="@style/item_center_style"
+        android:background="@drawable/border"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:padding="3dp"
+        android:text=""
+        android:minHeight="100dp" />
+
+</LinearLayout>
+
+
+
+
+

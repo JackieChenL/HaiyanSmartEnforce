@@ -18,7 +18,6 @@ import com.kas.clientservice.haiyansmartenforce.Http.MySubscriber;
 import com.kas.clientservice.haiyansmartenforce.Http.RetrofitClient;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
-import com.kas.clientservice.haiyansmartenforce.tcsf.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,6 +26,7 @@ import java.util.List;
 import butterknife.BindView;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import smartenforce.util.ToastUtil;
 
 public class RoadSearchActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.tv_header_title)

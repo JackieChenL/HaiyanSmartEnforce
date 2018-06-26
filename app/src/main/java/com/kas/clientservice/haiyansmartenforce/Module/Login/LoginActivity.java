@@ -17,6 +17,7 @@ import com.kas.clientservice.haiyansmartenforce.Http.RetrofitClient;
 import com.kas.clientservice.haiyansmartenforce.Module.MainActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.Register.RegisterActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.Register.ResetPswActivity;
+import com.kas.clientservice.haiyansmartenforce.MyApplication;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
 import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
@@ -68,7 +69,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         tv_forget.setOnClickListener(this);
         String userName = UserSingleton.getInstance().getUserAccount(this);
         String psw = UserSingleton.getInstance().getUserPassword(this);
-        if (userName!=null) {
+        if (userName != null) {
             et_userName.setText(userName);
         }
         if (!psw.equals("")) {
@@ -80,7 +81,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100) {
-            if (data!=null) {
+            if (data != null) {
                 String account = data.getStringExtra("account");
                 String paw = data.getStringExtra("psw");
                 et_userName.setText(account);
@@ -97,7 +98,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                 break;
             case R.id.tv_register:
-                startActivityForResult(new Intent(mContext, RegisterActivity.class),100);
+                startActivityForResult(new Intent(mContext, RegisterActivity.class), 100);
                 break;
             case R.id.tv_login_forget:
                 startActivity(new Intent(mContext, ResetPswActivity.class));
@@ -110,7 +111,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         if (!et_userName.getText().toString().equals("")) {
             if (!et_psw.getText().toString().equals("")) {
                 RetrofitClient.createService(LoginAPI.class)
-                        .httpLogin(et_userName.getText().toString(), et_psw.getText().toString(), AppParameter.getVersionCode(mContext)+"",AppParameter.getIMEI(mContext))
+                        .httpLogin(et_userName.getText().toString(), et_psw.getText().toString(), AppParameter.getVersionCode(mContext) + "", AppParameter.getIMEI(mContext))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new MySubscriber<BaseEntity<UserInfo>>(mContext) {
@@ -125,10 +126,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 Log.i(TAG, "onNext: " + gson.toJson(entity));
                                 if (entity.isState()) {
                                     UserSingleton.USERINFO = entity.getRtn();
-                                    saveUserInfo(et_userName.getText().toString(),et_psw.getText().toString(),entity.getRtn());
+                                    UserInfo.NameBean nameBean = entity.getRtn().Name;
+                                    if (nameBean != null) {
+                                        MyApplication application = (MyApplication) getApplication();
+                                        application.userID = nameBean.UserID;
+                                        application.DepartmentID = nameBean.DepartmentID;
+                                        application.NameEmp = nameBean.NameEmp;
+                                        application.NameDep = nameBean.NameDep;
+                                        application.AddressDep = nameBean.AddressDep;
+                                    }
+                                    saveUserInfo(et_userName.getText().toString(), et_psw.getText().toString(), entity.getRtn());
                                     startActivity(new Intent(mContext, MainActivity.class));
-                                }else {
-                                    ToastUtils.showToast(mContext,entity.ErrorMsg);
+                                } else {
+                                    ToastUtils.showToast(mContext, entity.ErrorMsg);
                                 }
                             }
                         });

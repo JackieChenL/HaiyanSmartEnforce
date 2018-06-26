@@ -519,4 +519,6 @@
     <color name="cancel_button_color">#ff8CACD0</color>
     <color name="text_gray">#5c5656</color>
     <color name="text_color">#cccccc</color>
+
+    <color name="pic_image_background">#82f5f0f0</color>
 </resources>

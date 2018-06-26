@@ -25,26 +25,11 @@
             android:layout_height="50dp"
             android:scaleType="centerCrop"
             android:layout_marginLeft="15dp"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:id="@+id/tev_print_graph"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:textColor="@color/app_original_blue"
-            android:text="打印文书"
-            android:clickable="true"
-            android:layout_marginLeft="15dp"
-            android:textSize="16sp" />
 
 
     </LinearLayout>
 
-
+    <include layout="@layout/item_del_edit_print"/>
 
     <TextView style="@style/item_divider" />
 

@@ -47,8 +47,8 @@
             android:layout_weight="1.0"
             android:background="@drawable/left_btn"
             android:gravity="center"
-            android:text="现金"
-            android:textColor="@color/dialog_btn_color"
+            android:text=""
+            android:textColor="@color/app_original_blue"
             android:textSize="17sp" />
 
         <View
@@ -63,8 +63,8 @@
             android:layout_weight="1.0"
             android:background="@drawable/right_btn"
             android:gravity="center"
-            android:text="微信"
-            android:textColor="@color/dialog_btn_color"
+            android:text=""
+            android:textColor="@color/app_original_blue"
             android:textSize="17sp" />
 
     </LinearLayout>

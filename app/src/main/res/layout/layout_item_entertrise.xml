@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        style="@style/item_style_rtl">
+
+        <TextView
+            android:id="@+id/tev_name_l"
+            style="@style/item_style_l"
+            android:text="输入名称:" />
+
+
+
+        <EditText
+            android:id="@+id/edt_name"
+            style="@style/item_style_center"
+            android:hint="请输入名称"
+            android:layout_toRightOf="@+id/tev_name_l" />
+
+    </RelativeLayout>
+
+     <View style="@style/item_divider"/>
+
+    <RelativeLayout
+        style="@style/item_style_rtl">
+
+        <TextView
+            android:id="@+id/tev_fzr_l"
+            style="@style/item_style_l"
+            android:text="负责人:" />
+
+
+
+        <EditText
+            android:id="@+id/edt_fzr"
+            style="@style/item_style_center"
+            android:hint="请输入负责人"
+            android:layout_toRightOf="@+id/tev_fzr_l" />
+
+    </RelativeLayout>
+
+     <View style="@style/item_divider"/>
+
+
+    <RelativeLayout
+        style="@style/item_style_rtl">
+
+        <TextView
+            android:id="@+id/tev_jgdm_l"
+            style="@style/item_style_l"
+            android:text="机构代码:" />
+
+
+
+        <EditText
+            android:id="@+id/edt_jgdm"
+            style="@style/item_style_center"
+            android:hint="请输入机构代码"
+            android:layout_toRightOf="@+id/tev_jgdm_l" />
+
+    </RelativeLayout>
+
+     <View style="@style/item_divider"/>
+
+
+    <RelativeLayout
+        style="@style/item_style_rtl">
+
+        <TextView
+            android:id="@+id/tev_dz_l"
+            style="@style/item_style_l"
+            android:text="地址:" />
+
+
+
+        <EditText
+            android:id="@+id/edt_dz"
+            style="@style/item_style_center"
+            android:hint="请输入地址"
+            android:layout_toRightOf="@+id/tev_dz_l" />
+
+    </RelativeLayout>
+
+     <View style="@style/item_divider"/>
+
+
+    <LinearLayout
+        style="@style/item_style_rtl"
+        android:layout_height="45dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_query"
+           style="@style/btn_rl"
+            android:text="查询"/>
+        <Button
+            android:id="@+id/btn_add"
+            style="@style/btn_rl"
+            android:text="新增"/>
+    </LinearLayout>
+
+    <smartenforce.widget.MyXRecyclerView
+        android:id="@+id/xrcv_enterrise"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    </smartenforce.widget.MyXRecyclerView>
+
+
+</LinearLayout>

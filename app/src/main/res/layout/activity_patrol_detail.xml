@@ -13,7 +13,7 @@
 
         <include
             android:id="@+id/header"
-            layout="@layout/header" />
+            layout="@layout/layout_header" />
 
 
         <ScrollView

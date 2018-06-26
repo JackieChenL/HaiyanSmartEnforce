@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <include layout="@layout/layout_header" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <RelativeLayout style="@style/item_style_rtl">
+
+                    <TextView
+                        android:id="@+id/tev_StartTimeInq_l"
+                        style="@style/item_style_l"
+                        android:text="检查开始时间:" />
+
+                    <TextView
+                        android:id="@+id/tev_StartTimeInq"
+                        style="@style/item_style_center"
+                        android:layout_toRightOf="@+id/tev_StartTimeInq_l" />
+
+                </RelativeLayout>
+
+                <TextView style="@style/item_divider" />
+
+                <RelativeLayout style="@style/item_style_rtl">
+
+                    <TextView
+                        android:id="@+id/tev_AddressInq_l"
+                        style="@style/item_style_l"
+                        android:text="检查地点:" />
+
+                    <EditText
+                        android:id="@+id/edt_AddressInq"
+                        style="@style/item_style_center"
+                        android:layout_toRightOf="@+id/tev_AddressInq_l" />
+
+                </RelativeLayout>
+
+                <TextView style="@style/item_divider" />
+
+                <RelativeLayout style="@style/item_style_rtl">
+
+                    <TextView
+                        android:id="@+id/tev_checked_man_l"
+                        style="@style/item_style_l"
+                        android:text="被检查人:" />
+
+                    <TextView
+                        android:id="@+id/tev_checked_man"
+                        style="@style/item_style_center"
+                        android:layout_toRightOf="@+id/tev_checked_man_l" />
+
+                </RelativeLayout>
+
+                <TextView style="@style/item_divider" />
+
+                <RelativeLayout style="@style/item_style_rtl">
+
+                    <TextView
+                        android:id="@+id/tev_live_man_l"
+                        style="@style/item_style_l"
+                        android:text="现场负责人:" />
+
+                    <TextView
+                        android:id="@+id/tev_live_man"
+                        style="@style/item_style_center"
+                        android:layout_toRightOf="@+id/tev_live_man_l" />
+
+                </RelativeLayout>
+
+                <TextView style="@style/item_divider" />
+
+                <RelativeLayout
+                    android:id="@+id/rtl_HaMPositionInq"
+                    style="@style/item_style_rtl"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tev_HaMPositionInq_l"
+                        style="@style/item_style_l"
+                        android:text="职务:" />
+
+                    <EditText
+                        android:id="@+id/edt_HaMPositionInq"
+                        style="@style/item_style_center"
+                        android:layout_toRightOf="@+id/tev_HaMPositionInq_l" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tev_HaMPositionInq_devider"
+                    style="@style/item_divider"
+                    android:visibility="gone" />
+
+                <RelativeLayout style="@style/item_style_rtl">
+
+                    <TextView
+                        android:id="@+id/tev_other_l"
+                        style="@style/item_style_l"
+                        android:text="其他见证人:" />
+
+                    <TextView
+                        android:id="@+id/tev_other"
+                        style="@style/item_style_center"
+                        android:layout_toRightOf="@+id/tev_other_l" />
+                </RelativeLayout>
+
+                <TextView style="@style/item_divider" />
+
+
+                <RelativeLayout
+                    android:id="@+id/rtl_WitWorkPlaceInq"
+                    style="@style/item_style_rtl"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tev_WitWorkPlaceInq_l"
+                        style="@style/item_style_l"
+                        android:text="工作单位:" />
+
+                    <EditText
+                        android:id="@+id/edt_WitWorkPlaceInq"
+                        style="@style/item_style_center"
+                        android:layout_toRightOf="@+id/tev_WitWorkPlaceInq_l" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tev_WitWorkPlaceInq_devider"
+                    style="@style/item_divider"
+                    android:visibility="gone" />
+
+
+                <RelativeLayout style="@style/item_style_rtl">
+
+                    <TextView
+                        android:id="@+id/tev_EmpNameInq_l"
+                        style="@style/item_style_l"
+                        android:text="协办人:" />
+
+                    <TextView
+                        android:id="@+id/tev_EmpNameInq"
+                        style="@style/item_style_center"
+                        android:hint="请选择协办人"
+                        android:layout_toRightOf="@+id/tev_EmpNameInq_l" />
+
+                </RelativeLayout>
+
+                <TextView style="@style/item_divider" />
+
+                <RelativeLayout style="@style/item_style_rtl">
+
+                    <TextView
+                        android:id="@+id/tev_RecordManInq_l"
+                        style="@style/item_style_l"
+                        android:text="记录人:" />
+
+                    <TextView
+                        android:id="@+id/tev_RecordManInq"
+                        style="@style/item_style_center"
+                        android:layout_toRightOf="@+id/tev_RecordManInq_l" />
+
+                </RelativeLayout>
+
+                <TextView style="@style/item_divider" />
+
+                <RelativeLayout style="@style/item_style_rtl">
+
+                    <TextView
+                        android:id="@+id/tev_WorkPlaceInq_l"
+                        style="@style/item_style_l"
+                        android:text="工作单位:" />
+
+                    <TextView
+                        android:id="@+id/tev_WorkPlaceInq"
+                        style="@style/item_style_center"
+                        android:layout_toRightOf="@+id/tev_WorkPlaceInq_l" />
+
+                </RelativeLayout>
+
+                <TextView style="@style/item_divider" />
+
+
+                <RelativeLayout style="@style/item_style_rtl">
+
+                    <TextView
+                        style="@style/item_style_l"
+                        android:text="通知当事人到场情况:" />
+
+
+                </RelativeLayout>
+
+                <TextView style="@style/item_divider" />
+
+                <RelativeLayout
+                    style="@style/item_style_rtl"
+                    android:layout_height="wrap_content"
+                    android:minHeight="45dp">
+
+                    <EditText
+                        android:id="@+id/edt_live_status"
+                        style="@style/item_style_center"
+                        android:singleLine="false"
+                        android:hint="请输入当事人到场情况"
+                         />
+
+                </RelativeLayout>
+
+                <TextView style="@style/item_divider" />
+
+                <RelativeLayout style="@style/item_style_rtl">
+
+                    <TextView
+                        android:id="@+id/tev_model_name"
+                        style="@style/item_style_l"
+                        android:text="检查情况:" />
+
+                    <TextView
+                        android:id="@+id/tev_model"
+                        style="@style/item_style_l"
+                        android:textColor="@color/app_original_blue"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="20dp"
+                        android:clickable="true"
+                        android:text="添加模板" />
+
+                </RelativeLayout>
+
+                <TextView style="@style/item_divider" />
+
+                <LinearLayout
+                    android:id="@+id/llt_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </ScrollView>
+    </LinearLayout>
+

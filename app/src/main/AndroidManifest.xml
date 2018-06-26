@@ -82,19 +82,17 @@
 
         <service android:name="net.xprinter.service.XprinterService" />
 
-        <activity android:name=".tcsf.aty.CenterActivity" />
-        <activity android:name=".tcsf.aty.ParkActivity" />
-        <activity android:name=".tcsf.aty.ExitListActivity" />
-        <activity android:name=".tcsf.aty.ExitActivity" />
-        <activity android:name=".tcsf.aty.QueryActivity" />
-        <activity android:name=".tcsf.aty.CheckingActivity" />
-        <activity android:name=".tcsf.aty.SmActivity" />
-        <activity android:name=".tcsf.aty.HistoryActivity" />
-        <activity android:name=".tcsf.aty.RePayActivity" />
-        <activity android:name=".tcsf.zxing.ScanActivity" />
-        <activity android:name=".tcsf.patrol.SearchActivity" />
-        <activity android:name=".tcsf.patrol.DetailActivity" />
-        <activity android:name=".tcsf.patrol.UploadActivity" />
+        <activity android:name="smartenforce.aty.parking.CenterActivity" />
+        <activity android:name="smartenforce.aty.parking.ParkActivity" />
+        <activity android:name="smartenforce.aty.parking.ExitListActivity" />
+        <activity android:name="smartenforce.aty.parking.ExitActivity" />
+        <activity android:name="smartenforce.aty.parking.QueryActivity" />
+        <activity android:name="smartenforce.aty.parking.CheckingActivity" />
+        <activity android:name="smartenforce.aty.parking.HistoryActivity" />
+        <activity android:name="smartenforce.aty.parking.RePayActivity" />
+        <activity android:name="smartenforce.aty.patrol.SearchActivity" />
+        <activity android:name="smartenforce.aty.patrol.DetailActivity" />
+        <activity android:name="smartenforce.aty.patrol.UploadActivity" />
 
         <!-- </activity> -->
         <!-- </activity> -->
@@ -123,10 +121,54 @@
         <activity android:name=".Module.XieTong.XieTongActivity" />
         <activity android:name=".Module.HuochaiCredit.HuochaiCreditActivity" />
         <activity android:name=".Module.FaceCompare.FaceCompareActivity" />
-        <activity android:name=".Module.SmartEnforce.AddDiscoverActivity" />
-        <activity android:name=".Module.SmartEnforce.aty.function1.NewQueryActivity" />
-        <activity android:name=".Module.SmartEnforce.tianditu.TiandituMapActivity" />
         <activity android:name=".Module.Register.ResetPswActivity"></activity>
+
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="OZ0I49nombHnwGOexV444hZPRQXS0wCP"></meta-data>
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+        <service
+            android:name="smartenforce.service.LocationPointService"
+            />
+
+
+        <activity android:name="smartenforce.aty.ViewPhotoActivity" />
+
+        <activity android:name="smartenforce.zxing.ScanActivity" />
+        <activity android:name="smartenforce.tianditu.TiandituMapActivity" />
+        <activity android:name="smartenforce.baidu.BaiduMapActivity" />
+
+        <activity android:name="smartenforce.aty.function1.NewQueryActivity" />
+        <activity android:name="smartenforce.aty.function1.EnterpriseOrCitizenActivity" />
+        <activity android:name="smartenforce.aty.function2.QueryListActivity" />
+        <activity android:name="smartenforce.aty.function2.QueryDetailActivity" />
+        <activity android:name="smartenforce.aty.function3.InvestigateDetailActivity" />
+        <activity android:name="smartenforce.aty.function3.AddInquestActivity" />
+        <activity android:name="smartenforce.aty.function3.InvestActivity" />
+        <activity android:name="smartenforce.aty.function3.InquestItemDetailActivity" />
+        <activity android:name="smartenforce.aty.function3.AddGraphActivity" />
+        <activity android:name="smartenforce.aty.function3.AddPictureActivity" />
+        <activity android:name="smartenforce.aty.function3.SelectEmpNameActivity" />
+        <activity android:name="smartenforce.aty.function3.AddEnforceActivity" />
+        <activity android:name="smartenforce.aty.function3.AddGoodsActivity" />
+        <activity android:name="smartenforce.aty.function3.LiveOrOtherActivity" />
+        <activity android:name="smartenforce.aty.function3.InspectEnterpriseActivity" />
+        <activity android:name="smartenforce.aty.function3.InspectCitizenActivity" />
+        <activity android:name="smartenforce.aty.function4.RecipientActivity" />
+        <activity android:name="smartenforce.aty.function4.EnterpriseDetailActivity" />
+        <activity android:name="smartenforce.aty.function4.CitizenDetailActivity" />
+        <activity android:name="smartenforce.aty.function5.EnforceActivity" />
+        <activity android:name="smartenforce.aty.function5.EnforceDetailActivity" />
+        <activity android:name="smartenforce.aty.function5.EnforceGoodsDetailActivity" />
+        <activity android:name="smartenforce.aty.function5.GoodsDetailActivity" />
+        <activity android:name="smartenforce.aty.function5.ReleaseEnforceActivity" />
+
+
     </application>
 
 </manifest>

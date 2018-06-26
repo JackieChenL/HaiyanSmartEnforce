@@ -172,20 +172,18 @@
 
 
     <string-array name="area">
-        <item>海宁市</item>
-        <item>硖石街道</item>
-        <item>海洲街道</item>
-        <item>海昌街道</item>
-        <item>马桥街道</item>
-        <item>许村镇</item>
-        <item>长安镇</item>
-        <item>周王庙镇</item>
-        <item>丁桥镇</item>
-        <item>斜桥镇</item>
-        <item>黄湾镇</item>
-        <item>盐官镇</item>
-        <item>袁花镇</item>
-        <item>尖山新区</item>
+        <item>海盐县</item>
+        <item>武原街道</item>
+        <item>秦山街道</item>
+        <item>元通街道</item>
+
+        <item>西塘桥街道</item>
+        <item>沈荡镇</item>
+        <item>百步镇</item>
+        <item>于城镇</item>
+
+        <item>澉浦镇</item>
+        <item>通元镇</item>
         <item>其他</item>
     </string-array>
 

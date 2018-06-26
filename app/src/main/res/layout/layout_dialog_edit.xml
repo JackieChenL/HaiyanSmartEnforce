@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llt"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:background="@drawable/bg_round"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tev_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:padding="5dp"
+        android:text="提示"
+        android:textColor="@color/black_text"
+        android:textSize="20sp" />
+
+    <View style="@style/item_divider"
+        android:layout_marginBottom="5dp"/>
+
+
+    <EditText
+        android:id="@+id/edt_input"
+        style="@style/item_center_style"
+        android:layout_width="match_parent"
+        android:singleLine="false"
+        android:layout_weight="0"
+        android:minHeight="100dp" />
+
+    <View
+        style="@style/item_divider"
+        android:layout_marginTop="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tev_left"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:background="@drawable/left_btn"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/app_original_blue"
+            android:textSize="17sp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/divider" />
+
+        <TextView
+            android:id="@+id/tev_right"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:background="@drawable/right_btn"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/app_original_blue"
+            android:textSize="17sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <include
-            layout="@layout/header" />
+            layout="@layout/layout_header" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -81,6 +81,6 @@
     </LinearLayout>
 
 
-    <include layout="@layout/footer" />
+    <include layout="@layout/footer_zft" />
 
 </RelativeLayout>

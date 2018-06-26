@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        style="@style/item_style_rtl">
+
+        <TextView
+            android:id="@+id/tev_goods_name_l"
+            style="@style/item_style_l"
+            android:text="物品名称:" />
+
+        <EditText
+            android:id="@+id/edt_goods_name"
+            style="@style/item_style_center"
+            android:hint="请输入物品 名称"
+            android:layout_toRightOf="@+id/tev_goods_name_l" />
+
+    </RelativeLayout>
+
+    <TextView style="@style/item_divider" />
+
+    <RelativeLayout
+        style="@style/item_style_rtl">
+
+        <TextView
+            android:id="@+id/tev_status_type_l"
+            style="@style/item_style_l"
+            android:text="物品状态:" />
+
+        <TextView
+            android:id="@+id/tev_status_type"
+            style="@style/item_style_center"
+            android:hint="请选择物品状态"
+            android:layout_toRightOf="@+id/tev_status_type_l" />
+
+    </RelativeLayout>
+
+    <TextView style="@style/item_divider" />
+
+    <RelativeLayout
+        style="@style/item_style_rtl">
+
+        <TextView
+            android:id="@+id/tev_code_l"
+            style="@style/item_style_l"
+            android:text="物品编号:" />
+        <TextView
+            android:id="@+id/tev_code_icon"
+            style="@style/item_style_r"
+            android:background="@drawable/scan_code_icon" />
+
+        <EditText
+            android:id="@+id/edt_code"
+            style="@style/item_style_center"
+            android:hint="请输入物品编号或扫描二维码"
+            android:layout_toLeftOf="@+id/tev_code_icon"
+            android:layout_toRightOf="@+id/tev_code_l" />
+
+
+
+    </RelativeLayout>
+
+    <TextView style="@style/item_divider" />
+
+    <Button
+        android:id="@+id/btn_query"
+        style="@style/btn_rl"
+        android:layout_height="45dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_weight="0"
+        android:text="查询"/>
+
+
+    <smartenforce.widget.MyXRecyclerView
+        android:id="@+id/xrcv_goods"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </smartenforce.widget.MyXRecyclerView>
+
+
+</LinearLayout>

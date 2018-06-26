@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        style="@style/item_style_rtl">
+
+        <TextView
+            android:id="@+id/tev_referNumber_l"
+            style="@style/item_style_l"
+            android:text="单号:" />
+
+        <EditText
+            android:id="@+id/edt_referNumber"
+            style="@style/item_style_center"
+            android:hint="请输入扣押单号"
+            android:layout_toRightOf="@+id/tev_referNumber_l" />
+
+    </RelativeLayout>
+
+    <TextView style="@style/item_divider" />
+
+
+    <RelativeLayout
+        style="@style/item_style_rtl">
+
+        <TextView
+            android:id="@+id/tev_person_l"
+            style="@style/item_style_l"
+            android:text="经办人:" />
+
+        <TextView
+            android:id="@+id/tev_person"
+            style="@style/item_style_center"
+            android:hint="请选择经办人"
+            android:layout_toRightOf="@+id/tev_person_l" />
+
+    </RelativeLayout>
+
+    <TextView style="@style/item_divider" />
+    <RelativeLayout
+        style="@style/item_style_rtl">
+
+        <TextView
+            android:id="@+id/tev_time_l"
+            style="@style/item_style_l"
+            android:text="扣押月份:" />
+
+        <TextView
+            android:id="@+id/tev_time"
+            style="@style/item_style_center"
+            android:hint="请选择扣押月份"
+            android:layout_toRightOf="@+id/tev_time_l" />
+
+    </RelativeLayout>
+
+    <TextView style="@style/item_divider" />
+
+    <Button
+        android:id="@+id/btn_query"
+        style="@style/btn_rl"
+        android:layout_height="45dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_weight="0"
+        android:text="查询"/>
+
+
+    <smartenforce.widget.MyXRecyclerView
+        android:id="@+id/xrcv_enforce"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </smartenforce.widget.MyXRecyclerView>
+
+
+</LinearLayout>

@@ -11,21 +11,13 @@
         android:orientation="vertical">
 
         <include
-            android:id="@+id/header"
-            layout="@layout/header" />
+            layout="@layout/layout_header" />
 
-        <com.tianditu.android.maps.MapView
-            android:id="@+id/mapview"
-            android:layout_width="0dp"
-            android:layout_height="0dp">
-
-        </com.tianditu.android.maps.MapView>
 
         <ScrollView
             android:id="@+id/scv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="15dp"
             android:layout_weight="1"
             android:scrollbars="none">
 
@@ -61,26 +53,30 @@
                 <TextView style="@style/item_divider" />
 
 
-                <RelativeLayout style="@style/item_style_rtl">
+                <LinearLayout style="@style/item_style_lin"
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:id="@+id/tev_wfxw_l"
                         style="@style/item_style_l"
                         android:text="违法行为:" />
 
-
+                    <TextView
+                        android:id="@+id/tev_wfxw"
+                        style="@style/item_center_style"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:text=""
+                        android:singleLine="false" />
                     <TextView
                         android:id="@+id/tev_wfxw_r"
                         style="@style/item_style_r"
                         android:background="@drawable/formicon_arrowright" />
 
-                    <TextView
-                        android:id="@+id/tev_wfxw"
-                        style="@style/item_style_center"
-                        android:layout_toLeftOf="@+id/tev_wfxw_r"
-                        android:layout_toRightOf="@+id/tev_wfxw_l" />
+                </LinearLayout>
 
-                </RelativeLayout>
+
+
 
 
                 <TextView style="@style/item_divider" />
@@ -124,7 +120,7 @@
 
                     <TextView
                         android:id="@+id/tev_dsr"
-                        style="@style/item_style_center"
+                        style="@style/item_center_style"
                         android:layout_toLeftOf="@+id/tev_dsr_r"
                         android:layout_toRightOf="@+id/tev_dsr_l"
                         android:clickable="true"
@@ -144,11 +140,20 @@
 
                     <EditText
                         android:id="@+id/edt_rwms"
-                        style="@style/item_style_input"
+                        style="@style/item_center_style"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@drawable/border"
                         android:hint="请输入任务描述"
-                        android:padding="3dp" />
+                        android:minLines="5"
+                        android:padding="3dp"
+                        android:singleLine="false" />
 
                 </LinearLayout>
+
+
+
+
 
 
                 <TextView style="@style/item_divider" />
@@ -189,7 +194,7 @@
 
         </ScrollView>
 
-        <include layout="@layout/footer_common" />
+        <include layout="@layout/footer_zft" />
     </LinearLayout>
 
 
