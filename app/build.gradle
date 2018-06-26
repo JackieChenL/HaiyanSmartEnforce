@@ -25,12 +25,11 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file("HaiYanSmartEnforce.jks")
+            storeFile file('C:/Users/Dell/Desktop/HaiYanSmartEnforce.jks')
             storePassword 'kas123'
             keyAlias 'kas'
             keyPassword 'kas123'
         }
-
     }
 
 
@@ -81,5 +80,4 @@ dependencies {
     compile 'com.journeyapps:zxing-android-embedded:3.5.0'
     compile 'com.yanzhenjie:permission:1.0.3'
     compile 'com.jcodecraeer:xrecyclerview:1.3.2'
-
 }

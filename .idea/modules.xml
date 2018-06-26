@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/HaiyanSmartEnforce.iml" filepath="$PROJECT_DIR$/HaiyanSmartEnforce.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SmartHome_Android_clone.iml" filepath="$PROJECT_DIR$/SmartHome_Android_clone.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

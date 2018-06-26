@@ -175,8 +175,8 @@
                         android:text="扣分值："
                         />
 
-                    <TextView
-                        android:id="@+id/tv_huanwei_check_detail_score"
+                    <EditText
+                        android:id="@+id/et_huanwei_check_detail_score"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingLeft="20dp"
