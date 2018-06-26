@@ -8,7 +8,7 @@ import java.util.List;
  * 公司：COMS
  */
 
-public class BannerAdertisementEntity {
+public class BannerAdvertisementEntity {
 
     /**
      * State : true

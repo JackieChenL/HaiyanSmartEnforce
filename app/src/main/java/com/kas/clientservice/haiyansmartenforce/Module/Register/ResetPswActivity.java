@@ -7,8 +7,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kas.clientservice.haiyansmartenforce.API.ResetPswAPI;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
+import com.kas.clientservice.haiyansmartenforce.Base.BaseEntity;
 import com.kas.clientservice.haiyansmartenforce.Entity.MessageEntity;
+import com.kas.clientservice.haiyansmartenforce.Http.ExceptionHandle;
+import com.kas.clientservice.haiyansmartenforce.Http.MySubscriber;
+import com.kas.clientservice.haiyansmartenforce.Http.RetrofitClient;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
 import com.kas.clientservice.haiyansmartenforce.Utils.CountDownTimerUtils;
@@ -22,6 +27,8 @@ import java.util.Random;
 
 import butterknife.BindView;
 import okhttp3.Call;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static com.kas.clientservice.haiyansmartenforce.Utils.Utils.isPhoneValid;
 
@@ -71,6 +78,7 @@ public class ResetPswActivity extends BaseActivity implements View.OnClickListen
         tv_submit.setOnClickListener(this);
         iv_back.setOnClickListener(this);
         tv_code.setOnClickListener(this);
+
     }
 
     @Override
@@ -79,7 +87,7 @@ public class ResetPswActivity extends BaseActivity implements View.OnClickListen
             case R.id.iv_heaer_back:
                 finish();
                 break;
-            case R.id.tv_register_code:
+            case R.id.tv_resetPsw_code:
                 if (!et_account.getText().toString().equals("")&&isPhoneValid(et_account.getText().toString())) {
 
                     sendMsg();
@@ -115,7 +123,26 @@ public class ResetPswActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void submit() {
+        RetrofitClient.createService(ResetPswAPI.class)
+                .httpResetPsw(account, psw)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MySubscriber<BaseEntity>(mContext) {
+                    @Override
+                    public void onError(ExceptionHandle.ResponeThrowable responeThrowable) {
+                        showNetErrorToast();
+                    }
 
+                    @Override
+                    public void onNext(BaseEntity baseEntity) {
+                        if (baseEntity.isState()) {
+                            ToastUtils.showToast(mContext,"修改成功 ");
+                            finish();
+                        }else {
+                            ToastUtils.showToast(mContext,baseEntity.ErrorMsg);
+                        }
+                    }
+                });
     }
 
     private void sendMsg() {

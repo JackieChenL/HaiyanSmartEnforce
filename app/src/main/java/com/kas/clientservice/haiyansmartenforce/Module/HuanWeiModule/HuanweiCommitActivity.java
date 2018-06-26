@@ -14,6 +14,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,20 +23,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
 import com.jph.takephoto.compress.CompressConfig;
 import com.kas.clientservice.haiyansmartenforce.API.HuanweiAPI;
+import com.kas.clientservice.haiyansmartenforce.API.TownsAPI;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseEntity;
+import com.kas.clientservice.haiyansmartenforce.Base.StringAdapter;
+import com.kas.clientservice.haiyansmartenforce.Entity.TownEntity;
 import com.kas.clientservice.haiyansmartenforce.Http.ExceptionHandle;
 import com.kas.clientservice.haiyansmartenforce.Http.MySubscriber;
 import com.kas.clientservice.haiyansmartenforce.Http.RetrofitClient;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitImgRvAdapter;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ImageActivity;
-import com.kas.clientservice.haiyansmartenforce.Module.RoadSearch.RoadSearchActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.TianDiTu.TiandiMapActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
@@ -63,17 +67,24 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
     TextView tv_btn;
     @BindView(R.id.tv_huanwei_commit_content)
     TextView tv_content;
-    @BindView(R.id.tv_huanwei_commit_position)
-    TextView tv_position;
+    @BindView(R.id.et_huanwei_commit_position)
+    EditText et_position;
     @BindView(R.id.iv_huanwei_commit_location)
     ImageView iv_location;
     @BindView(R.id.tv_huanwei_commit_project)
     TextView tv_project;
     @BindView(R.id.rv_huanwie_commit)
     RecyclerView recyclerView;
+    @BindView(R.id.tv_huanwei_commit_town)
+    TextView tv_town;
+    @BindView(R.id.et_huanwei_commit_score)
+    EditText et_score;
     @BindView(R.id.et_huanwei_commit_descripe)
     EditText editText;
-
+    @BindView(R.id.activity_huanwei_commit)
+    RelativeLayout rl_main;
+    @BindView(R.id.tv_huanwei_save_btn)
+    TextView tv_save;
 
     TakePhotoImpl takePhoto;
     List<Bitmap> arr_image;
@@ -91,8 +102,15 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
     String contentName = "";
     String contentId = "";
     PopupWindow ppw_content;
+    PopupWindow ppw_town;
     HuanweiContentAdapter huanweiContentAdapter;
     String roadName = "";
+    String townId;
+    StringAdapter stringAdapter;
+    String townName;
+    String state;
+    List<String> list_town = new ArrayList<>();
+    List<TownEntity.TownBean> towns = new ArrayList<>();
 
     public TakePhoto getTakePhoto() {
         if (takePhoto == null) {
@@ -126,13 +144,13 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
             }
             Log.i(TAG, "onActivityResult: " + longitude + "  " + latitude);
         }
-        if (requestCode == Constants.RESULTCODE_ROAD) {
-            if (data != null) {
-                tv_position.setText(data.getStringExtra("Road"));
-                roadName = data.getStringExtra("Road");
-//                roadId = data.getStringExtra("RoadId");
-            }
-        }
+//        if (requestCode == Constants.RESULTCODE_ROAD) {
+//            if (data != null) {
+//                tv_position.setText(data.getStringExtra("Road"));
+//                roadName = data.getStringExtra("Road");
+////                roadId = data.getStringExtra("RoadId");
+//            }
+//        }
     }
 
     @Override
@@ -152,13 +170,65 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
         tv_title.setText("上报");
         tv_project.setOnClickListener(this);
         tv_content.setOnClickListener(this);
-        tv_position.setOnClickListener(this);
+//        tv_position.setOnClickListener(this);
         iv_location.setOnClickListener(this);
         tv_btn.setOnClickListener(this);
+        tv_town.setOnClickListener(this);
+        tv_save.setOnClickListener(this);
         initList();
 
         loadPPw();
         loadContentPPW();
+        loadTownPPW();
+    }
+
+    private void loadTownPPW() {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.ppw_project, null);
+        ppw_town = new PopupWindow(view, Dp2pxUtil.dip2px(mContext, 200), LinearLayout.LayoutParams.WRAP_CONTENT);
+        ListView lv = (ListView) view.findViewById(R.id.lv_ppw_project);
+//        list_town = new ArrayList<>();
+        stringAdapter = new StringAdapter(list_town, mContext);
+        lv.setAdapter(stringAdapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                townName = list_town.get(i);
+                tv_town.setText(townName);
+                townId = towns.get(i).getTownid();
+                ppw_town.dismiss();
+            }
+        });
+        ppw_town.setFocusable(true);
+        ppw_town.setOutsideTouchable(true);
+        ppw_town.setBackgroundDrawable(new BitmapDrawable());
+
+        loadTowns();
+    }
+
+    private void loadTowns() {
+        RetrofitClient.createService(TownsAPI.class)
+                .httpgetTown()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new MySubscriber<BaseEntity<TownEntity>>(mContext) {
+                    @Override
+                    public void onError(ExceptionHandle.ResponeThrowable responeThrowable) {
+                        showNetErrorToast();
+                    }
+
+                    @Override
+                    public void onNext(BaseEntity<TownEntity> townEntityBaseEntity) {
+                        if (townEntityBaseEntity.isState()) {
+                            towns.clear();
+                            towns.addAll(townEntityBaseEntity.getRtn().getTown());
+                            for (int i = 0; i < towns.size(); i++) {
+                                list_town.add(towns.get(i).getTown());
+
+                            }
+                            stringAdapter.notifyDataSetChanged();
+                        }
+                    }
+                });
     }
 
     private void initList() {
@@ -272,13 +342,14 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
                     ToastUtils.showToast(mContext, "请选择项目");
                 }
                 break;
-            case R.id.tv_huanwei_commit_position:
-                startActivityForResult(new Intent(mContext, RoadSearchActivity.class), Constants.RESULTCODE_ROAD);
-                break;
+//            case R.id.tv_huanwei_commit_position:
+//                startActivityForResult(new Intent(mContext, RoadSearchActivity.class), Constants.RESULTCODE_ROAD);
+//                break;
             case R.id.iv_huanwei_commit_location:
                 startActivityForResult(new Intent(mContext, TiandiMapActivity.class), Constants.RESULTCODE_TIANDITU);
                 break;
             case R.id.tv_huanwei_commit_btn:
+                roadName = et_position.getText().toString();
                 if (projectName.equals("")) {
                     ToastUtils.showToast(mContext, "请选择项目");
                     break;
@@ -291,20 +362,64 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
                     ToastUtils.showToast(mContext, "请选择路段");
                     break;
                 }
-//                if (longitude.equals("")) {
-//                    ToastUtils.showToast(mContext,"请打开天地图进行定位");
-//                    break;
-//                }
+                if (longitude.equals("")) {
+                    ToastUtils.showToast(mContext, "请打开天地图进行定位");
+                    break;
+                }
+
+                if (townId.equals("")) {
+                    ToastUtils.showToast(mContext, "请选择区域");
+                    break;
+                }
+                if (et_score.getText().toString().equals("")) {
+                    ToastUtils.showToast(mContext, "请输入扣分值");
+                    break;
+                }
                 if (editText.getText().toString().equals("")) {
                     ToastUtils.showToast(mContext, "请输入描述信息");
                     break;
                 }
-                commit();
+                commit("1");
+                break;
+            case R.id.tv_huanwei_save_btn:
+                roadName = et_position.getText().toString();
+                if (projectName.equals("")) {
+                    ToastUtils.showToast(mContext, "请选择项目");
+                    break;
+                }
+                if (contentName.equals("")) {
+                    ToastUtils.showToast(mContext, "请选择内容");
+                    break;
+                }
+                if (roadName.equals("")) {
+                    ToastUtils.showToast(mContext, "请选择路段");
+                    break;
+                }
+                if (longitude.equals("")) {
+                    ToastUtils.showToast(mContext, "请打开天地图进行定位");
+                    break;
+                }
+
+                if (townId.equals("")) {
+                    ToastUtils.showToast(mContext, "请选择区域");
+                    break;
+                }
+                if (et_score.getText().toString().equals("")) {
+                    ToastUtils.showToast(mContext, "请输入扣分值");
+                    break;
+                }
+                if (editText.getText().toString().equals("")) {
+                    ToastUtils.showToast(mContext, "请输入描述信息");
+                    break;
+                }
+                commit("0");
+            case R.id.tv_huanwei_commit_town:
+                ppw_town.showAtLocation(rl_main, Gravity.CENTER, 0, 0);
                 break;
         }
     }
 
-    private void commit() {
+    private void commit(String status) {
         Log.i(TAG, "commit: " + BitmapToBase64.bitmapListToBase64(arr_image));
         RetrofitClient.createService(HuanweiAPI.class)
                 .httpHuanweiCommit(UserSingleton.USERINFO.getCheckNameID(),
@@ -313,6 +428,9 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
                         formLocation(longitude, latitude),
                         editText.getText().toString(),
                         "enterprise",
+                        townId,
+                        et_score.getText().toString(),
+                        state,
                         BitmapToBase64.bitmapListToBase64(arr_image))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -404,7 +522,7 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
 
     private void loadContentData() {
         list_content.clear();
-        adapter.notifyDataSetChanged();
+        huanweiContentAdapter.notifyDataSetChanged();
         RetrofitClient.createService(HuanweiAPI.class)
                 .httpHuanweiContent(projectId)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -419,7 +537,8 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
                     public void onNext(BaseEntity<HuanweiAPI.HuanweiContentEntity[]> s) {
 
                         Collections.addAll(list_content, s.getRtn());
-                        adapter.notifyDataSetChanged();
+                        Log.i(TAG, "onNext: " + list_content.size());
+                        huanweiContentAdapter.notifyDataSetChanged();
                     }
                 });
     }

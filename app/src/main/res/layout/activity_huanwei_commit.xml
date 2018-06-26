@@ -102,8 +102,8 @@
                     android:textSize="16sp"
                     android:textColor="@color/grey_800"/>
 
-                <TextView
-                    android:id="@+id/tv_huanwei_commit_position"
+                <EditText
+                    android:id="@+id/et_huanwei_commit_position"
                     android:layout_width="0dp"
                     android:layout_weight="4"
                     android:layout_height="match_parent"
@@ -121,6 +121,71 @@
                     android:gravity="center"
                     android:src="@drawable/position"
                     android:padding="10dp"/>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey_devider"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|right"
+                    android:text="检查区域："
+                    android:textSize="16sp"
+                    android:textColor="@color/grey_800"/>
+
+                <TextView
+                    android:id="@+id/tv_huanwei_commit_town"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:paddingLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:hint="请选择检查区域"/>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey_devider"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|right"
+                    android:text="扣分值："
+                    android:textSize="16sp"
+                    android:textColor="@color/grey_800"/>
+
+                <EditText
+                    android:id="@+id/et_huanwei_commit_score"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:paddingLeft="10dp"
+                    android:inputType="number"
+                    android:gravity="center_vertical"
+                    android:hint="请输入扣分值"/>
 
 
             </LinearLayout>
@@ -179,15 +244,41 @@
 
     </ScrollView>
 
-    <TextView
-        android:id="@+id/tv_huanwei_commit_btn"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:text="提 交"
-        android:textColor="@color/white"
-        android:background="@color/app_original_blue"
-        android:gravity="center"
-        android:textSize="17sp"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/tv_huanwei_commit_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:text="提 交"
+            android:textColor="@color/white"
+            android:background="@color/app_original_blue"
+            android:gravity="center"
+            android:textSize="17sp"/>
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="50dp"
+            android:background="@color/white"/>
+
+        <TextView
+            android:id="@+id/tv_huanwei_save_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:text="保 存"
+            android:textColor="@color/white"
+            android:background="@color/app_original_blue"
+            android:gravity="center"
+            android:textSize="17sp"/>
+    </LinearLayout>
+
+
 
 </RelativeLayout>
