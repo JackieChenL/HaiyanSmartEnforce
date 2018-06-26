@@ -329,6 +329,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case 23:
 //                startActivity(new Intent(mContext, InvestActivity.class));
+                
                 break;
             case 24:
                 startActivity(new Intent(mContext, RecipientActivity.class));
