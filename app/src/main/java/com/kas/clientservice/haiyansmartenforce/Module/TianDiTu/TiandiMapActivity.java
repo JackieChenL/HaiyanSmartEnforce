@@ -84,13 +84,13 @@ public class TiandiMapActivity extends BaseActivity implements View.OnClickListe
                 .getSystemService(Context.LOCATION_SERVICE);
         // 判断GPS模块是否开启，如果没有则开启
         if (!locationManager
-                .isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
+                .isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Toast.makeText(this, "请打开GPS",
                     Toast.LENGTH_SHORT).show();
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setMessage("请打开GPS");
             dialog.setPositiveButton("确定",
-                    new android.content.DialogInterface.OnClickListener() {
+                    new DialogInterface.OnClickListener() {
 
                         @Override
                         public void onClick(DialogInterface arg0, int arg1) {
@@ -102,7 +102,7 @@ public class TiandiMapActivity extends BaseActivity implements View.OnClickListe
 
                         }
                     });
-            dialog.setNeutralButton("取消", new android.content.DialogInterface.OnClickListener() {
+            dialog.setNeutralButton("取消", new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface arg0, int arg1) {

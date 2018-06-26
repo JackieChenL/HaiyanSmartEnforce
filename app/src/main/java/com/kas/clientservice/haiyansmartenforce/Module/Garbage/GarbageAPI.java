@@ -12,5 +12,5 @@ import rx.Observable;
 public interface GarbageAPI {
     @POST("monitor/api/values/GetTrashInfo")
     @FormUrlEncoded
-    Observable httpGarbage(@Field("SerialNumber")String s);
+    Observable httpGarbage(@Field("SerialNumber") String s);
 }

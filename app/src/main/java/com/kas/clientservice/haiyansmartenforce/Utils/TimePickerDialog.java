@@ -128,7 +128,7 @@ public class TimePickerDialog {
      */
     private void initDialog(View view) {
         mAlertDialog.setPositiveButton("确定",
-                new android.content.DialogInterface.OnClickListener() {
+                new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -148,7 +148,7 @@ public class TimePickerDialog {
                     }
                 });
         mAlertDialog.setNegativeButton("取消",
-                new android.content.DialogInterface.OnClickListener() {
+                new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

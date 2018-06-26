@@ -17,9 +17,9 @@ import retrofit2.http.POST;
 public interface ParkingRecordSearchAPI {
     @POST(RequestUrl.illegalParkingSearch)
     @FormUrlEncoded
-    rx.Observable<BaseEntity<ParkingSearchEntity>> httpParkingSearch(@Field("ZFRYID")String id,
-                                                                     @Field("carnum")String carNum,
-                                                                     @Field("starttime")String startTime,
-                                                                     @Field("endtime")String endTime,
-                                                                     @Field("WFaddress")String address);
+    rx.Observable<BaseEntity<ParkingSearchEntity>> httpParkingSearch(@Field("ZFRYID") String id,
+                                                                     @Field("carnum") String carNum,
+                                                                     @Field("starttime") String startTime,
+                                                                     @Field("endtime") String endTime,
+                                                                     @Field("WFaddress") String address);
 }

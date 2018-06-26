@@ -50,7 +50,7 @@ public class IllegalParkingCommitImgRvAdapter extends RecyclerView.Adapter<Illeg
                 }
             });
         }else {
-            view = inflater.inflate(R.layout.item_image_add,parent,false);
+            view = inflater.inflate(R.layout.item_image_add_tcsf,parent,false);
         }
         return new ViewHolder(view);
     }

@@ -16,6 +16,6 @@ import rx.Observable;
 public interface ResetPswAPI {
     @POST("system/theme/anjuan/editpwd.ashx")
     @FormUrlEncoded
-    Observable<BaseEntity> httpResetPsw(@Field("Opername")String Opername,
-                                        @Field("NewOperPwd")String NewOperPwd);
+    Observable<BaseEntity> httpResetPsw(@Field("Opername") String Opername,
+                                        @Field("NewOperPwd") String NewOperPwd);
 }

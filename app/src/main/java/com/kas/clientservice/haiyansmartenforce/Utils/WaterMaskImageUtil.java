@@ -215,12 +215,12 @@ public class WaterMaskImageUtil {
     //图片上绘制文字
     private static Bitmap drawTextToBitmap(Context context, Bitmap bitmap, String text,
             Paint paint, Rect bounds, int paddingLeft, int paddingTop) {
-        android.graphics.Bitmap.Config bitmapConfig = bitmap.getConfig();
+        Bitmap.Config bitmapConfig = bitmap.getConfig();
 
         paint.setDither(true); // 获取跟清晰的图像采样
         paint.setFilterBitmap(true);// 过滤一些
         if (bitmapConfig == null) {
-            bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
+            bitmapConfig = Bitmap.Config.ARGB_8888;
         }
         bitmap = bitmap.copy(bitmapConfig, true);
         Canvas canvas = new Canvas(bitmap);

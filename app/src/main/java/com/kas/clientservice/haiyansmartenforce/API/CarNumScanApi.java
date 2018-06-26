@@ -14,7 +14,7 @@ import retrofit2.http.POST;
 public interface CarNumScanApi {
     @POST("licenseplaterecognition/recognize")
     @FormUrlEncoded
-    rx.Observable<String> httpCarNumRecognize(@Header("X-Ca-Key")String hey, @Header("Authorization")String Authorization,
-                                              @Field("pic")String base64);
+    rx.Observable<String> httpCarNumRecognize(@Header("X-Ca-Key") String hey, @Header("Authorization") String Authorization,
+                                              @Field("pic") String base64);
 
 }

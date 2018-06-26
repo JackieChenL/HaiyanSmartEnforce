@@ -56,6 +56,10 @@ public class HuanweiHandleActivity extends BaseActivity implements View.OnClickL
     TextView tv_zhenggai;
     @BindView(R.id.tv_huanwei_handle_detail_shensu)
     TextView tv_shengsu;
+    @BindView(R.id.tv_huanwei_handle_detail_commit_town)
+    TextView tv_commit_town;
+    @BindView(R.id.tv_huanwei_handle_detail_score)
+    TextView tv_score;
 
     String id = "";
     List<String> list_town = new ArrayList<>();
@@ -85,6 +89,7 @@ public class HuanweiHandleActivity extends BaseActivity implements View.OnClickL
         initList();
         loadData();
     }
+
     private void loadData() {
         RetrofitClient.createService(HuanweiAPI.class)
                 .httpHandleDetail(UserSingleton.USERINFO.getChangeNameID(), id)
@@ -108,7 +113,9 @@ public class HuanweiHandleActivity extends BaseActivity implements View.OnClickL
                             tv_position.setText(huanweiCheckDetailEntity.getJCDD());
                             tv_time.setText(huanweiCheckDetailEntity.getStarttime());
                             tv_project.setText(huanweiCheckDetailEntity.getXM());
-                            if (huanweiCheckDetailEntity.getImg()!=null) {
+                            tv_commit_town.setText(huanweiCheckDetailEntity.getChecktown());
+                            tv_score.setText(huanweiCheckDetailEntity.getDeScore());
+                            if (huanweiCheckDetailEntity.getImg() != null) {
                                 for (int i = 0; i < huanweiCheckDetailEntity.getImg().size(); i++) {
                                     list_img.add(huanweiCheckDetailEntity.getImg().get(i).getImg());
                                 }
@@ -131,20 +138,20 @@ public class HuanweiHandleActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        Intent intent = new Intent(mContext,HuanweiHandleCommitActivity.class);
+        Intent intent = new Intent(mContext, HuanweiHandleCommitActivity.class);
         switch (view.getId()) {
 
             case R.id.iv_heaer_back:
                 finish();
                 break;
             case R.id.tv_huanwei_handle_detail_handle:
-                intent.putExtra("changeState",2);
-                intent.putExtra("id",id);
+                intent.putExtra("changeState", 2);
+                intent.putExtra("id", id);
                 startActivity(intent);
                 break;
             case R.id.tv_huanwei_handle_detail_shensu:
-                intent.putExtra("changeState",3);
-                intent.putExtra("id",id);
+                intent.putExtra("changeState", 3);
+                intent.putExtra("id", id);
                 startActivity(intent);
                 break;
         }

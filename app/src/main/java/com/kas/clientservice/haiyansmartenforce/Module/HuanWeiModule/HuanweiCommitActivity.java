@@ -413,6 +413,7 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
                     break;
                 }
                 commit("0");
+                break;
             case R.id.tv_huanwei_commit_town:
                 ppw_town.showAtLocation(rl_main, Gravity.CENTER, 0, 0);
                 break;
@@ -430,7 +431,7 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
                         "enterprise",
                         townId,
                         et_score.getText().toString(),
-                        state,
+                        status,
                         BitmapToBase64.bitmapListToBase64(arr_image))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

@@ -117,6 +117,7 @@ public class ResetPswActivity extends BaseActivity implements View.OnClickListen
                 }
                 if (!et_code.getText().toString().trim().equals(code+"")) {
                     ToastUtils.showToast(mContext, "验证码错误");
+                    break;
                 }
                 submit();
         }

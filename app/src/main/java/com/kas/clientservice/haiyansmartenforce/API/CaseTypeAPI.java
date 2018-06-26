@@ -20,9 +20,9 @@ public interface CaseTypeAPI {
     //http://112.13.194.180:82/Handler/CollecterApi.aspx?optionName=geteventpartbigclass&probclass=1
     @POST("/Handler/CollecterApi.aspx")
     @FormUrlEncoded
-    Observable<BaseEntity<List<CaseTypeEntity>>> httpGetCaseType(@Field("optionName")String optionName, @Field("probclass") String subClass);
+    Observable<BaseEntity<List<CaseTypeEntity>>> httpGetCaseType(@Field("optionName") String optionName, @Field("probclass") String subClass);
 
     @POST("/Handler/CollecterApi.aspx")
     @FormUrlEncoded
-    Observable<BaseEntity<List<CaseTypeEntity>>> httpGetCaseTypeSub(@Field("optionName")String optionName, @Field("bigclassCode") String subClass);
+    Observable<BaseEntity<List<CaseTypeEntity>>> httpGetCaseTypeSub(@Field("optionName") String optionName, @Field("bigclassCode") String subClass);
 }

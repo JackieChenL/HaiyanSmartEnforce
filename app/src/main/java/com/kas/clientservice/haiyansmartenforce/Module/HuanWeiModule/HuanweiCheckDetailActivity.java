@@ -71,7 +71,7 @@ public class HuanweiCheckDetailActivity extends BaseActivity implements View.OnC
     TextView tv_noPass;
     @BindView(R.id.tv_huanwei_check_detail_commit_town)
     TextView tv_commit_town;
-    @BindView(R.id.tv_huanwei_check_detail_score)
+    @BindView(R.id.et_huanwei_check_detail_score)
     TextView tv_score;
 
     String id = "";
@@ -211,13 +211,14 @@ public class HuanweiCheckDetailActivity extends BaseActivity implements View.OnC
     private void commit(int state) {
         Log.i(TAG, "commit: ");
         if (!townId.equals("")) {
-
             if (huanweiCheckDetailEntity != null) {
                 RetrofitClient.createService(HuanweiAPI.class)
                         .httpCheckCommit(huanweiCheckDetailEntity.getHoperid()
                                 , townId
                                 , huanweiCheckDetailEntity.getID(),
-                                state)
+                                state,
+                                huanweiCheckDetailEntity.getTownid(),
+                                tv_score.getText().toString())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
                         .subscribe(new MySubscriber<BaseEntity>(mContext) {

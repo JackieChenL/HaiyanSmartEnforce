@@ -35,6 +35,16 @@ public class HuanweiHandleDetailEntity {
     public String starttime;
     public String Shstate;
     public List<ImgBean> Img;
+    public String Checktown;
+    public String DeScore;
+
+    public String getChecktown() {
+        return Checktown;
+    }
+
+    public String getDeScore() {
+        return DeScore;
+    }
 
     public String getHoperid() {
         return hoperid;

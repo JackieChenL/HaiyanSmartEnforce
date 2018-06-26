@@ -14,13 +14,13 @@ import rx.Observable;
 
 public interface RegistAPI {
     @GET("web/carstop/UserCenter.ashx")
-    Observable<BaseEntity<RegisterEntity>> httpRegist(@Query("OperName")String OperName,
-                                                      @Query("Phonenum")String Phonenum,
-                                                      @Query("UserName")String UserName,
-                                                      @Query("UCarnum")String UCarnum,
-                                                      @Query("UserCardID")String UserCardID,
-                                                      @Query("Address")String Address,
-                                                      @Query("Password")String Password);
+    Observable<BaseEntity<RegisterEntity>> httpRegist(@Query("OperName") String OperName,
+                                                      @Query("Phonenum") String Phonenum,
+                                                      @Query("UserName") String UserName,
+                                                      @Query("UCarnum") String UCarnum,
+                                                      @Query("UserCardID") String UserCardID,
+                                                      @Query("Address") String Address,
+                                                      @Query("Password") String Password);
 
     class RegisterEntity {
 

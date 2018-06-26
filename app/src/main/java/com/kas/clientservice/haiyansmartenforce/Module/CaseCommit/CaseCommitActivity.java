@@ -261,6 +261,7 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
 
     private void getImgUrl() {
         Log.i(TAG, "getImgUrl: " + BitmapToBase64.bitmapListToBase64(arr_image));
+        showLoadingDialog();
         OkHttpUtils.post().url(RequestUrl.URL)
                 .addParams("optionName", RequestUrl.getImgUrl)
                 .addParams("img", BitmapToBase64.bitmapListToBase64(arr_image))
@@ -297,8 +298,8 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
                                          } catch (Exception e) {
                                              e.printStackTrace();
                                              Log.i(TAG, "onResponse: " + e.toString());
-                                             dismissLoadingDialog();
                                          }
+                                         dismissLoadingDialog();
                                      }
                                  }
 
@@ -328,7 +329,8 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
                         et_address.getText().toString(),
                         et_decribe.getText().toString(),
                         tv_location.getText().toString(),
-                        substring)
+                        substring,
+                        "application/x-www-form-urlencoded; charset=UTF-8")
 //                .httpCaseCommit(parseBodyToJson(caseCommitEntity))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

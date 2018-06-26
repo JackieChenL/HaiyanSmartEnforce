@@ -4,6 +4,7 @@
     android:id="@+id/activity_huanwei_history_history_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="com.kas.clientservice.haiyansmartenforce.Module.HuanWeiModule.HuanweiHistoryDetailActivity">
 
     <LinearLayout
@@ -45,11 +46,12 @@
                         android:text="检查人："
                         />
 
-                    <TextView
-                        android:id="@+id/tv_huanwei_handle_history_detail_name"
+                    <EditText
+                        android:id="@+id/et_huanwei_handle_history_detail_name"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingLeft="20dp"
+                        android:background="@color/white"
                         android:gravity="left|center_vertical"/>
 
                 </LinearLayout>
@@ -110,6 +112,61 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/grey_devider"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|right"
+                        android:text="上报区域："
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_huanwei_handle_history_detail_commit_town"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="20dp"
+                        android:gravity="left|center_vertical"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_devider"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|right"
+                        android:text="扣分值："
+                        />
+
+                    <EditText
+                        android:id="@+id/et_huanwei_handle_history_detail_score"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="20dp"
+                        android:inputType="number"
+                        android:background="@color/white"
+                        android:gravity="left|center_vertical"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_devider"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -122,11 +179,12 @@
                         android:text="检查地点："
                         />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/tv_huanwei_handle_history_detail_position"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingLeft="20dp"
+                        android:background="@color/white"
                         android:gravity="left|center_vertical"/>
 
                 </LinearLayout>
@@ -176,11 +234,12 @@
                         android:text="情况描述："
                         />
 
-                    <TextView
-                        android:id="@+id/tv_huanwei_handle_history_detail_describe"
+                    <EditText
+                        android:id="@+id/et_huanwei_handle_history_detail_describe"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingLeft="20dp"
+                        android:background="@color/white"
                         android:gravity="top|left"/>
 
                 </LinearLayout>
@@ -199,6 +258,7 @@
                     android:id="@+id/rv_huanwei_handle_history_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="50dp"
                     >
 
                 </android.support.v7.widget.RecyclerView>
@@ -240,6 +300,45 @@
         </ScrollView>
     </LinearLayout>
 
-    
+    <LinearLayout
+        android:id="@+id/ll_huanwei_history_btn"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_huanwei_history_commit"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="45dp"
+            android:background="@color/app_original_blue"
+            android:textColor="@color/white"
+            android:text="提 交"
+            android:gravity="center"
+            android:textSize="17sp"
+
+            />
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+        <TextView
+            android:id="@+id/tv_huanwei_history_save"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="45dp"
+            android:background="@color/app_original_blue"
+            android:textColor="@color/white"
+            android:text="保 存"
+            android:gravity="center"
+            android:textSize="17sp"
+            android:visibility="gone"
+            />
+    </LinearLayout>
+
+
 
 </RelativeLayout>

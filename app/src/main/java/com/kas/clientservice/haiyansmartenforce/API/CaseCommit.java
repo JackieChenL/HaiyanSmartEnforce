@@ -2,6 +2,7 @@ package com.kas.clientservice.haiyansmartenforce.API;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import rx.Observable;
 
@@ -15,20 +16,22 @@ public interface CaseCommit {
     @POST("handler/collecterapi.aspx/")
     @FormUrlEncoded
     Observable<String> httpCaseCommit(
-            @Field("optionName")String optionName,
-                                      @Field("typecode")String typecode,
-                                      @Field("userid")String userid,
-                                      @Field("bigClass")String bigClass,
-                                      @Field("smallClass")String smallClass,
-                                      @Field("gridcode")String gridcode,
-                                      @Field("address")String address,
-                                      @Field("descript")String descript,
-                                      @Field("fid")String fid,
-                                      @Field("picurls")String picurls
-//            @Body RequestBody requestBody
-            );
+            @Field("optionName") String optionName,
+            @Field("typecode") String typecode,
+            @Field("userid") String userid,
+            @Field("bigClass") String bigClass,
+            @Field("smallClass") String smallClass,
+            @Field("gridcode") String gridcode,
+            @Field("address") String address,
+            @Field("descript") String descript,
+            @Field("fid") String fid,
+            @Field("picurls") String picurls,
+            @Header("Content-Type") String header
 
-    public class CaseCommitEntity{
+//            @Body RequestBody requestBody
+    );
+
+    public class CaseCommitEntity {
         String typecode;
         String userid;
         String bigClass;

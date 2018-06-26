@@ -5,11 +5,9 @@ import android.app.Application;
 import com.baidu.mapapi.SDKInitializer;
 import com.zhy.http.okhttp.OkHttpUtils;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
-import smartenforce.bean.GroupBean;
 
 /**
  * 描述：

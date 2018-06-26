@@ -37,9 +37,23 @@ public interface HuanweiAPI {
                                              @Field("qkms") String qkms,
                                              @Field("UpType") String upType,
                                              @Field("townid") String townid,
-                                             @Field("DeScore")String DeScore,
-                                             @Field("Shstate")String Shstate,
+                                             @Field("DeScore") String DeScore,
+                                             @Field("Shstate") String Shstate,
                                              @Field("Img") String Img);
+
+    @GET("system/theme/hwjg/HistoryjcryAdd.ashx")
+//    @FormUrlEncoded
+    Observable<BaseEntity> httpHuanweiReCommit(@Query("hoperid") String id,
+                                               @Query("id") String caseId,
+                                               @Query("hjcnrid") String hjcnrid,
+                                               @Query("jcdd") String jcdd,
+                                               @Query("jcddzb") String jcddzb,
+                                               @Query("qkms") String qkms,
+                                               @Query("UpType") String upType,
+                                               @Query("townid") String townid,
+                                               @Query("DeScore") String DeScore,
+                                               @Query("Shstate") String Shstate,
+                                               @Query("Img") String Img);
 
     @GET("system/theme/hwjg/Hnewsshlist.ashx")
     Observable<BaseEntity<HuanweiListEntity>> httpGetCheckList(@Query("hoperid") String id);
@@ -53,7 +67,12 @@ public interface HuanweiAPI {
     //hoperid=4440&townid=1&ID=&Shstate=
 
     @GET("system/theme/hwjg/Hnewsshadd.ashx")
-    Observable<BaseEntity> httpCheckCommit(@Query("hoperid") String hoperid, @Query("townid") String townid, @Query("ID") String id, @Query("Shstate") int Shstate);
+    Observable<BaseEntity> httpCheckCommit(@Query("hoperid") String hoperid, @Query("townid") String townid,
+                                           @Query("ID") String id,
+                                           @Query("Shstate") int Shstate,
+                                           @Query("Checktownid") String Checktownid,
+                                           @Query("DeScore") String DeScore
+    );
 
     @GET("system/theme/hwjg/Hnewszg.ashx")
     Observable<BaseEntity<HuanweiHandleDetailEntity>> httpHandleDetail(@Query("hoperid") String hoperid, @Query("id") String id);
@@ -131,6 +150,11 @@ public interface HuanweiAPI {
         public String Shstate;
         public String starttime;
         public List<HuanweiCheckDetailEntity.ImgBean> Img;
+        public String Checktown;
+        public String Checktownid;
+        public String DeScore;
+        public String JCNRID;
+
     }
 
     public class HistoryDetail_checkEntity {
@@ -161,6 +185,9 @@ public interface HuanweiAPI {
         public String Shstate;
         public String starttime;
         public String town;
+        public String Checktown;
+        public String Checktownid;
+        public String DeScore;
         public List<BoardBean.ImgBean> Img;
         public List<BoardBean> board;
 
@@ -218,6 +245,9 @@ public interface HuanweiAPI {
         public String Shstate;
         public String starttime;
         public String town;
+        public String Checktown;
+        public String Checktownid;
+        public String DeScore;
         public List<HistoryDetail_checkEntity.BoardBean.ImgBean> Img;
         public List<BoardBean> board;
 

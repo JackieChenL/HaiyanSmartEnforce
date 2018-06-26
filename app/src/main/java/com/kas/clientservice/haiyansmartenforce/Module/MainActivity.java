@@ -36,8 +36,6 @@ import com.kas.clientservice.haiyansmartenforce.Utils.AppParameter;
 import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
 import com.kas.clientservice.haiyansmartenforce.Utils.Dp2pxUtil;
 import com.kas.clientservice.haiyansmartenforce.Utils.UPMarqueeView;
-import smartenforce.aty.parking.CenterActivity;
-import smartenforce.aty.patrol.SearchActivity;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -48,8 +46,9 @@ import butterknife.BindView;
 import okhttp3.Call;
 import smartenforce.aty.function1.NewQueryActivity;
 import smartenforce.aty.function2.QueryListActivity;
-import smartenforce.aty.function3.InvestActivity;
 import smartenforce.aty.function4.RecipientActivity;
+import smartenforce.aty.parking.CenterActivity;
+import smartenforce.aty.patrol.SearchActivity;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, MainModuleRvAdapter.OnModuleClickListener {
     @BindView(R.id.ll_main_caseSearch)

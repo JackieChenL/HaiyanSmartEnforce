@@ -16,8 +16,8 @@ import rx.Observable;
 public interface HuoChaiCredit {
     @POST("api/manage/AddSearchFromApp")
     @FormUrlEncoded
-    Observable<BaseEntity> httpCreditCommit(@Field("Name")String name,
-                                            @Field("Identity")String identity,
-                                            @Field("Tel")String tel,
-                                            @Field("Reason")String reason);
+    Observable<BaseEntity> httpCreditCommit(@Field("Name") String name,
+                                            @Field("Identity") String identity,
+                                            @Field("Tel") String tel,
+                                            @Field("Reason") String reason);
 }
