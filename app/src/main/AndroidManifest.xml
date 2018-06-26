@@ -138,7 +138,6 @@
 
 
         <activity android:name="smartenforce.aty.ViewPhotoActivity" />
-
         <activity android:name="smartenforce.zxing.ScanActivity" />
         <activity android:name="smartenforce.tianditu.TiandituMapActivity" />
         <activity android:name="smartenforce.baidu.BaiduMapActivity" />
