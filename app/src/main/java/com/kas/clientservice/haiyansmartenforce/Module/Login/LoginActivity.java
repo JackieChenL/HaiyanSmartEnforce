@@ -30,6 +30,7 @@ import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 import butterknife.BindView;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import videotalk.VideoTalkMainActivity;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
