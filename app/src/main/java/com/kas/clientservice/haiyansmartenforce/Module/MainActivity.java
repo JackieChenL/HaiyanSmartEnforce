@@ -177,15 +177,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         list_module.clear();
         list_module.addAll(UserSingleton.USERINFO.getUI());
-        // TODO：测试本地视屏
-        if (1==1){
-            UserInfo.UIBean uiBean=new UserInfo.UIBean();
-            uiBean.title="视屏会话";
-            uiBean.typeid=100;
-            uiBean.url="";
-            list_module.add(uiBean);
-
-        }
         adapter.notifyDataSetChanged();
         setRecyclerViewHeight(list_module.size());
 
