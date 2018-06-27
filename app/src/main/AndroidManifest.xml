@@ -168,6 +168,10 @@
 
         <activity android:name="videotalk.VideoTalkMainActivity"/>
         <activity android:name="videotalk.ui.activities.VideoTalkActivity"/>
+
+
+        <activity android:name=".Module.XieTongList.XieTongList"/>
+        <activity android:name=".Module.XieTongList.XieTongDetalis"/>
     </application>
 
 </manifest>
