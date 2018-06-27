@@ -49,6 +49,7 @@ import smartenforce.aty.function2.QueryListActivity;
 import smartenforce.aty.function4.RecipientActivity;
 import smartenforce.aty.parking.CenterActivity;
 import smartenforce.aty.patrol.SearchActivity;
+import videotalk.VideoTalkMainActivity;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, MainModuleRvAdapter.OnModuleClickListener {
     @BindView(R.id.ll_main_caseSearch)
@@ -176,6 +177,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         list_module.clear();
         list_module.addAll(UserSingleton.USERINFO.getUI());
+        // TODO：测试本地视屏
+        if (1==1){
+            UserInfo.UIBean uiBean=new UserInfo.UIBean();
+            uiBean.title="视屏会话";
+            uiBean.typeid=100;
+            uiBean.url="";
+            list_module.add(uiBean);
+
+        }
         adapter.notifyDataSetChanged();
         setRecyclerViewHeight(list_module.size());
 
@@ -329,10 +339,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case 23:
 //                startActivity(new Intent(mContext, InvestActivity.class));
-                
+
                 break;
             case 24:
                 startActivity(new Intent(mContext, RecipientActivity.class));
+                break;
+
+
+            case 100:
+                startActivity(new Intent(mContext, VideoTalkMainActivity.class));
                 break;
         }
     }
