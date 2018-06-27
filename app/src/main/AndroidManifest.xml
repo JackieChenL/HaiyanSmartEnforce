@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.kas.clientservice.haiyansmartenforce">
+    package="com.kas.clientservice.haiyansmartenforce" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -45,7 +45,7 @@
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar" >
         <activity android:name=".Module.MainActivity" />
         <activity android:name=".Module.IllegalParking.IllegalParkingCommitActivity" />
         <activity android:name=".Module.IllegalParking.ImageActivity" />
@@ -54,7 +54,7 @@
 
         <service android:name="net.xprinter.service.XprinterService" />
 
-        <activity android:name=".Module.Welcome.WelcomeActivity">
+        <activity android:name=".Module.Welcome.WelcomeActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -74,7 +74,7 @@
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.android7.fileprovider"
             android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true" >
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
@@ -121,27 +121,22 @@
         <activity android:name=".Module.XieTong.XieTongActivity" />
         <activity android:name=".Module.HuochaiCredit.HuochaiCreditActivity" />
         <activity android:name=".Module.FaceCompare.FaceCompareActivity" />
-        <activity android:name=".Module.Register.ResetPswActivity"></activity>
-
+        <activity android:name=".Module.Register.ResetPswActivity" />
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="OZ0I49nombHnwGOexV444hZPRQXS0wCP"></meta-data>
+            android:value="OZ0I49nombHnwGOexV444hZPRQXS0wCP" />
 
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
-        <service
-            android:name="smartenforce.service.LocationPointService"
-            />
-
+        <service android:name="smartenforce.service.LocationPointService" />
 
         <activity android:name="smartenforce.aty.ViewPhotoActivity" />
         <activity android:name="smartenforce.zxing.ScanActivity" />
         <activity android:name="smartenforce.tianditu.TiandituMapActivity" />
         <activity android:name="smartenforce.baidu.BaiduMapActivity" />
-
         <activity android:name="smartenforce.aty.function1.NewQueryActivity" />
         <activity android:name="smartenforce.aty.function1.EnterpriseOrCitizenActivity" />
         <activity android:name="smartenforce.aty.function2.QueryListActivity" />
@@ -166,15 +161,10 @@
         <activity android:name="smartenforce.aty.function5.EnforceGoodsDetailActivity" />
         <activity android:name="smartenforce.aty.function5.GoodsDetailActivity" />
         <activity android:name="smartenforce.aty.function5.ReleaseEnforceActivity" />
-
-        <!--视屏通话-->
-        <activity android:name="videotalk.VideoTalkMainActivity" />
-        <activity android:name="videotalk.ui.activities.VideoTalkActivity" />
-
-
-
-
-
+        <activity android:name=".Module.News.AdvDetailActivity" />
+        <activity android:name=".Module.Leader.LeaderCheckCaseActivity" />
+        <activity android:name=".Module.Leader.LeaderCaseSearchDetailActivity" >
+        </activity>
     </application>
 
 </manifest>

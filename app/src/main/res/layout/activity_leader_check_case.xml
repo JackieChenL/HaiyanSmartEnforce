@@ -95,6 +95,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:textSize="14sp"
+                    android:background="@color/white"
                     android:hint="输入当事人"/>
 
             </LinearLayout>
@@ -121,6 +122,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
+                    android:background="@color/white"
                     android:textSize="14sp"
                     android:hint="输入案发地点"/>
 
@@ -148,6 +150,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
+                    android:background="@color/white"
                     android:textSize="14sp"
                     android:hint="输入案卷号"/>
 
@@ -176,6 +179,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:textSize="14sp"
+                    android:background="@color/white"
                     android:hint="输入违法行为"/>
 
             </LinearLayout>
@@ -186,6 +190,7 @@
                 android:background="@color/grey_devider"/>
 
             <TextView
+                android:id="@+id/tv_leader_check_search"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@drawable/shape_blue_btn"
@@ -202,9 +207,10 @@
                 android:id="@+id/lv_leader_check"
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
-                android:dividerHeight="1dp"
+                android:dividerHeight="5dp"
                 android:divider="@color/grey_devider"
-                android:layout_height="wrap_content"></ListView>
+
+                android:layout_height="match_parent"></ListView>
 
         </LinearLayout>
 
