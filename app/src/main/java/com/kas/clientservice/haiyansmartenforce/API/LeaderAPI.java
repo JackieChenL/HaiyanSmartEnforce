@@ -26,7 +26,7 @@ public interface LeaderAPI {
     @FormUrlEncoded
     Observable<String> httpGetCaseDealDetail(@Field("CaseID")String CaseID);
 
-    @POST("Mobile/moCaseSubmitOrSave.ashx")
+    @POST("Mobile/CaseSubmitOrSave.ashx")
     @FormUrlEncoded
     Observable<String> httpCaseDealSubmit(@Field("CaseID")String CaseID,
                                           @Field("UserID")String UserID,
