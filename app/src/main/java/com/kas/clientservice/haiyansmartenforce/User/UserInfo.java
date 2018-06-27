@@ -31,6 +31,7 @@ public class UserInfo {
     public ChangeNameBean ChangeName;
     public ClassifyingRubbishBean ClassifyingRubbish;
     public ParkingSupervisorBean ParkingSupervisor;
+    public SzcgBean szcg;
     public NameBean Name;
     public List<UIBean> UI;
 
@@ -69,6 +70,7 @@ public class UserInfo {
         return ParkingSupervisor.ParkingSupervisorId;
     }
 
+
     public static class PublicUsersBean {
         /**
          * PublicUsersID : 1
@@ -85,6 +87,17 @@ public class UserInfo {
         public String getType() {
             return type;
         }
+    }
+
+
+    public static class SzcgBean {
+
+
+        public String usercode;
+        public String departcode;
+        public String type;
+
+
     }
 
     public static class ParkingSupervisorBean {
