@@ -165,6 +165,9 @@
         <activity android:name=".Module.Leader.LeaderCheckCaseActivity" />
         <activity android:name=".Module.Leader.LeaderCaseSearchDetailActivity" >
         </activity>
+
+        <activity android:name="videotalk.VideoTalkMainActivity"/>
+        <activity android:name="videotalk.ui.activities.VideoTalkActivity"/>
     </application>
 
 </manifest>
