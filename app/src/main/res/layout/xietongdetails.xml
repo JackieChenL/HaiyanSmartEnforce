@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <include
+            android:id="@+id/header"
+            layout="@layout/header" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/header"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    style="@style/linea_xietongdetails">
+                    <TextView
+                        android:id="@+id/tev_ajbh"
+                        style="@style/tev_xtdetails"
+                        android:text="案卷编号"/>
+                    <EditText
+                        android:id="@+id/edt_ajbh"
+                        style="@style/edt_xietongdetails"/>
+                </LinearLayout>
+                <View
+                    style="@style/view_xietongdetails"/>
+                <LinearLayout
+                    style="@style/linea_xietongdetails">
+                    <TextView
+                        android:id="@+id/tev_ajlx"
+                        style="@style/tev_xtdetails"
+                        android:text="案卷类型"/>/>
+                    <EditText
+                        android:id="@+id/edt_ajlx"
+                        style="@style/edt_xietongdetails"/>
+                </LinearLayout>
+                <View
+                    style="@style/view_xietongdetails"/>
+                <LinearLayout
+                    style="@style/linea_xietongdetails">
+                    <TextView
+                        android:id="@+id/tev_sbsj"
+                        style="@style/tev_xtdetails"
+                        android:text="上报时间"/>
+                    <EditText
+                        android:id="@+id/edt_sbsj"
+                        style="@style/edt_xietongdetails"/>
+                </LinearLayout>
+            <View
+                style="@style/view_xietongdetails"/>
+            <LinearLayout
+                style="@style/linea_xietongdetails">
+                <TextView
+                    android:id="@+id/tev_sysj"
+                    style="@style/tev_xtdetails"
+                    android:text="剩余时间"/>
+                <EditText
+                    android:id="@+id/edt_sysj"
+                    style="@style/edt_xietongdetails"/>
+            </LinearLayout>
+            <View
+                style="@style/view_xietongdetails"/>
+            <LinearLayout
+                style="@style/linea_xietongdetails">
+                <TextView
+                    android:id="@+id/tev_sqjd"
+                    style="@style/tev_xtdetails"
+                    android:text="社区街道"/>
+                <EditText
+                    android:id="@+id/edt_sqjd"
+                    style="@style/edt_xietongdetails"/>
+            </LinearLayout>
+            <View
+                style="@style/view_xietongdetails"/>
+            <LinearLayout
+                style="@style/linea_xietongdetails">
+                <TextView
+                    android:id="@+id/tev_sfwz"
+                    style="@style/tev_xtdetails"
+                    android:text="事发位置"/>
+                <EditText
+                    android:id="@+id/edt_sfwz"
+                    style="@style/edt_xietongdetails"/>
+            </LinearLayout>
+                <View
+                    style="@style/view_xietongdetails"/>
+                <LinearLayout
+                    style="@style/linea_xietongdetails">
+                    <TextView
+                        android:id="@+id/tev_qkms"
+                        style="@style/tev_xtdetails"
+                        android:text="情况描述"/>
+                    <EditText
+                        android:id="@+id/edt_qkms"
+                        style="@style/edt_xietongdetails"/>
+                </LinearLayout>
+            <View
+                style="@style/view_xietongdetails"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rev_xtdetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/tev_xtfankui"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:background="@color/app_original_blue"
+            android:gravity="center"
+            android:text="反馈"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/white" />
+
+        <TextView
+            android:id="@+id/tev_xttijiao"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:background="@color/app_original_blue"
+            android:gravity="center"
+            android:text="提交"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>
