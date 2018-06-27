@@ -33,11 +33,11 @@ public class RetrofitClient {
                 public Response intercept(Chain chain) throws IOException {
                     Request request = chain.request()
                             .newBuilder()
-                            .addHeader("Accept-Encoding", "UTF-8")
-                            .addHeader("Connection", "keep-alive")
-                            .addHeader("Accept", "*/*")
-                            .addHeader("Cookie", "add cookies here")
-                            .addHeader("Content-Type", "application/json; charset=UTF-8")
+//                            .addHeader("Accept-Encoding", "UTF-8")
+//                            .addHeader("Connection", "keep-alive")
+//                            .addHeader("Accept", "*/*")
+//                            .addHeader("Cookie", "add cookies here")
+//                            .addHeader("Content-Type", "application/json; charset=UTF-8")
                             .build();
                     return chain.proceed(request);
 

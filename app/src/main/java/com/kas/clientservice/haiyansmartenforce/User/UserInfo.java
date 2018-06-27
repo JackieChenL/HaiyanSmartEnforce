@@ -259,6 +259,7 @@ public class UserInfo {
         public String DepartmentID;
         public String type;
         public String AddressDep;
+        public String UserHightFlowUnitType;
 
     }
 

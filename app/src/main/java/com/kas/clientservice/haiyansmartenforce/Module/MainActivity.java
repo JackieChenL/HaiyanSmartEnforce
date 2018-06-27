@@ -27,6 +27,7 @@ import com.kas.clientservice.haiyansmartenforce.Module.HuanWeiModule.HuanWeiEntr
 import com.kas.clientservice.haiyansmartenforce.Module.HuochaiCredit.HuochaiCreditActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ParkingRecordSearchActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.Leader.LeaderCheckCaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.News.AdvDetailActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.XieTong.XieTongActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
@@ -311,6 +312,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case 7://案件查询
                 intent = new Intent(mContext, CaseSearchActivity.class);
+                startActivity(intent);
+                break;
+            case 15://案件审批
+                intent = new Intent(mContext, LeaderCheckCaseActivity.class);
                 startActivity(intent);
                 break;
             case 18://专项政治
