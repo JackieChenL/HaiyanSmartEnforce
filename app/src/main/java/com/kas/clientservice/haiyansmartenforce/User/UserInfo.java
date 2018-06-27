@@ -70,6 +70,10 @@ public class UserInfo {
         return ParkingSupervisor.ParkingSupervisorId;
     }
 
+    public String getDepartcode() {
+        return szcg==null?"":szcg.departcode;
+    }
+
 
     public static class PublicUsersBean {
         /**
