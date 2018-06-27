@@ -30,6 +30,7 @@ import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ParkingRec
 import com.kas.clientservice.haiyansmartenforce.Module.Leader.LeaderCheckCaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.News.AdvDetailActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.XieTong.XieTongActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.XieTongList.XieTongList;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
 import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
@@ -340,7 +341,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case 24:
                 startActivity(new Intent(mContext, RecipientActivity.class));
                 break;
-
+            case 25:
+                startActivity(new Intent(mContext, XieTongList.class));
+                break;
 
             case 100:
                 startActivity(new Intent(mContext, VideoTalkMainActivity.class));

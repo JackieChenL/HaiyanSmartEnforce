@@ -11,13 +11,16 @@
             layout="@layout/header" />
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="10dp"
             android:layout_below="@id/header"
             >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+               >
                 <LinearLayout
                     style="@style/linea_xietongdetails">
                     <TextView
@@ -110,46 +113,47 @@
                 </android.support.v7.widget.RecyclerView>
             </LinearLayout>
         </ScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/tev_xtfankui"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:background="@color/app_original_blue"
+                android:gravity="center"
+                android:text="反馈"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <TextView
+                android:id="@+id/tev_xttijiao"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:background="@color/app_original_blue"
+                android:gravity="center"
+                android:text="提交"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+
+        </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_alignParentBottom="true">
 
-        <TextView
-            android:id="@+id/tev_xtfankui"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:background="@color/app_original_blue"
-            android:gravity="center"
-            android:text="反馈"
-            android:textColor="@color/white"
-            android:textSize="17sp" />
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/white" />
-
-        <TextView
-            android:id="@+id/tev_xttijiao"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:background="@color/app_original_blue"
-            android:gravity="center"
-            android:text="提交"
-            android:textColor="@color/white"
-            android:textSize="17sp" />
-
-    </LinearLayout>
 
 
 
