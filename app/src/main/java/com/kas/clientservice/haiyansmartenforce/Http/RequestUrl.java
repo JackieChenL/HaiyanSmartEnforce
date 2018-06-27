@@ -5,7 +5,6 @@ public class RequestUrl {
     public static final int TYPE = 2;
     public static final int MAP = 3;
     // public static final  String URL = "http://112.11.105.171:8092//Handler/CollecterApi.aspx";
-    public static final String baseUrl_leader = "http://117.149.146.131:88/";
     public static final String baseUrl = "http://117.149.146.131:86/handler/collecterapi.aspx/";
     public static final String URL = "http://112.13.194.180:82//Handler/CollecterApi.aspx";
     public static final String URLCollecter = "http://112.13.194.180:82/Handler/CollecterApi.aspx";
@@ -61,6 +60,21 @@ public class RequestUrl {
      */
     public static final String trackUpload = "trackUpload";
 
+    /**
+     * 协同列表
+     */
+    public static final String URLLIST="http://117.149.146.131:86/Handler/CoordinationApi.aspx";
+    
+    //查询列表
+    public static final String haiyanlist="getList";
+    //案卷详情
+    public static final String GetProjectDetail="getlprojectdetail";
+    //習慣用語
+    public static final String GetWording="Getdiction";
+    //反饋
+    public static final String GetFeedBackOk="resfeedback";
+    //回退
+    public static final String GetBackSpace="returnBack";
  /*
  * 违停查询
  * */
@@ -69,6 +83,4 @@ public class RequestUrl {
     * 路段查询*/
 
     public static final String roadSearch = "system/theme/anjuan/WFroad.ashx";
-
-    
 }
