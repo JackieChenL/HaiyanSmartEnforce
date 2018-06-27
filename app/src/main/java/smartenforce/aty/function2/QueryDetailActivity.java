@@ -39,7 +39,7 @@ public class QueryDetailActivity extends ShowTitleActivity {
     private TextView tev_dl, tev_wfxw, tev_afdd, tev_dsr;
     private EditText edt_rwms;
     private ScrollView scv;
-
+    private TextView tev_status_current;
     private RecyclerView rcv_l, rcv_r;
     private ImageAdapter adapter_l, adapter_r;
     private ArrayList<String> list_l = new ArrayList<String>();
@@ -61,6 +61,7 @@ public class QueryDetailActivity extends ShowTitleActivity {
         tev_wfxw = (TextView) findViewById(R.id.tev_wfxw);
         tev_afdd = (TextView) findViewById(R.id.tev_afdd);
         tev_dsr = (TextView) findViewById(R.id.tev_dsr);
+        tev_status_current = (TextView) findViewById(R.id.tev_status_current);
         edt_rwms = (EditText) findViewById(R.id.edt_rwms);
         rcv_l = (RecyclerView) findViewById(R.id.rcv_l);
         rcv_r = (RecyclerView) findViewById(R.id.rcv_r);
@@ -143,6 +144,7 @@ public class QueryDetailActivity extends ShowTitleActivity {
                             public void onItemClick(Object o, int position) {
                                 if (position == 1) {
                                     doUploadImg();
+
                                 }
                             }
                         }).show();
@@ -156,8 +158,11 @@ public class QueryDetailActivity extends ShowTitleActivity {
     };
 
     private void fillInvestigateDetail() {
-        tev_title_right.setText("提交");
-        tev_title_right.setOnClickListener(noFastClickLisener);
+        if (sourseBean.FlowID == 256) {
+            tev_title_right.setText("提交");
+            tev_title_right.setOnClickListener(noFastClickLisener);
+        }
+        tev_status_current.setText(sourseBean.NameSoF);
         tev_dl.setText(investigateDetailBean.NameFiL);
         tev_wfxw.setText(investigateDetailBean.NameThL);
         tev_afdd.setText(investigateDetailBean.AddressSou);

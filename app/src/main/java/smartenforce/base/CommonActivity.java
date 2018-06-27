@@ -134,8 +134,6 @@ public abstract class CommonActivity extends AppCompatActivity {
 
     }
 
-
-
     protected void warningShowAndAction(final String MSG, int delay, final ItemListener listener) {
         handler.postDelayed(new Runnable() {
             @Override

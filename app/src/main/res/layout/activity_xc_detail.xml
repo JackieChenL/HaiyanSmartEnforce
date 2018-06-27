@@ -32,6 +32,26 @@
                 <RelativeLayout style="@style/item_style_rtl">
 
                     <TextView
+                        android:id="@+id/tev_status_current_l"
+                        style="@style/item_style_l"
+                        android:text="当前状态:" />
+
+
+
+                    <TextView
+                        android:id="@+id/tev_status_current"
+                        style="@style/item_style_center"
+                        android:layout_toRightOf="@+id/tev_status_current_l" />
+
+                </RelativeLayout>
+
+
+                <TextView style="@style/item_divider" />
+
+
+                <RelativeLayout style="@style/item_style_rtl">
+
+                    <TextView
                         android:id="@+id/tev_dl_l"
                         style="@style/item_style_l"
                         android:text=" 大类 :" />

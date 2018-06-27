@@ -168,7 +168,9 @@
         <activity android:name="smartenforce.aty.function5.ReleaseEnforceActivity" />
 
         <!--视屏通话-->
-        <activity android:name="videotalk.VideoTalkMainActivity" />
+        <activity android:name="videotalk.VideoTalkMainActivity" >
+
+        </activity>
         <activity android:name="videotalk.ui.activities.VideoTalkActivity" />
 
 
