@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BaiduMap;

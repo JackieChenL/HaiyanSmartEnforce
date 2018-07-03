@@ -151,4 +151,64 @@ public class TimePickerUtil {
                 .build();
         return timePickerView;
     }
+
+    public static TimePickerView getTimePicker(Context context, Calendar startDate, Calendar endDate, final String showLable, final TimePickerView.OnTimeSelectListener onTimeSelectListener) {
+        TimePickerView.Builder builder = new TimePickerView.Builder(context, new TimePickerView.OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {
+                if (v != null && v instanceof TextView) {
+                    ((TextView) v).setText(DateUtil.getFormatDate(date, showLable));
+                }
+                if (onTimeSelectListener != null) {
+                    onTimeSelectListener.onTimeSelect(date, v);
+                }
+            }
+        })
+                .isCenterLabel(false)
+                .setContentSize(22)
+                .setSubmitColor(Color.parseColor("#2fb2e7"))
+                .setCancelColor(Color.parseColor("#2fb2e7"))
+                .setLineSpacingMultiplier(1.5f)
+                .setRangDate(startDate, endDate)
+                .setDate(endDate);
+        if (showLable.equals(DateUtil.Y) || showLable.equals(DateUtil.Y_CHINESE)) {
+            builder.setType(new boolean[]{true, false, false, false, false, false});
+            builder.setLabel("年", "", "", "", "", "");
+        } else if (showLable.equals(DateUtil.YM) || showLable.equals(DateUtil.YM_CHINESE)) {
+            builder.setType(new boolean[]{true, true, false, false, false, false});
+            builder.setLabel("年", "月", "", "", "", "");
+        } else if (showLable.equals(DateUtil.YMD) || showLable.equals(DateUtil.YMD_CHINESE)) {
+            builder.setType(new boolean[]{true, true, true, false, false, false});
+            builder.setLabel("年", "月", "日", "", "", "");
+        } else if (showLable.equals(DateUtil.YMDH) || showLable.equals(DateUtil.YMDH_CHINESE)) {
+            builder.setType(new boolean[]{true, true, true, true, false, false});
+            builder.setLabel("年", "月", "日", "时", "", "");
+        } else if (showLable.equals(DateUtil.YMDHM) || showLable.equals(DateUtil.YMDHM_CHINESE)) {
+            builder.setType(new boolean[]{true, true, true, true, true, false});
+            builder.setLabel("年", "月", "日", "时", "分", "");
+        } else if (showLable.equals(DateUtil.YMDHMS) || showLable.equals(DateUtil.YMDHMS_CHINESE)) {
+            builder.setType(new boolean[]{true, true, true, true, true, true});
+            builder.setLabel("年", "月", "日", "时", "分", "秒");
+        } else {
+
+        }
+
+        return builder.build();
+    }
+
+
+    /**
+     *
+     * @param context
+     * @param maxQueryYear 最多查询年数
+     * @param showLable 查询返回时间格式
+     * @param onTimeSelectListener 监听时间选定事件
+     * @return
+     */
+    public static TimePickerView getDefaultQueryTimePickerView(Context context,int maxQueryYear, String showLable, TimePickerView.OnTimeSelectListener onTimeSelectListener) {
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(startDate.get(Calendar.YEAR) - maxQueryYear, 0, 1, 0, 0);
+        Calendar endDate = DateUtil.date2Calendar(new Date());
+        return getTimePicker(context,startDate,endDate,showLable,onTimeSelectListener);
+    }
 }
