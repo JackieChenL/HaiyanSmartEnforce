@@ -52,7 +52,7 @@ public class TiandituUtil implements TGeoDecode.OnGeoResultListener {
     @Override
     public void onGeoDecodeResult(TGeoAddress tGeoAddress, int i) {
         if (i == 0) {
-            address = tGeoAddress.getCity() + tGeoAddress.getAddress();
+            address = tGeoAddress.getCity().replace("浙江省嘉兴市","") + tGeoAddress.getAddress();
         } else {
             address = "未知地点";
         }
