@@ -26,7 +26,7 @@ public class DateUtil {
     public final static long Time30M = 30 * 60 * 1000;
     public final static long Time1H = 60 * 60 * 1000;
     public final static long Time1M = 60 * 1000;
-    public final static long Time1S = 60 * 60 * 1000;
+    public final static long Time1S =1000;
     public final static long DAY1 = 24 * 60 * 60 * 1000;
 
     public static String currentTime() {

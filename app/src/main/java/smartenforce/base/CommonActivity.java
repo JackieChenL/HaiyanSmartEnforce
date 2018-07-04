@@ -164,6 +164,8 @@ public abstract class CommonActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        //防截屏
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         aty = this;
         app = (MyApplication) getApplication();

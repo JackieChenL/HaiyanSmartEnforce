@@ -75,8 +75,10 @@
 
             </RelativeLayout>
 
+            <!--<TextView style="@style/item_divider"-->
+                <!--android:layout_height="20dp"/>-->
             <TextView style="@style/item_divider"
-                android:layout_height="20dp"/>
+                />
 
 
             <RelativeLayout style="@style/item_style_rtl">
@@ -128,7 +130,8 @@
                     android:id="@+id/edt_address"
                     style="@style/item_style_center"
                     android:layout_toRightOf="@+id/tev_lxdz_l"
-                    android:hint="" />
+                    android:hint=""
+                    android:text=""/>
 
             </RelativeLayout>
 
