@@ -35,7 +35,7 @@ public class WaterMaskLayout extends LinearLayout {
         int W = UIUtil.getScreenWidth(context);
         int H = UIUtil.getScreenHeight(context);
         int WaterTextH = UIUtil.dip2px(context, 80);
-        int WaterTextW = UIUtil.dip2px(context, W / 3);
+        int WaterTextW =  W / 2;
         int count = H / WaterTextH + 1;
         for (int i = 0; i < count; i++) {
             int currentWaterTextW = (i % 3 + 1) * WaterTextW;
