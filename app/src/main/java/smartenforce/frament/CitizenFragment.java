@@ -77,6 +77,7 @@ public class CitizenFragment extends BaseFragment implements XRecyclerView.Loadi
     NoFastClickLisener noFastClickLisener = new NoFastClickLisener() {
         @Override
         public void onNofastClickListener(View v) {
+            closeKeybord();
             switch (v.getId()) {
                 case R.id.btn_query:
                     PAGE_NUM = 1;
