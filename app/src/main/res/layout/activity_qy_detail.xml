@@ -8,6 +8,14 @@
 
     <include layout="@layout/layout_header" />
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <smartenforce.widget.WaterMaskLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"/>
+
     <ScrollView
         android:id="@+id/scv"
         android:layout_width="match_parent"
@@ -433,5 +441,5 @@
 
 
     </ScrollView>
-
+    </FrameLayout>
 </LinearLayout>
