@@ -44,7 +44,7 @@ import smartenforce.widget.ProgressDialogUtil;
 
 public class NewQueryActivity extends ShowTitleActivity {
     private TiandituUtil maputil;
-    private int lat = -1, lon = -1;
+    private int lat = 0, lon = 0;
     private String address;
 
     private int dsr_type = 3;
