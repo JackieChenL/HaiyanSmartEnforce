@@ -51,6 +51,7 @@ public class CitizenFragment extends BaseFragment implements XRecyclerView.Loadi
         btn_query = (Button) view.findViewById(R.id.btn_query);
         btn_add = (Button) view.findViewById(R.id.btn_add);
         xrcv_citizen = (MyXRecyclerView) view.findViewById(R.id.xrcv_citizen);
+        xrcv_citizen.setLoadingListener(this);
         adapter=new ItemAdapter(beanList,context);
         adapter.setListener(new ItemListener() {
             @Override
