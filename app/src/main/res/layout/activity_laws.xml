@@ -5,19 +5,188 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context="com.kas.clientservice.haiyansmartenforce.Module.Laws.LawsActivity">
     <include layout="@layout/header"
         android:id="@+id/header"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ListView
-            android:id="@+id/lv_law_list"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@color/bg"
-            android:dividerHeight="7dp"
-            android:layout_marginTop="5dp"
-            ></ListView>
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/grey_devider"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:text="发布开始时间"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/grey_800"/>
+
+                <TextView
+                    android:id="@+id/tv_laws_check_startTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:hint="点击选择开始时间"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey_devider"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:text="发布结束时间"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/grey_800"/>
+
+                <TextView
+                    android:id="@+id/tv_laws_check_endTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:hint="点击选择结束时间"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey_devider"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:text="标题"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/grey_800"/>
+
+                <EditText
+                    android:id="@+id/et_laws_check_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:textSize="14sp"
+                    android:background="@color/white"
+                    android:hint="输入标题"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey_devider"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:text="正文"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/grey_800"/>
+
+                <EditText
+                    android:id="@+id/et_laws_check_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:background="@color/white"
+                    android:textSize="14sp"
+                    android:hint="输入正文"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey_devider"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:text="发文字号"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/grey_800"/>
+
+                <EditText
+                    android:id="@+id/et_laws_check_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:background="@color/white"
+                    android:textSize="14sp"
+                    android:hint="输入发文字号"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey_devider"/>
+
+
+
+            <TextView
+                android:id="@+id/tv_laws_check_search"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/shape_blue_btn"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="查 询"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/grey_devider"/>
+
+            <ListView
+                android:id="@+id/lv_law_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@color/grey_devider"
+                android:dividerHeight="1dp"
+                ></ListView>
+            
+        </LinearLayout>
+        
     </ScrollView>
 </LinearLayout>

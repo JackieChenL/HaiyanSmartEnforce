@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.kas.clientservice.haiyansmartenforce" >
+          package="com.kas.clientservice.haiyansmartenforce">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <uses-feature
         android:name="android.hardware.usb.host"
-        android:required="true" />
+        android:required="true"/>
 
-    <uses-permission android:name="android.hardware.usb.UsbAccessory" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.hardware.usb.UsbAccessory"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
 
-    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.RESTART_PACKAGES"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
 
     <application
         android:name=".MyApplication"
@@ -45,133 +45,145 @@
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar" >
-        <activity android:name=".Module.MainActivity" />
-        <activity android:name=".Module.IllegalParking.IllegalParkingCommitActivity" />
-        <activity android:name=".Module.IllegalParking.ImageActivity" />
-        <activity android:name=".Module.IllegalParking.IllegalParkingDetailActivity" />
-        <activity android:name=".Module.IllegalParking.ParkingRecordSearchActivity" />
+        android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".Module.MainActivity"/>
+        <activity android:name=".Module.IllegalParking.IllegalParkingCommitActivity"/>
+        <activity android:name=".Module.IllegalParking.ImageActivity"/>
+        <activity android:name=".Module.IllegalParking.IllegalParkingDetailActivity"/>
+        <activity android:name=".Module.IllegalParking.ParkingRecordSearchActivity"/>
 
-        <service android:name="net.xprinter.service.XprinterService" />
+        <service android:name="net.xprinter.service.XprinterService"/>
 
-        <activity android:name=".Module.Welcome.WelcomeActivity" >
+        <activity android:name=".Module.Welcome.WelcomeActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Module.Login.LoginActivity" />
-        <activity android:name=".Module.Register.RegisterActivity" />
-        <activity android:name=".Module.TianDiTu.TiandiMapActivity" />
-        <activity android:name=".Module.CaseCommit.CaseCommitActivity" />
-        <activity android:name=".Module.CaseCommit.CaseTypeActivity" />
-        <activity android:name=".Module.IllegalParking.IllegalParkingTakePhotoActivity" />
-        <activity android:name=".Module.History.HistoryActivity" />
-        <activity android:name=".Module.History.HistoryDetails" />
+        <activity android:name=".Module.Login.LoginActivity"/>
+        <activity android:name=".Module.Register.RegisterActivity"/>
+        <activity android:name=".Module.TianDiTu.TiandiMapActivity"/>
+        <activity android:name=".Module.CaseCommit.CaseCommitActivity"/>
+        <activity android:name=".Module.CaseCommit.CaseTypeActivity"/>
+        <activity android:name=".Module.IllegalParking.IllegalParkingTakePhotoActivity"/>
+        <activity android:name=".Module.History.HistoryActivity"/>
+        <activity android:name=".Module.History.HistoryDetails"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.android7.fileprovider"
             android:exported="false"
-            android:grantUriPermissions="true" >
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths" />
+                android:resource="@xml/filepaths"/>
         </provider>
 
-        <service android:name="net.xprinter.service.XprinterService" />
+        <service android:name="net.xprinter.service.XprinterService"/>
 
-        <activity android:name="smartenforce.aty.parking.CenterActivity" />
-        <activity android:name="smartenforce.aty.parking.ParkActivity" />
-        <activity android:name="smartenforce.aty.parking.ExitListActivity" />
-        <activity android:name="smartenforce.aty.parking.ExitActivity" />
-        <activity android:name="smartenforce.aty.parking.QueryActivity" />
-        <activity android:name="smartenforce.aty.parking.CheckingActivity" />
-        <activity android:name="smartenforce.aty.parking.HistoryActivity" />
-        <activity android:name="smartenforce.aty.parking.RePayActivity" />
-        <activity android:name="smartenforce.aty.patrol.SearchActivity" />
-        <activity android:name="smartenforce.aty.patrol.DetailActivity" />
-        <activity android:name="smartenforce.aty.patrol.UploadActivity" />
+        <activity android:name="smartenforce.aty.parking.CenterActivity"/>
+        <activity android:name="smartenforce.aty.parking.ParkActivity"/>
+        <activity android:name="smartenforce.aty.parking.ExitListActivity"/>
+        <activity android:name="smartenforce.aty.parking.ExitActivity"/>
+        <activity android:name="smartenforce.aty.parking.QueryActivity"/>
+        <activity android:name="smartenforce.aty.parking.CheckingActivity"/>
+        <activity android:name="smartenforce.aty.parking.HistoryActivity"/>
+        <activity android:name="smartenforce.aty.parking.RePayActivity"/>
+        <activity android:name="smartenforce.aty.patrol.SearchActivity"/>
+        <activity android:name="smartenforce.aty.patrol.DetailActivity"/>
+        <activity android:name="smartenforce.aty.patrol.UploadActivity"/>
 
         <!-- </activity> -->
         <!-- </activity> -->
-        <activity android:name=".Module.Garbage.GarbageMainActivity" />
-        <activity android:name=".Module.Garbage.CodeActivity" />
-        <activity android:name=".Module.Garbage.Doorplate" />
-        <activity android:name=".Module.Garbage.HouseHolder" />
-        <activity android:name=".Module.Garbage.PhotoActivity" />
-        <activity android:name=".Module.Garbage.HuzhuActivity" />
-        <activity android:name=".Module.Garbage.RankActivity" />
-        <activity android:name=".Module.Garbage.ScanActivity" />
-        <activity android:name=".Module.Laws.LawsActivity" />
+        <activity android:name=".Module.Garbage.GarbageMainActivity"/>
+        <activity android:name=".Module.Garbage.CodeActivity"/>
+        <activity android:name=".Module.Garbage.Doorplate"/>
+        <activity android:name=".Module.Garbage.HouseHolder"/>
+        <activity android:name=".Module.Garbage.PhotoActivity"/>
+        <activity android:name=".Module.Garbage.HuzhuActivity"/>
+        <activity android:name=".Module.Garbage.RankActivity"/>
+        <activity android:name=".Module.Garbage.ScanActivity"/>
+        <activity android:name=".Module.Laws.LawsActivity"/>
         <!-- </activity> -->
 
-        <activity android:name=".Module.RoadSearch.RoadSearchActivity" />
-        <activity android:name=".Module.HuanWeiModule.HuanWeiEntryActivity" />
-        <activity android:name=".Module.HuanWeiModule.HuanweiCommitActivity" />
-        <activity android:name=".Module.HuanWeiModule.HuanweiCheckListActivity" />
-        <activity android:name=".Module.HuanWeiModule.HuanweiCheckDetailActivity" />
-        <activity android:name=".Module.HuanWeiModule.HuanweiHandleActivity" />
-        <activity android:name=".Module.HuanWeiModule.HuanweiHandleCommitActivity" />
-        <activity android:name=".Module.HuanWeiModule.HuanweiHistoryActivity" />
-        <activity android:name=".Module.HuanWeiModule.HuanweiHistoryDetailActivity" />
-        <activity android:name=".Module.CaseCommit.CaseSearchActivity" />
-        <activity android:name=".Module.CaseCommit.CaseDetailActivity" />
-        <activity android:name=".Module.XieTong.XieTongActivity" />
-        <activity android:name=".Module.HuochaiCredit.HuochaiCreditActivity" />
-        <activity android:name=".Module.FaceCompare.FaceCompareActivity" />
-        <activity android:name=".Module.Register.ResetPswActivity" />
+        <activity android:name=".Module.RoadSearch.RoadSearchActivity"/>
+        <activity android:name=".Module.HuanWeiModule.HuanWeiEntryActivity"/>
+        <activity android:name=".Module.HuanWeiModule.HuanweiCommitActivity"/>
+        <activity android:name=".Module.HuanWeiModule.HuanweiCheckListActivity"/>
+        <activity android:name=".Module.HuanWeiModule.HuanweiCheckDetailActivity"/>
+        <activity android:name=".Module.HuanWeiModule.HuanweiHandleActivity"/>
+        <activity android:name=".Module.HuanWeiModule.HuanweiHandleCommitActivity"/>
+        <activity android:name=".Module.HuanWeiModule.HuanweiHistoryActivity"/>
+        <activity android:name=".Module.HuanWeiModule.HuanweiHistoryDetailActivity"/>
+        <activity android:name=".Module.CaseCommit.CaseSearchActivity"/>
+        <activity android:name=".Module.CaseCommit.CaseDetailActivity"/>
+        <activity android:name=".Module.XieTong.XieTongActivity"/>
+        <activity android:name=".Module.HuochaiCredit.HuochaiCreditActivity"/>
+        <activity android:name=".Module.FaceCompare.FaceCompareActivity"/>
+        <activity android:name=".Module.Register.ResetPswActivity"/>
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="OZ0I49nombHnwGOexV444hZPRQXS0wCP" />
+            android:value="OZ0I49nombHnwGOexV444hZPRQXS0wCP"/>
 
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" />
-        <service android:name="smartenforce.service.LocationPointService" />
+            android:process=":remote"/>
+        <service android:name="smartenforce.service.LocationPointService"/>
 
-        <activity android:name="smartenforce.aty.ViewPhotoActivity" />
-        <activity android:name="smartenforce.zxing.ScanActivity" />
-        <activity android:name="smartenforce.tianditu.TiandituMapActivity" />
-        <activity android:name="smartenforce.baidu.BaiduMapActivity" />
-        <activity android:name="smartenforce.aty.function1.NewQueryActivity" />
-        <activity android:name="smartenforce.aty.function1.EnterpriseOrCitizenActivity" />
-        <activity android:name="smartenforce.aty.function2.QueryListActivity" />
-        <activity android:name="smartenforce.aty.function2.QueryDetailActivity" />
-        <activity android:name="smartenforce.aty.function3.InvestigateDetailActivity" />
-        <activity android:name="smartenforce.aty.function3.AddInquestActivity" />
-        <activity android:name="smartenforce.aty.function3.InvestActivity" />
-        <activity android:name="smartenforce.aty.function3.InquestItemDetailActivity" />
-        <activity android:name="smartenforce.aty.function3.AddGraphActivity" />
-        <activity android:name="smartenforce.aty.function3.AddPictureActivity" />
-        <activity android:name="smartenforce.aty.function3.SelectEmpNameActivity" />
-        <activity android:name="smartenforce.aty.function3.AddEnforceActivity" />
-        <activity android:name="smartenforce.aty.function3.AddGoodsActivity" />
-        <activity android:name="smartenforce.aty.function3.LiveOrOtherActivity" />
-        <activity android:name="smartenforce.aty.function3.InspectEnterpriseActivity" />
-        <activity android:name="smartenforce.aty.function3.InspectCitizenActivity" />
-        <activity android:name="smartenforce.aty.function4.RecipientActivity" />
-        <activity android:name="smartenforce.aty.function4.EnterpriseDetailActivity" />
-        <activity android:name="smartenforce.aty.function4.CitizenDetailActivity" />
-        <activity android:name="smartenforce.aty.function5.EnforceActivity" />
-        <activity android:name="smartenforce.aty.function5.EnforceDetailActivity" />
-        <activity android:name="smartenforce.aty.function5.EnforceGoodsDetailActivity" />
-        <activity android:name="smartenforce.aty.function5.GoodsDetailActivity" />
-        <activity android:name="smartenforce.aty.function5.ReleaseEnforceActivity" />
-        <activity android:name=".Module.News.AdvDetailActivity" />
-        <activity android:name=".Module.Leader.LeaderCheckCaseActivity" />
-        <activity android:name=".Module.Leader.LeaderCaseSearchDetailActivity" >
-        </activity>
-
+        <activity android:name="smartenforce.aty.ViewPhotoActivity"/>
+        <activity android:name="smartenforce.zxing.ScanActivity"/>
+        <activity android:name="smartenforce.tianditu.TiandituMapActivity"/>
+        <activity android:name="smartenforce.baidu.BaiduMapActivity"/>
+        <activity android:name="smartenforce.aty.function1.NewQueryActivity"/>
+        <activity android:name="smartenforce.aty.function1.EnterpriseOrCitizenActivity"/>
+        <activity android:name="smartenforce.aty.function2.QueryListActivity"/>
+        <activity android:name="smartenforce.aty.function2.QueryDetailActivity"/>
+        <activity android:name="smartenforce.aty.function3.InvestigateDetailActivity"/>
+        <activity android:name="smartenforce.aty.function3.AddInquestActivity"/>
+        <activity android:name="smartenforce.aty.function3.InvestActivity"/>
+        <activity android:name="smartenforce.aty.function3.InquestItemDetailActivity"/>
+        <activity android:name="smartenforce.aty.function3.AddGraphActivity"/>
+        <activity android:name="smartenforce.aty.function3.AddPictureActivity"/>
+        <activity android:name="smartenforce.aty.function3.SelectEmpNameActivity"/>
+        <activity android:name="smartenforce.aty.function3.AddEnforceActivity"/>
+        <activity android:name="smartenforce.aty.function3.AddGoodsActivity"/>
+        <activity android:name="smartenforce.aty.function3.LiveOrOtherActivity"/>
+        <activity android:name="smartenforce.aty.function3.InspectEnterpriseActivity"/>
+        <activity android:name="smartenforce.aty.function3.InspectCitizenActivity"/>
+        <activity android:name="smartenforce.aty.function4.RecipientActivity"/>
+        <activity android:name="smartenforce.aty.function4.EnterpriseDetailActivity"/>
+        <activity android:name="smartenforce.aty.function4.CitizenDetailActivity"/>
+        <activity android:name="smartenforce.aty.function5.EnforceActivity"/>
+        <activity android:name="smartenforce.aty.function5.EnforceDetailActivity"/>
+        <activity android:name="smartenforce.aty.function5.EnforceGoodsDetailActivity"/>
+        <activity android:name="smartenforce.aty.function5.GoodsDetailActivity"/>
+        <activity android:name="smartenforce.aty.function5.ReleaseEnforceActivity"/>
+        <activity android:name=".Module.News.AdvDetailActivity"/>
+        <activity android:name=".Module.Leader.LeaderCheckCaseActivity"/>
+        <activity android:name=".Module.Leader.LeaderCaseSearchDetailActivity"/>
         <activity android:name="videotalk.VideoTalkMainActivity"/>
         <activity android:name="videotalk.ui.activities.VideoTalkActivity"/>
-
-
         <activity android:name=".Module.XieTongList.XieTongList"/>
         <activity android:name=".Module.XieTongList.XieTongDetalis"/>
+        <activity android:name=".Module.Leader.DepartmentCaseActivity"/>
+        <activity android:name=".Module.Leader.DetailsListActivity"/>
+        <activity android:name=".Module.Leader.CaseDetailsActivity"/>
+        <activity android:name=".Module.Leader.CaseDetailsWritActivity"/>
+        <activity android:name=".Module.Leader.CaseDetailsFlowActivity"/>
+        <activity android:name=".Module.Leader.CaseDetailsWritDActivity"/>
+        <activity android:name=".Module.Laws.LawsDetailActivity"/>
+        <activity android:name=".Module.CauseSearch.Cause_Query"/>
+        <activity android:name=".Module.CityCheck.CityCheckAddActivity">
+        </activity>
+        <activity android:name=".Module.XieTongList.XieTongMapActivity"/>
+        <activity android:name=".Module.CityCheck.CityCheckSearchActivity">
+        </activity>
+        <activity android:name=".Module.XieTongList.XieTongImage"/>
+        <activity android:name=".Module.Vedio.VedioActivity">
+        </activity>
     </application>
 
 </manifest>

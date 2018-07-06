@@ -53,15 +53,15 @@ public class XieTongListAdapter extends BaseAdapter{
             view.setTag(vh);
         }else vh = (ViewHolder) view.getTag();
 
-        vh.tev_list_ajbh_code.setText("案件编号"+list.get(i).getProjcode());
+        vh.tev_list_ajbh_code.setText(list.get(i).getProjname());
         vh.tv_list_time.setText(list.get(i).getStartdate());
-//        if(list.get(i).getState().equals("已处理")){
-//            vh.iv_list_state.setImageResource(R.drawable.zt_ywc);
-//        }else if(list.get(i).getState().equals("未处理")){
-//            vh.iv_list_state.setImageResource(R.drawable.zt_dcl);
-//        }else if(list.get(i).getState().equals("已退回")){
-//            vh.iv_list_state.setImageResource(R.drawable.huitui);
-//        }
+        if(list.get(i).getState().equals("已处理")){
+            vh.iv_list_state.setBackgroundResource(R.drawable.zt_ywc);
+        }else if(list.get(i).getState().equals("未处理")){
+            vh.iv_list_state.setBackgroundResource(R.drawable.zt_dcl);
+        }else if(list.get(i).getState().equals("已退回")){
+            vh.iv_list_state.setBackgroundResource(R.drawable.huitui);
+        }
         return view;
     }
     class ViewHolder{

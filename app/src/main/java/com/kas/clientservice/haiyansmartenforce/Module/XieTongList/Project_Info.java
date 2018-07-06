@@ -89,7 +89,7 @@ public class Project_Info {
         public String projname;
         public String startdate;
         public String doTime;
-        public Object state;
+        public String state;
 
         public int getProjcode() {
             return projcode;
@@ -139,11 +139,11 @@ public class Project_Info {
             this.doTime = doTime;
         }
 
-        public Object getState() {
+        public String getState() {
             return state;
         }
 
-        public void setState(Object state) {
+        public void setState(String state) {
             this.state = state;
         }
     }

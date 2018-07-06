@@ -10,8 +10,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -19,10 +21,16 @@ import com.google.zxing.integration.android.IntentResult;
 import com.kas.clientservice.haiyansmartenforce.Module.TianDiTu.TiandiMapActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
 
+import java.util.List;
+
 public class GarbageMainActivity extends AppCompatActivity implements View.OnClickListener{
 //    Button bt_qrcode,bt_map,bt_doorplate,bt_huzhu,bt_search_code;
     LinearLayout ll_zhoubian,ll_number,ll_address,ll_huzhu;
+    ImageView img_qr;
+    EditText edt_search;
+    TextView tev_cancel;
     Loginben loginben;
+    List<HuZhuBean> list;
     Intent intent=new Intent();
     private String userName;
     private  String password;
@@ -39,42 +47,39 @@ public class GarbageMainActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void initRes() {
-//        bt_qrcode=(Button) findViewById(R.id.bt_qrcode);
-//        bt_qrcode.setOnClickListener(this);
-//        bt_map=(Button) findViewById(R.id.bt_map);
-//        bt_map.setOnClickListener(this);
-//        bt_doorplate=(Button) findViewById(R.id.bt_doorplate);
-//        bt_doorplate.setOnClickListener(this);
-//        bt_huzhu=(Button) findViewById(R.id.bt_huzhu);
-//        bt_huzhu.setOnClickListener(this);
-//        bt_search_code=(Button) findViewById(R.id.bt_search_code);
-//        bt_search_code.setOnClickListener(this);
         ll_zhoubian=(LinearLayout) findViewById(R.id.ll_zhoubian);
         ll_number=(LinearLayout) findViewById(R.id.ll_number);
         ll_address=(LinearLayout) findViewById(R.id.ll_address);
         ll_huzhu=(LinearLayout) findViewById(R.id.ll_huzhu);
+
+        img_qr=(ImageView) findViewById(R.id.img_qr);
+        edt_search=(EditText) findViewById(R.id.edt_search);
+        tev_cancel=(TextView) findViewById(R.id.tev_cancel);
+
         ll_zhoubian.setOnClickListener(this);
         ll_number.setOnClickListener(this);
         ll_address.setOnClickListener(this);
         ll_huzhu.setOnClickListener(this);
+        img_qr.setOnClickListener(this);
+        tev_cancel.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-//            case R.id.bt_qrcode:
-//                IntentIntegrator integrator = new IntentIntegrator(GarbageMainActivity.this);
-//                //integrator.initiateScan();
-//                //IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
-//                // 设置要扫描的条码类型，ONE_D_CODE_TYPES：一维码，QR_CODE_TYPES-二维码
-//                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-//                integrator.setCaptureActivity(ScanActivity.class);
-//                integrator.setPrompt("请扫描二维码"); //底部的提示文字，设为""可以置空
-//                integrator.setCameraId(0); //前置或者后置摄像头
-//                integrator.setBeepEnabled(false); //扫描成功的「哔哔」声，默认开启
-//                integrator.setBarcodeImageEnabled(true);//是否保留扫码成功时候的截图
-//                integrator.initiateScan();
-//                break;
+            case R.id.img_qr:
+                IntentIntegrator integrator = new IntentIntegrator(GarbageMainActivity.this);
+                //integrator.initiateScan();
+                //IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
+                // 设置要扫描的条码类型，ONE_D_CODE_TYPES：一维码，QR_CODE_TYPES-二维码
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+                integrator.setCaptureActivity(ScanActivity.class);
+                integrator.setPrompt("请扫描二维码"); //底部的提示文字，设为""可以置空
+                integrator.setCameraId(0); //前置或者后置摄像头
+                integrator.setBeepEnabled(false); //扫描成功的「哔哔」声，默认开启
+                integrator.setBarcodeImageEnabled(true);//是否保留扫码成功时候的截图
+                integrator.initiateScan();
+                break;
             case R.id.ll_zhoubian:
                 initGPS(0);
                 intent.setClass(this,TiandiMapActivity.class);
@@ -95,6 +100,8 @@ public class GarbageMainActivity extends AppCompatActivity implements View.OnCli
                 intent.setClass(this, CodeActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.tev_cancel:
+                break;
             default:
                 break;
         }
@@ -106,7 +113,13 @@ public class GarbageMainActivity extends AppCompatActivity implements View.OnCli
             String result = scanResult.getContents();
             if (result!=null&&!result.equals("")) {
                 Log.e("HYN", result);
-                Toast.makeText(GarbageMainActivity.this, result, Toast.LENGTH_LONG).show();
+                intent=new Intent(GarbageMainActivity.this,RankActivity.class);
+                intent.putExtra("result",result);
+//                intent.putExtra("SerialNumber",list.get().SerialNumber);
+                intent.putExtra("ID",3);
+                startActivity(intent);
+            }else{
+                Toast.makeText(GarbageMainActivity.this, "未获取到有效二维码", Toast.LENGTH_LONG).show();
             }
         }
     }

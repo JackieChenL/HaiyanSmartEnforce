@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.google.gson.Gson;
 import com.kas.clientservice.haiyansmartenforce.Entity.AppVersionInfo;
 import com.kas.clientservice.haiyansmartenforce.Module.Login.LoginActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
@@ -146,6 +147,7 @@ public class UpdateManager {
     public void checkUpdate() {
         String versionName = GetAppInfo.getAppVersionName(mContext);
         appVersion = GetAppInfo.getAppVersionInfo(mContext);
+        Log.i(TAG, "checkUpdate: "+new Gson().toJson(appVersion));
         Log.i(TAG, "checkUpdate: "+versionName);
         if (appVersion != null) {
             Looper.prepare();

@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <include layout="@layout/header"/>
+    <!-- 告知审批   -->
+    <ScrollView
+        android:id="@+id/WritTellExamineSv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+		android:visibility="gone"
+        >
+        <LinearLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            >
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="案件ID："
+		            />
+		        <TextView android:id="@+id/WritTellExamineCaseId" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="自由裁量："
+		            />
+		        <TextView android:id="@+id/WritTellExamineFreedomDiscretion" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="裁量条款："
+		            />
+		        <TextView android:id="@+id/WritTellExamineDiscretionClause" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="罚款金额："
+		            />
+		        <TextView android:id="@+id/WritTellExamineForfeit" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="警告："
+		            />
+		        <TextView android:id="@+id/WritTellExamineWarning" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="是否听证："
+		            />
+		        <TextView android:id="@+id/WritTellExamineIsAccept" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="处罚内容："
+		            />
+		        <TextView android:id="@+id/WritTellExaminePunishContent" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="#FFFFFF"
+				android:orientation="vertical"
+		        >
+		        <TextView 
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="5dp"
+		            android:text="简要案情："
+		            />
+		        <TextView 
+		            android:id="@+id/WritTellExamineBriefSituation" 
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:minHeight="26dp"
+		            android:layout_margin="8dp"
+					android:textColor="#CCCCCC"
+		            />
+		    </LinearLayout>
+	    </LinearLayout>
+    </ScrollView>
+    <!-- 告知回执   -->
+    <ScrollView
+        android:id="@+id/WritTellBackSv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" 
+        android:visibility="gone"
+        >
+        <LinearLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="案件ID："
+		            />
+		        <TextView android:id="@+id/WritTellBackCaseId" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="送达日期："
+		            />
+		        <TextView android:id="@+id/WritTellBackDeliveryTime" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="送达地点："
+		            />
+		        <TextView android:id="@+id/WritTellBackDeliveryAddress" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="送达方式："
+		            />
+		        <TextView android:id="@+id/WritTellBackDeliveryManner" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="收件人："
+		            />
+		        <TextView android:id="@+id/WritTellBackRecipients" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="收件日期："
+		            />
+		        <TextView android:id="@+id/WritTellBackReceiveTime" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="送达人："
+		            />
+		        <TextView android:id="@+id/WritTellBackGrvePerson" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="当事人意见："
+		            />
+		        <TextView android:id="@+id/WritTellBackPartyOpinion" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+	    </LinearLayout>
+    </ScrollView>
+    <!-- 处罚审批   -->
+    <ScrollView
+        android:id="@+id/WritPunishExamineSv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" 
+        android:background="#FFFFFF"
+        android:visibility="gone"
+        >
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+		    <LinearLayout 
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="vertical"
+		        >
+		        <TextView 
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_marginTop="5dp"
+		            android:layout_marginLeft="5dp"
+		            android:text="案件来源及违法事实："
+		            />
+		        <TextView 
+		            android:id="@+id/WritPunishExamineCaseSource"
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_margin="8dp"
+					android:textColor="#CCCCCC"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:orientation="vertical"
+		        >
+		        <TextView 
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_marginTop="5dp"
+		            android:layout_marginLeft="5dp"
+		            android:text="证据清单及证据内容："
+		            />
+		        <TextView 
+		            android:id="@+id/WritPunishExamineProofInventory" 
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_margin="8dp"
+					android:textColor="#CCCCCC"
+		            />
+		    </LinearLayout>
+	    </LinearLayout>
+    </ScrollView>
+    <!-- 处罚回执   -->
+    <ScrollView
+        android:id="@+id/WritPunishBrckSv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" 
+        android:visibility="gone"
+        >
+        <LinearLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="案件ID："
+		            />
+		        <TextView android:id="@+id/WritPunishBrckCaseId" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="文书名称："
+		            />
+		        <TextView android:id="@+id/WritPunishBrckName" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		  	<LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="受送达人："
+		            />
+		        <TextView android:id="@+id/WritPunishBrckReceiveMan" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="送达人："
+		            />
+		        <TextView android:id="@+id/WritPunishBrckDeliveryPerson" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="送达日期："
+		            />
+		        <TextView android:id="@+id/WritPunishBrckDeliveryTime" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="送达地点："
+		            />
+		        <TextView android:id="@+id/WritPunishBrckDeliveryAddress" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="送达方式："
+		            />
+		        <TextView android:id="@+id/WritPunishBrckDeliveryManner" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="收件人："
+		            />
+		        <TextView android:id="@+id/WritPunishBrckRecipients" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="收件日期："
+		            />
+		        <TextView android:id="@+id/WritPunishBrckAddresseeDate" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="备注："
+		            />
+		        <TextView android:id="@+id/WritPunishBrckRemark" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+	    </LinearLayout>
+    </ScrollView>
+    <!-- 结案审批   -->
+    <ScrollView
+        android:id="@+id/WritEndExamineSv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" 
+        android:visibility="gone"
+		android:background="#FCFCFC"
+        >
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+		    <LinearLayout 
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="#FFFFFF"
+				android:orientation="horizontal"
+		        >
+		        <TextView 
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_margin="5dp"
+		            android:text="案件ID："
+		            />
+		        <TextView 
+		            android:id="@+id/WritEndExamineCaseID" 
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+		            android:layout_margin="5dp"
+		            android:textColor="#CCCCCC"
+		            />
+		    </LinearLayout>
+		    <LinearLayout 
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="#FFFFFF"
+				android:layout_marginTop="5dp"
+				android:orientation="vertical"
+		        >
+		        <TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="5dp"
+					android:layout_marginLeft="5dp"
+		            android:text="简要案情查处经过："
+		            />
+		        <TextView 
+		            android:id="@+id/WritEndExamineManageGoBy" 
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+		            android:layout_margin="8dp"
+		            android:textColor="#CCCCCC"
+					android:minHeight="26dp"
+		            />
+		    </LinearLayout>
+		    <LinearLayout 
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="5dp"
+				android:background="#FFFFFF"
+				android:orientation="vertical"
+		        >
+		        <TextView 
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="5dp"
+					android:layout_marginLeft="5dp"
+		            android:text="行政处罚内容："
+		            />
+		        <TextView 
+		            android:id="@+id/WritEndExamineAdministrativePunish" 
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+		            android:layout_margin="8dp"
+					android:minHeight="26dp"
+		            android:textColor="#CCCCCC"
+		            />
+		    </LinearLayout>
+		    <LinearLayout 
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="#FFFFFF"
+				android:layout_marginTop="5dp"
+				android:orientation="vertical"
+		        >
+		        <TextView 
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content" 
+					android:layout_marginTop="5dp"
+					android:layout_marginLeft="5dp"
+		            android:text="处罚执行方式及处置："
+		            />
+		        <TextView 
+		            android:id="@+id/WritEndExaminePunishExecuteManner" 
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:minHeight="26dp"
+		            android:textColor="#CCCCCC"
+		            android:layout_margin="8dp"
+		            />
+		    </LinearLayout>
+	    </LinearLayout>
+    </ScrollView>
+</LinearLayout>

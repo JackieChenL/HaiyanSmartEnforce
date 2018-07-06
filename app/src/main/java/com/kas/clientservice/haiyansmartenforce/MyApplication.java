@@ -6,6 +6,10 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.hik.mcrsdk.MCRSDK;
+import com.hik.mcrsdk.rtsp.RtspClient;
+import com.hik.mcrsdk.talk.TalkClientSDK;
+import com.hikvision.vmsnetsdk.VMSNetSDK;
 import com.zego.zegoliveroom.ZegoLiveRoom;
 import com.zego.zegoliveroom.constants.ZegoAvConfig;
 import com.zego.zegoliveroom.constants.ZegoConstants;
@@ -56,8 +60,16 @@ public class MyApplication extends Application {
                 .build();
         OkHttpUtils.initClient(okHttpClient);
         SDKInitializer.initialize(this);
-
+        initVedio();
         initVideoTalk();
+    }
+
+    private void initVedio() {
+        MCRSDK.init();
+        RtspClient.initLib();
+        MCRSDK.setPrint(1, null);
+        TalkClientSDK.initLib();
+        VMSNetSDK.getInstance().openLog(true);
     }
 
     //视屏通话

@@ -131,6 +131,7 @@ public class ResetPswActivity extends BaseActivity implements View.OnClickListen
                 .subscribe(new MySubscriber<BaseEntity>(mContext) {
                     @Override
                     public void onError(ExceptionHandle.ResponeThrowable responeThrowable) {
+                        Log.i(TAG, "onError: "+responeThrowable.toString());
                         showNetErrorToast();
                     }
 

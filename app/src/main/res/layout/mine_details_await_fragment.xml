@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <!-- 加载完成   -->
+    <LinearLayout 
+	    android:id="@+id/details_await_ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <ListView
+		    android:id="@+id/details_await_lv"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:divider="@color/grey_devider"
+			android:dividerHeight="1dp"
+	        android:smoothScrollbar="true"
+	    />
+    </LinearLayout>
+</LinearLayout>

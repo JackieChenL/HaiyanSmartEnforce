@@ -303,18 +303,7 @@
         <item name="android:textAllCaps">false</item>
     </style>
     <!-- 视频通话end -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     //Yellow
     <style name="tev_xtdetails">
         <item name="android:layout_width">wrap_content</item>
@@ -327,7 +316,7 @@
     </style>
     <style name="edt_xietongdetails">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">10dp</item>
         <item name="android:layout_marginRight">10dp</item>
         <item name="android:textSize">@dimen/activity_horizontal_margin</item>
@@ -352,10 +341,77 @@
     </style>
     <style name="linea_xietongdetails">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center_vertical</item>
     </style>
 
+    <style name="mDetailsLl">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:background">#FFFFFF</item>
+    </style>
+    <style name="mDetailsTvName">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <style name="mDetailsTvContent">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">3</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">#CCCCCC</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <style name="mDetailsViewLine">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.1dp</item>
+        <item name="android:background">#CCCCCC</item>
+    </style>
+    <!-- 案件流   -->
+    <style name="mDetailsCaseFlowTv">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <!-- Item 详细信息 -->
+    <style name="mItemDetailsLl">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">#FFFFFF</item>
+    </style>
+    <style name="mItemDetailsTvName">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">3</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+    <style name="mItemDetailsTvContent">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">11</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+    <!-- 加载    -->
+    <style name="mDialogLoad" parent="android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/border_load_dialog</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
 
 
 </resources>

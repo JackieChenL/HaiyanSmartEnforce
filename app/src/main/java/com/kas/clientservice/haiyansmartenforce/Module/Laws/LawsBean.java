@@ -1,10 +1,12 @@
 package com.kas.clientservice.haiyansmartenforce.Module.Laws;
 
+import java.io.Serializable;
+
 /**
  * Created by 12976 on 2018/5/10.
  */
 
-public class LawsBean {
+public class LawsBean implements Serializable{
     private String IssueDateRegF;
     private String RegulationsID;
     private String RelationIDReg;

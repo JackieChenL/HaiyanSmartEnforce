@@ -41,7 +41,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder>{
         if (viewType == TYPE_NORMAL) {
             view = inflater.inflate(R.layout.item_image,parent,false);
         }else {
-            view = inflater.inflate(R.layout.item_image_add,parent,false);
+            view = inflater.inflate(R.layout.item_image_add_tcsf,parent,false);
         }
         return new ViewHolder(view);
     }

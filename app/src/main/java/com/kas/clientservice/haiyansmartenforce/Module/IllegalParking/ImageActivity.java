@@ -32,7 +32,8 @@ public class ImageActivity extends BaseActivity {
         super.initResAndListener();
         String url = getIntent().getStringExtra("url");
         if (url != null) {
-            Picasso.with(this).load(url).into(imageView);
+            Log.i(TAG, "initResAndListener: "+url);
+            Picasso.with(this).load(url).placeholder(R.drawable.normal_pic).error(R.drawable.normal_pic).into(imageView);
         }
         String path = getIntent().getStringExtra("uri");
         if (path != null) {

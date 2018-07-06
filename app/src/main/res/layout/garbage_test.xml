@@ -1,11 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#EDEDED">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white">
+        <ImageView
+            android:id="@+id/img_qr"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:paddingTop="5dp"
+            android:src="@drawable/nbicon_sys"
+            android:layout_marginLeft="20dp"/>
+        <EditText
+            android:id="@+id/edt_search"
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/img_qr"
+            android:background="@color/white"
+            android:singleLine="true"
+            android:paddingLeft="20dp"
+            android:hint="搜索"
+            android:textSize="20dp"
+            android:drawablePadding="20dp"
+            android:textColorHint="@color/grey_400"
+            android:drawableLeft="@drawable/search_icon_search"/>
+        <TextView
+            android:id="@+id/tev_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="取消"
+            android:gravity="center"
+            android:textSize="25dp"
+            android:textColor="#5CACEE"
+            android:layout_toRightOf="@+id/edt_search"/>
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="110dp"
         >
         <LinearLayout
             android:id="@+id/ll_zhoubian"
@@ -26,7 +61,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="周边"
-                android:textColor="@color/blue"/>
+                android:textSize="25dp"
+                android:textColor="#5CACEE"/>
     </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_number"
@@ -47,7 +83,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="编号"
-                android:textColor="@color/blue"/>
+                android:textSize="25dp"
+                android:textColor="#5CACEE" />
         </LinearLayout>
 
     </LinearLayout>
@@ -74,7 +111,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="地址"
-                android:textColor="@color/blue"/>
+                android:textSize="25dp"
+                android:textColor="#5CACEE"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_huzhu"
@@ -95,7 +133,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="户主"
-                android:textColor="@color/blue"/>
+                android:textSize="25dp"
+                android:textColor="#5CACEE"/>
         </LinearLayout>
     </LinearLayout>
 

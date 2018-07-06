@@ -28,4 +28,37 @@ public class Constants {
     public static final String MSG_PSW = "zjcoms";
     public static final String MSG_NAME = "海盐县综合行政执法局";
     public static final String MSG_SIGN = "BOgs93Xyu";
+
+    /**
+     * 案件分类 案件详情
+     */
+//    public static int WhatDecisionCaseDetailsCase = 10041;
+    /**
+     * 案件分类  案源详情
+     */
+//    public static int WhatDecisionCaseDetailsSource = 10042;
+    /**
+     * 业务决策 总体
+     */
+//    public static int WhatDecisionTotailsDetailsPersonage = 10051;
+    /**
+     * 业务决策 区域
+     */
+//    public static int WhatDecisionAreaDetailsPersonage = 10052;
+    /**
+     * 部门案件 案件
+     */
+    public static int WhatDepartmentDetailsCase = 10061;
+    /**
+     * 部门案件 案源
+     */
+    public static int WhatDepartmentDetailsSource = 10062;
+    /**
+     * 队员工作 案件
+     */
+//    public static int WhatPersonageDetailsCase = 10091;
+    /**
+     * 队员工作 案源
+     */
+//    public static int WhatPersonageDetailsSource = 10092;
 }

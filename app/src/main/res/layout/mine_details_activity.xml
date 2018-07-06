@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/header"
+		android:id="@id/head"/>
+
+    <!-- 内容    -->
+    <ScrollView
+        android:id="@+id/mDetailsLoadEndSv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:layout_below="@id/head"
+        >
+        <LinearLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="案件来源："
+		            />
+		        <TextView android:id="@+id/examine_history_details_tv_source" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="当事人："
+		            />
+		        <TextView android:id="@+id/examine_history_details_tv_party" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="受理时间："
+		            />
+		        <TextView android:id="@+id/examine_history_details_tv_time" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="案发地址："
+		            />
+		        <TextView android:id="@+id/examine_history_details_tv_address" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="案件大类："
+		            />
+		        <TextView android:id="@+id/examine_history_details_tv_typebig" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="案件小类："
+		            />
+		        <TextView android:id="@+id/examine_history_details_tv_typesmall" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="权利名称："
+		            />
+		        <TextView android:id="@+id/examine_history_details_tv_rightname" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="违法行为："
+		            />
+		        <TextView android:id="@+id/examine_history_details_tv_unlawful_act" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="违法条款："
+		            />
+		        <TextView android:id="@+id/examine_history_details_tv_unlawful_clause" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="处罚依据："
+		            />
+		        <TextView android:id="@+id/examine_history_details_tv_basis_punishment" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+		    <View style="@style/mDetailsViewLine"/>
+		    <LinearLayout 
+				style="@style/mDetailsLl"
+		        >
+		        <TextView style="@style/mDetailsTvName" 
+		            android:text="承办人："
+		            />
+		        <TextView android:id="@+id/examine_history_details_tv_undertaker" 
+		            style="@style/mDetailsTvContent"
+		            />
+		    </LinearLayout>
+	    </LinearLayout>
+    </ScrollView>
+    <!-- 底部按钮    -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="41dp" 
+	    android:layout_alignParentBottom="true"
+	    android:orientation="vertical"
+        >
+    	<View style="@style/mDetailsViewLine"/>
+    	<LinearLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+			android:background="#FFFFFF"
+		    android:orientation="horizontal"
+    	    >
+			<Button
+			    android:id="@+id/examine_history_btn_caseflow"
+			    android:layout_width="0dp"
+			    android:layout_weight="1"
+			    android:layout_height="match_parent"
+			    android:text="查看案件流"
+			    android:background="@null"
+			    android:textColor="@color/action_bar_blue"
+			    />
+			<View
+			    android:layout_width="0.1dp" 
+				android:layout_height="match_parent"
+				android:layout_marginTop="5dp"
+				android:layout_marginBottom="5dp"
+				android:background="#CCCCCC"
+				/>
+			<Button
+			    android:id="@+id/examine_history_btn_writ"
+			    android:layout_width="0dp"
+			    android:layout_weight="1"
+			    android:layout_height="match_parent"
+			    android:text="查看文书"
+			    android:background="@null"
+			    android:textColor="@color/action_bar_blue"
+			    />
+    	</LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,9 +1,8 @@
-<resources  xmlns:xliff="http://schemas.android.com/apk/res-auto">
+<resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
     <string name="app_name">海盐智慧城管</string>
 
 
-
-<!--视屏通话-->
+    <!--视屏通话-->
     <string name="vt_menu_action_setting">设置</string>
     <string name="vt_menu_action_clean">清除</string>
     <string name="vt_title_activity_settings">设置</string>
@@ -75,15 +74,6 @@
     <string name="share_log">分享日志</string>
     <string name="back">返回</string>
     <string name="share">分享</string>
-
-
-
-
-
-
-
-
-
 
 
 </resources>

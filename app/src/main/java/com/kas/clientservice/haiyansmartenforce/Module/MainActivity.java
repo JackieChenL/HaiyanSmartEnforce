@@ -20,6 +20,8 @@ import com.kas.clientservice.haiyansmartenforce.Http.RetrofitClient;
 import com.kas.clientservice.haiyansmartenforce.MainModuleRvAdapter;
 import com.kas.clientservice.haiyansmartenforce.Module.CaseCommit.CaseCommitActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.CaseCommit.CaseSearchActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.CauseSearch.Cause_Query;
+import com.kas.clientservice.haiyansmartenforce.Module.CityCheck.CityCheckSearchActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.FaceCompare.FaceCompareActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.Garbage.GarbageMainActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.History.HistoryActivity;
@@ -27,8 +29,11 @@ import com.kas.clientservice.haiyansmartenforce.Module.HuanWeiModule.HuanWeiEntr
 import com.kas.clientservice.haiyansmartenforce.Module.HuochaiCredit.HuochaiCreditActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ParkingRecordSearchActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.Laws.LawsActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.Leader.DepartmentCaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.Leader.LeaderCheckCaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.News.AdvDetailActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.Vedio.VedioActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.XieTong.XieTongActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.XieTongList.XieTongList;
 import com.kas.clientservice.haiyansmartenforce.R;
@@ -315,6 +320,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 intent = new Intent(mContext, CaseSearchActivity.class);
                 startActivity(intent);
                 break;
+            case 10://部门案件
+                intent = new Intent(mContext, DepartmentCaseActivity.class);
+                startActivity(intent);
+                break;
+            case 13://法律法规
+                intent = new Intent(mContext, LawsActivity.class);
+                startActivity(intent);
+                break;
+            case 14://违法行为
+                intent = new Intent(mContext, Cause_Query.class);
+                startActivity(intent);
+                break;
             case 15://案件审批
                 intent = new Intent(mContext, LeaderCheckCaseActivity.class);
                 startActivity(intent);
@@ -336,7 +353,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case 23:
 //                startActivity(new Intent(mContext, InvestActivity.class));
-
                 break;
             case 24:
                 startActivity(new Intent(mContext, RecipientActivity.class));
@@ -344,7 +360,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case 25:
                 startActivity(new Intent(mContext, XieTongList.class));
                 break;
-
+            case 30://市容督查
+                startActivity(new Intent(mContext, CityCheckSearchActivity.class));
+                break;
+            case 31://视频监控
+                startActivity(new Intent(mContext, VedioActivity.class));
+                break;
             case 100:
                 startActivity(new Intent(mContext, VideoTalkMainActivity.class));
                 break;

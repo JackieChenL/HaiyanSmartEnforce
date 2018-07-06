@@ -12,9 +12,9 @@
 
     <TextView
         android:id="@+id/tv_house"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginLeft="80dp"
+        android:layout_marginLeft="20dp"
         android:text="户主:"
         android:textSize="40dp" />
     <!--<EditText-->

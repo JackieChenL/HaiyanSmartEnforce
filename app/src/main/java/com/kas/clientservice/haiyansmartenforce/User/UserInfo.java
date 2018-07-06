@@ -100,6 +100,7 @@ public class UserInfo {
         public String usercode;
         public String departcode;
         public String type;
+        public String UserDefinedCode;
 
 
     }

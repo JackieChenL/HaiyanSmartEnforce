@@ -1,15 +1,14 @@
 package com.kas.clientservice.haiyansmartenforce.Module.XieTongList;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
-import com.kas.clientservice.haiyansmartenforce.Http.RequestUrl;
 import com.kas.clientservice.haiyansmartenforce.MyApplication;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
@@ -17,18 +16,11 @@ import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 
 import butterknife.BindView;
 import okhttp3.Call;
-import okhttp3.Response;
-import smartenforce.util.ToastUtil;
 
 /**
  * Created by DELL_Zjcoms02 on 2018/6/25.
@@ -65,8 +57,8 @@ public class XieTongList extends BaseActivity implements View.OnClickListener{
         app =(MyApplication)getApplication();
 
         iv_back.setOnClickListener(this);
-        query();
         initAdapter();
+        query();
 
     }
     private void initAdapter(){
@@ -77,8 +69,9 @@ public class XieTongList extends BaseActivity implements View.OnClickListener{
         ltv_ajbl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                intent=new Intent(mContext,XieTongDetalis.class);
+                intent=new Intent(mContext, XieTongDetalis.class);
                 intent.putExtra("projcode",list.get(position).projcode);
+                intent.putExtra("state",list.get(position).state);
                 startActivity(intent);
             }
         });
@@ -98,22 +91,33 @@ public class XieTongList extends BaseActivity implements View.OnClickListener{
     //TODO
     private void query() {
         showLoadingDialog();
-        OkHttpUtils.post().url(RequestUrl.URLLIST)
-                .addParams("optionName", RequestUrl.haiyanlist)
-                .addParams("departcode",  UserSingleton.USERINFO.getDepartcode())
+        String code = UserSingleton.USERINFO.szcg.UserDefinedCode;
+        Log.i(TAG, "query: "+code);
+        OkHttpUtils.post().url(XTURL.URLLIST)
+                .addParams("optionName", XTURL.haiyanlist)
+                .addParams("targetDepartCode", UserSingleton.USERINFO.szcg.UserDefinedCode)
+                .addParams("state",3+"")
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
+                Log.i(TAG, "onError: "+e.toString());
                 ToastUtils.showToast(mContext,"程序异常");
             }
             @Override
             public void onResponse(String response, int id) {
-                    Project_Info info=gson.fromJson(response,Project_Info.class);
+                Log.i(TAG, "onResponse: "+response);
+                    Project_Info info=gson.fromJson(response, Project_Info.class);
                     if(info.isState()){
                         Project_Info.RtnBean[] bean=gson.fromJson(gson.toJson(info.getRtn()), Project_Info.RtnBean[].class);
                         list.clear();
                         Collections.addAll(list,bean);
                         adapter.notifyDataSetChanged();
+//                        if(list.get(id).getState().equals("已处理")){
+//                            list.remove(id);
+//                        }else if(list.get(id).getState().equals("已退回")){
+//                            list.remove(id);
+//
+//                        }
                     }else {
                         ToastUtils.showToast(mContext,"获取失败");
                     }

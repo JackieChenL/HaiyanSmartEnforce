@@ -76,16 +76,16 @@ public class HouseHolder extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.bt_commonly:
                 commit("2");
-//                intent.setClass(this, PhotoActivity.class);
-//                startActivity(intent);
-                Toast.makeText(this, "您已成功进行中等评价", Toast.LENGTH_SHORT).show();
+                intent.setClass(this, PhotoActivity.class);
+                startActivity(intent);
+//                Toast.makeText(this, "您已成功进行中等评价", Toast.LENGTH_SHORT).show();
                 finish();
                 break;
             case R.id.bt_bad:
                 commit("3");
-//                intent.setClass(this, PhotoActivity.class);
-//                startActivity(intent);
-                Toast.makeText(this, "您已成功进行差评", Toast.LENGTH_SHORT).show();
+                intent.setClass(this, PhotoActivity.class);
+                startActivity(intent);
+//                Toast.makeText(this, "您已成功进行差评", Toast.LENGTH_SHORT).show();
                 finish();
                 break;
             default:

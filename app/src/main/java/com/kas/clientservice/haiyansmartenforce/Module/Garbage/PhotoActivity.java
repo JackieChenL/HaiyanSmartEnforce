@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
@@ -198,8 +199,8 @@ public class PhotoActivity extends BaseActivity implements View.OnClickListener,
                 if (file_vedio!=null) {
                     commit();
                 }
-//                Toast.makeText(this, "您已成功进行评价", Toast.LENGTH_SHORT).show();
-//                finish();
+                Toast.makeText(this, "您已成功进行评价", Toast.LENGTH_SHORT).show();
+                finish();
                 break;
             case R.id.iv_vedio:
                 Log.i(TAG, "onClick: ");

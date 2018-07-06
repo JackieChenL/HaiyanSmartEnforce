@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <TextView
+            android:id="@+id/adapter_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="姓名:"
+            android:gravity="center"
+            android:textSize="30dp"
+            android:paddingLeft="20dp"/>
+        <TextView
+            android:id="@+id/tev_adapter_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="30dp"
+            android:paddingLeft="20dp"
+            android:layout_toRightOf="@+id/adapter_name"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <TextView
+            android:id="@+id/adapter_address"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="地址:"
+            android:gravity="center"
+            android:textSize="30dp"
+            android:paddingLeft="20dp"/>
+        <TextView
+            android:id="@+id/tev_adapter_addressw"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="30dp"
+            android:paddingLeft="20dp"
+            android:layout_toRightOf="@+id/adapter_address"/>
+    </RelativeLayout>
+</LinearLayout>
