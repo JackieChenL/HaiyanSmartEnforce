@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
+import com.bigkoo.pickerview.TimePickerView;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.zhy.http.okhttp.OkHttpUtils;
 
@@ -26,7 +27,9 @@ import smartenforce.base.ShowTitleActivity;
 import smartenforce.bean.EnterpriseDetailBean;
 import smartenforce.impl.BeanCallBack;
 import smartenforce.impl.NoFastClickLisener;
+import smartenforce.projectutil.TimePickerUtil;
 import smartenforce.projectutil.UpLoadImageUtil;
+import smartenforce.util.DateUtil;
 import smartenforce.widget.FullyGridLayoutManager;
 
 public class EnterpriseDetailActivity extends ShowTitleActivity {
@@ -41,6 +44,7 @@ public class EnterpriseDetailActivity extends ShowTitleActivity {
     private AlertView alertView_ssqy, alertView_dwfl, alertView_nation, alertView_zjlx, alertView_sex, alertView_jyzk;
     private EnterpriseDetailBean bean;
     private ScrollView scv;
+    private TimePickerView timePickerView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,6 +85,7 @@ public class EnterpriseDetailActivity extends ShowTitleActivity {
     protected void initDataAndAction() {
         tev_title.setText("店铺详情");
         initPictureAdapter();
+        timePickerView= TimePickerUtil.getDefaultQueryTimePickerView(aty,50, DateUtil.YMD,null);
         array_ssqy = getResources().getStringArray(R.array.area);
         array_dwxz = getResources().getStringArray(R.array.qyxz);
         array_dwfl = getResources().getStringArray(R.array.qyfl);
@@ -135,6 +140,7 @@ public class EnterpriseDetailActivity extends ShowTitleActivity {
         tev_jyzk.setOnClickListener(noFastClickLisener);
         tev_sex.setOnClickListener(noFastClickLisener);
         tev_mz.setOnClickListener(noFastClickLisener);
+        tev_clrq.setOnClickListener(noFastClickLisener);
         tev_title_right.setOnClickListener(noFastClickLisener);
 
 
@@ -269,6 +275,9 @@ public class EnterpriseDetailActivity extends ShowTitleActivity {
                     break;
                 case R.id.tev_title_right:
                     doCheck();
+                    break;
+                case R.id.tev_clrq:
+                    timePickerView.show(tev_clrq);
                     break;
 
 

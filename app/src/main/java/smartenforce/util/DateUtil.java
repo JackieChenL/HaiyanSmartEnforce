@@ -9,16 +9,24 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
+    public static final String Y = "yyyy";
+    public static final String YM = "yyyy-MM";
     public static final String YMD = "yyyy-MM-dd";
+    public static final String YMDH = "yyyy-MM-dd HH";
     public static final String YMDHM = "yyyy-MM-dd HH:mm";
     public static final String YMDHMS = "yyyy-MM-dd HH:mm:ss";
-    public static final String YMDH_CHINESE = "yyyy年MM月dd日HH时";
+
+    public static final String Y_CHINESE = "yyyy年";
     public static final String YM_CHINESE = "yyyy年MM月";
+    public static final String YMD_CHINESE = "yyyy年MM月dd日";
+    public static final String YMDH_CHINESE = "yyyy年MM月dd日HH时";
+    public static final String YMDHM_CHINESE = "yyyy年MM月dd日HH时mm分";
+    public static final String YMDHMS_CHINESE = "yyyy年MM月dd日HH时mm分ss秒";
 
     public final static long Time30M = 30 * 60 * 1000;
     public final static long Time1H = 60 * 60 * 1000;
     public final static long Time1M = 60 * 1000;
-    public final static long Time1S = 60 * 60 * 1000;
+    public final static long Time1S =1000;
     public final static long DAY1 = 24 * 60 * 60 * 1000;
 
     public static String currentTime() {

@@ -52,6 +52,7 @@ public class EnterPriseFragment extends BaseFragment implements XRecyclerView.Lo
         btn_query = (Button) view.findViewById(R.id.btn_query);
         btn_add = (Button) view.findViewById(R.id.btn_add);
         xrcv_enterrise = (MyXRecyclerView) view.findViewById(R.id.xrcv_enterrise);
+        xrcv_enterrise.setLoadingListener(this);
         adapter=new ItemAdapter(beanList,context);
         adapter.setListener(new ItemListener() {
             @Override
@@ -76,6 +77,7 @@ public class EnterPriseFragment extends BaseFragment implements XRecyclerView.Lo
     NoFastClickLisener noFastClickLisener = new NoFastClickLisener() {
         @Override
         public void onNofastClickListener(View v) {
+            closeKeybord();
             switch (v.getId()) {
                 case R.id.btn_query:
                     PAGE_NUM = 1;

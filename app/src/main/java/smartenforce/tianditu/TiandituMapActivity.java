@@ -43,12 +43,12 @@ public class TiandituMapActivity extends ShowTitleActivity implements OnGeoResul
 
     protected void initDataAndAction() {
         tev_title_right.setText("确定");
-        lat=getIntent().getIntExtra("LAT",-1);
-        lon=getIntent().getIntExtra("LON",-1);
+        lat=getIntent().getIntExtra("LAT",0);
+        lon=getIntent().getIntExtra("LON",0);
         address=getIntent().getStringExtra("ADDRESS");
-        if (lat==-1&&lon==-1){
+        if ((lat==0)&&(lon==0)){
             address="未知地点";
-            center = new GeoPoint(30537699, 120693865);
+            center = new GeoPoint(30527890, 120942910);
         }else{
             center = new GeoPoint(lat, lon);
         }
@@ -150,7 +150,7 @@ public class TiandituMapActivity extends ShowTitleActivity implements OnGeoResul
     @Override
     public void onGeoDecodeResult(TGeoAddress arg0, int arg1) {
         if (arg1 == 0) {
-            address =arg0.getCity()+ arg0.getAddress();
+            address =arg0.getCity().replace("浙江省嘉兴市","")+ arg0.getAddress();
         }
         tev_title.setText(address);
     }

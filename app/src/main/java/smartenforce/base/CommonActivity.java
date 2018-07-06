@@ -116,23 +116,6 @@ public abstract class CommonActivity extends AppCompatActivity {
 
     AlertView alterView;
 
-    protected void warningShowAndfinish(final String MSG, int delay) {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                alterView = new AlertView("提醒", MSG, "确定", null, null, aty, AlertView.Style.Alert, new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(Object o, int position) {
-                        alterView.dismiss();
-                        finish();
-                    }
-                }
-                );
-                alterView.show();
-            }
-        }, delay);
-
-    }
 
     protected void warningShowAndAction(final String MSG, int delay, final ItemListener listener) {
         handler.postDelayed(new Runnable() {
@@ -181,6 +164,8 @@ public abstract class CommonActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        //防截屏
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         aty = this;
         app = (MyApplication) getApplication();
