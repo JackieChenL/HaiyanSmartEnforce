@@ -241,8 +241,8 @@ public class NewQueryActivity extends ShowTitleActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUESTCODE.LOCATION) {
-                lat = data.getIntExtra("LAT", -1);
-                lon = data.getIntExtra("LON", -1);
+                lat = data.getIntExtra("LAT", 0);
+                lon = data.getIntExtra("LON", 0);
                 address = data.getStringExtra("ADDRESS");
                 tev_afdd.setText(address);
             } else if (requestCode == REQUESTCODE.DSR) {
@@ -406,7 +406,11 @@ public class NewQueryActivity extends ShowTitleActivity {
     private void doUploadInfo() {
         SourcePersonAddBean bean = new SourcePersonAddBean();
         bean.AddressSou = address;
-        bean.GpsXYSou = ((double) lat) / 1000000 + "," + ((double) lon) / 1000000;
+        if (lat!=0&&lon!=0){
+            bean.GpsXYSou = ((double) lat) / 1000000 + "," + ((double) lon) / 1000000;
+        }else{
+            bean.GpsXYSou="";
+        }
         bean.EntOrCitID = dsr_id;
         bean.SubmitOrSave = ACTION_TYPE;
         bean.FirstLevelIDSou = FIRSTLEVELID;
