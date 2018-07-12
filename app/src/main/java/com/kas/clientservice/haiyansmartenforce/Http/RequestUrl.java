@@ -13,6 +13,7 @@ public class RequestUrl {
     public static final String URLCollecter = "http://112.13.194.180:82/Handler/CollecterApi.aspx";
     public static final String IMGURL = "http://112.13.194.180:82/Handler/";
 
+
     /**
      * 登录
      */
