@@ -87,7 +87,7 @@ public class SelectEmpNameActivity extends ShowTitleActivity {
         int count = groupBeanList.size();
         for (int i = 0; i < count; i++) {
             GroupBean groupBean = groupBeanList.get(i);
-            if (String.valueOf(groupBean.departMentBean.DepartmentID) == app.DepartmentID) {
+            if (String.valueOf(groupBean.departMentBean.DepartmentID).equals(app.DepartmentID) ) {
                 expandlist.expandGroup(i);
                 break;
 

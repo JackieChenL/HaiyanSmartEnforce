@@ -26,7 +26,7 @@ public class Groupadapter extends BaseExpandableListAdapter {
         this.context = context;
         app= (MyApplication) ((Activity)context).getApplication();
         for (GroupBean groupBean :list){
-            if (String.valueOf(groupBean.departMentBean.DepartmentID)==app.DepartmentID){
+            if (String.valueOf(groupBean.departMentBean.DepartmentID).equals(app.DepartmentID)){
                 for (GroupBean.UserBean userBean :groupBean.userList){
                     if (String.valueOf(userBean.UserID).equals(app.userID)){
                         groupBean.userList.remove(userBean) ;
