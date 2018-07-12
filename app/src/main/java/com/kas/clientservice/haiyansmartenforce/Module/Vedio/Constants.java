@@ -7,7 +7,7 @@ public final class Constants {
     /**
      * 日志tag名
      */
-    public static String LOG_TAG = "TFNTEST";
+    public static String LOG_TAG = "chenlong";
 
     /**
      * Intent key常量

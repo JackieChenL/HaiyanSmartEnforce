@@ -14,14 +14,173 @@
         android:id="@+id/surfaceView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8"/>
+        android:layout_weight="3"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
+        <TextView
+            android:id="@+id/tv_vedio_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="播放"
+            android:padding="10dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_blue_btn"
+           android:layout_centerVertical="true"/>
 
+        <TextView
+            android:id="@+id/tv_vedio_fangda"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="放大"
+            android:padding="10dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/white"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/shape_blue_btn"
+            />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/tv_vedio_suoxiao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="缩小"
+            android:padding="10dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_blue_btn"
+            android:layout_alignParentBottom="true"/>
+
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/tv_vedio_leftTop"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="3dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/shape_blue_btn"
+                    android:text="左上"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tv_vedio_Top"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="3dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/shape_blue_btn"
+                    android:text="上"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tv_vedio_rightTop"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="3dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/shape_blue_btn"
+                    android:text="右上"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tv_vedio_left"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="3dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/shape_blue_btn"
+                    android:text="左"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tv_vedio_stopControl"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="3dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/shape_blue_btn"
+                    android:text="停止"
+                    android:gravity="center"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_vedio_right"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="3dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/shape_blue_btn"
+                    android:text="右"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tv_vedio_leftBottom"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="3dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/shape_blue_btn"
+                    android:text="左下"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tv_vedio_bottom"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="3dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/shape_blue_btn"
+                    android:text="下"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tv_vedio_rightBottom"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="3dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/shape_blue_btn"
+                    android:text="右下"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>

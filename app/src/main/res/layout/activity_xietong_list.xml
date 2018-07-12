@@ -5,9 +5,9 @@
     <include
         android:id="@+id/header"
         layout="@layout/header" />
-    <ListView
-        android:id="@+id/ltv_ajbl"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:dividerHeight="1dp"></ListView>
+        <smartenforce.widget.MyXRecyclerView
+            android:id="@+id/ltv_ajbl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="1dp"></smartenforce.widget.MyXRecyclerView>
 </LinearLayout>

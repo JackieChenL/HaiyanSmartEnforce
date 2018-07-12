@@ -46,14 +46,14 @@ public class TimePickerDialog {
      *
      * @return
      */
-//    private View initDatePicker() {
-//        View inflate = LayoutInflater.from(mContext).inflate(
-//                R.layout.datepicker_layout, null);
-//        mDatePicker = (DatePicker) inflate
-//                .findViewById(R.id.datePicker);
+    private View initDatePicker() {
+        View inflate = LayoutInflater.from(mContext).inflate(
+                R.layout.datepicker_layout, null);
+        mDatePicker = (DatePicker) inflate
+                .findViewById(R.id.datePicker);
 //        resizePikcer(mDatePicker);
-//        return inflate;
-//    }
+        return inflate;
+    }
 
     /**
      * 初始化TimePicker
@@ -172,18 +172,18 @@ public class TimePickerDialog {
 //        mAlertDialog.show();
 //
 //    }
-//
-//    /**
-//     * 显示日期选择器
-//     */
-//    public void showDatePickerDialog() {
-//        mTag=1;
-//        View view = initDatePicker();
-//        mAlertDialog = new AlertDialog.Builder(mContext);
-//        mAlertDialog.setTitle("选择时间");
-//        initDialog(view);
-//        mAlertDialog.show();
-//    }
+
+    /**
+     * 显示日期选择器
+     */
+    public void showDatePickerDialog() {
+        mTag=1;
+        View view = initDatePicker();
+        mAlertDialog = new AlertDialog.Builder(mContext);
+        mAlertDialog.setTitle("选择时间");
+        initDialog(view);
+        mAlertDialog.show();
+    }
     /**
      * 显示日期选择器
      */

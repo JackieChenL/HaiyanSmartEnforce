@@ -24,7 +24,7 @@ public final class Config {
 
     private Config() 
     {
-        sp = new MyApplication().getSharedPreferences(CONFIG_FILE_NAME, Context.MODE_PRIVATE);
+        sp = MyApplication.getAppContext().getSharedPreferences(CONFIG_FILE_NAME, Context.MODE_PRIVATE);
     }
 
     public static Config getIns() {

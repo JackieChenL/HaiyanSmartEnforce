@@ -30,10 +30,12 @@ import com.kas.clientservice.haiyansmartenforce.Module.HuochaiCredit.HuochaiCred
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ParkingRecordSearchActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.Laws.LawsActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.Leader.CaseClassify.Case_Classify;
 import com.kas.clientservice.haiyansmartenforce.Module.Leader.DepartmentCaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.Leader.LeaderCheckCaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.News.AdvDetailActivity;
-import com.kas.clientservice.haiyansmartenforce.Module.Vedio.VedioActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.PersonalInfo.PersonalInfoActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.Vedio.VedioListActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.XieTong.XieTongActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.XieTongList.XieTongList;
 import com.kas.clientservice.haiyansmartenforce.R;
@@ -77,6 +79,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     ImageView iv_search;
     @BindView(R.id.llt_tcjf)
     LinearLayout llt_tcjf;
+    @BindView(R.id.riv_main)
+    ImageView iv_mine;
 
 
     ArrayList<String> list_detail;
@@ -107,6 +111,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         ll_lishijilu.setOnClickListener(this);
         llt_tcjf.setOnClickListener(this);
         iv_search.setOnClickListener(this);
+        iv_mine.setOnClickListener(this);
         loadBanner();
         loadVerticalBanner();
 //        loadVerticalBanner();
@@ -259,6 +264,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.iv_main_search:
                 startActivity(new Intent(mContext, FaceCompareActivity.class));
                 break;
+            case R.id.riv_main:
+                startActivity(new Intent(mContext, PersonalInfoActivity.class));
+                break;
         }
     }
 
@@ -280,7 +288,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, AdvDetailActivity.class);
                     intent.putExtra("type", 1);
-                    intent.putExtra("id",list_vertical.get(finalI).getID());
+                    intent.putExtra("id", list_vertical.get(finalI).getID());
                     startActivity(intent);
                 }
             });
@@ -320,6 +328,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 intent = new Intent(mContext, CaseSearchActivity.class);
                 startActivity(intent);
                 break;
+            case 8:
+                intent = new Intent(mContext, Case_Classify.class);
+                startActivity(intent);
+                break;
+            case 9:
+                break;
             case 10://部门案件
                 intent = new Intent(mContext, DepartmentCaseActivity.class);
                 startActivity(intent);
@@ -345,7 +359,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case 20://火柴信用
                 startActivity(new Intent(mContext, HuochaiCreditActivity.class));
                 break;
-            case 21:
+            case 21://巡查发现
                 startActivity(new Intent(mContext, NewQueryActivity.class));
                 break;
             case 22:
@@ -364,7 +378,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 startActivity(new Intent(mContext, CityCheckSearchActivity.class));
                 break;
             case 31://视频监控
-                startActivity(new Intent(mContext, VedioActivity.class));
+                startActivity(new Intent(mContext, VedioListActivity.class));
                 break;
             case 100:
                 startActivity(new Intent(mContext, VideoTalkMainActivity.class));

@@ -1,5 +1,6 @@
 package com.kas.clientservice.haiyansmartenforce.Module.Leader;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -9,12 +10,26 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.formatter.YAxisValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Entity.Department;
 import com.kas.clientservice.haiyansmartenforce.Http.RequestUrl;
 import com.kas.clientservice.haiyansmartenforce.R;
+import com.kas.clientservice.haiyansmartenforce.Utils.CustomerValueFormatter;
 import com.kas.clientservice.haiyansmartenforce.Utils.TimePickerDialog;
 import com.kas.clientservice.haiyansmartenforce.Utils.TimeUtils;
+import com.kas.clientservice.haiyansmartenforce.Wedge.MyMarkerView;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -22,6 +37,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +48,7 @@ import static com.kas.clientservice.haiyansmartenforce.R.id.lv_department_list;
 import static com.kas.clientservice.haiyansmartenforce.R.id.tv_case_end_time;
 import static com.kas.clientservice.haiyansmartenforce.R.id.tv_case_start_time;
 
-public class DepartmentCaseActivity extends BaseActivity implements View.OnClickListener, TimePickerDialog.TimePickerDialogInterface {
+public class DepartmentCaseActivity extends BaseActivity implements View.OnClickListener, TimePickerDialog.TimePickerDialogInterface, OnChartValueSelectedListener {
     @BindView(R.id.tv_header_title)
     TextView tv_title;
     @BindView(R.id.iv_heaer_back)
@@ -47,6 +63,8 @@ public class DepartmentCaseActivity extends BaseActivity implements View.OnClick
     ListView listView;
     @BindView(R.id.bt_department_case_inquire)
     TextView tv_query;
+    @BindView(R.id.barChart_department)
+    BarChart mChart;
 
     List<Department> list = new ArrayList<>();
     List<Big> big = new ArrayList<>();
@@ -55,6 +73,11 @@ public class DepartmentCaseActivity extends BaseActivity implements View.OnClick
     String endTime = "";
     int bigid;
     String bigName;
+    ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+    ArrayList<BarEntry> yVals2 = new ArrayList<BarEntry>();
+    ArrayList<String> xVals = new ArrayList<String>();
+    ArrayList<BarEntry> yVals3 = new ArrayList<BarEntry>();
+    ArrayList<BarEntry> yVals4 = new ArrayList<BarEntry>();
 
     @Override
     protected int getLayoutId() {
@@ -106,6 +129,100 @@ public class DepartmentCaseActivity extends BaseActivity implements View.OnClick
         listView.setAdapter(adapter);
     }
 
+    public void initMpChart(){
+        mChart.setBackgroundColor(Color.WHITE);
+        mChart.setDrawGridBackground(false);
+        mChart.setDrawBarShadow(false);
+        mChart.setOnChartValueSelectedListener(this);
+        mChart.setDrawValueAboveBar(true);//将Y数据显示在点的上方
+        // mChart.setDrawBorders(true);
+        // scaling can now only be done on x- and y-axis separately
+        mChart.setPinchZoom(true);//挤压缩放
+        mChart.setDrawBarShadow(false);
+//        mChart.setScaleYEnabled(false);
+//        mChart.setClickable(true);
+        mChart.setDoubleTapToZoomEnabled(false);//双击缩放
+        mChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);//x轴位置
+//        mChart.highlightValue(null,true);
+        MyMarkerView mv = new MyMarkerView(this, R.layout.custom_marker_view);
+        // define an offset to change the original position of the marker
+        // (optional)
+        // mv.setOffsets(-mv.getMeasuredWidth() / 2, -mv.getMeasuredHeight());
+        // set the marker to the chart
+        mChart.setMarkerView(mv);
+        Legend l = mChart.getLegend();//图例
+        l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART_INSIDE);
+        l.setTextSize(10f);
+        l.setFormSize(10f); // set the size of the legend forms/shapes
+        l.setForm(Legend.LegendForm.CIRCLE);
+        l.setWordWrapEnabled(true);
+        l.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
+
+        XAxis xl = mChart.getXAxis();
+        xl.setLabelRotationAngle(-20);//设置x轴字体显示角度
+        //xl.setPosition(XAxisPosition.BOTTOM);
+
+
+        YAxis leftAxis = mChart.getAxisLeft();
+        //leftAxis.setValueFormatter(new LargeValueFormatter());//
+        leftAxis.setValueFormatter(new MyYValueFormatter());//自定义y数据格式化方式
+        leftAxis.setDrawGridLines(false);//是否画线
+        leftAxis.setSpaceTop(30f);
+        leftAxis.setAxisMinValue(0f); // this replaces setStartAtZero(true)
+        mChart.getAxisRight().setEnabled(true);
+
+
+    }
+    public void setData() {
+        if(list==null){
+            return;
+        }
+
+        yVals1.clear();
+        yVals2.clear();
+        yVals3.clear();
+        xVals.clear();
+        for (int s=0;s<list.size();s++){
+            yVals1.add(new BarEntry(list.get(s).getInitiative(), s));
+            yVals2.add(new BarEntry(list.get(s).getPassivity(), s));
+            yVals3.add(new BarEntry(list.get(s).getGeneric(), s));
+            yVals4.add(new BarEntry(list.get(s).getSimple(), s));
+            xVals.add(list.get(s).getDepName());
+        }
+
+        // create 3 datasets with different types
+        BarDataSet set1 = new BarDataSet(yVals1, "巡查任务");
+        // set1.setColors(ColorTemplate.createColors(getApplicationContext(),
+        // ColorTemplate.FRESH_COLORS));
+        set1.setColor(Color.rgb(104, 241, 175));
+        BarDataSet set2 = new BarDataSet(yVals2, "线索任务");
+        set2.setColor(Color.rgb(164, 228, 251));
+        BarDataSet set3 = new BarDataSet(yVals3, "一般程序");
+        set3.setColor(Color.rgb(240, 177, 51));
+        BarDataSet set4 = new BarDataSet(yVals3, "简易程序");
+        set4.setColor(Color.rgb(241, 246, 89));
+        ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
+        dataSets.add(set1);
+        dataSets.add(set2);
+        dataSets.add(set3);
+        dataSets.add(set4);
+        BarData data = new BarData(xVals, dataSets);
+        // data.setValueFormatter(new LargeValueFormatter());
+
+        // add space between the dataset groups in percent of bar-width
+        data.setValueFormatter(new CustomerValueFormatter());
+        data.setDrawValues(true);
+        data.setValueTextColor(Color.BLACK);
+        data.setValueTextSize(13);
+        data.setGroupSpace(80f);//设置组数据间距
+        //data.setValueTypeface(tf);
+
+        mChart.setData(data);
+        mChart.animateXY(800,800);//图表数据显示动画
+        mChart.setVisibleXRangeMaximum(15);//设置屏幕显示条数
+        mChart.invalidate();
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -155,7 +272,8 @@ public class DepartmentCaseActivity extends BaseActivity implements View.OnClick
                         Department department=new Department(name, simple, generic, initiative, passivity,DepartmentID);
                         list.add(department);
                     }
-                    adapter.notifyDataSetChanged();
+                    setData();
+//                    adapter.notifyDataSetChanged();
 
 //                    progressDialog.dismiss();
                 } catch (JSONException e) {
@@ -238,6 +356,17 @@ public class DepartmentCaseActivity extends BaseActivity implements View.OnClick
 
     }
 
+    @Override
+    public void onValueSelected(Entry entry, int i, Highlight highlight) {
+        int x = entry.getXIndex();
+        Log.i(TAG, "onValueSelected: x="+x+" i="+i);
+    }
+
+    @Override
+    public void onNothingSelected() {
+        Log.i(TAG, "onNothingSelected: ");
+    }
+
 
     public class Big {
         private String name;
@@ -278,6 +407,23 @@ public class DepartmentCaseActivity extends BaseActivity implements View.OnClick
         public String toString() {
             return name;
         }
+
+
+    }
+    public class MyYValueFormatter implements YAxisValueFormatter {
+
+        private DecimalFormat mFormat;
+
+        public MyYValueFormatter() {
+            mFormat = new DecimalFormat("###,###,###,##0");
+        }
+
+        @Override
+        public String getFormattedValue(float value, YAxis yAxis) {
+            return mFormat.format(value);
+        }
+
+
 
 
     }

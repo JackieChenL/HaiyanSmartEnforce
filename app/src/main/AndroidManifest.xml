@@ -184,6 +184,13 @@
         <activity android:name=".Module.XieTongList.XieTongImage"/>
         <activity android:name=".Module.Vedio.VedioActivity">
         </activity>
+        <activity android:name=".Module.Vedio.VedioListActivity">
+        </activity>
+        <activity android:name=".Module.PersonalInfo.PersonalInfoActivity">
+        </activity>
+        <activity android:name=".Module.PersonalInfo.PersonalInfoEditActivity">
+        </activity>
+        <activity android:name=".Module.Leader.CaseClassify.Case_Classify"/>
     </application>
 
 </manifest>

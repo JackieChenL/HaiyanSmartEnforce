@@ -3,21 +3,27 @@ package com.kas.clientservice.haiyansmartenforce.Module.CityCheck;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -90,6 +96,8 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
     TextView tv_commit;
     @BindView(R.id.tv_citySearch_add_save)
     TextView tv_save;
+    @BindView(R.id.activity_city_check_add)
+    RelativeLayout rl_main;
 
     String time = "";
     List<Big> big;
@@ -109,6 +117,8 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
     private String latitude = "";
     private CityCheckListEntity.KSBean cityCheckListEntity;
     private boolean isEdit = false;
+    private int oldbig = -1;
+    private int oldsmall = -1;
 
     public TakePhoto getTakePhoto() {
         if (takePhoto == null) {
@@ -144,6 +154,25 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
                 tv_location.setText(formLocation(longitude, latitude));
             }
         }
+        if (requestCode == 300) {
+            if (data != null) {
+                Uri uri = data.getData();
+                String[] filePathColumns = {MediaStore.Images.Media.DATA};
+                Cursor c = getContentResolver().query(uri, filePathColumns, null, null, null);
+                c.moveToFirst();
+                int columnIndex = c.getColumnIndex(filePathColumns[0]);
+                String imagePath = c.getString(columnIndex);
+//                showImage(imagePath);
+                c.close();
+                Bitmap bm = BitmapFactory.decodeFile(imagePath);
+                arr_image.add(bm);
+                adapter.notifyDataSetChanged();
+
+                ImgBean imgBean = new ImgBean();
+                imgBean.setUri(imagePath);
+                arr_uri.add(imgBean);
+            }
+        }
     }
 
     @Override
@@ -166,16 +195,18 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
         tv_save.setOnClickListener(this);
         tv_time.setOnClickListener(this);
         timePickerDialog = new TimePickerDialog(mContext);
-        getBig();
         time = TimeUtils.getFormedTime();
         tv_time.setText(time);
 
+
+        loadPPw();
         String entity = getIntent().getStringExtra("json");
         if (entity != null) {
             isEdit = true;
             cityCheckListEntity = gson.fromJson(entity, CityCheckListEntity.KSBean.class);
-            bigid = cityCheckListEntity.getFirstLevelID();
-            smallid = cityCheckListEntity.getSecondLevelID();
+            Log.i(TAG, "initResAndListener: " + gson.toJson(cityCheckListEntity));
+            oldbig = cityCheckListEntity.getFirstLevelID();
+            oldsmall = cityCheckListEntity.getSecondLevelID();
             et_address.setText(cityCheckListEntity.getAddressSou());
             et_name.setText(cityCheckListEntity.getNameECSou());
             et_des.setText(cityCheckListEntity.getContentSou());
@@ -201,7 +232,7 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
                 });
             }
         }
-
+        getBig();
 
         sp_big.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -248,11 +279,17 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
                 Big mbig = new Big("-----请选择-----", 0);
                 big.add(mbig);
                 try {
+                    int position = -1;
                     JSONObject object = new JSONObject(response.toString());
                     JSONArray jsonArray = object.getJSONArray("KS");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         int id = jsonObject.getInt("id");
+                        if (isEdit) {
+                            if (id == oldbig) {
+                                position = i;
+                            }
+                        }
                         String name = jsonObject.getString("name");
                         Big mybig = new Big(name, id);
                         big.add(mybig);
@@ -260,6 +297,9 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
                     Typeadapter = new ArrayAdapter<Big>(mContext, android.R.layout.simple_spinner_item, big);
                     Typeadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     sp_big.setAdapter(Typeadapter);
+                    if (position != -1) {
+                        sp_big.setSelection(position);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -286,11 +326,17 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
                 Small sm = new Small("-----请选择-----", 0);
                 small.add(sm);
                 try {
+                    int position = -1;
                     JSONObject object = new JSONObject(response.toString());
                     JSONArray jsonArray = object.getJSONArray("KS");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         int id = jsonObject.getInt("id");
+                        if (isEdit) {
+                            if (id == oldsmall) {
+                                position = i;
+                            }
+                        }
                         String name = jsonObject.getString("name");
                         Small mysmall = new Small(name, id);
                         small.add(mysmall);
@@ -298,6 +344,7 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
                     smalladapter = new ArrayAdapter<Small>(mContext, android.R.layout.simple_spinner_item, small);
                     smalladapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     sp_small.setAdapter(smalladapter);
+
                     sp_small.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent,
@@ -315,6 +362,9 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
 
                         }
                     });
+                    if (position != -1) {
+                        sp_small.setSelection(position);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -383,13 +433,28 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
             case R.id.tv_citySearch_add_time:
                 timePickerDialog.showDateAndTimePickerDialog();
                 break;
+            case R.id.tv_ppw_mediaType_take:
+//                takeVedio();
+                ppw.dismiss();
+                break;
+            case R.id.tv_ppw_mediaType_chose:
+//                choseVedio();
+                Intent intent = new Intent(
+                        Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, 300);
+                ppw.dismiss();
+                break;
+            case R.id.tv_ppw_mediaType_cancel:
+                ppw.dismiss();
+                break;
         }
     }
 
     private void commit(String submit) {
         final Map<String, String> map = new HashMap<>();
         if (isEdit) {
-            map.put("SourceID",cityCheckListEntity.getSourceID()+"");
+            map.put("SourceID", cityCheckListEntity.getSourceID() + "");
             map.put("UserID", UserSingleton.USERINFO.getName().UserID);
             map.put("DealingDepartmentID", "-1");
             map.put("EntryTime", time);
@@ -448,7 +513,7 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
             map.put("CitizenID", "-1");
 
             Log.i(TAG, "commit: " + gson.toJson(map));
-            OkHttpUtils.post().url(RequestUrl.baseUrl_leader + "mobile/sourceadd.ashx")
+            OkHttpUtils.post().url(RequestUrl.baseUrl_leader + "mobile/SourceModify.ashx")
                     .params(map)
                     .build().execute(new StringCallback() {
                 @Override
@@ -514,6 +579,10 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onImageAddClick() {
+        ppw.showAtLocation(rl_main, Gravity.BOTTOM, 0, 0);
+    }
+
+    public void takePhoto() {
         if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             //申请权限
             ActivityCompat.requestPermissions(this,
@@ -555,5 +624,22 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
         arr_image.remove(position);
         arr_uri.remove(position);
         adapter.notifyDataSetChanged();
+    }
+
+    private TextView tv_take, tv_chose, tv_cancel;
+    PopupWindow ppw;
+
+    private void loadPPw() {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.layout_ppw_media_type, null);
+        tv_take = (TextView) view.findViewById(R.id.tv_ppw_mediaType_take);
+        tv_chose = (TextView) view.findViewById(R.id.tv_ppw_mediaType_chose);
+        tv_cancel = (TextView) view.findViewById(R.id.tv_ppw_mediaType_cancel);
+        tv_take.setOnClickListener(this);
+        tv_chose.setOnClickListener(this);
+        tv_cancel.setOnClickListener(this);
+        ppw = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        ppw.setFocusable(true);
+        ppw.setOutsideTouchable(true);
+        ppw.setBackgroundDrawable(new BitmapDrawable());
     }
 }
