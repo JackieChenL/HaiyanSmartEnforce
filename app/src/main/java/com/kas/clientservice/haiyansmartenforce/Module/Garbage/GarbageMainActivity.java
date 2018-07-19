@@ -89,6 +89,7 @@ public class GarbageMainActivity extends AppCompatActivity implements View.OnCli
             case R.id.ll_address:
                 intent.setClass(this, Doorplate.class);
                 startActivity(intent);
+
 //                finish();
                 break;
             case R.id.ll_huzhu:

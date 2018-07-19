@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+     >
+    
+     <!-- <ScrollView 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            > --> 
+
+     <RelativeLayout 
+	    android:id="@+id/rl_area_start_time"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:paddingLeft="25dp"
+	    android:background="@android:color/white"
+	    >
+	    <TextView
+	        android:id="@+id/tv_case_start"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="开始时间"
+	        android:paddingTop="15dp"
+	        android:paddingBottom="15dp"
+	         />
+	    <TextView
+	        android:id="@+id/tv_area_start_time"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="15dp" 
+	        android:paddingBottom="15dp"
+	        android:layout_toRightOf="@id/tv_case_start"
+	        android:layout_marginLeft="10dp"
+	        android:textSize="16sp"
+	         />
+	</RelativeLayout>
+	
+	<View 
+	    android:layout_width="match_parent"
+	    android:layout_height="1dp"
+	    android:background="@color/grey_devider"
+	    android:layout_marginLeft="15dp"
+	    />
+	
+	<RelativeLayout 
+	    android:id="@+id/rl_area_end_time"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:paddingLeft="25dp"
+	    android:background="@android:color/white"
+	    >
+	    <TextView
+	        android:id="@+id/tv_case_end"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="结束时间"
+	        android:paddingTop="15dp"
+	        android:paddingBottom="15dp"
+	         />
+	    <TextView
+	        android:id="@+id/tv_area_end_time"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="15dp"
+	        android:paddingBottom="15dp"
+	        android:layout_toRightOf="@id/tv_case_end"
+	        android:layout_marginLeft="10dp"
+	        android:textSize="16sp"
+	         />
+	</RelativeLayout>
+	
+	 <View
+	    android:layout_width="match_parent"
+	    android:layout_height="1dp"
+	    android:background="@color/grey_devider"
+	    android:layout_marginLeft="15dp"
+	    />
+	
+	 <RelativeLayout 
+	    android:id="@+id/rl_area_type"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:paddingLeft="25dp"
+	    android:background="@android:color/white"
+	    >
+	<TextView
+	        android:id="@+id/tv_case_type"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="案件大类"
+	        android:paddingTop="15dp"
+	        android:paddingBottom="15dp"
+	         />
+	 <FrameLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_toRightOf="@id/tv_case_type"
+         >
+        <Spinner
+            android:id="@+id/sp_area_type"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" 
+            android:background="@null"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            >
+        </Spinner>
+
+         </FrameLayout>
+	</RelativeLayout> 
+	
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:background="@android:color/white"
+	    >
+	     <Button 
+	    android:id="@+id/bt_area_inquire"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:text="查询"
+	    android:layout_marginBottom="10dp"
+	    android:layout_marginLeft="15dp"
+	    android:layout_marginRight="15dp"
+	    android:background="@drawable/but_case"
+	    android:textColor="@color/action_bar_blue"
+	    />
+	</LinearLayout>
+	
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="3dp"
+	    android:orientation="horizontal"
+	    >
+	       <TextView 
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="3dp"
+	        android:paddingBottom="3dp"
+	        android:layout_weight="1"
+	        android:text="区域（中队）"
+	        android:gravity="center"
+	        android:textColor="#ADADAD"
+	        />
+	    <TextView 
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="3dp"
+	        android:paddingBottom="3dp"
+	        android:layout_weight="2"
+	        android:text="违法行为"
+	        android:gravity="center"
+	        android:textColor="#ADADAD"
+	        />
+	    <TextView 
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="3dp"
+	        android:paddingBottom="3dp"
+	        android:layout_weight="1"
+	        android:text="数量"
+	        android:gravity="center"
+	        android:textColor="#ADADAD"
+	        />
+	</LinearLayout>
+	
+	<ListView
+	    android:id="@+id/lv_area_list"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    />
+	
+  <!-- </LinearLayout>
+        
+    </ScrollView> -->
+</LinearLayout>

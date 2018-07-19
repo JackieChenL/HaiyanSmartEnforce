@@ -72,6 +72,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
+    public void showToast(String s){
+        ToastUtils.showToast(mContext,s);
+    }
+
 
     private CompositeSubscription mCompositeSubscription;
 

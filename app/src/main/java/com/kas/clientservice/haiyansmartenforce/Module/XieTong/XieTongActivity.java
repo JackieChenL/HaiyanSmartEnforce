@@ -36,6 +36,7 @@ import com.kas.clientservice.haiyansmartenforce.Base.StringAdapter;
 import com.kas.clientservice.haiyansmartenforce.Entity.ZXZZclassEntity;
 import com.kas.clientservice.haiyansmartenforce.Http.ExceptionHandle;
 import com.kas.clientservice.haiyansmartenforce.Http.MySubscriber;
+import com.kas.clientservice.haiyansmartenforce.Http.RequestUrl;
 import com.kas.clientservice.haiyansmartenforce.Http.RetrofitClient;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitImgRvAdapter;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ImageActivity;
@@ -250,7 +251,9 @@ public class XieTongActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void onNext(ZXZZclassEntity baseEntity) {
                         list.clear();
+                        list_class.clear();
                         list.addAll(baseEntity.KS);
+                        Log.i(TAG, "onNext: "+list.size());
                         Log.i(TAG, "onNext: " + list.size());
                         for (int i = 0; i < list.size(); i++) {
                             list_class.add(list.get(i).Name);
@@ -297,7 +300,7 @@ public class XieTongActivity extends BaseActivity implements View.OnClickListene
         ZXZZCommitEntity zxzzCommitEntity = new ZXZZCommitEntity("0", 1, classId, 1, tv_location.getText().toString(),
                 et_address.getText().toString(),
                 et_describe.getText().toString(), cc,
-                "", UserSingleton.USERINFO.getPublicUsersID());
+                "", UserSingleton.USERINFO.Name.UserID);
         Special special = new Special(zxzzCommitEntity);
 
         Log.i(TAG, "commit: " + gson.toJson(special));
@@ -349,8 +352,8 @@ public class XieTongActivity extends BaseActivity implements View.OnClickListene
     private void uploadIMG(String img, final int flag) {
 //        RequestBody requestFile =
 //                RequestBody.create(MediaType.parse("multipart/form-data"), img);
-        RetrofitClient.createService(ZhuanXiangZhengZhiAPI.class, "http://112.17.19.118:91/")
-                .httpZXZZimg(img)
+        RetrofitClient.createService(ZhuanXiangZhengZhiAPI.class, RequestUrl.baseUrl_leader)
+                .httpZXZZimg(img, "-1","citizen")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new MySubscriber<ZhuanXiangZhengZhiAPI.UploadImgEntity>(mContext) {

@@ -33,8 +33,61 @@ public class UserInfo {
     public ParkingSupervisorBean ParkingSupervisor;
     public SzcgBean szcg;
     public NameBean Name;
+    public String userName;
+    public String phneNum;
     public List<UIBean> UI;
+    private String registNum;
+    private boolean haveSign;
+    private boolean haveCertificate;
+    private String Photo;
 
+    public String getPhoto() {
+        return Photo;
+    }
+
+    public void setPhoto(String photo) {
+        Photo = photo;
+    }
+
+    public boolean isHaveCertificate() {
+        return haveCertificate;
+    }
+
+    public void setHaveCertificate(boolean haveCertificate) {
+        this.haveCertificate = haveCertificate;
+    }
+
+    public boolean isHaveSign() {
+        return haveSign;
+    }
+
+    public void setHaveSign(boolean haveSign) {
+        this.haveSign = haveSign;
+    }
+
+    public void setRegistNum(String registNum) {
+        this.registNum = registNum;
+    }
+
+    public String getRegistNum() {
+        return registNum;
+    }
+
+    public ParkingSupervisorBean getParkingSupervisor() {
+        return ParkingSupervisor;
+    }
+
+    public SzcgBean getSzcg() {
+        return szcg;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPhneNum() {
+        return phneNum;
+    }
 
     public String getChangeNameID() {
         return getChangeName().getChangeNameID();

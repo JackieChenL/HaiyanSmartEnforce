@@ -67,7 +67,7 @@ public class CaseSearchActivity extends BaseActivity implements View.OnClickList
         tv_endTime.setOnClickListener(this);
         tv_btn.setOnClickListener(this);
 
-        tv_startTime.setText(TimeUtils.getFormedTime("yyyy-MM-dd")+" 00:00");
+        tv_startTime.setText("2000-1-1 00:00");
         tv_endTime.setText(TimeUtils.getFormedTime("yyyy-MM-dd HH:mm"));
         timePickerDialog = new TimePickerDialog(mContext);
 
@@ -87,6 +87,7 @@ public class CaseSearchActivity extends BaseActivity implements View.OnClickList
                 startActivity(intent);
             }
         });
+        submit();
     }
 
     @Override
@@ -114,7 +115,7 @@ public class CaseSearchActivity extends BaseActivity implements View.OnClickList
         OkHttpUtils.post().url(RequestUrl.baseUrl)
                 .addParams("optionName", "zmnsearchproject")
                 .addParams("userid", UserSingleton.USERINFO.getPublicUsersID())
-                .addParams("projcode", "")
+                .addParams("projcode", et_code.getText().toString())
                 .addParams("starttime", tv_startTime.getText().toString())
                 .addParams("endtime", tv_endTime.getText().toString())
                 .build().execute(new StringCallback() {

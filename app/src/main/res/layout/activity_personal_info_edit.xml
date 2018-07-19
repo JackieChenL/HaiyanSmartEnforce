@@ -161,7 +161,7 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="1dp"
         android:background="@color/grey_devider"/>
 
     <TextView
@@ -206,10 +206,24 @@
         android:background="@color/grey_devider"/>
 
     <TextView
-        android:id="@+id/tv_infoEdit_exit"
+        android:id="@+id/tv_infoEdit_commit"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:textColor="@color/app_original_blue"
+        android:textSize="16sp"
+        android:text="确认修改"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/grey_devider"/>
+
+    <TextView
+        android:id="@+id/tv_infoEdit_exit"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:textColor="@color/crimson"
         android:textSize="16sp"
         android:text="退出登录"
         android:gravity="center"/>

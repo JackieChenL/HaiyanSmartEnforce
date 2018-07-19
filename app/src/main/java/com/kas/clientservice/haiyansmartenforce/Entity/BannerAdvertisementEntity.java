@@ -81,7 +81,7 @@ public class BannerAdvertisementEntity {
          */
 
         private String ID;
-        private String LogoImg;
+        private String BroadcastPicture;
 
         public String getID() {
             return ID;
@@ -92,11 +92,11 @@ public class BannerAdvertisementEntity {
         }
 
         public String getLogoImg() {
-            return LogoImg;
+            return BroadcastPicture;
         }
 
         public void setLogoImg(String LogoImg) {
-            this.LogoImg = LogoImg;
+            this.BroadcastPicture = LogoImg;
         }
     }
 }

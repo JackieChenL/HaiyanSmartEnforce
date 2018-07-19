@@ -2,56 +2,67 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EDEDED">
+    android:background="#f5f5f5">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/white">
         <ImageView
             android:id="@+id/img_qr"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:paddingTop="5dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
             android:src="@drawable/nbicon_sys"
             android:layout_marginLeft="20dp"/>
         <EditText
             android:id="@+id/edt_search"
             android:layout_width="250dp"
-            android:layout_height="match_parent"
+            android:layout_height="36dp"
             android:layout_toRightOf="@+id/img_qr"
-            android:background="@color/white"
+            android:background="#f5f5f5"
             android:singleLine="true"
-            android:paddingLeft="20dp"
+            android:paddingLeft="10dp"
             android:hint="搜索"
-            android:textSize="20dp"
-            android:drawablePadding="20dp"
-            android:textColorHint="@color/grey_400"
+            android:textSize="16dp"
+            android:drawablePadding="10dp"
+            android:textColorHint="#999999"
             android:drawableLeft="@drawable/search_icon_search"/>
         <TextView
             android:id="@+id/tev_cancel"
-            android:layout_width="match_parent"
+            android:layout_width="140dp"
             android:layout_height="match_parent"
             android:text="取消"
             android:gravity="center"
-            android:textSize="25dp"
-            android:textColor="#5CACEE"
+            android:textSize="16dp"
+            android:textColor="#22A1DD"
             android:layout_toRightOf="@+id/edt_search"/>
     </RelativeLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="110dp"
-        >
+        android:text="搜索指定内容"
+        android:layout_gravity="center"
+        android:paddingTop="60dp"
+        android:textSize="42px"
+        android:textColor="#999999"/>
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+
+        android:layout_gravity="center">
         <LinearLayout
             android:id="@+id/ll_zhoubian"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/garbage_linearlayout"
             android:orientation="vertical">
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_gravity="center_horizontal"
                 android:padding="10dp"
                 android:src="@drawable/content_icon_here" />
@@ -61,19 +72,21 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="周边"
-                android:textSize="25dp"
-                android:textColor="#5CACEE"/>
+                android:textSize="16dp"
+                android:layout_marginTop="-5dp"
+                android:textColor="#22A1DD"/>
     </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_number"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/garbage_linearlayout"
             android:orientation="vertical">
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_gravity="center_horizontal"
                 android:padding="10dp"
                 android:src="@drawable/content_icon_number" />
@@ -83,25 +96,28 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="编号"
-                android:textSize="25dp"
-                android:textColor="#5CACEE" />
+                android:textSize="16dp"
+                android:layout_marginTop="-5dp"
+                android:textColor="#22A1DD" />
         </LinearLayout>
 
     </LinearLayout>
     <LinearLayout
         android:id="@+id/ll_address"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="10dp">
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/garbage_linearlayout"
             android:orientation="vertical">
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_gravity="center_horizontal"
                 android:padding="10dp"
                 android:src="@drawable/content_icon_add" />
@@ -111,19 +127,21 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="地址"
-                android:textSize="25dp"
-                android:textColor="#5CACEE"/>
+                android:textSize="16dp"
+                android:layout_marginTop="-5dp"
+                android:textColor="#22A1DD"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_huzhu"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/garbage_linearlayout"
             android:orientation="vertical">
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_gravity="center_horizontal"
                 android:padding="10dp"
                 android:src="@drawable/content_icon_company" />
@@ -133,8 +151,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="户主"
-                android:textSize="25dp"
-                android:textColor="#5CACEE"/>
+                android:textSize="16dp"
+                android:layout_marginTop="-5dp"
+                android:textColor="#22A1DD"/>
         </LinearLayout>
     </LinearLayout>
 

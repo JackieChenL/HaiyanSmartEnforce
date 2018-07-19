@@ -1,6 +1,7 @@
 package com.kas.clientservice.haiyansmartenforce.Module;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
@@ -12,10 +13,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.jorge.circlelibrary.ImageCycleView;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Entity.BannerAdvertisementEntity;
 import com.kas.clientservice.haiyansmartenforce.Entity.VerticalBannerEntity;
+import com.kas.clientservice.haiyansmartenforce.Http.RequestUrl;
 import com.kas.clientservice.haiyansmartenforce.Http.RetrofitClient;
 import com.kas.clientservice.haiyansmartenforce.MainModuleRvAdapter;
 import com.kas.clientservice.haiyansmartenforce.Module.CaseCommit.CaseCommitActivity;
@@ -32,6 +36,7 @@ import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ParkingRec
 import com.kas.clientservice.haiyansmartenforce.Module.Laws.LawsActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.Leader.CaseClassify.Case_Classify;
 import com.kas.clientservice.haiyansmartenforce.Module.Leader.DepartmentCaseActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.Leader.Desision.Decision;
 import com.kas.clientservice.haiyansmartenforce.Module.Leader.LeaderCheckCaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.News.AdvDetailActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.PersonalInfo.PersonalInfoActivity;
@@ -120,6 +125,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         initRv();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Glide.with(mContext).load(UserSingleton.USERINFO.getPhoto()).asBitmap().error(R.drawable.loginhead).into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                iv_mine.setImageBitmap(resource);
+            }
+        });
+    }
+
     private void loadVerticalBanner() {
         OkHttpUtils.get().url(RetrofitClient.mBaseUrl + "system/theme/news/InformDetail.ashx?id=")
                 .build().execute(new StringCallback() {
@@ -149,7 +165,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private void loadBanner() {
         list_detail = new ArrayList<>();
         list_imageURL = new ArrayList<>();
-        OkHttpUtils.get().url(RetrofitClient.mBaseUrl + "system/theme/news/NewsImg.ashx")
+        OkHttpUtils.get().url(RequestUrl.baseUrl_leader + "mobile/GetNewsBroadcastPictureList.ashx")
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
@@ -166,7 +182,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         for (int i = 0; i < entity.getRtn().size(); i++) {
                             BannerAdvertisementEntity.RtnBean rtnBean = entity.getRtn().get(i);
                             list_detail.add(rtnBean.getID() + "");
-                            list_imageURL.add(rtnBean.getLogoImg());
+                            list_imageURL.add(rtnBean.getLogoImg().replaceAll("\\|",""));
                         }
                         initBanner();
                     }
@@ -225,7 +241,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             @Override
             public void displayImage(String imageURL, ImageView imageView) {
 //                imageView.setImageResource(R.drawable.indexbananer);
-                Glide.with(mContext).load(imageURL).error(R.drawable.normal_pic).into(imageView);
+//                Log.i(TAG, "displayImage: "+RequestUrl.baseUrl_img+imageURL);
+                Glide.with(mContext).load(RequestUrl.baseUrl_img+imageURL).error(R.drawable.normal_pic).into(imageView);
             }
 
             @Override
@@ -233,7 +250,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 //                ToastUtils.showToast(mContext, "click");
                 Intent intent = new Intent(mContext, AdvDetailActivity.class);
                 intent.putExtra("id", list_adv.get(position).getID());
-                intent.putExtra("type", 1);
+                intent.putExtra("type",1);
                 startActivity(intent);
             }
         };
@@ -334,6 +351,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 startActivity(intent);
                 break;
             case 9:
+                intent = new Intent(mContext, Decision.class);
+                startActivity(intent);
                 break;
             case 10://部门案件
                 intent = new Intent(mContext, DepartmentCaseActivity.class);

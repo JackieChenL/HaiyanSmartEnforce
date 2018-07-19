@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" 
+    android:background="@color/log_title"
+    android:paddingTop="1dp"
+    android:paddingBottom="1dp"
+    android:id="@+id/ll_area_item">
+    
+    
+    <TextView 
+        android:id="@+id/tv_area_actName"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="3dp"
+	        android:paddingBottom="8dp"
+	        android:layout_weight="2"
+	        android:text="违法行为"
+	        />
+	    <TextView 
+	        android:id="@+id/tv_area_caseNum"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="3dp"
+	        android:paddingBottom="8dp"
+	        android:layout_weight="1"
+	        android:gravity="center"
+	        />
+	    
+</LinearLayout>

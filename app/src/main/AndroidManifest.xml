@@ -161,9 +161,9 @@
         <activity android:name="smartenforce.aty.function5.EnforceGoodsDetailActivity"/>
         <activity android:name="smartenforce.aty.function5.GoodsDetailActivity"/>
         <activity android:name="smartenforce.aty.function5.ReleaseEnforceActivity"/>
-        <activity android:name="smartenforce.aty.noise_wellshutter.NoiseWellshutterActivity"
-            android:hardwareAccelerated="false" />
-
+        <activity
+            android:name="smartenforce.aty.noise_wellshutter.NoiseWellshutterActivity"
+            android:hardwareAccelerated="false"/>
         <activity android:name=".Module.News.AdvDetailActivity"/>
         <activity android:name=".Module.Leader.LeaderCheckCaseActivity"/>
         <activity android:name=".Module.Leader.LeaderCaseSearchDetailActivity"/>
@@ -194,6 +194,11 @@
         <activity android:name=".Module.PersonalInfo.PersonalInfoEditActivity">
         </activity>
         <activity android:name=".Module.Leader.CaseClassify.Case_Classify"/>
+        <activity android:name=".Module.PersonalInfo.IdentifyActivity">
+        </activity>
+        <activity android:name=".Module.Leader.Desision.Decision"/>
+        <activity android:name=".Module.CaseCommit.CaseHistoryActivity">
+        </activity>
     </application>
 
 </manifest>

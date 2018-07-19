@@ -3,6 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/llt_xtadapter"
+              android:minHeight="70dp"
     android:clickable="true">
     <TextView
         android:layout_margin="3dp"

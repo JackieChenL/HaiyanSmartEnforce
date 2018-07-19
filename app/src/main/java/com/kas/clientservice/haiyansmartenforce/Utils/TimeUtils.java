@@ -13,6 +13,10 @@ import java.util.Date;
  */
 
 public class TimeUtils {
+    public static int year;
+    public static int month;
+    public static int day;
+
     public static CurrentTime getTime(){
         Calendar c = Calendar.getInstance();//
         CurrentTime currentTime = new CurrentTime();
@@ -23,6 +27,9 @@ public class TimeUtils {
         currentTime.mHour = c.get(Calendar.HOUR_OF_DAY);//时
         currentTime.mMinute = c.get(Calendar.MINUTE);//分
 
+        year = c.get(Calendar.YEAR);
+        month = c.get(Calendar.MONTH);
+        day = c.get(Calendar.DAY_OF_MONTH);
         return currentTime;
     }
 

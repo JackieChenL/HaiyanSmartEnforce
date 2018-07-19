@@ -287,7 +287,7 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
                         int id = jsonObject.getInt("id");
                         if (isEdit) {
                             if (id == oldbig) {
-                                position = i;
+                                position = i+1;
                             }
                         }
                         String name = jsonObject.getString("name");
@@ -334,7 +334,7 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
                         int id = jsonObject.getInt("id");
                         if (isEdit) {
                             if (id == oldsmall) {
-                                position = i;
+                                position = i+1;
                             }
                         }
                         String name = jsonObject.getString("name");
@@ -416,7 +416,7 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
                     ToastUtils.showToast(mContext, "请选择大小类");
                     return;
                 }
-                if (latitude.trim().equals("")) {
+                if (tv_location.getText().toString().trim().equals("")) {
                     ToastUtils.showToast(mContext, "请获取坐标");
                     return;
                 }
@@ -434,7 +434,8 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
                 timePickerDialog.showDateAndTimePickerDialog();
                 break;
             case R.id.tv_ppw_mediaType_take:
-//                takeVedio();
+//                takePhoto();
+                takePhoto();
                 ppw.dismiss();
                 break;
             case R.id.tv_ppw_mediaType_chose:
@@ -452,47 +453,10 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void commit(String submit) {
+        showLoadingDialog();
         final Map<String, String> map = new HashMap<>();
-        if (isEdit) {
-            map.put("SourceID", cityCheckListEntity.getSourceID() + "");
-            map.put("UserID", UserSingleton.USERINFO.getName().UserID);
-            map.put("DealingDepartmentID", "-1");
-            map.put("EntryTime", time);
-            map.put("NameTas", "");
-            map.put("Address", et_address.getText().toString());
-            map.put("GpsXY", tv_location.getText().toString());
-//            map.put("SaveOrSubmit", submit);
-            map.put("img", BitmapToBase64.bitmapListToBase64(arr_image));
-            map.put("RemindTime", time);
-            map.put("FirstLevelID", bigid + "");
-            map.put("SecondLevelID", smallid + "");
-            if (et_name.getText().toString().trim().equals("")) {
-                map.put("NameEC", "匿名");
-            } else map.put("NameEC", et_name.getText().toString().trim());
-            map.put("caseEntOrCiti", "3");
-            map.put("EnterpriseID", "-1");
-            map.put("Content", et_des.getText().toString());
-            map.put("CitizenID", "-1");
-
-            OkHttpUtils.post().url(RequestUrl.baseUrl_leader + "mobile/sourceadd.ashx")
-                    .params(map)
-                    .build().execute(new StringCallback() {
-                @Override
-                public void onError(Call call, Exception e, int id) {
-                    Log.i(TAG, "onError: " + e.toString());
-                    showNetErrorToast();
-                }
-
-                @Override
-                public void onResponse(String response, int id) {
-                    Log.i(TAG, "onResponse: " + response);
-                    if (response.contains("成功")) {
-                        ToastUtils.showToast(mContext, "提交成功");
-                        finish();
-                    }
-                }
-            });
-        } else {
+        if (!isEdit) {
+            String name = "";
             map.put("UserID", UserSingleton.USERINFO.getName().UserID);
             map.put("DealingDepartmentID", "-1");
             map.put("EntryTime", time);
@@ -505,30 +469,99 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
             map.put("FirstLevelID", bigid + "");
             map.put("SecondLevelID", smallid + "");
             if (et_name.getText().toString().trim().equals("")) {
+                name = "匿名";
                 map.put("NameEC", "匿名");
-            } else map.put("NameEC", et_name.getText().toString().trim());
+            } else {
+                map.put("NameEC", et_name.getText().toString().trim());
+                name = et_name.getText().toString().trim();
+            }
             map.put("caseEntOrCiti", "3");
             map.put("EnterpriseID", "-1");
             map.put("Content", et_des.getText().toString());
             map.put("CitizenID", "-1");
-
             Log.i(TAG, "commit: " + gson.toJson(map));
-            OkHttpUtils.post().url(RequestUrl.baseUrl_leader + "mobile/SourceModify.ashx")
-                    .params(map)
+//            "{\"NameTas\":\"\",\"SaveOrSubmit\":\"save\",\"SecondLevelID\":\"2\",\"EnterpriseID\":\"-1\",\"CitizenID\":\"-1\",\"img\":\"\",\"Address\":\"大家新年新\",\"UserID\":\"1290\",\"Content\":\"少女心那些\",\"EntryTime\":\"2018年07月12日 15:00:47\",\"NameEC\":\"匿名\",\"DealingDepartmentID\":\"-1\",\"RemindTime\":\"2018年07月12日 15:00:47\",\"caseEntOrCiti\":\"3\",\"FirstLevelID\":\"1\",\"GpsXY\":\"120.744468,30.769696\"}\n"
+            OkHttpUtils.post().url(RequestUrl.baseUrl_leader + "mobile/sourceadd.ashx")
+                    .addParams("postData",gson.toJson(map).replaceAll("\"","\""))
                     .build().execute(new StringCallback() {
                 @Override
                 public void onError(Call call, Exception e, int id) {
                     Log.i(TAG, "onError: " + e.toString());
                     showNetErrorToast();
+                    dismissLoadingDialog();
                 }
 
                 @Override
                 public void onResponse(String response, int id) {
+                    dismissLoadingDialog();
                     Log.i(TAG, "onResponse: " + response);
                     if (response.contains("成功")) {
                         ToastUtils.showToast(mContext, "提交成功");
                         finish();
-                    }
+                    } else ToastUtils.showToast(mContext, "失败");
+                }
+            });
+        } else {
+            String name = "" ;
+//            map.put("SourceID", cityCheckListEntity.getSourceID() + "");
+//            map.put("UserID", UserSingleton.USERINFO.getName().UserID);
+//            map.put("DealingDepartmentID", "-1");
+//            map.put("EntryTime", time);
+//            map.put("NameTas", "");
+//            map.put("Address", et_address.getText().toString());
+//            map.put("GpsXY", tv_location.getText().toString());
+//            map.put("SaveOrSubmit", submit);
+//            map.put("img", BitmapToBase64.bitmapListToBase64(arr_image));
+//            map.put("RemindTime", time);
+//            map.put("FirstLevelID", bigid + "");
+//            map.put("SecondLevelID", smallid + "");
+//            if (et_name.getText().toString().trim().equals("")) {
+//                name = "匿名";
+//                map.put("NameEC", "匿名");
+//            } else {
+//                map.put("NameEC", et_name.getText().toString().trim());
+//                name = et_name.getText().toString().trim();
+//            }
+//            map.put("caseEntOrCiti", "3");
+//            map.put("EnterpriseID", "-1");
+//            map.put("Content", et_des.getText().toString());
+//            map.put("CitizenID", "-1");
+
+//            Log.i(TAG, "commit: " + gson.toJson(map));
+            OkHttpUtils.post().url(RequestUrl.baseUrl_leader + "mobile/SourceModify.ashx")
+//                    .addParams("postData",gson.toJson(map).replaceAll("\"","\""))
+                    .addParams("SourceID", cityCheckListEntity.getSourceID() + "")
+                    .addParams("UserID", UserSingleton.USERINFO.getName().UserID)
+                    .addParams("DealingDepartmentID", "-1")
+                    .addParams("EntryTime", time)
+                    .addParams("NameTas", "")
+                    .addParams("Address", et_address.getText().toString())
+                    .addParams("GpsXY", tv_location.getText().toString())
+                    .addParams("img", BitmapToBase64.bitmapListToBase64(arr_image))
+                    .addParams("RemindTime", time)
+                    .addParams("FirstLevelID", bigid + "")
+                    .addParams("SecondLevelID", smallid + "")
+                    .addParams("NameEC", name)
+                    .addParams("caseEntOrCiti", "3")
+                    .addParams("EnterpriseID", "-1")
+                    .addParams("Content", et_des.getText().toString())
+                    .addParams("CitizenID", "-1")
+                    .build().execute(new StringCallback() {
+                @Override
+                public void onError(Call call, Exception e, int id) {
+                    Log.i(TAG, "onError: " + e.toString());
+                    dismissLoadingDialog();
+                    showNetErrorToast();
+                }
+
+                @Override
+                public void onResponse(String response, int id) {
+                    dismissLoadingDialog();
+                    Log.i(TAG, "onResponse: " + response);
+                    if (response.contains("成功")) {
+                        ToastUtils.showToast(mContext, "提交成功");
+                        finish();
+                    } else ToastUtils.showToast(mContext, "失败");
                 }
             });
         }

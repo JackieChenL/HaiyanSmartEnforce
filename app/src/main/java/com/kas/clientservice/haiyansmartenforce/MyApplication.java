@@ -74,6 +74,7 @@ public class MyApplication extends Application {
 
     //视屏通话
     private void initVideoTalk() {
+
         initUserInfo();
         setupZegoSDK();
 

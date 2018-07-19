@@ -120,6 +120,7 @@ public class DepartmentCaseActivity extends BaseActivity implements View.OnClick
 
             }
         });
+        initMpChart();
         getBigType();
         initAdapter();
     }

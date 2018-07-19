@@ -7,13 +7,13 @@ android {
         applicationId "com.kas.clientservice.haiyansmartenforce"
         minSdkVersion 19
         targetSdkVersion 22
-        versionCode 107
-        versionName "1.0.7"
+        versionCode 108
+        versionName "1.0.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 //        vectorDrawables.useSupportLibrary = true
         ndk{
-            abiFilters "armeabi"
+            abiFilters "armeabi","x86"
         }
     }
     aaptOptions.cruncherEnabled = false
