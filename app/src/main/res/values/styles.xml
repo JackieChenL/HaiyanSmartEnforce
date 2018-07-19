@@ -282,27 +282,6 @@
     
     
     
-    <!-- 视频通话start -->
-    <style name="HorizontalDivider">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1.5px</item>
-        <item name="android:background">@color/bg_gray</item>
-    </style>
-
-    <style name="RoundImageButtonStyle" parent="Base.Widget.AppCompat.ImageButton">
-        <item name="android:layout_width">30dp</item>
-        <item name="android:layout_height">30dp</item>
-        <item name="android:layout_marginLeft">6dp</item>
-        <item name="android:layout_marginRight">6dp</item>
-        <item name="android:background">@drawable/vt_bg_round_btn</item>
-    </style>
-
-    <style name="RoundTextButtonStyle" parent="RoundImageButtonStyle">
-        <item name="android:textColor">#ffffff</item>
-        <item name="android:textSize">10pt</item>
-        <item name="android:textAllCaps">false</item>
-    </style>
-    <!-- 视频通话end -->
 
     //Yellow
     <style name="tev_xtdetails">

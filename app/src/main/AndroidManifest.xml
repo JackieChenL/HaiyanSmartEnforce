@@ -39,6 +39,18 @@
     <uses-permission android:name="android.permission.RESTART_PACKAGES"/>
     <uses-permission android:name="android.permission.READ_LOGS"/>
 
+
+
+
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -93,6 +105,8 @@
         <activity android:name="smartenforce.aty.patrol.SearchActivity"/>
         <activity android:name="smartenforce.aty.patrol.DetailActivity"/>
         <activity android:name="smartenforce.aty.patrol.UploadActivity"/>
+
+
 
         <!-- </activity> -->
         <!-- </activity> -->
@@ -167,8 +181,6 @@
         <activity android:name=".Module.News.AdvDetailActivity"/>
         <activity android:name=".Module.Leader.LeaderCheckCaseActivity"/>
         <activity android:name=".Module.Leader.LeaderCaseSearchDetailActivity"/>
-        <activity android:name="videotalk.VideoTalkMainActivity"/>
-        <activity android:name="videotalk.ui.activities.VideoTalkActivity"/>
         <activity android:name=".Module.XieTongList.XieTongList"/>
         <activity android:name=".Module.XieTongList.XieTongDetalis"/>
         <activity android:name=".Module.Leader.DepartmentCaseActivity"/>
@@ -194,11 +206,26 @@
         <activity android:name=".Module.PersonalInfo.PersonalInfoEditActivity">
         </activity>
         <activity android:name=".Module.Leader.CaseClassify.Case_Classify"/>
-        <activity android:name=".Module.PersonalInfo.IdentifyActivity">
+
+
+        <activity android:name="videotalk.UserVideoLoginActivity"/>
+        <activity android:name="videotalk.UserListActivity"/>
+        <activity android:name="smartenforce.aty.personrepay.PersonRePayActivity"/>
+        <activity android:name="smartenforce.aty.personrepay.RepayDetailActivity"
+            android:launchMode="singleTop">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="wx59d41765b6ae31bc"/>
+            </intent-filter>
         </activity>
-        <activity android:name=".Module.Leader.Desision.Decision"/>
-        <activity android:name=".Module.CaseCommit.CaseHistoryActivity">
-        </activity>
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"/>
+
+
     </application>
 
 </manifest>

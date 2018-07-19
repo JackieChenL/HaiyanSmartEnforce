@@ -39,7 +39,7 @@ public class ShowTitleAdapter extends RecyclerView.Adapter<ShowTitleAdapter.View
 
     @Override
     public ShowTitleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.layout_item_title, parent, false);
+        View view = inflater.inflate(R.layout.layout_item_title_blue, parent, false);
         return new ShowTitleAdapter.ViewHolder(view);
     }
 

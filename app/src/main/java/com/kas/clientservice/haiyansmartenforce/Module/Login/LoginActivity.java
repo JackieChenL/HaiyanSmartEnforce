@@ -30,7 +30,6 @@ import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 import butterknife.BindView;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import videotalk.VideoTalkMainActivity;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
@@ -143,22 +142,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 }
                             }
                         });
-//                OkHttpUtils.post().url(RetrofitClient.mBaseUrl + RequestUrl.Login)
-//                        .addParams("Opername", et_userName.getText().toString())
-//                        .addParams("OperPwd", et_psw.getText().toString())
-//                        .build().execute(new StringCallback() {
-//                    @Override
-//                    public void onError(Request request, Exception e) {
-//                        Log.i(TAG, "onError: "+e.toString());
-//                    }
-//
-//                    @Override
-//                    public void onResponse(String response) {
-//                        Log.i(TAG, "onResponse: " + response);
-//                        BaseEntity loginEntityBaseEntity = gson.fromJson(response,BaseEntity.class);
-//                        Log.i(TAG, "onResponse: "+loginEntityBaseEntity.isState());
-//                    }
-//                });
 
 
             } else {

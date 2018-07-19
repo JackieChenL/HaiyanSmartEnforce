@@ -21,14 +21,6 @@ import com.alibaba.fastjson.JSON;
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
 import com.kas.clientservice.haiyansmartenforce.R;
-import smartenforce.adapter.TcsfImageAdapter;
-import smartenforce.base.NetResultBean;
-import smartenforce.bean.tcsf.CpBean;
-import smartenforce.bean.tcsf.PicBean;
-import smartenforce.bean.tcsf.TcListBeanResult;
-import smartenforce.dialog.WarningListDialog;
-
-import smartenforce.projectutil.PrintUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -36,9 +28,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
+import smartenforce.adapter.TcsfImageAdapter;
 import smartenforce.base.HttpApi;
+import smartenforce.base.NetResultBean;
+import smartenforce.bean.tcsf.CpBean;
+import smartenforce.bean.tcsf.PicBean;
+import smartenforce.bean.tcsf.TcListBeanResult;
+import smartenforce.dialog.WarningListDialog;
 import smartenforce.impl.BeanCallBack;
 import smartenforce.impl.NoFastClickLisener;
+import smartenforce.projectutil.PrintUtil;
 import smartenforce.util.DateUtil;
 import smartenforce.util.ImgUtil;
 import smartenforce.util.UIUtil;
@@ -296,7 +295,6 @@ public class ParkActivity extends PrintActivity implements AdapterView.OnItemSel
                                 tev_pwbh.setText(arr[position]);
                             }
                         }).show();
-
 
                     } else {
                         show("可用车位为0");

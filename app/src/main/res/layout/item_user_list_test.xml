@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llt_item"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:layout_gravity="center_vertical"
+    android:gravity="center"
+    android:padding="5dp"
+    >
+
+    <TextView
+        android:id="@+id/tev_userName"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:text="11111" />
+
+    <CheckBox
+        android:id="@+id/cbx_user"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:button="@null"
+        android:background="@drawable/cb_selector"
+        android:clickable="false"
+
+         />
+
+
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

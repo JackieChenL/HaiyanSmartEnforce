@@ -83,7 +83,7 @@ public class SearchActivity extends ShowTitleActivity implements View.OnClickLis
             if (bean.total > 0) {
                 List<Object> list = new ArrayList<Object>();
                 list.addAll(bean.getResultBeanList(NameValueIdBean.RoadBean.class));
-                new ListDialog(aty, list, new OnItemClickListener() {
+                new PatrolListDialog(aty, list, new OnItemClickListener() {
 
                     @Override
                     public void onItemClick(int p, Object obj) {

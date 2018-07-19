@@ -15,6 +15,8 @@ public class HttpApi {
     public static final String URL_PARK = URL_BASE+"TCHandler.ashx";
     /**泊位占用列表 type:{2:全部 1：占用:0：空闲}**/
     public static final String URL_PARK_LIST = URL_BASE+"YZYBWHlist.ashx";
+    //个人查询欠费记录
+    public static final String URL_ARREARAGE = URL_BASE+"Arrearage.ashx";
     /**离开**/
     public static final String URL_PARK_EXIT =URL_BASE+ "LK.ashx";
     /**停车收费选择微信支付扫描后上传服务器扣费**/

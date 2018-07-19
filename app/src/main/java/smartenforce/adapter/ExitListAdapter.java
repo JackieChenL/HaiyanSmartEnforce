@@ -20,7 +20,6 @@ public class ExitListAdapter extends RecyclerView.Adapter<ExitListAdapter.ViewHo
     Context mContext;
     LayoutInflater inflater;
     private OnItemClickListener onItemClickListener;
-    private static final int TYPE_NORMAL = 1;
 
     public ExitListAdapter(List<TcListBeanResult> list, Context mContext) {
         this.list = list;
@@ -54,10 +53,6 @@ public class ExitListAdapter extends RecyclerView.Adapter<ExitListAdapter.ViewHo
         return list.size();
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return TYPE_NORMAL;
-    }
 
 
     class ViewHolder extends RecyclerView.ViewHolder {

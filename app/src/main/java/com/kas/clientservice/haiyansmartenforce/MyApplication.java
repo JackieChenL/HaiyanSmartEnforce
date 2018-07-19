@@ -1,6 +1,9 @@
 package com.kas.clientservice.haiyansmartenforce;
 
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -10,17 +13,23 @@ import com.hik.mcrsdk.MCRSDK;
 import com.hik.mcrsdk.rtsp.RtspClient;
 import com.hik.mcrsdk.talk.TalkClientSDK;
 import com.hikvision.vmsnetsdk.VMSNetSDK;
-import com.zego.zegoliveroom.ZegoLiveRoom;
-import com.zego.zegoliveroom.constants.ZegoAvConfig;
-import com.zego.zegoliveroom.constants.ZegoConstants;
 import com.zhy.http.okhttp.OkHttpUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import io.rong.imageloader.core.DisplayImageOptions;
+import io.rong.imageloader.core.display.FadeInBitmapDisplayer;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.ipc.RongExceptionHandler;
 import okhttp3.OkHttpClient;
-import videotalk.ZegoAppHelper;
-import videotalk.utils.PrefUtil;
-import videotalk.utils.TimeUtil;
+import videotalk.UserVideoBean;
+import videotalk.im.SealAppContext;
+import videotalk.im.SealUserInfoManager;
+import videotalk.im.message.provider.ContactNotificationMessageProvider;
+import videotalk.im.server.utils.NLog;
+import videotalk.im.utils.SharedPreferencesContext;
 
 /**
  * 描述：
@@ -29,7 +38,10 @@ import videotalk.utils.TimeUtil;
  */
 
 public class MyApplication extends Application {
+//    TODO：测试
+    public List<UserVideoBean> list;
 
+    public String currentUserID;
 
     public String userID;
     public String DepartmentID;
@@ -43,7 +55,6 @@ public class MyApplication extends Application {
 
 
 
-    final static private long DEFAULT_ZEGO_APP_ID = ZegoAppHelper.UDP_APP_ID;
     static private Application sInstance;
     static public Application getAppContext() {
         return MyApplication.sInstance;
@@ -61,7 +72,28 @@ public class MyApplication extends Application {
         OkHttpUtils.initClient(okHttpClient);
         SDKInitializer.initialize(this);
         initVedio();
-        initVideoTalk();
+//        TODO：测试
+        initUserVideoBeanList();
+        if (getApplicationInfo().packageName.equals(getCurProcessName(getApplicationContext()))) {
+
+            RongIM.setServerInfo("nav.cn.ronghub.com", "up.qbox.me");
+            RongIM.init(this,"m7ua80gbmj3om");
+            NLog.setDebug(true);
+            SealAppContext.init(this);
+            SharedPreferencesContext.init(this);
+            Thread.setDefaultUncaughtExceptionHandler(new RongExceptionHandler(this));
+
+            try {
+                RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            SealUserInfoManager.getInstance().openDB();
+
+
+        }
     }
 
     private void initVedio() {
@@ -72,131 +104,30 @@ public class MyApplication extends Application {
         VMSNetSDK.getInstance().openLog(true);
     }
 
-    //视屏通话
-    private void initVideoTalk() {
 
-        initUserInfo();
-        setupZegoSDK();
-
-    }
-
-    private void initUserInfo() {
-        String userId = PrefUtil.getInstance().getUserId();
-        String userName = PrefUtil.getInstance().getUserName();
-        if (TextUtils.isEmpty(userId) || TextUtils.isEmpty(userName)) {
-            userId = TimeUtil.getNowTimeStr();
-            userName = String.format("VT_%s_%s", Build.MODEL.replaceAll(",", "."), userId);
-
-            PrefUtil.getInstance().setUserId(userId);
-            PrefUtil.getInstance().setUserName(userName);
-        }
-    }
-
-    private void setupZegoSDK() {
-
-        ZegoLiveRoom.setUser(PrefUtil.getInstance().getUserId(), PrefUtil.getInstance().getUserName());
-        ZegoLiveRoom.requireHardwareEncoder(PrefUtil.getInstance().getHardwareEncode());
-        ZegoLiveRoom.requireHardwareDecoder(PrefUtil.getInstance().getHardwareDecode());
-        ZegoLiveRoom liveRoom= ZegoAppHelper.getLiveRoom();
-        liveRoom.unInitSDK();
-        liveRoom.setSDKContext(new ZegoLiveRoom.SDKContext() {
-            @Override
-            public String getSoFullPath() {
-                return null;
-            }
-
-            @Override
-            public String getLogPath() {
-                return null;
-            }
-
-            @Override
-            public Application getAppContext() {
-                return MyApplication.this;
-            }
-        });
-
-
-        initZegoSDK(liveRoom);
-
-
-        ZegoAppHelper.saveLiveRoom(liveRoom);
+    private void initUserVideoBeanList() {
+        list=new ArrayList<>();
+        list.add(new UserVideoBean("001","gEwvTAxzdBvzUQSFREClN7T153YKTX/aInUs3GxmGpPYI12QAOp1SO/9iYH+MGzdT3CUW48hHVPlJxjPqhMt6w=="));
+        list.add(new UserVideoBean("002","z820ghZ+/3ZYc/YB1gj5dZ/6dQSXnPdNk3BbvNp1UIBsIQBxO8LQCK+R1ng1uhrsaSz5M0ClNLQn1ORugsTclg=="));
+        list.add(new UserVideoBean("003","rUILrHrBBrjG+bwG/MfF0kAx0A1DlhrUCj72qmFPybzRH+Yypo7lr9ch4NPc8I655QE+cii4W1o="));
+        list.add(new UserVideoBean("004","CP1YV00QbygmFRBtwbSQb7T153YKTX/aInUs3GxmGpPYI12QAOp1SG9mgERBRvBTEDTdSDMCEBHlJxjPqhMt6w=="));
+        list.add(new UserVideoBean("005","bJltAhqpP1BiXjWmjK9Cg7T153YKTX/aInUs3GxmGpPYI12QAOp1SAmQjzX5tez+Q/VjBvfi3NzlJxjPqhMt6w=="));
+        list.add(new UserVideoBean("006","60TnTLtAJDIZJLu+gJTC7kAx0A1DlhrUCj72qmFPybwSEaS4qr8uBvN1JpPHJBR4IBkQWE4w5Bo="));
+        list.add(new UserVideoBean("007","3F8lryZ81UvYwe7RlIcngUAx0A1DlhrUCj72qmFPybwSEaS4qr8uBlJvDh7MuauQQ7Dy44yc0Tc="));
+        list.add(new UserVideoBean("008","WaxRDKkGdIPC51E4E/WEJLT153YKTX/aInUs3GxmGpPYI12QAOp1SMw/dEqQk4YtaaSN7Wls/OzlJxjPqhMt6w=="));
+        list.add(new UserVideoBean("009","/ZFuskMuMzMxBKegWICPH7T153YKTX/aInUs3GxmGpPYI12QAOp1SI1EBw7e/xXsDMT2InZmmM3lJxjPqhMt6w=="));
     }
 
 
-    private void initZegoSDK(ZegoLiveRoom liveRoom) {
 
-        ZegoLiveRoom.setUser(PrefUtil.getInstance().getUserId(), PrefUtil.getInstance().getUserName());
-        ZegoLiveRoom.requireHardwareEncoder(PrefUtil.getInstance().getHardwareEncode());
-        ZegoLiveRoom.requireHardwareDecoder(PrefUtil.getInstance().getHardwareDecode());
-        ZegoLiveRoom.setTestEnv(PrefUtil.getInstance().getTestEncode());
-
-        byte[] signKey;
-        long appId = 0;
-        String strSignKey;
-        int currentAppFlavor = PrefUtil.getInstance().getCurrentAppFlavor();
-        if(currentAppFlavor == 2){
-
-            appId = PrefUtil.getInstance().getAppId();
-            strSignKey = PrefUtil.getInstance().getAppSignKey();
-
-        }else{
-            switch (currentAppFlavor) {
-                case 0:
-                    appId = ZegoAppHelper.UDP_APP_ID;
-                    break;
-                case 1:
-                    appId = ZegoAppHelper.INTERNATIONAL_APP_ID;
-                    break;
-
+    public static String getCurProcessName(Context context) {
+        int pid = android.os.Process.myPid();
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningAppProcessInfo appProcess : activityManager.getRunningAppProcesses()) {
+            if (appProcess.pid == pid) {
+                return appProcess.processName;
             }
-            signKey = ZegoAppHelper.requestSignKey(appId);
-            strSignKey = ZegoAppHelper.convertSignKey2String(signKey);
         }
-
-
-        if (appId == 0 || TextUtils.isEmpty(strSignKey)) {
-            appId = DEFAULT_ZEGO_APP_ID;
-            PrefUtil.getInstance().setAppId(DEFAULT_ZEGO_APP_ID);
-
-            signKey = ZegoAppHelper.requestSignKey(DEFAULT_ZEGO_APP_ID);
-            strSignKey = ZegoAppHelper.convertSignKey2String(signKey);
-            PrefUtil.getInstance().setAppSignKey(strSignKey);
-        } else {
-            signKey = ZegoAppHelper.parseSignKeyFromString(strSignKey);
-        }
-
-        boolean success = liveRoom.initSDK(appId, signKey);
-        //设置视频通话类型
-        ZegoLiveRoom.setBusinessType(2);
-        //设置低延迟模式
-        liveRoom.setLatencyMode(ZegoConstants.LatencyMode.Low);
-
-        if (!success) {
-            Toast.makeText(this, R.string.vt_toast_init_sdk_failed, Toast.LENGTH_LONG).show();
-        } else {
-            ZegoAvConfig config;
-            int level = PrefUtil.getInstance().getLiveQuality();
-            if (level < 0 || level > ZegoAvConfig.Level.SuperHigh) {
-                config = new ZegoAvConfig(ZegoAvConfig.Level.High);
-                config.setVideoBitrate(PrefUtil.getInstance().getLiveQualityBitrate());
-                config.setVideoFPS(PrefUtil.getInstance().getLiveQualityFps());
-                int resolutionLevel = PrefUtil.getInstance().getLiveQualityResolution();
-
-                String resolutionText = getResources().getStringArray(R.array.zg_resolutions)[resolutionLevel];
-                String[] strWidthHeight = resolutionText.split("x");
-
-                int height = Integer.parseInt(strWidthHeight[0].trim());
-                int width = Integer.parseInt(strWidthHeight[1].trim());
-                config.setVideoEncodeResolution(width, height);
-                config.setVideoCaptureResolution(width, height);
-            } else {
-                config = new ZegoAvConfig(level);
-            }
-            liveRoom.setAVConfig(config);
-        }
-
+        return null;
     }
-
-
 }

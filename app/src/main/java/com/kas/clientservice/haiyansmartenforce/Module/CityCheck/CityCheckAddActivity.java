@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -223,6 +224,7 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
                 arr_uri.add(imgBean);
                 Log.i(TAG, "url: " + RequestUrl.baseUrl_img + img[i]);
                 Glide.with(mContext).load(RequestUrl.baseUrl_img + img[i]).asBitmap().into(new SimpleTarget<Bitmap>() {
+
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                         arr_image.add(resource);

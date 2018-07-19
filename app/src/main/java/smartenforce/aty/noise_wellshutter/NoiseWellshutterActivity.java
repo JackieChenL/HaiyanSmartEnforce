@@ -17,7 +17,6 @@ import smartenforce.base.CommonActivity;
 public class NoiseWellshutterActivity extends CommonActivity {
     private WebView webview;
     private ProgressDialog progressDialog;
-
     private final static String DefalutUrl="http://117.149.146.131:6111/Monitor/Map";
 
     @Override
@@ -25,7 +24,6 @@ public class NoiseWellshutterActivity extends CommonActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
         progressDialog = ProgressDialog.show(aty, "提示", "加载中...", false, false);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         webview = (WebView) findViewById(R.id.webview);
         webview.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

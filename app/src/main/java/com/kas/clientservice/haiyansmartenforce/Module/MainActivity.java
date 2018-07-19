@@ -64,7 +64,8 @@ import smartenforce.aty.function4.RecipientActivity;
 import smartenforce.aty.noise_wellshutter.NoiseWellshutterActivity;
 import smartenforce.aty.parking.CenterActivity;
 import smartenforce.aty.patrol.SearchActivity;
-import videotalk.VideoTalkMainActivity;
+import smartenforce.aty.personrepay.PersonRePayActivity;
+import videotalk.UserVideoLoginActivity;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, MainModuleRvAdapter.OnModuleClickListener {
     @BindView(R.id.ll_main_caseSearch)
@@ -400,14 +401,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case 31://视频监控
                 startActivity(new Intent(mContext, VedioListActivity.class));
                 break;
-            case 100:
-                startActivity(new Intent(mContext, VideoTalkMainActivity.class));
+            case 100://视频会商
+                startActivity(new Intent(mContext, UserVideoLoginActivity.class));
                 break;
             case 101://噪声
                 startActivity(new Intent(mContext, NoiseWellshutterActivity.class).putExtra("src","noise"));
                 break;
             case 102://井盖
                 startActivity(new Intent(mContext, NoiseWellshutterActivity.class).putExtra("src","cover"));
+//                startActivity(new Intent(mContext, PersonRePayActivity.class));
                 break;
 
         }
