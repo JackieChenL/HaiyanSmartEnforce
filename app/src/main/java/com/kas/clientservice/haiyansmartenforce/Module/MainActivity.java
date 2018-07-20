@@ -20,7 +20,6 @@ import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Entity.BannerAdvertisementEntity;
 import com.kas.clientservice.haiyansmartenforce.Entity.VerticalBannerEntity;
 import com.kas.clientservice.haiyansmartenforce.Http.RequestUrl;
-import com.kas.clientservice.haiyansmartenforce.Http.RetrofitClient;
 import com.kas.clientservice.haiyansmartenforce.MainModuleRvAdapter;
 import com.kas.clientservice.haiyansmartenforce.Module.CaseCommit.CaseCommitActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.CaseCommit.CaseSearchActivity;
@@ -64,7 +63,6 @@ import smartenforce.aty.function4.RecipientActivity;
 import smartenforce.aty.noise_wellshutter.NoiseWellshutterActivity;
 import smartenforce.aty.parking.CenterActivity;
 import smartenforce.aty.patrol.SearchActivity;
-import smartenforce.aty.personrepay.PersonRePayActivity;
 import videotalk.UserVideoLoginActivity;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, MainModuleRvAdapter.OnModuleClickListener {
@@ -138,7 +136,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void loadVerticalBanner() {
-        OkHttpUtils.get().url(RetrofitClient.mBaseUrl + "system/theme/news/InformDetail.ashx?id=")
+        OkHttpUtils.get().url(RequestUrl.baseUrl_leader + "mobile/GetNewsList.ashx")
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
@@ -149,7 +147,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             public void onResponse(String response, int id) {
                 Log.i(TAG, "onResponse: " + response);
                 VerticalBannerEntity bean = gson.fromJson(response, VerticalBannerEntity.class);
-                if (bean.getState().equals("true")) {
+                if (bean.isState()==true) {
                     list_vertical.clear();
                     list_vertical.addAll(bean.getRtn());
                     if (list_vertical != null && list_vertical.size() > 0) {
@@ -307,7 +305,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, AdvDetailActivity.class);
                     intent.putExtra("type", 1);
-                    intent.putExtra("id", list_vertical.get(finalI).getID());
+                    intent.putExtra("id", list_vertical.get(finalI).getID()+"");
                     startActivity(intent);
                 }
             });
