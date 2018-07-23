@@ -41,7 +41,7 @@ public class GoodsListFragment extends BaseFragment implements XRecyclerView.Loa
     private int PAGE_NUM = 1;
     private MyXRecyclerView xrcv_goods;
     private ItemAdapter adapter;
-    private List<Object> beanList = new ArrayList<Object>();
+    private List<Object> beanList = new ArrayList<>();
 
     private EditText edt_goods_name;
     private TextView tev_status_type;

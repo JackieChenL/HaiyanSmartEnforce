@@ -1,4 +1,4 @@
-package smartenforce.widget;
+package smartenforce.widget.view;
 
 
 import android.content.Context;
@@ -6,20 +6,21 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
 
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
+import smartenforce.widget.XlistRecycleView;
 
-public class MyXRecyclerView extends XlistRecycleView {
+public class MyXRecyclerView1 extends XlistRecycleView {
 
 
-    public MyXRecyclerView(Context context) {
+    public MyXRecyclerView1(Context context) {
         this(context, null);
     }
 
-    public MyXRecyclerView(Context context, AttributeSet attrs) {
+    public MyXRecyclerView1(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
     //刷新功能默认不开启
-    public MyXRecyclerView(Context context, AttributeSet attrs, int defStyle) {
+    public MyXRecyclerView1(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);

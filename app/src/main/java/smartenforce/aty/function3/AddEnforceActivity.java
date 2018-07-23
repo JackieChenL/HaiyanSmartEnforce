@@ -63,7 +63,7 @@ public class AddEnforceActivity extends ShowPdfActivity {
     //记录进入物品详情位置，-1代表添加物品
     private int ClickPostion = -1;
 
-    private List<Object> list = new ArrayList<Object>();
+    private List<Object> list = new ArrayList<>();
 
     private List<Object> wareHouseList = new ArrayList();
 
