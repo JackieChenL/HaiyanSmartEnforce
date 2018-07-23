@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Entity.VerticalBannerEntity;
-import com.kas.clientservice.haiyansmartenforce.Http.RetrofitClient;
+import com.kas.clientservice.haiyansmartenforce.Http.RequestUrl;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.Utils.ListViewFitParent;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -38,10 +38,11 @@ public class AdvDetailActivity extends BaseActivity implements View.OnClickListe
 
     String id = "";
     int type = 0;
-    List<String> list =  new ArrayList<>();
+    List<String> list = new ArrayList<>();
     NewsImgAdapter adapter;
-//    List<BannerAdvertisementEntity.RtnBean> list_adv = new ArrayList<>();
+    //    List<BannerAdvertisementEntity.RtnBean> list_adv = new ArrayList<>();
     List<VerticalBannerEntity.RtnBean> list_vertical = new ArrayList<>();
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_adv_detail;
@@ -60,61 +61,27 @@ public class AdvDetailActivity extends BaseActivity implements View.OnClickListe
         iv_back.setOnClickListener(this);
         listView.setVerticalScrollBarEnabled(false);
         initAdapter();
-        type = getIntent().getIntExtra("type",0);
+        type = getIntent().getIntExtra("type", 0);
         id = getIntent().getStringExtra("id");
-        if (type == 1) {
-            loadAdv();
-        }else if (type == 2){
-            loadNews();
-        }
+
+        loadNews();
+//        if (type == 1) {
+//            loadAdv();
+//        } else if (type == 2) {
+//
+//        }
 
     }
 
     private void initAdapter() {
-        adapter = new NewsImgAdapter(list,mContext);
+        adapter = new NewsImgAdapter(list, mContext);
         listView.setAdapter(adapter);
 
     }
 
     private void loadNews() {
-            OkHttpUtils.get().url(RetrofitClient.mBaseUrl + "system/theme/news/InformDetail.ashx")
-                    .addParams("id",id)
-                    .build().execute(new StringCallback() {
-                @Override
-                public void onError(Call call, Exception e, int id) {
-                    Log.i(TAG, "onError: " + e.toString());
-                }
-
-                @Override
-                public void onResponse(String response, int id) {
-                    Log.i(TAG, "onResponse: " + response);
-                    VerticalBannerEntity bean = gson.fromJson(response, VerticalBannerEntity.class);
-                    if (bean.getState().equals("true")) {
-                        list_vertical.clear();
-                        list_vertical.addAll(bean.getRtn());
-                        VerticalBannerEntity.RtnBean entity = list_vertical.get(0);
-                        if (entity.getContentImg()!=null&&entity.getContentImg().size()>0) {
-                            list.clear();
-                            for (int i = 0; i < entity.getContentImg().size(); i++) {
-                                list.add(entity.getContentImg().get(i).getImg());
-                            }
-                            adapter.notifyDataSetChanged();
-                            ListViewFitParent.setListViewHeightBasedOnChildren(listView);
-                        }
-                        tv_content_title.setText(entity.getTitle());
-                        tv_content.setText(entity.getContent());
-                        tv_name.setText("来源："+entity.getOperrealname());
-                        tv_time.setText("时间："+entity.getAddtime());
-
-
-                    }
-                }
-            });
-    }
-
-    private void loadAdv() {
-        OkHttpUtils.get().url(RetrofitClient.mBaseUrl + "system/theme/news/NewsDetail.ashx")
-                .addParams("id",id)
+        OkHttpUtils.get().url(RequestUrl.baseUrl_leader + "mobile/GetNewsList.ashx")
+                .addParams("id", id)
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
@@ -125,28 +92,72 @@ public class AdvDetailActivity extends BaseActivity implements View.OnClickListe
             public void onResponse(String response, int id) {
                 Log.i(TAG, "onResponse: " + response);
                 VerticalBannerEntity bean = gson.fromJson(response, VerticalBannerEntity.class);
-                if (bean.getState().equals("true")) {
+                if (bean.isState() == true) {
                     list_vertical.clear();
                     list_vertical.addAll(bean.getRtn());
                     VerticalBannerEntity.RtnBean entity = list_vertical.get(0);
-                    if (entity.getContentImg()!=null&&entity.getContentImg().size()>0) {
-                        list.clear();
-                        for (int i = 0; i < entity.getContentImg().size(); i++) {
-                            list.add(entity.getContentImg().get(i).getImg());
+                    list.clear();
+
+                    String pic = entity.getBroadcastPicture()+entity.getTextPicture();
+//                    if (pic.endsWith("\\|")) {
+//                        pic.substring(0,pic.length());
+//                    }
+                    String[] array = pic.split("\\|");
+                    for (int i = 0; i < array.length; i++) {
+                        if (!array[i].trim().equals("")) {
+                            Log.i(TAG, "onResponse: "+RequestUrl.baseUrl_img+array[i]);
+                            list.add(RequestUrl.baseUrl_img+array[i]);
                         }
-                        adapter.notifyDataSetChanged();
-                        ListViewFitParent.setListViewHeightBasedOnChildren(listView);
                     }
+
+                    adapter.notifyDataSetChanged();
+                    ListViewFitParent.setListViewHeightBasedOnChildren(listView);
                     tv_content_title.setText(entity.getTitle());
-                    tv_content.setText(entity.getContent());
-                    tv_name.setText("来源："+entity.getOperrealname());
-                    tv_time.setText("时间："+entity.getAddtime());
+                    tv_content.setText(entity.getText());
+                    tv_name.setText("来源：" + entity.getNameEmp());
+                    tv_time.setText("时间：" + entity.getCreateTime());
 
 
                 }
             }
         });
     }
+
+//    private void loadAdv() {
+//        OkHttpUtils.get().url(RetrofitClient.mBaseUrl + "mobile/GetNewsBroadcastPictureList.ashx")
+//                .addParams("id", id)
+//                .build().execute(new StringCallback() {
+//            @Override
+//            public void onError(Call call, Exception e, int id) {
+//                Log.i(TAG, "onError: " + e.toString());
+//            }
+//
+//            @Override
+//            public void onResponse(String response, int id) {
+//                Log.i(TAG, "onResponse: " + response);
+//                VerticalBannerEntity bean = gson.fromJson(response, VerticalBannerEntity.class);
+//                if (bean.getState().equals("true")) {
+//                    list_vertical.clear();
+//                    list_vertical.addAll(bean.getRtn());
+//                    VerticalBannerEntity.RtnBean entity = list_vertical.get(0);
+//                    if (entity.getContentImg() != null && entity.getContentImg().size() > 0) {
+//                        list.clear();
+//                        for (int i = 0; i < entity.getContentImg().size(); i++) {
+//                            list.add(entity.getContentImg().get(i).getImg());
+//                        }
+//                        adapter.notifyDataSetChanged();
+//                        ListViewFitParent.setListViewHeightBasedOnChildren(listView);
+//                    }
+//                    tv_content_title.setText(entity.getTitle());
+//                    tv_content.setText(entity.getContent());
+//                    tv_name.setText("来源：" + entity.getOperrealname());
+//                    tv_time.setText("时间：" + entity.getAddtime());
+//
+//
+//                }
+//            }
+//        });
+//    }
 
     @Override
     public void onClick(View view) {
