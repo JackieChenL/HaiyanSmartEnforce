@@ -137,44 +137,26 @@
         <activity android:name=".Module.FaceCompare.FaceCompareActivity"/>
         <activity android:name=".Module.Register.ResetPswActivity"/>
 
-        <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="OZ0I49nombHnwGOexV444hZPRQXS0wCP"/>
+        <!--<meta-data-->
+            <!--android:name="com.baidu.lbsapi.API_KEY"-->
+            <!--android:value="OZ0I49nombHnwGOexV444hZPRQXS0wCP"/>-->
 
-        <service
-            android:name="com.baidu.location.f"
-            android:enabled="true"
-            android:process=":remote"/>
+        <!--<service-->
+            <!--android:name="com.baidu.location.f"-->
+            <!--android:enabled="true"-->
+            <!--android:process=":remote"/>-->
         <service android:name="smartenforce.service.LocationPointService"/>
 
         <activity android:name="smartenforce.aty.ViewPhotoActivity"/>
         <activity android:name="smartenforce.zxing.ScanActivity"/>
         <activity android:name="smartenforce.tianditu.TiandituMapActivity"/>
-        <activity android:name="smartenforce.baidu.BaiduMapActivity"/>
         <activity android:name="smartenforce.aty.function1.NewQueryActivity"/>
         <activity android:name="smartenforce.aty.function1.EnterpriseOrCitizenActivity"/>
         <activity android:name="smartenforce.aty.function2.QueryListActivity"/>
         <activity android:name="smartenforce.aty.function2.QueryDetailActivity"/>
-        <activity android:name="smartenforce.aty.function3.InvestigateDetailActivity"/>
-        <activity android:name="smartenforce.aty.function3.AddInquestActivity"/>
-        <activity android:name="smartenforce.aty.function3.InvestActivity"/>
-        <activity android:name="smartenforce.aty.function3.InquestItemDetailActivity"/>
-        <activity android:name="smartenforce.aty.function3.AddGraphActivity"/>
-        <activity android:name="smartenforce.aty.function3.AddPictureActivity"/>
-        <activity android:name="smartenforce.aty.function3.SelectEmpNameActivity"/>
-        <activity android:name="smartenforce.aty.function3.AddEnforceActivity"/>
-        <activity android:name="smartenforce.aty.function3.AddGoodsActivity"/>
-        <activity android:name="smartenforce.aty.function3.LiveOrOtherActivity"/>
-        <activity android:name="smartenforce.aty.function3.InspectEnterpriseActivity"/>
-        <activity android:name="smartenforce.aty.function3.InspectCitizenActivity"/>
         <activity android:name="smartenforce.aty.function4.RecipientActivity"/>
         <activity android:name="smartenforce.aty.function4.EnterpriseDetailActivity"/>
         <activity android:name="smartenforce.aty.function4.CitizenDetailActivity"/>
-        <activity android:name="smartenforce.aty.function5.EnforceActivity"/>
-        <activity android:name="smartenforce.aty.function5.EnforceDetailActivity"/>
-        <activity android:name="smartenforce.aty.function5.EnforceGoodsDetailActivity"/>
-        <activity android:name="smartenforce.aty.function5.GoodsDetailActivity"/>
-        <activity android:name="smartenforce.aty.function5.ReleaseEnforceActivity"/>
         <activity
             android:name="smartenforce.aty.noise_wellshutter.NoiseWellshutterActivity"
             android:hardwareAccelerated="false"/>

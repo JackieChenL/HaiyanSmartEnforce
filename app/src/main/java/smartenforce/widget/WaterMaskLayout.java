@@ -42,7 +42,7 @@ public class WaterMaskLayout extends LinearLayout {
             WaterMaskTextView textView = new WaterMaskTextView(context);
             textView.setLayoutParams(new LinearLayoutCompat.LayoutParams(currentWaterTextW, WaterTextH));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,15);
-            textView.setTextColor(Color.parseColor("#af9cdef4"));
+            textView.setTextColor(Color.parseColor("#afb9ecfd"));
             textView.setDegree(350);
             textView.setText("海盐县综合行政执法局\n 严禁非法获取个人信息["+userName+"]");
             this.addView(textView, i);

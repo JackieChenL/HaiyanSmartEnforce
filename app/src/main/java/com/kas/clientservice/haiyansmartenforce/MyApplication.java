@@ -8,7 +8,6 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.baidu.mapapi.SDKInitializer;
 import com.hik.mcrsdk.MCRSDK;
 import com.hik.mcrsdk.rtsp.RtspClient;
 import com.hik.mcrsdk.talk.TalkClientSDK;
@@ -70,7 +69,6 @@ public class MyApplication extends Application {
                 .writeTimeout(60*1000L, TimeUnit.MILLISECONDS)
                 .build();
         OkHttpUtils.initClient(okHttpClient);
-        SDKInitializer.initialize(this);
         initVedio();
 //        TODO：测试
         initUserVideoBeanList();
