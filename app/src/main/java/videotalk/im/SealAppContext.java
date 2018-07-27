@@ -134,7 +134,9 @@ public class SealAppContext implements RongIM.ConversationListBehaviorListener,
         BroadcastManager.getInstance(mContext).addAction(SealConst.EXIT, new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                quit(false);
+                SealUserInfoManager.getInstance().closeDB();
+                RongIM.getInstance().logout();
+
             }
         });
     }
@@ -446,20 +448,16 @@ public class SealAppContext implements RongIM.ConversationListBehaviorListener,
     public void onChanged(ConnectionStatus connectionStatus) {
         NLog.d(TAG, "ConnectionStatus onChanged = " + connectionStatus.getMessage());
         if (connectionStatus.equals(ConnectionStatus.KICKED_OFFLINE_BY_OTHER_CLIENT)) {
-            quit(true);
+            SealUserInfoManager.getInstance().closeDB();
+            RongIM.getInstance().logout();
+            Intent loginActivityIntent = new Intent();
+            loginActivityIntent.setClass(mContext, com.kas.clientservice.haiyansmartenforce.Module.Login.LoginActivity.class);
+            loginActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(loginActivityIntent);
         }
     }
 
-    public void pushActivity(Activity activity) {
-        mActivities.add(activity);
-    }
 
-    public void popActivity(Activity activity) {
-        if (mActivities.contains(activity)) {
-            activity.finish();
-            mActivities.remove(activity);
-        }
-    }
 
 
 
@@ -509,29 +507,6 @@ public class SealAppContext implements RongIM.ConversationListBehaviorListener,
         return dataEntity;
     }
 
-    private void quit(boolean isKicked) {
-        Log.d(TAG, "quit isKicked " + isKicked);
-        SharedPreferences.Editor editor = mContext.getSharedPreferences("config", Context.MODE_PRIVATE).edit();
-        if (!isKicked) {
-            editor.putBoolean("exit", true);
-        }
-        editor.putString("loginToken", "");
-        editor.putString(SealConst.SEALTALK_LOGIN_ID, "");
-        editor.putInt("getAllUserInfoState", 0);
-        editor.commit();
-        /*//这些数据清除操作之前一直是在login界面,因为app的数据库改为按照userID存储,退出登录时先直接删除
-        //这种方式是很不友好的方式,未来需要修改同app server的数据同步方式
-        //SealUserInfoManager.getInstance().deleteAllUserInfo();*/
-        SealUserInfoManager.getInstance().closeDB();
-        RongIM.getInstance().logout();
-        Intent loginActivityIntent = new Intent();
-        loginActivityIntent.setClass(mContext, com.kas.clientservice.haiyansmartenforce.Module.Login.LoginActivity.class);
-        loginActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        if (isKicked) {
-            loginActivityIntent.putExtra("kickedByOtherClient", true);
-        }
-        mContext.startActivity(loginActivityIntent);
-    }
 
     @Override
     public void getGroupMembers(String groupId, final RongIM.IGroupMemberCallback callback) {

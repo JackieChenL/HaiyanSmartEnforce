@@ -12,6 +12,7 @@ import com.kas.clientservice.haiyansmartenforce.R;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.rong.callkit.RongCallKit;
 import io.rong.imkit.RongContext;
@@ -24,7 +25,8 @@ import smartenforce.intf.ItemListener;
 public class UserListActivity extends ShowTitleActivity {
 
     private RecyclerView rcv_list;
-
+     private List<GroupUserBean> list;
+    private ArrayList<String> userIdList=new ArrayList<>();
 
 
     @Override
@@ -41,45 +43,45 @@ public class UserListActivity extends ShowTitleActivity {
     protected void findViews() {
         rcv_list = (RecyclerView) findViewById(R.id.rcv_list);
         rcv_list.setLayoutManager(new LinearLayoutManager(aty));
-        final UserListAdapter adapter=new UserListAdapter(app.list,aty);
+        list=VideoTalkUtils.getInstance().getList();
+        final UserListAdapter adapter=new UserListAdapter(list,aty);
         adapter.setListener(new ItemListener() {
             @Override
             public void onItemClick(int P) {
-                app.list.get(P).isSelect=!app.list.get(P).isSelect;
+                list.get(P).isSelect=!list.get(P).isSelect;
                 adapter.notifyDataSetChanged();
             }
         });
         rcv_list.setAdapter(adapter);
     }
 
-ArrayList<String> list=new ArrayList<>();
     @Override
     protected void initDataAndAction() {
-        tev_title.setText("选择用户（"+app.currentUserID+"）");
+        tev_title.setText("选择视频用户");
         tev_title_right.setText("确定");
         tev_title_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                list.clear();
-                for (int i=0;i<app.list.size();i++){
-                  UserVideoBean userVideoBean=app.list.get(i);
-                  if (userVideoBean.isSelect){
-                      list.add(userVideoBean.userID);
+                userIdList.clear();
+                for (int i=0;i<list.size();i++){
+                  GroupUserBean groupUserBean=list.get(i);
+                  if (groupUserBean.isSelect){
+                      userIdList.add(groupUserBean.id);
                   }
                 }
-                if (list.size()==0){
+                if (userIdList.size()==0){
                     warningShow("请先选择用户");
                 }else{
                     RongCallKit.setGroupMemberProvider(new RongCallKit.GroupMembersProvider() {
                         @Override
 
                         public ArrayList<String> getMemberList(String groupId, final RongCallKit.OnGroupMembersResult result) {
-                            return list;
+                            return userIdList;
                         }
                     });
 
 
-                    RongCallKit.startMultiCall(aty, Conversation.ConversationType.GROUP, "1", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_VIDEO, list);
+                    RongCallKit.startMultiCall(aty, Conversation.ConversationType.GROUP, "1", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_VIDEO, userIdList);
 
                 }
             }
@@ -88,19 +90,11 @@ ArrayList<String> list=new ArrayList<>();
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        VideoTalkUtils.getInstance().resetList();
+    }
 }
 
 

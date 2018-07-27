@@ -63,7 +63,8 @@ import smartenforce.aty.function4.RecipientActivity;
 import smartenforce.aty.noise_wellshutter.NoiseWellshutterActivity;
 import smartenforce.aty.parking.CenterActivity;
 import smartenforce.aty.patrol.SearchActivity;
-import videotalk.UserVideoLoginActivity;
+import videotalk.UserListActivity;
+import videotalk.VideoTalkUtils;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, MainModuleRvAdapter.OnModuleClickListener {
     @BindView(R.id.ll_main_caseSearch)
@@ -107,6 +108,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        VideoTalkUtils.getInstance().exit();
+    }
+
+    @Override
     protected void initResAndListener() {
         super.initResAndListener();
         Log.i(TAG, "initResAndListener: " + AppParameter.getApplicationId(mContext));
@@ -133,6 +140,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 iv_mine.setImageBitmap(resource);
             }
         });
+        //获取视屏组成员
+        if (UserSingleton.USERINFO.szcg != null) {
+            VideoTalkUtils.getInstance().getMemberList(mContext);
+        }
     }
 
     private void loadVerticalBanner() {
@@ -147,7 +158,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             public void onResponse(String response, int id) {
                 Log.i(TAG, "onResponse: " + response);
                 VerticalBannerEntity bean = gson.fromJson(response, VerticalBannerEntity.class);
-                if (bean.isState()==true) {
+                if (bean.isState() == true) {
                     list_vertical.clear();
                     list_vertical.addAll(bean.getRtn());
                     if (list_vertical != null && list_vertical.size() > 0) {
@@ -181,7 +192,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         for (int i = 0; i < entity.getRtn().size(); i++) {
                             BannerAdvertisementEntity.RtnBean rtnBean = entity.getRtn().get(i);
                             list_detail.add(rtnBean.getID() + "");
-                            list_imageURL.add(rtnBean.getLogoImg().replaceAll("\\|",""));
+                            list_imageURL.add(rtnBean.getLogoImg().replaceAll("\\|", ""));
                         }
                         initBanner();
                     }
@@ -241,7 +252,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             public void displayImage(String imageURL, ImageView imageView) {
 //                imageView.setImageResource(R.drawable.indexbananer);
 //                Log.i(TAG, "displayImage: "+RequestUrl.baseUrl_img+imageURL);
-                Glide.with(mContext).load(RequestUrl.baseUrl_img+imageURL).error(R.drawable.normal_pic).into(imageView);
+                Glide.with(mContext).load(RequestUrl.baseUrl_img + imageURL).error(R.drawable.normal_pic).into(imageView);
             }
 
             @Override
@@ -249,7 +260,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 //                ToastUtils.showToast(mContext, "click");
                 Intent intent = new Intent(mContext, AdvDetailActivity.class);
                 intent.putExtra("id", list_adv.get(position).getID());
-                intent.putExtra("type",1);
+                intent.putExtra("type", 1);
                 startActivity(intent);
             }
         };
@@ -305,7 +316,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, AdvDetailActivity.class);
                     intent.putExtra("type", 1);
-                    intent.putExtra("id", list_vertical.get(finalI).getID()+"");
+                    intent.putExtra("id", list_vertical.get(finalI).getID() + "");
                     startActivity(intent);
                 }
             });
@@ -400,13 +411,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 startActivity(new Intent(mContext, VedioListActivity.class));
                 break;
             case 100://视频会商
-                startActivity(new Intent(mContext, UserVideoLoginActivity.class));
+                if (VideoTalkUtils.getInstance().isSuccessLogin()) {
+                    startActivity(new Intent(mContext, UserListActivity.class));
+                }else{
+                    showToast(VideoTalkUtils.getInstance().getErroMsg());
+                }
                 break;
             case 101://噪声
-                startActivity(new Intent(mContext, NoiseWellshutterActivity.class).putExtra("src","noise"));
+                startActivity(new Intent(mContext, NoiseWellshutterActivity.class).putExtra("src", "noise"));
                 break;
             case 102://井盖
-                startActivity(new Intent(mContext, NoiseWellshutterActivity.class).putExtra("src","cover"));
+                startActivity(new Intent(mContext, NoiseWellshutterActivity.class).putExtra("src", "cover"));
 //                startActivity(new Intent(mContext, PersonRePayActivity.class));
                 break;
 
