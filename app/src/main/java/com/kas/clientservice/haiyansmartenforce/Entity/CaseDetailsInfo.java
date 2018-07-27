@@ -15,7 +15,7 @@ public class CaseDetailsInfo {
 		return KS;
 	}
 
-	public class KsBean {
+	public static class KsBean {
 		String PunishCas;
 		String NameECCas;
 		String NumberCas;

@@ -71,7 +71,7 @@ public class DetailsCaseAdapter extends BaseAdapter {
 		take.mCaseClassifyItemTvNnlawfulAct.setText(details.getActCas());
 		take.mCaseClassifyItemTvTime.setText(details.getAcceptTimeCas());
 		take.mCaseClassifyItemTvAddress.setText(details.getCaseAddressCas());
-		if(!details.getPunishCas().equals("")){
+		if(details.getPunishCas()!=null&&!details.getPunishCas().equals("")){
 			take.mCaseClassifyItemLlPunish.setVisibility(View.VISIBLE);
 			take.mCaseClassifyItemTvPunish.setText(details.getPunishCas());
 		}

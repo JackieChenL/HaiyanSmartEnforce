@@ -3,6 +3,7 @@ package com.kas.clientservice.haiyansmartenforce;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.hik.mcrsdk.MCRSDK;
 import com.hik.mcrsdk.rtsp.RtspClient;
@@ -48,6 +49,11 @@ public class MyApplication extends Application {
         return MyApplication.sInstance;
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
     @Override
     public void onCreate() {
         super.onCreate();

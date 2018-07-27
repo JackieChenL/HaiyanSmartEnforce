@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.kas.clientservice.haiyansmartenforce.Entity.Area_Item;
 import com.kas.clientservice.haiyansmartenforce.Entity.Vp_Area;
 import com.kas.clientservice.haiyansmartenforce.R;
-import com.kas.clientservice.haiyansmartenforce.Utils.ListViewFitParent;
 import com.kas.clientservice.haiyansmartenforce.Wedge.MyListView;
 
 import java.util.List;
@@ -60,8 +59,8 @@ public class Area_Adapter extends BaseAdapter {
 		
 		List<Area_Item> list2 = list.get(position).getAreas();
 		Area_Adapter_Item adapter_Item=new Area_Adapter_Item(context, list2,start,end,name);
-		ListViewFitParent.setListViewHeightBasedOnChildren(hoder.tv_area_num);
 		hoder.tv_area_num.setAdapter(adapter_Item);
+//		ListViewFitParent.setListViewHeightBasedOnChildren(hoder.tv_area_num);
 		return view;
 	}
 
