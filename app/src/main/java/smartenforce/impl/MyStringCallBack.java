@@ -10,11 +10,11 @@ public class MyStringCallBack extends StringCallback {
 
     @Override
     public void onError(Call call, Exception e, int id) {
-        LogUtil.e("ERRO:", e.getMessage() + "\n" + e.getCause());
+        LogUtil.e("ERRO", e.getMessage() + "\n" + e.getCause());
     }
 
     @Override
     public void onResponse(String response, int id) {
-        LogUtil.e("onResponse:", response);
+        LogUtil.e("onResponse", response);
     }
 }

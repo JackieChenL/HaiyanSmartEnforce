@@ -190,7 +190,6 @@
         <activity android:name=".Module.Leader.CaseClassify.Case_Classify"/>
 
 
-        <activity android:name="videotalk.UserVideoLoginActivity"/>
         <activity android:name="videotalk.UserListActivity"/>
         <activity android:name="smartenforce.aty.personrepay.PersonRePayActivity"/>
         <activity android:name="smartenforce.aty.personrepay.RepayDetailActivity"

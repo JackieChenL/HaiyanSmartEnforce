@@ -103,7 +103,7 @@ public class XieTongList extends BaseActivity implements View.OnClickListener,XR
                 .addParams("targetDepartCode", UserSingleton.USERINFO.szcg.UserDefinedCode)
                 .addParams("state",3+"")
                 .addParams("Page",PAGE_NUM+"")
-                .addParams("Count",10+"")
+                .addParams("Count",20+"")
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {

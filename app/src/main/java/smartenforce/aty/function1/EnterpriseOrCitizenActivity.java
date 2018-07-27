@@ -242,7 +242,7 @@ public class EnterpriseOrCitizenActivity extends ShowTitleActivity implements Ra
     };
 
     private void getIdCardInfo(String base64IdCard) {
-        IDCardUtil.getIdCardInfo(aty, base64IdCard, new IDCardUtil.onIdCardCallBack() {
+        IDCardUtil.getInstance().getIdCardInfo(aty, base64IdCard, new IDCardUtil.onIdCardCallBack() {
             @Override
             public void onSuccess(String name, String idCardNum, String sex, String nation, String address) {
                 edt_name_p.setText(name);
