@@ -1,5 +1,6 @@
 package com.kas.clientservice.haiyansmartenforce.Module.Leader;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Entity.Department;
 import com.kas.clientservice.haiyansmartenforce.Http.RequestUrl;
 import com.kas.clientservice.haiyansmartenforce.R;
+import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
 import com.kas.clientservice.haiyansmartenforce.Utils.CustomerValueFormatter;
 import com.kas.clientservice.haiyansmartenforce.Utils.TimePickerDialog;
 import com.kas.clientservice.haiyansmartenforce.Utils.TimeUtils;
@@ -361,6 +363,44 @@ public class DepartmentCaseActivity extends BaseActivity implements View.OnClick
     public void onValueSelected(Entry entry, int i, Highlight highlight) {
         int x = entry.getXIndex();
         Log.i(TAG, "onValueSelected: x="+x+" i="+i);
+        int what;
+        String type;
+        switch (i) {
+            case 0:
+                what = Constants.WhatDepartmentDetailsSource;
+                type = "initiative";
+                startSimple(x,type,what);
+                break;
+            case 1:
+                what = Constants.WhatDepartmentDetailsSource;
+                type = "passivity";
+                startSimple(x,type,what);
+                break;
+            case 2:
+                what = Constants.WhatDepartmentDetailsCase;
+                type = "generic";
+                startSimple(x,type,what);
+                break;
+            case 3:
+                what = Constants.WhatDepartmentDetailsCase;
+
+                type = "simple";
+                startSimple(x,type,what);
+                break;
+        }
+    }
+    private void startSimple(int position,String type,int what){
+        Log.i("test","position:" + position);
+        Intent intent = new Intent();
+        intent.setClass(mContext, DetailsListActivity.class);
+        intent.putExtra("what",what);
+        intent.putExtra("type",type);
+        intent.putExtra("DeDepartmentID",list.get(position).getDepartmentID()+"");
+        intent.putExtra("firstLevelID","");
+        intent.putExtra("bigName",bigName);
+        intent.putExtra("StartTime",startTime.substring(0,startTime.indexOf(" ")));
+        intent.putExtra("EndTime",endTime.substring(0,endTime.indexOf(" ")));
+        startActivity(intent);
     }
 
     @Override

@@ -29,8 +29,6 @@ import java.util.HashMap;
 
 import okhttp3.Call;
 
-import static android.content.ContentValues.TAG;
-
 public class DetailsEndFragment extends Fragment implements AdapterView.OnItemClickListener {
 	private int page = 1;
 	private int count = 5;
@@ -84,7 +82,7 @@ public class DetailsEndFragment extends Fragment implements AdapterView.OnItemCl
 	private String PeEmployeeID;
 	private String PeStartTime;
 	private String PeEndTime;
-	
+	String TAG = "chenlong";
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
@@ -113,19 +111,7 @@ public class DetailsEndFragment extends Fragment implements AdapterView.OnItemCl
 //			SourceStartTime = intent.getStringExtra("StartTime");
 //			SourceEndTime = intent.getStringExtra("EndTime");
 //			SourceSouTypeName = intent.getStringExtra("souTypeName");
-//		}else if(what == Constants.WhatDecisionTotailsDetailsPersonage){
-//			mType = "Case";
-//			DecisionToDepName = intent.getStringExtra("depName");
-//			DecisionToActID = intent.getStringExtra("actID");
-//			DecisionToEndTime = intent.getStringExtra("EndTime");
-//			DecisionToStartTime = intent.getStringExtra("mStartTime");
-//		}else if(what == Constants.WhatDecisionAreaDetailsPersonage){
-//			EmployeeID = intent.getStringExtra("EmployeeID");
-//			actID = intent.getStringExtra("actID");
-//			startTime = intent.getStringExtra("StartTime");
-//			endTime = intent.getStringExtra("EndTime");
-//			depName = intent.getStringExtra("depName");
-//		}else
+//		}eelse
 		if(what == Constants.WhatDepartmentDetailsCase){
 			mType = "Case";
 			DeType = intent.getStringExtra("type");
@@ -142,6 +128,20 @@ public class DetailsEndFragment extends Fragment implements AdapterView.OnItemCl
 			//DeDepName = intent.getStringExtra("bigName");
 			DeStartTime = intent.getStringExtra("StartTime");
 			DeEndTime = intent.getStringExtra("EndTime");
+		}else if(what == Constants.WhatDecisionAreaDetailsPersonage){
+			mType = "Case";
+			EmployeeID = intent.getStringExtra("EmployeeID");
+			actID = intent.getStringExtra("actID");
+			startTime = intent.getStringExtra("StartTime");
+			endTime = intent.getStringExtra("EndTime");
+			depName = intent.getStringExtra("depName");
+		}
+		else if(what == Constants.WhatDecisionTotailsDetailsPersonage){
+			mType = "Case";
+			DecisionToDepName = intent.getStringExtra("depName");
+			DecisionToActID = intent.getStringExtra("actID");
+			DecisionToEndTime = intent.getStringExtra("EndTime");
+			DecisionToStartTime = intent.getStringExtra("StartTime");
 		}
 //		else if(what == Constants.WhatPersonageDetailsCase){
 //			mType = "Case";
@@ -171,12 +171,6 @@ public class DetailsEndFragment extends Fragment implements AdapterView.OnItemCl
 //		}else if(what == Constants.WhatDecisionCaseDetailsSource){
 //			model.ProcSouTypeCaseStatisticsDetails(getUserId(),SourceStartTime,SourceEndTime,SourceSouTypeName,
 //					isClose,page,count,new getDetailsEnd());
-//		}else if(what == Constants.WhatDecisionTotailsDetailsPersonage){
-//			model.DecisionTotality(getUserId(), DecisionToDepName, DecisionToActID,
-//					isClose, DecisionToStartTime, DecisionToEndTime, page, count, new getDetailsEnd());
-//		}else if(what == Constants.WhatDecisionAreaDetailsPersonage){
-//			model.DecisionAreaDetails(getUserId(), EmployeeID, actID,depName, isClose,
-//					startTime, endTime, page, count, new getDetailsEnd());
 //		}else
 		if(what == Constants.WhatDepartmentDetailsCase){
             arrayList = new ArrayList<>();
@@ -196,6 +190,20 @@ public class DetailsEndFragment extends Fragment implements AdapterView.OnItemCl
             loadDepartmentSource(getUserId(), DeDepartmentID, DefirstLevelID, DeType, isClose,
                     DeStartTime, DeEndTime, page, count);
 		}
+		else if(what == Constants.WhatDecisionAreaDetailsPersonage){
+			arrayList = new ArrayList<>();
+			adapter = new DetailsCaseAdapter(getActivity(),arrayList);
+			mListView.setAdapter(adapter);
+			DecisionAreaDetails(getUserId(), EmployeeID, actID,depName, isClose,
+					startTime, endTime);
+		}
+		else if(what == Constants.WhatDecisionTotailsDetailsPersonage){
+			arrayList = new ArrayList<>();
+			adapter = new DetailsCaseAdapter(getActivity(),arrayList);
+			mListView.setAdapter(adapter);
+			DecisionTotality(getUserId(), DecisionToDepName, DecisionToActID,
+					isClose, DecisionToStartTime, DecisionToEndTime);
+		}
 //        else if(what == Constants.WhatPersonageDetailsCase){
 //			model.memberWorkCase(getUserId(), PeEmployeeID,PeType, isClose,
 //					PeStartTime, PeEndTime, page, count,new getDetailsEnd());
@@ -203,6 +211,85 @@ public class DetailsEndFragment extends Fragment implements AdapterView.OnItemCl
 //			model.memberWorkSource(getUserId(), PeEmployeeID,PeType, isClose,
 //					PeStartTime, PeEndTime, page, count,new getDetailsEnd());
 //		}
+	}
+	public void DecisionTotality(String UserId,String depName,String actID,String CaseStatusID,
+								 String startTime, String endTime
+	) {
+		Log.i(TAG,"业务决策--总体分析--第三级界面:"+"  "+"UserId:"+UserId
+				+"depName："+depName
+				+"actID："+actID
+				+"CaseStatusID："+CaseStatusID
+				+"startTime："+startTime
+				+"endTime："+endTime);
+		OkHttpUtils.post().url(RequestUrl.baseUrl_leader+"Mobile/GetDepartmentActionCaseStatisticList.ashx")
+//				.addParams("useid", UserId+"")
+				.addParams("depName", depName)
+				.addParams("actID", actID+"")
+				.addParams("CaseStatusID", CaseStatusID)
+				.addParams("startTime", startTime)
+				.addParams("endTime", endTime)
+//				.addParams("Page", 1+"")
+//				.addParams("Count", 10+"")
+				.build().execute(new StringCallback() {
+			@Override
+			public void onError(Call call, Exception e, int id) {
+				Log.i(TAG, "onError: "+e.toString());
+
+			}
+
+			@Override
+			public void onResponse(String response, int id) {
+				Log.i(TAG, "onResponse: " + response);
+
+				CaseDetailsInfo sourceDetailsInfo = new Gson().fromJson(response, CaseDetailsInfo.class);
+				if (sourceDetailsInfo.getKS() != null && sourceDetailsInfo.getKS().size() > 0) {
+					arrayList.addAll(sourceDetailsInfo.getKS());
+					adapter.notifyDataSetChanged();
+				} else {
+					ToastUtils.showToast(getActivity(), "暂无数据");
+				}
+			}
+		});
+	}
+	/**
+	 * 业务决策--区域分析--第三级界面
+	 */
+	public void DecisionAreaDetails(String UserId,String EmployeeID,String actID,String depName,String CaseStatusID,
+										   String startTime, String endTime
+										   ) {
+		Log.e("test","业务决策--区域分析--第三级界面:"+"  "+"useid:"+UserId
+				+"EmployeeID"+EmployeeID
+				+"actID："+actID
+				+"depName："+depName
+				+"CaseStatusID："+CaseStatusID
+				+"startTime："+startTime
+				+"endTime："+endTime);
+		OkHttpUtils.post().url(RequestUrl.baseUrl_leader+"Mobile/GetDepartmentActionCaseStatisticList.ashx")
+				.addParams("useid", UserId+"")
+				.addParams("EmployeeID", EmployeeID)
+				.addParams("actID", actID+"")
+				.addParams("depName", depName)
+				.addParams("CaseStatusID", CaseStatusID)
+				.addParams("startTime", startTime)
+				.addParams("endTime", endTime)
+				.build().execute(new StringCallback() {
+			@Override
+			public void onError(Call call, Exception e, int id) {
+				Log.i(TAG, "onError: "+e.toString());
+			}
+
+			@Override
+			public void onResponse(String response, int id) {
+				Log.i(TAG, "loadDepartmentCase_onResponse: "+response);
+				CaseDetailsInfo sourceDetailsInfo = new Gson().fromJson(response, CaseDetailsInfo.class);
+				if (sourceDetailsInfo.getKS() != null && sourceDetailsInfo.getKS().size() > 0) {
+					arrayList.addAll(sourceDetailsInfo.getKS());
+					adapter.notifyDataSetChanged();
+				} else {
+					ToastUtils.showToast(getActivity(), "暂无数据");
+				}
+			}
+		});
 	}
     private void loadDepartmentSource(String UserId, String DepartmentID, String firstLevelID, String type, String CaseStatusID,
                                       String startTime, String endTime,

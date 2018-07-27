@@ -27,7 +27,6 @@ import com.kas.clientservice.haiyansmartenforce.Entity.Vp_Area;
 import com.kas.clientservice.haiyansmartenforce.Http.RequestUrl;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
-import com.kas.clientservice.haiyansmartenforce.Utils.ListViewFitParent;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -171,7 +170,7 @@ public class Vp_Area_Fragment extends Fragment implements View.OnClickListener{
 				String end = tv_area_end_time.getText().toString();
 				Area_Adapter adapter=new Area_Adapter(getActivity(), list,start,end);
 				lv_area_list.setAdapter(adapter);
-				ListViewFitParent.setListViewHeightBasedOnChildren(lv_area_list);
+//				ListViewFitParent.setListViewHeightBasedOnChildren(lv_area_list);
 				progressDialog.dismiss();
 			} catch (JSONException e) {
 				Log.e("Exception", e.toString());

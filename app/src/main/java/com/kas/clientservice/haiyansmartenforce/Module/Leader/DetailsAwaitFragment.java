@@ -24,18 +24,21 @@ import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import okhttp3.Call;
-
-import static android.content.ContentValues.TAG;
 
 public class DetailsAwaitFragment extends Fragment implements AdapterView.OnItemClickListener {
     private ListView mListView;
     private int page = 1;
     private int mPage = 1;
     private int count = 5;
+    String TAG ="chenlong";
 
     private DetailsCaseAdapter adapter;
     private DetailsSourceAdapter adapterSource;
@@ -110,20 +113,7 @@ public class DetailsAwaitFragment extends Fragment implements AdapterView.OnItem
 //			SourceStartTime = intent.getStringExtra("StartTime");
 //			SourceEndTime = intent.getStringExtra("EndTime");
 //			SourceSouTypeName = intent.getStringExtra("souTypeName");
-//		}else if(what == Constants.WhatDecisionTotailsDetailsPersonage){
-//			mType = "Case";
-//			DecisionToDepName = intent.getStringExtra("depName");
-//			DecisionToActID = intent.getStringExtra("actID");
-//			DecisionToEndTime = intent.getStringExtra("EndTime");
-//			DecisionToStartTime = intent.getStringExtra("mStartTime");
-//		}else if(what == Constants.WhatDecisionAreaDetailsPersonage){
-//			mType = "Case";
-//			DecisionAreaEmployeeID = intent.getStringExtra("EmployeeID");
-//			DecisionAreaactID = intent.getStringExtra("actID");
-//			DecisionAreastartTime = intent.getStringExtra("StartTime");
-//			DecisionAreaendTime = intent.getStringExtra("EndTime");
-//			DecisionAreadepName = intent.getStringExtra("depName");
-//		}else
+//		}
         if (what == Constants.WhatDepartmentDetailsCase) {
             mType = "Case";
             DeType = intent.getStringExtra("type");
@@ -141,7 +131,21 @@ public class DetailsAwaitFragment extends Fragment implements AdapterView.OnItem
             //DeDepName = intent.getStringExtra("bigName");
             DeStartTime = intent.getStringExtra("StartTime");
             DeEndTime = intent.getStringExtra("EndTime");
-        }
+        } else if (what == Constants.WhatDecisionAreaDetailsPersonage) {
+            mType = "Case";
+            DecisionAreaEmployeeID = intent.getStringExtra("EmployeeID");
+            DecisionAreaactID = intent.getStringExtra("actID");
+            DecisionAreastartTime = intent.getStringExtra("StartTime");
+            DecisionAreaendTime = intent.getStringExtra("EndTime");
+            DecisionAreadepName = intent.getStringExtra("depName");
+        }else if(what == Constants.WhatDecisionTotailsDetailsPersonage){
+			mType = "Case";
+            DecisionToStartTime = intent.getStringExtra("StartTime");
+			DecisionToDepName = intent.getStringExtra("depName");
+			DecisionToActID = intent.getStringExtra("actID");
+			DecisionToEndTime = intent.getStringExtra("EndTime");
+//			DecisionToStartTime = intent.getStringExtra("mStartTime");
+		}
 //        else if(what == Constants.WhatPersonageDetailsCase){
 //			mType = "Case";
 //			PeType = intent.getStringExtra("type");
@@ -167,12 +171,7 @@ public class DetailsAwaitFragment extends Fragment implements AdapterView.OnItem
 //		}else if(what == Constants.WhatDecisionCaseDetailsSource){
 //			model.ProcSouTypeCaseStatisticsDetails(getUserId(),SourceStartTime,SourceEndTime,SourceSouTypeName,
 //					isClose,page,count,new getDetailsAwait());
-//		}else if(what == Constants.WhatDecisionTotailsDetailsPersonage){
-//			model.DecisionTotality(getUserId(), DecisionToDepName, DecisionToActID,
-//					isClose, DecisionToStartTime, DecisionToEndTime, page, count, new getDetailsAwait());
-//		}else if(what == Constants.WhatDecisionAreaDetailsPersonage){
-//			model.DecisionAreaDetails(getUserId(), DecisionAreaEmployeeID, DecisionAreaactID,DecisionAreadepName,
-//					isClose, DecisionAreastartTime, DecisionAreaendTime, page, count, new getDetailsAwait());
+//		}
         if (what == Constants.WhatDepartmentDetailsCase) {
             arrayList = new ArrayList<>();
             adapter = new DetailsCaseAdapter(getActivity(), arrayList);
@@ -189,7 +188,19 @@ public class DetailsAwaitFragment extends Fragment implements AdapterView.OnItem
             mListView.setAdapter(adapterSource);
             loadDepartmentSource(getUserId(), DeDepartmentID, DefirstLevelID, DeType, isClose,
                     DeStartTime, DeEndTime, page, count);
-        }
+        } else if (what == Constants.WhatDecisionAreaDetailsPersonage) {
+            arrayList = new ArrayList<>();
+            adapter = new DetailsCaseAdapter(getActivity(), arrayList);
+            mListView.setAdapter(adapter);
+            DecisionAreaDetails(getUserId(), DecisionAreaEmployeeID, DecisionAreaactID, DecisionAreadepName,
+                    isClose, DecisionAreastartTime, DecisionAreaendTime, page, count);
+        }else if(what == Constants.WhatDecisionTotailsDetailsPersonage){
+            arrayList = new ArrayList<>();
+            adapter = new DetailsCaseAdapter(getActivity(), arrayList);
+            mListView.setAdapter(adapter);
+			DecisionTotality(getUserId(), DecisionToDepName, DecisionToActID,
+					isClose, DecisionToStartTime, DecisionToEndTime);
+		}
 //		else if(what == Constants.WhatPersonageDetailsCase){
 //			model.memberWorkCase(getUserId(), PeEmployeeID,PeType, isClose,
 //					PeStartTime, PeEndTime, page, count,new getDetailsAwait());
@@ -203,6 +214,82 @@ public class DetailsAwaitFragment extends Fragment implements AdapterView.OnItem
 
     private String getUserId() {
         return UserSingleton.USERINFO.getName().UserID;
+    }
+
+    public void DecisionTotality(String UserId,String depName,String actID,String CaseStatusID,
+                                        String startTime, String endTime
+                                        ) {
+        Log.e("test","业务决策--总体分析--第三级界面:"+"  "+"UserId:"+UserId
+                +"depName："+depName
+                +"actID："+actID
+                +"CaseStatusID："+CaseStatusID
+                +"startTime："+startTime
+                +"endTime："+endTime);
+        OkHttpUtils.post().url(RequestUrl.baseUrl_leader+"Mobile/GetDepartmentActionCaseStatisticList.ashx")
+//                .addParams("useid", UserId+"")
+                .addParams("depName", depName)
+                .addParams("actID", actID+"")
+                .addParams("CaseStatusID", "1")
+                .addParams("startTime", startTime)
+                .addParams("endTime", endTime)
+//                .addParams("Page", 1+"")
+//                .addParams("Count", 10+"")
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                Log.i(TAG, "onError: "+e.toString());
+
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                Log.i(TAG, "onResponse: " + response);
+
+                CaseDetailsInfo sourceDetailsInfo = new Gson().fromJson(response, CaseDetailsInfo.class);
+                if (sourceDetailsInfo.getKS() != null && sourceDetailsInfo.getKS().size() > 0) {
+                    arrayList.addAll(sourceDetailsInfo.getKS());
+                    adapter.notifyDataSetChanged();
+                } else {
+                    ToastUtils.showToast(getActivity(), "暂无数据");
+                }
+            }
+        });
+    }
+
+    public  void DecisionAreaDetails(String UserId,String EmployeeID,String actID,String depName,String CaseStatusID,
+                                           String startTime, String endTime,
+                                           int Page,int Count
+                                           ) {
+        Log.i(TAG,"业务决策--区域分析--第三级界面:"+"  "+"useid:"+UserId
+                +"EmployeeID"+EmployeeID
+                +"actID："+actID
+                +"depName："+depName
+                +"CaseStatusID："+CaseStatusID
+                +"startTime："+startTime
+                +"endTime："+endTime);
+        OkHttpUtils.post().url(RequestUrl.baseUrl_leader+"Mobile/GetDepartmentActionCaseStatisticList.ashx")
+                .addParams("useid", UserId+"")
+                .addParams("EmployeeID", EmployeeID)
+                .addParams("actID", actID+"")
+                .addParams("depName", depName)
+                .addParams("CaseStatusID", CaseStatusID)
+                .addParams("startTime", startTime)
+                .addParams("endTime", endTime)
+//                .addParams("Page", Page+"")
+//                .addParams("Count", Count+"")
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                Log.i(TAG, "onResponse: "+response);
+                CaseDate(response);
+            }
+        });
+
     }
 
     private void loadDepartmentSource(String UserId, String DepartmentID, String firstLevelID, String type, String CaseStatusID,
@@ -278,6 +365,35 @@ public class DetailsAwaitFragment extends Fragment implements AdapterView.OnItem
                 }
             }
         });
+    }
+    private void CaseDate(String response){
+
+        try {
+            JSONObject obj = new JSONObject(response);
+            JSONArray array = obj.getJSONArray("KS");
+            JSONObject object;
+            CaseDetailsInfo.KsBean details;
+            for(int i=0; i<array.length(); i++){
+                object = array.getJSONObject(i);
+                details = new CaseDetailsInfo.KsBean();
+                details.setAcceptTimeCas(object.getString("AcceptTimeCas"));
+                details.setActCas(object.getString("ActCas"));
+                details.setCaseAddressCas(object.getString("CaseAddressCas"));
+                details.setCaseEntOrCitiCas(object.getString("CaseEntOrCitiCas"));
+                details.setCaseID(object.getString("CaseID"));
+                details.setNameCaF(object.getString("NameCaF"));
+                details.setNameECCas(object.getString("NameECCas"));
+                details.setNumberCas(object.getString("NumberCas"));
+                details.setPunishCas(object.getString("PunishCas"));
+                details.setState(object.getString("state"));
+                arrayList.add(details);
+            }
+            adapter.notifyDataSetChanged();
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            Log.e("Exception","JSONException:" + e.toString());
+            e.printStackTrace();
+        }
     }
 
 

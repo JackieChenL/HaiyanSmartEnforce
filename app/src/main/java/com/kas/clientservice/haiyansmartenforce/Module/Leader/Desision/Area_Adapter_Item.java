@@ -1,6 +1,7 @@
 package com.kas.clientservice.haiyansmartenforce.Module.Leader.Desision;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -61,15 +62,15 @@ public class Area_Adapter_Item extends BaseAdapter {
 			
 			@Override
 			public void onClick(View v) {
-//				int depID = list.get(position).getDepID();
-//				int actID = list.get(position).getActID();
-//				Intent intent=new Intent(context, Area_Item.class);
-//				intent.putExtra("depID", depID);
-//				intent.putExtra("actID", actID);
-//				intent.putExtra("start", start);
-//				intent.putExtra("end", end);
-//				intent.putExtra("name", name);
-//				context.startActivity(intent);
+				int depID = list.get(position).getDepID();
+				int actID = list.get(position).getActID();
+				Intent intent=new Intent(context, com.kas.clientservice.haiyansmartenforce.Module.Leader.Desision.Area_Item.class);
+				intent.putExtra("depID", depID);
+				intent.putExtra("actID", actID);
+				intent.putExtra("start", start);
+				intent.putExtra("end", end);
+				intent.putExtra("name", name);
+				context.startActivity(intent);
 			}
 		});
 		

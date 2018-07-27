@@ -76,10 +76,7 @@ public class DetailsListActivity extends BaseActivity implements View.OnClickLis
 //		}else if(what == Constants.WhatDecisionTotailsDetailsPersonage){
 //			tv_title.setText("业务详情");
 //
-//		}else if(what == Constants.WhatDecisionAreaDetailsPersonage){
-//			tv_title.setText("业务详情");
-//
-//		}else
+//		}
 		if(what == Constants.WhatDepartmentDetailsCase){
 			String type = intent.getStringExtra("type");
 			if(type.equals("simple")){
@@ -96,6 +93,14 @@ public class DetailsListActivity extends BaseActivity implements View.OnClickLis
 				tv_title.setText("线索任务");
 			}
 			
+		}
+		else if(what == Constants.WhatDecisionAreaDetailsPersonage){
+			tv_title.setText("业务详情");
+
+		}
+		else if(what == Constants.WhatDecisionTotailsDetailsPersonage){
+			tv_title.setText("业务详情");
+
 		}
 //		else if(what == Constants.WhatPersonageDetailsSource){
 //			String type = intent.getStringExtra("type");

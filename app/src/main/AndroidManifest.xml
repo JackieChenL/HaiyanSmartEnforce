@@ -188,7 +188,9 @@
         <activity android:name=".Module.PersonalInfo.PersonalInfoEditActivity">
         </activity>
         <activity android:name=".Module.Leader.CaseClassify.Case_Classify"/>
-
+        <activity android:name=".Module.Leader.Desision.Totality_Item"/>
+        <activity android:name=".Module.Leader.Desision.Area_Item"/>
+        <activity android:name=".Module.Leader.Desision.Decision"/>
 
         <activity android:name="videotalk.UserListActivity"/>
         <activity android:name="smartenforce.aty.personrepay.PersonRePayActivity"/>

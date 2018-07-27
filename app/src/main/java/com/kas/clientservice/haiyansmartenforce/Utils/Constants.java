@@ -40,11 +40,11 @@ public class Constants {
     /**
      * 业务决策 总体
      */
-//    public static int WhatDecisionTotailsDetailsPersonage = 10051;
+    public static int WhatDecisionTotailsDetailsPersonage = 10051;
     /**
      * 业务决策 区域
      */
-//    public static int WhatDecisionAreaDetailsPersonage = 10052;
+    public static int WhatDecisionAreaDetailsPersonage = 10052;
     /**
      * 部门案件 案件
      */
