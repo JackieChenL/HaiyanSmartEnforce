@@ -6,6 +6,7 @@ public class RequestUrl {
     public static final int MAP = 3;
     // public static final  String URL = "http://112.11.105.171:8092//Handler/CollecterApi.aspx";
     public static final String baseUrl_leader = "http://117.149.146.131:88/";
+    public static final String baseUrl_credit = "http://117.149.146.131:6111/";
 //    public static final String baseUrl_leader = "http://111.1.31.184:88/";
     public static final String baseUrl_img = baseUrl_leader+"use/";
     public static final String baseUrl = "http://117.149.146.131:86/handler/collecterapi.aspx/";

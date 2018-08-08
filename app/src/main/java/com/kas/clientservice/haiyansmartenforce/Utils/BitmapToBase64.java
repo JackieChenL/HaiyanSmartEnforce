@@ -50,6 +50,9 @@ public class BitmapToBase64 {
     
     public static String bitmapListToBase64(List<Bitmap> list){
         StringBuffer sb = new StringBuffer();
+        if (list==null||list.size()==0) {
+            return "";
+        }
         for (int i = 0; i < list.size(); i++) {
             sb.append(bitmapToBase64(list.get(i)));
             if (i < list.size()-1) {

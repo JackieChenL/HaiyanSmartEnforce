@@ -161,9 +161,9 @@ public class DetailsListActivity extends BaseActivity implements View.OnClickLis
 		Line(arg1,arg0);
 		if(arg0 == 0){
 			details_await.setTextColor(Color.parseColor("#FFFFFF"));
-			details_end.setTextColor(Color.parseColor("#EAEAEA"));
+			details_end.setTextColor(Color.parseColor("#CCCCCC"));
 		}else if(arg0 == 1){
-			details_await.setTextColor(Color.parseColor("#EAEAEA"));
+			details_await.setTextColor(Color.parseColor("#CCCCCC"));
 			details_end.setTextColor(Color.parseColor("#FFFFFF"));
 		}
 	}

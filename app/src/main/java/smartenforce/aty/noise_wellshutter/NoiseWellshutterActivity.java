@@ -64,7 +64,7 @@ public class NoiseWellshutterActivity extends CommonActivity {
         String src = getIntent().getStringExtra("src");
         if (isEmpty(src)) {
             webview.loadUrl(DefalutUrl);
-        }else{
+        } else{
             webview.loadUrl(DefalutUrl+"?src="+src);
         }
 
