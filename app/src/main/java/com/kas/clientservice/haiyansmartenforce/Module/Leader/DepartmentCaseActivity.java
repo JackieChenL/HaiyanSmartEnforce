@@ -113,6 +113,7 @@ public class DepartmentCaseActivity extends BaseActivity implements View.OnClick
                                        int position, long id) {
                 // TODO Auto-generated method stub
                 bigid = big.get(position).getId();
+                Log.i(TAG, "onItemSelected: "+bigid);
                 bigName = big.get(position).getName();
             }
 
@@ -123,8 +124,8 @@ public class DepartmentCaseActivity extends BaseActivity implements View.OnClick
             }
         });
         initMpChart();
-        getBigType();
         initAdapter();
+        getBigType();
     }
     Department_CaseAdapter adapter;
     private void initAdapter() {
@@ -347,6 +348,8 @@ public class DepartmentCaseActivity extends BaseActivity implements View.OnClick
                     Typeadapter = new ArrayAdapter<Big>(mContext, android.R.layout.simple_spinner_item, big);
                     Typeadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner.setAdapter(Typeadapter);
+
+                    query();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -383,7 +386,6 @@ public class DepartmentCaseActivity extends BaseActivity implements View.OnClick
                 break;
             case 3:
                 what = Constants.WhatDepartmentDetailsCase;
-
                 type = "simple";
                 startSimple(x,type,what);
                 break;

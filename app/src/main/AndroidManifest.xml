@@ -38,18 +38,14 @@
 
     <uses-permission android:name="android.permission.RESTART_PACKAGES"/>
     <uses-permission android:name="android.permission.READ_LOGS"/>
-
-
-
-
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
 
     <application
         android:name=".MyApplication"
@@ -106,8 +102,6 @@
         <activity android:name="smartenforce.aty.patrol.DetailActivity"/>
         <activity android:name="smartenforce.aty.patrol.UploadActivity"/>
 
-
-
         <!-- </activity> -->
         <!-- </activity> -->
         <activity android:name=".Module.Garbage.GarbageMainActivity"/>
@@ -137,14 +131,15 @@
         <activity android:name=".Module.FaceCompare.FaceCompareActivity"/>
         <activity android:name=".Module.Register.ResetPswActivity"/>
 
-        <!--<meta-data-->
-            <!--android:name="com.baidu.lbsapi.API_KEY"-->
-            <!--android:value="OZ0I49nombHnwGOexV444hZPRQXS0wCP"/>-->
+        <!-- <meta-data -->
+        <!-- android:name="com.baidu.lbsapi.API_KEY" -->
+        <!-- android:value="OZ0I49nombHnwGOexV444hZPRQXS0wCP"/> -->
 
-        <!--<service-->
-            <!--android:name="com.baidu.location.f"-->
-            <!--android:enabled="true"-->
-            <!--android:process=":remote"/>-->
+
+        <!-- <service -->
+        <!-- android:name="com.baidu.location.f" -->
+        <!-- android:enabled="true" -->
+        <!-- android:process=":remote"/> -->
         <service android:name="smartenforce.service.LocationPointService"/>
 
         <activity android:name="smartenforce.aty.ViewPhotoActivity"/>
@@ -191,15 +186,16 @@
         <activity android:name=".Module.Leader.Desision.Totality_Item"/>
         <activity android:name=".Module.Leader.Desision.Area_Item"/>
         <activity android:name=".Module.Leader.Desision.Decision"/>
-
         <activity android:name="videotalk.UserListActivity"/>
         <activity android:name="smartenforce.aty.personrepay.PersonRePayActivity"/>
-        <activity android:name="smartenforce.aty.personrepay.RepayDetailActivity"
+        <activity
+            android:name="smartenforce.aty.personrepay.RepayDetailActivity"
             android:launchMode="singleTop">
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
+
                 <category android:name="android.intent.category.DEFAULT"/>
+
                 <data android:scheme="wx59d41765b6ae31bc"/>
             </intent-filter>
         </activity>
@@ -207,8 +203,16 @@
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop"/>
-
-
+        <activity android:name=".Module.PersonalCredit.PersonalCreditSearchActivity">
+        </activity>
+        <activity android:name=".Module.PersonalCredit.CreditDetailActivity">
+        </activity>
+        <activity android:name=".Module.Ledger.LedgerListActivity">
+        </activity>
+        <activity android:name=".Module.Ledger.LedgerAddActivity">
+        </activity>
+        <activity android:name=".Module.Ledger.LedgerDetailActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -51,7 +51,7 @@ public class DetailsAwaitFragment extends Fragment implements AdapterView.OnItem
     //Toast
     private Toast mToast;
     //结案状态 “”为待结案 16为结案
-    private String isClose = "";
+    private String isClose = "1";
     //旋转动画
     private RotateAnimation rotate;
     //案件分类  二级界面 案源

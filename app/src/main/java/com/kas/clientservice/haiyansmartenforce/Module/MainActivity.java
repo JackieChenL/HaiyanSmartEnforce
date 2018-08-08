@@ -29,7 +29,6 @@ import com.kas.clientservice.haiyansmartenforce.Module.FaceCompare.FaceCompareAc
 import com.kas.clientservice.haiyansmartenforce.Module.Garbage.GarbageMainActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.History.HistoryActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.HuanWeiModule.HuanWeiEntryActivity;
-import com.kas.clientservice.haiyansmartenforce.Module.HuochaiCredit.HuochaiCreditActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ParkingRecordSearchActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.Laws.LawsActivity;
@@ -37,7 +36,9 @@ import com.kas.clientservice.haiyansmartenforce.Module.Leader.CaseClassify.Case_
 import com.kas.clientservice.haiyansmartenforce.Module.Leader.DepartmentCaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.Leader.Desision.Decision;
 import com.kas.clientservice.haiyansmartenforce.Module.Leader.LeaderCheckCaseActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.Ledger.LedgerListActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.News.AdvDetailActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.PersonalCredit.PersonalCreditSearchActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.PersonalInfo.PersonalInfoActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.Vedio.VedioListActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.XieTong.XieTongActivity;
@@ -147,7 +148,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void loadVerticalBanner() {
-        OkHttpUtils.get().url(RequestUrl.baseUrl_leader + "mobile/GetNewsList.ashx")
+        OkHttpUtils.get().url(RequestUrl.baseUrl_leader + "Mobile/GetNoticeList.ashx")
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
@@ -387,7 +388,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 startActivity(new Intent(mContext, SearchActivity.class));
                 break;
             case 20://火柴信用
-                startActivity(new Intent(mContext, HuochaiCreditActivity.class));
+                startActivity(new Intent(mContext, PersonalCreditSearchActivity.class));
                 break;
             case 21://巡查发现
                 startActivity(new Intent(mContext, NewQueryActivity.class));
@@ -410,6 +411,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case 31://视频监控
                 startActivity(new Intent(mContext, VedioListActivity.class));
                 break;
+            case 32://台账上报
+                startActivity(new Intent(mContext, LedgerListActivity.class));
+                break;
             case 100://视频会商
                 if (VideoTalkUtils.getInstance().isSuccessLogin()) {
                     startActivity(new Intent(mContext, UserListActivity.class));
@@ -422,6 +426,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case 102://井盖
                 startActivity(new Intent(mContext, NoiseWellshutterActivity.class).putExtra("src", "cover"));
+//                startActivity(new Intent(mContext, PersonRePayActivity.class));
+                break;
+            case 103://井盖
+                startActivity(new Intent(mContext, NoiseWellshutterActivity.class).putExtra("src", "seeper"));
 //                startActivity(new Intent(mContext, PersonRePayActivity.class));
                 break;
 

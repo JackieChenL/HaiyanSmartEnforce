@@ -68,12 +68,12 @@ public class Decision extends FragmentActivity implements View.OnClickListener {
 			public void onPageSelected(int arg0) {
 				switch (arg0) {
 				case 0:
-					tv_decision_totality.setTextColor(getResources().getColor(R.color.grey_900));
-					tv_decision_area.setTextColor(getResources().getColor(R.color.grey_600));
+					tv_decision_totality.setTextColor(getResources().getColor(R.color.white));
+					tv_decision_area.setTextColor(getResources().getColor(R.color.grey_400));
 					break;
 				case 1:
-					tv_decision_totality.setTextColor(getResources().getColor(R.color.grey_600));
-					tv_decision_area.setTextColor(getResources().getColor(R.color.grey_900));
+					tv_decision_totality.setTextColor(getResources().getColor(R.color.grey_400));
+					tv_decision_area.setTextColor(getResources().getColor(R.color.white));
 					break;
 
 				default:
@@ -104,13 +104,13 @@ public class Decision extends FragmentActivity implements View.OnClickListener {
 			break;
 		case R.id.tv_decision_totality:
 			vp_viewpager.setCurrentItem(0);
-			tv_decision_totality.setTextColor(getResources().getColor(R.color.grey_900));
-			tv_decision_area.setTextColor(getResources().getColor(R.color.grey_600));
+			tv_decision_totality.setTextColor(getResources().getColor(R.color.white));
+			tv_decision_area.setTextColor(getResources().getColor(R.color.grey_400));
 			break;
 		case R.id.tv_decision_area:
 			vp_viewpager.setCurrentItem(1);
-			tv_decision_totality.setTextColor(getResources().getColor(R.color.grey_600));
-			tv_decision_area.setTextColor(getResources().getColor(R.color.grey_900));
+			tv_decision_totality.setTextColor(getResources().getColor(R.color.grey_400));
+			tv_decision_area.setTextColor(getResources().getColor(R.color.white));
 			break;
 		default:
 			break;
