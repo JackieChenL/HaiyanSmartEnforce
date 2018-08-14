@@ -1,20 +1,51 @@
 package videotalk.tree;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
+import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 import smartenforce.impl.MyStringCallBack;
+import videotalk.normal.VideoTalkUtils;
 
 public class TreeUtils {
 
-    public static List<TreeBean> bulid(List<TreeBean> TreeBeans) {
+    public boolean isSuccessLogin() {
+        return isSuccessLogin;
+    }
+
+    public String getErroMsg() {
+        return erroMsg;
+    }
+
+    private boolean isSuccessLogin = false;
+    private String erroMsg = "视屏登录中，请稍后";
+
+    private static TreeUtils utils;
+
+    public static TreeUtils getInstance() {
+        if (utils == null) {
+            synchronized (TreeUtils.class) {
+                if (utils == null) {
+                    utils = new TreeUtils();
+                }
+            }
+        }
+        return utils;
+    }
+
+
+    public  List<TreeBean> bulid(List<TreeBean> TreeBeans) {
 
         List<TreeBean> rootNodes = new ArrayList<>();
 
@@ -42,7 +73,7 @@ public class TreeUtils {
      * @param TreeBeans
      * @return
      */
-    public static List<TreeBean> buildByRecursive(List<TreeBean> TreeBeans) {
+    public  List<TreeBean> buildByRecursive(List<TreeBean> TreeBeans) {
         List<TreeBean> trees = new ArrayList<>();
 
         for (TreeBean TreeBean : TreeBeans) {
@@ -58,7 +89,7 @@ public class TreeUtils {
      * @param TreeBeans
      * @return
      */
-    public static TreeBean findChildren(TreeBean TreeBean,List<TreeBean> TreeBeans) {
+    public  TreeBean findChildren(TreeBean TreeBean,List<TreeBean> TreeBeans) {
         for (TreeBean it : TreeBeans) {
             if(TreeBean.id==it.pid) {
                 if (TreeBean.childList == null) {
@@ -70,9 +101,11 @@ public class TreeUtils {
         return TreeBean;
     }
 
-    public static void getNetData(final onSuccess onSuccess){
+    public  void getNetData(final String userName,final onSuccess onSuccess){
         OkHttpUtils.get().url("http://117.149.146.131/system/theme/anjuan/WX/GetForMobile.ashx")
-                .build().execute(new MyStringCallBack() {
+                .addParams("name", userName)
+                .build()
+                .execute(new MyStringCallBack() {
 
 
             @Override
@@ -84,11 +117,45 @@ public class TreeUtils {
     }
 
 
+    public void connectVideoTalk(final Context context, final String token) {
+        RongIM.connect(token, new RongIMClient.ConnectCallback() {
+            @Override
+            public void onTokenIncorrect() {
+                erroMsg = "onTokenIncorrect:"+token;
+                isSuccessLogin = false;
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                SharedPreferences sp = context.getSharedPreferences("config", Context.MODE_PRIVATE);
+                sp.edit().putString("loginid", s).commit();
+                erroMsg = "";
+                isSuccessLogin = true;
+            }
+
+            @Override
+            public void onError(final RongIMClient.ErrorCode e) {
+                erroMsg = "connect onError=" + e;
+                isSuccessLogin = false;
+            }
+        });
+
+    }
+
+
+
+
+
+
+
+
+
+
     public interface  onSuccess{
         void data(List<TreeBean> list);
     }
 
-    public static List<TreeBean> test(){
+    public  List<TreeBean> test(){
 
         List<TreeBean> treeBeans=new ArrayList<>();
         treeBeans.add(new TreeBean(1,1,0,"name"));

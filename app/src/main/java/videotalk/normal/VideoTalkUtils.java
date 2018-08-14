@@ -100,7 +100,7 @@ public class VideoTalkUtils {
                     list.clear();
                     List<GroupUserBean> retList = JSONArray.parseArray(response, GroupUserBean.class);
                     list.addAll(retList);
-                    doPrivateConnect(context);
+                     doPrivateConnect(context);
                 }
             });
         }

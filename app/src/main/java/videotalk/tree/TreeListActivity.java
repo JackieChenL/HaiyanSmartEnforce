@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.CheckBox;
 
 import com.kas.clientservice.haiyansmartenforce.R;
+import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +17,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.rong.callkit.RongCallKit;
+import io.rong.imlib.model.Conversation;
 import smartenforce.base.ShowTitleActivity;
 import videotalk.normal.GroupUserBean;
 import videotalk.widget.TreeNode;
@@ -26,9 +29,8 @@ public class TreeListActivity extends ShowTitleActivity {
 
     private RecyclerView rcv_list;
     private TreeViewAdapter adapter;
-    private List<GroupUserBean> list;
-    private ArrayList<String> userIdList=new ArrayList<>();
     private Map<String,TreeBean> map=new LinkedHashMap<>();
+    ArrayList<String> idList=new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,11 +53,12 @@ public class TreeListActivity extends ShowTitleActivity {
 
     @Override
     protected void findViews() {
+        String userName = UserSingleton.getInstance().getUserAccount(this);
         rcv_list = (RecyclerView) findViewById(R.id.rcv_list);
-        TreeUtils.getNetData(new TreeUtils.onSuccess() {
+        TreeUtils.getInstance().getNetData(userName,new TreeUtils.onSuccess() {
             @Override
             public void data(List<TreeBean> list) {
-                List<TreeBean> beanList= TreeUtils.bulid(list) ;
+                List<TreeBean> beanList= TreeUtils.getInstance().bulid(list) ;
                 List<TreeNode> nodes = new ArrayList<>();
                 for (int i=0;i<beanList.size();i++){
                     nodes.add(findChildren(beanList.get(i)));
@@ -108,25 +111,24 @@ public class TreeListActivity extends ShowTitleActivity {
             @Override
             public void onClick(View v) {
                 if (map.size()==0){
-
+                  show("你还没有选择视屏用户");
                 }else{
-                    ArrayList<String> idList=new ArrayList<>();
+                    idList.clear();
                     for(Map.Entry<String, TreeBean> entry: map.entrySet())
                     {
                         idList.add(entry.getValue().id+"");
                     }
-                    log(idList.toString());
 
-//                    RongCallKit.setGroupMemberProvider(new RongCallKit.GroupMembersProvider() {
-//                        @Override
-//
-//                        public ArrayList<String> getMemberList(String groupId, final RongCallKit.OnGroupMembersResult result) {
-//                            return userIdList;
-//                        }
-//                    });
-//
-//
-//                    RongCallKit.startMultiCall(aty, Conversation.ConversationType.GROUP, "1", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_VIDEO, userIdList);
+                    RongCallKit.setGroupMemberProvider(new RongCallKit.GroupMembersProvider() {
+                        @Override
+
+                        public ArrayList<String> getMemberList(String groupId, final RongCallKit.OnGroupMembersResult result) {
+                            return idList;
+                        }
+                    });
+
+
+                    RongCallKit.startMultiCall(aty, Conversation.ConversationType.GROUP, "1", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_VIDEO, idList);
                 }
             }
         });

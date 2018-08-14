@@ -24,6 +24,7 @@ public class UserInfo {
      */
 
     public PublicUsersBean PublicUsers;
+    public VideoUserBean VideoUser;
     public TollCollectorBean TollCollector;
     public LawEnforcementOfficialsBean LawEnforcementOfficials;
     public ReviewNameBean ReviewName;
@@ -155,6 +156,17 @@ public class UserInfo {
         public String type;
         public String areacode;
         public String UserDefinedCode;
+
+
+    }
+
+    public static class VideoUserBean {
+
+
+        public String loginName;
+        public String UserID;
+        public String UserName;
+        public String PwoToken;
 
 
     }
