@@ -102,7 +102,7 @@ public class TreeUtils {
         return TreeBean;
     }
 
-    public  void getNetData(final String userName,final onSuccess onSuccess){
+    public  void getNetData(final String userName,final VideoListCallBack callBack){
         OkHttpUtils.get().url("http://117.149.146.131/system/theme/anjuan/WX/GetForMobile.ashx")
                 .addParams("name", userName)
                 .build()
@@ -110,13 +110,13 @@ public class TreeUtils {
 
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        onSuccess.erroMsg("获取视屏列表失败");
+                        callBack.erroMsg("获取视屏列表失败");
                     }
 
                     @Override
             public void onResponse(String response, int id) {
                 List<TreeBean> list= JSON.parseArray(response,TreeBean.class);
-                onSuccess.data(list);
+                        callBack.data(list);
             }
         });
     }
@@ -156,7 +156,7 @@ public class TreeUtils {
 
 
 
-    public interface  onSuccess{
+    public interface VideoListCallBack{
         void data(List<TreeBean> list);
         void erroMsg(String msg);
     }
