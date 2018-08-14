@@ -61,6 +61,10 @@ public class HuanweiListAdapter extends BaseAdapter {
         vh.tv_describe.setText(list.get(i).getQKMS());
         vh.tv_position.setText(list.get(i).getJCDD());
 
+        if (list.get(i).getShstate().equals("")) {
+//            vh.imageView.setImageResource();
+        }
+
         return view;
     }
 

@@ -73,7 +73,7 @@ public class CodeActivity extends AppCompatActivity implements View.OnClickListe
 //                            }
 //                        });
                 OkHttpUtils.post()
-                        .url("http://111.1.31.184:86/monitor/api/values/GetTrashInfo")
+                        .url("http://117.149.146.131:6111/monitor/api/values/GetTrashInfo")
                         .addParams("SerialNumber", SerialNumber)
                         .addHeader("accept","Application/json").build().
 

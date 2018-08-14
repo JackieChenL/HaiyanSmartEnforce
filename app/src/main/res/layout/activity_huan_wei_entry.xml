@@ -1,42 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_huan_wei_entry"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.kas.clientservice.haiyansmartenforce.Module.HuanWeiModule.HuanWeiEntryActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/activity_huan_wei_entry"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/grey_devider"
+              android:orientation="vertical"
+              tools:context="com.kas.clientservice.haiyansmartenforce.Module.HuanWeiModule.HuanWeiEntryActivity">
 
     <include layout="@layout/header"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp">
-        <TextView
-            android:id="@+id/tv_huanwei_handle"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-            android:text="操作"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:background="@color/app_original_blue"
-            android:textColor="@color/white"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="1dp"
-            android:layout_height="100dp" />
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@color/grey_devider"/>
+
+        <LinearLayout
+            android:id="@+id/ll_huanwei_entry_handle"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/white">
+
+
+            <ImageView
+                android:id="@+id/iv_huanwei_entry"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/shenghe"/>
+
+            <TextView
+                android:id="@+id/tv_huanwei_handle"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="操作"
+                android:textSize="18sp"
+
+                />
+
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_huanwei_search"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@color/grey_devider"/>
+
+        <LinearLayout
+            android:id="@+id/ll_huanwei_entry_history"
+            android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_weight="1"
-            android:text="历史记录"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:background="@color/app_original_blue"
-            android:textColor="@color/white"/>
+            android:background="@color/white">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/lishi"/>
+
+            <TextView
+                android:id="@+id/tv_huanwei_search"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="历史记录"
+                android:textSize="18sp"
+
+                />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
