@@ -55,7 +55,7 @@ public class TreeListActivity extends ShowTitleActivity {
     protected void findViews() {
         String userName = UserSingleton.getInstance().getUserAccount(this);
         rcv_list = (RecyclerView) findViewById(R.id.rcv_list);
-        TreeUtils.getInstance().getNetData(userName,new TreeUtils.onSuccess() {
+        TreeUtils.getInstance().getNetData(userName,new TreeUtils.VideoListCallBack() {
             @Override
             public void data(List<TreeBean> list) {
                 List<TreeBean> beanList= TreeUtils.getInstance().bulid(list) ;
