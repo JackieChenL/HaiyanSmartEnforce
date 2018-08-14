@@ -395,8 +395,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 startActivity(new Intent(mContext, PersonalCreditSearchActivity.class));
                 break;
             case 21://巡查发现
-//                startActivity(new Intent(mContext, NewQueryActivity.class));
-                startActivity(new Intent(mContext, NewQueryWithAudioActivity.class));
+                startActivity(new Intent(mContext, NewQueryActivity.class));
+//                startActivity(new Intent(mContext, NewQueryWithAudioActivity.class));
                 break;
             case 22://巡查查询
                 startActivity(new Intent(mContext, QueryListActivity.class));
