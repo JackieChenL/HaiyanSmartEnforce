@@ -1,0 +1,223 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/layout_header_blue" />
+
+
+        <ScrollView
+            android:id="@+id/scv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <RelativeLayout style="@style/item_style_rtl">
+
+                    <TextView
+                        android:id="@+id/tev_dl_l"
+                        style="@style/item_style_l"
+                        android:text=" 大类 :" />
+
+
+                    <TextView
+                        android:id="@+id/tev_dl_r"
+                        style="@style/item_style_r"
+                        android:background="@drawable/formicon_arrowright" />
+
+                    <TextView
+                        android:id="@+id/tev_dl"
+                        style="@style/item_style_center"
+                        android:layout_toLeftOf="@+id/tev_dl_r"
+                        android:layout_toRightOf="@+id/tev_dl_l" />
+
+                </RelativeLayout>
+
+
+                <TextView style="@style/item_divider" />
+
+
+                <LinearLayout style="@style/item_style_lin"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/tev_wfxw_l"
+                        style="@style/item_style_l"
+                        android:text="违法行为:" />
+
+                    <TextView
+                        android:id="@+id/tev_wfxw"
+                        style="@style/item_center_style"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:text=""
+                        android:singleLine="false" />
+                    <TextView
+                        android:id="@+id/tev_wfxw_r"
+                        style="@style/item_style_r"
+                        android:background="@drawable/formicon_arrowright" />
+
+                </LinearLayout>
+
+
+
+
+
+                <TextView style="@style/item_divider" />
+
+
+                <RelativeLayout style="@style/item_style_rtl">
+
+                    <TextView
+                        android:id="@+id/tev_afdd_l"
+                        style="@style/item_style_l"
+                        android:text="案发地点:" />
+
+
+                    <TextView
+                        android:id="@+id/tev_afdd_r"
+                        style="@style/item_style_r"
+                        android:background="@drawable/formicon_addrees" />
+
+                    <TextView
+                        android:id="@+id/tev_afdd"
+                        style="@style/item_style_center"
+                        android:layout_toLeftOf="@+id/tev_afdd_r"
+                        android:layout_toRightOf="@+id/tev_afdd_l" />
+
+                </RelativeLayout>
+
+
+                <TextView style="@style/item_divider" />
+
+                <RelativeLayout style="@style/item_style_rtl">
+
+                    <TextView
+                        android:id="@+id/tev_dsr_l"
+                        style="@style/item_style_l"
+                        android:text="当事人:" />
+
+                    <TextView
+                        android:id="@+id/tev_dsr_r"
+                        style="@style/item_style_r" />
+
+
+                    <TextView
+                        android:id="@+id/tev_dsr"
+                        style="@style/item_center_style"
+                        android:layout_toLeftOf="@+id/tev_dsr_r"
+                        android:layout_toRightOf="@+id/tev_dsr_l"
+                        android:clickable="true"
+                        android:text="匿名" />
+
+                </RelativeLayout>
+
+
+                <TextView style="@style/item_divider" />
+
+
+                <LinearLayout style="@style/item_style_lin">
+
+                    <TextView
+                        style="@style/item_style_l"
+                        android:text="任务描述:" />
+
+                    <EditText
+                        android:id="@+id/edt_rwms"
+                        style="@style/item_center_style"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@drawable/border"
+                        android:hint="请输入任务描述"
+                        android:minLines="5"
+                        android:padding="3dp"
+                        android:singleLine="false" />
+
+                </LinearLayout>
+
+                <TextView style="@style/item_divider" />
+
+<LinearLayout
+    style="@style/item_style_lin"
+    android:layout_height="50dp">
+    <Button
+        android:id="@+id/btn_voice"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="@drawable/button_round_blue"
+        android:textColor="@color/app_original_blue"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="30dp"
+        android:text="按住说话"/>
+
+    <ImageView
+        android:id="@+id/imv_voice"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical"
+        android:visibility="gone"
+        android:background="@drawable/indexnotice"/>
+
+</LinearLayout>
+
+
+                <TextView style="@style/item_divider" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="5dp"
+                    android:text="处理前" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rcv_l"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="5dp"
+                    android:text="处理后" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rcv_r"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white" />
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <include layout="@layout/footer_zft" />
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -65,7 +65,7 @@ public abstract class ShowTitleActivity extends CommonActivity {
 //                                + "/kas/img/" + System.currentTimeMillis() + ".jpg");
 //                        file.getParentFile().mkdirs();
                         File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
-                                + "/kas/img");
+                                + "/haiyan/img");
                         if (!dir.exists()) {
                             dir.mkdirs();
                         }

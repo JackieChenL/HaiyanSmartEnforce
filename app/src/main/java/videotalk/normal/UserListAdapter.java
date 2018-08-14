@@ -1,4 +1,4 @@
-package videotalk;
+package videotalk.normal;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,11 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -21,16 +19,7 @@ import java.util.Map;
 import java.util.Random;
 
 import okhttp3.Call;
-import smartenforce.aty.personrepay.MD5;
-import smartenforce.bean.CaseBean;
-import smartenforce.bean.CitizenBean;
-import smartenforce.bean.EnforceListBean;
-import smartenforce.bean.EnterpriseDetailBean;
-import smartenforce.bean.GoodListBean;
-import smartenforce.bean.InvestigateBean;
-import smartenforce.bean.SourseBean;
 import smartenforce.impl.MyStringCallBack;
-import smartenforce.impl.NoFastClickLisener;
 import smartenforce.intf.ItemListener;
 
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHolder> {
@@ -82,14 +71,10 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
             getNetLiveStatus(position,tev_userName,currentText);
         }
     }
-    private String genNonceStr() {
-        Random random = new Random();
-        return String.valueOf(random.nextInt(10000));
-    }
 
 
     private void getNetLiveStatus(final int position,final TextView tev_userName, final String currentText) {
-       String Nonce=genNonceStr();
+       String Nonce=String.valueOf(new Random().nextInt(10000));
        String Timestamp=String.valueOf(System.currentTimeMillis());
         OkHttpUtils.post().url(url)
                 .addParams("userId",list.get(position).id)

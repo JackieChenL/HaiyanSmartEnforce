@@ -55,6 +55,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         if (position <= arr_bitmap.size() - 1) {
             if (arr_bitmap.get(position).startsWith("UploadImage")) {
                 Glide.with(mContext).load(HttpApi.URL_IMG_HEADER + arr_bitmap.get(position)).into(holder.imageView);
+            }else if (arr_bitmap.get(position).startsWith("http")) {
+                Glide.with(mContext).load(arr_bitmap.get(position)).into(holder.imageView);
             } else {
                 Glide.with(mContext).load(new File(arr_bitmap.get(position))).into(holder.imageView);
             }

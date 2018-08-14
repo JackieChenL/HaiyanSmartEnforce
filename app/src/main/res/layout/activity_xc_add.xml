@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <include
-            layout="@layout/layout_header" />
+            layout="@layout/layout_header_blue" />
 
 
         <ScrollView
