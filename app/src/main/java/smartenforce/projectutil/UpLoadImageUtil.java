@@ -16,8 +16,17 @@ import smartenforce.impl.BeanCallBack;
 public class UpLoadImageUtil {
     //图片统一调用此接口上传
     public static void uploadImage(Context context, String UserID, String UpType, String Img, final onUploadImgCallBack callback) {
-        OkHttpUtils.post().url(HttpApi.URL_UPLOADIMG).addParams("UserID", UserID)
-                .addParams("UpType", UpType).addParams("Img", Img)
+        uploadImage(HttpApi.URL_UPLOADIMG,context,UserID,UpType,Img,callback);
+
+    }
+
+
+
+
+    public static void uploadImage(String url,Context context, String UserID, String UpType, String Img, final onUploadImgCallBack callback) {
+        OkHttpUtils.post().url(url).addParams("UserID", UserID)
+                .addParams("UpType", UpType)
+                .addParams("Img", Img)
                 .build().execute(new BeanCallBack(context, "图片上传中") {
             @Override
             public void handleBeanResult(NetResultBean bean) {

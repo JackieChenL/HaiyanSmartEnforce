@@ -35,6 +35,8 @@ public class ViewPhotoActivity extends ShowTitleActivity {
         url=getIntent().getStringExtra("Url");
         if (url.startsWith("UploadImage")) {
             Glide.with(aty).load(HttpApi.URL_IMG_HEADER + url).into(img_iv);
+        } else if (url.startsWith("http")) {
+            Glide.with(aty).load( url).into(img_iv);
         } else {
             Glide.with(aty).load(new File(url)).into(img_iv);
         }

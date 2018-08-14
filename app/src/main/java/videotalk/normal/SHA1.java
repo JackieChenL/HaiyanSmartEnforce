@@ -1,4 +1,4 @@
-package videotalk;
+package videotalk.normal;
 
 
 import java.security.MessageDigest;

@@ -1,4 +1,4 @@
-package videotalk;
+package videotalk.tree;
 
 
 import android.content.Context;
@@ -8,7 +8,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
 import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
 import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,16 +18,16 @@ import okhttp3.Call;
 import smartenforce.impl.MyStringCallBack;
 import videotalk.im.SealUserInfoManager;
 
-public class VideoTalkUtils {
+public class VideoUtils {
 
-    private static VideoTalkUtils videoTalkUtils;
+    private static VideoUtils videoUtils;
     private boolean isSuccessLogin = false;
     private int index = -1;
     private String erroMsg = "视屏组成员获取中，请稍后";
-    private List<GroupUserBean> list = new ArrayList<>();
+    private List<TreeBean> list = new ArrayList<>();
     private final static String[] arrays = new String[]{"330424", "330424001", "330424002", "330424003", "330424004", "330424101", "330424102", "330424103", "330424106", "330424001"};
 
-    public List<GroupUserBean> getList() {
+    public List<TreeBean> getList() {
         return list;
     }
 
@@ -41,15 +40,15 @@ public class VideoTalkUtils {
         return erroMsg;
     }
 
-    public static VideoTalkUtils getInstance() {
-        if (videoTalkUtils == null) {
-            synchronized (VideoTalkUtils.class) {
-                if (videoTalkUtils == null) {
-                    videoTalkUtils = new VideoTalkUtils();
+    public static VideoUtils getInstance() {
+        if (videoUtils == null) {
+            synchronized (VideoUtils.class) {
+                if (videoUtils == null) {
+                    videoUtils = new VideoUtils();
                 }
             }
         }
-        return videoTalkUtils;
+        return videoUtils;
     }
 
 
@@ -88,7 +87,7 @@ public class VideoTalkUtils {
 
     public void getMemberList(final Context context) {
         if (isMatchs()) {
-            OkHttpUtils.get().url("https://hyzhcg.hnzhzf.top/webim/userData.json")
+            OkHttpUtils.get().url("http://117.149.146.131/system/theme/anjuan/WX/GetForMobile.ashx")
                     .build().execute(new MyStringCallBack() {
                 @Override
                 public void onError(Call call, Exception e, int id) {
@@ -99,7 +98,7 @@ public class VideoTalkUtils {
                 @Override
                 public void onResponse(String response, int id) {
                     list.clear();
-                    List<GroupUserBean> retList = JSONArray.parseArray(response, GroupUserBean.class);
+                    List<TreeBean> retList = JSONArray.parseArray(response, TreeBean.class);
                     list.addAll(retList);
                     doPrivateConnect(context);
                 }
@@ -109,7 +108,7 @@ public class VideoTalkUtils {
 
     private void doPrivateConnect(Context context) {
         try {
-            connectVideoTalk(context, list.get(index).token);
+            connectVideoTalk(context, list.get(index).Token);
             list.remove(index);
         } catch (Exception e) {
             //为了防止以后出现异常，数组越界等崩溃
@@ -134,13 +133,7 @@ public class VideoTalkUtils {
         return false;
     }
 
-    //视屏结束后需要把发起人列表选中状态重置
-    public void resetList() {
-        for (int i = 0; i < list.size(); i++) {
-            list.get(i).isSelect = false;
-        }
 
-    }
 
 
 }

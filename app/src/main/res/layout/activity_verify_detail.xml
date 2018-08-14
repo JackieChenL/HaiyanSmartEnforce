@@ -1,0 +1,195 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/header"
+            layout="@layout/layout_header_blue" />
+
+        <ScrollView
+            android:id="@+id/scv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <RelativeLayout style="@style/item_style_rtl">
+
+                    <TextView
+                        android:id="@+id/tev_projcode_l"
+                        style="@style/item_style_l"
+                        android:text="案卷编号:" />
+
+
+
+                    <TextView
+                        android:id="@+id/tev_projcode"
+                        style="@style/item_style_center"
+                        android:layout_toRightOf="@+id/tev_projcode_l" />
+
+                </RelativeLayout>
+
+
+                <TextView style="@style/item_divider" />
+
+
+                <RelativeLayout style="@style/item_style_rtl">
+
+                    <TextView
+                        android:id="@+id/tev_type_l"
+                        style="@style/item_style_l"
+                        android:text="案件类型:" />
+
+
+
+                    <TextView
+                        android:id="@+id/tev_type"
+                        style="@style/item_style_center"
+                        android:layout_toRightOf="@+id/tev_type_l" />
+
+                </RelativeLayout>
+
+
+                <TextView style="@style/item_divider" />
+
+
+                <RelativeLayout style="@style/item_style_rtl">
+
+                    <TextView
+                        android:id="@+id/tev_address_l"
+                        style="@style/item_style_l"
+                        android:text="案发地点:" />
+
+
+
+                    <TextView
+                        android:id="@+id/tev_address"
+                        style="@style/item_style_center"
+                        android:layout_toRightOf="@+id/tev_address_l" />
+
+                </RelativeLayout>
+
+
+                <TextView style="@style/item_divider" />
+
+
+                <RelativeLayout style="@style/item_style_rtl">
+
+                    <TextView
+                        android:id="@+id/tev_time_l"
+                        style="@style/item_style_l"
+                        android:text="上报时间:" />
+
+
+
+                    <TextView
+                        android:id="@+id/tev_time"
+                        style="@style/item_style_center"
+                        android:layout_toRightOf="@+id/tev_time_l" />
+
+                </RelativeLayout>
+
+
+                <TextView style="@style/item_divider" />
+                <LinearLayout
+                    style="@style/item_style_lin">
+                    <TextView
+                        style="@style/item_style_l"
+                        android:text="问题描述:" />
+
+                    <TextView
+                        android:id="@+id/tev_describe"
+                        style="@style/item_center_style"
+                        android:text="" />
+
+
+
+                </LinearLayout>
+
+
+
+                <TextView style="@style/item_divider" />
+
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rcv_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_margin="15dp"/>
+
+
+            <TextView style="@style/item_divider" />
+
+            <LinearLayout
+                style="@style/item_style_lin"
+                >
+                <TextView
+                    style="@style/item_style_l"
+                    android:text="检查结果:" />
+
+
+
+                <Spinner
+                    android:id="@+id/spn_result"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:padding="5dp"
+                    android:background="@drawable/shape_black_border"
+                    android:dropDownWidth="150dp"
+                    android:entries="@array/verify_result"
+                    android:gravity="center"
+                    android:spinnerMode="dropdown"
+                     />
+
+
+
+            </LinearLayout>
+
+
+        <TextView style="@style/item_divider" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rcv_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_margin="15dp"/>
+
+
+            <Button
+                android:id="@+id/btn_upload"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:text="回复"
+                android:background="@color/app_original_blue"
+                android:layout_margin="15dp"/>
+
+            </LinearLayout>
+
+
+        </ScrollView>
+    </LinearLayout>
+
+
+</RelativeLayout>

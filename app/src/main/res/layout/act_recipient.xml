@@ -5,7 +5,7 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_header" />
+    <include layout="@layout/layout_header_blue" />
 
     <RadioGroup
         android:id="@+id/rg"

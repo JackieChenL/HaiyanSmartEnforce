@@ -59,13 +59,15 @@ import java.util.List;
 import butterknife.BindView;
 import okhttp3.Call;
 import smartenforce.aty.function1.NewQueryActivity;
+import smartenforce.aty.function1.NewQueryWithAudioActivity;
 import smartenforce.aty.function2.QueryListActivity;
 import smartenforce.aty.function4.RecipientActivity;
 import smartenforce.aty.noise_wellshutter.NoiseWellshutterActivity;
 import smartenforce.aty.parking.CenterActivity;
 import smartenforce.aty.patrol.SearchActivity;
-import videotalk.UserListActivity;
-import videotalk.VideoTalkUtils;
+import videotalk.normal.UserListActivity;
+import videotalk.normal.VideoTalkUtils;
+import videotalk.tree.TreeListActivity;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, MainModuleRvAdapter.OnModuleClickListener {
     @BindView(R.id.ll_main_caseSearch)
@@ -391,12 +393,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 startActivity(new Intent(mContext, PersonalCreditSearchActivity.class));
                 break;
             case 21://巡查发现
-                startActivity(new Intent(mContext, NewQueryActivity.class));
+//                startActivity(new Intent(mContext, NewQueryActivity.class));
+                startActivity(new Intent(mContext, NewQueryWithAudioActivity.class));
                 break;
             case 22://巡查查询
                 startActivity(new Intent(mContext, QueryListActivity.class));
                 break;
-            case 23:
+            case 23: //调查取证
 //                startActivity(new Intent(mContext, InvestActivity.class));
                 break;
             case 24://服务对象
@@ -426,7 +429,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case 102://井盖
                 startActivity(new Intent(mContext, NoiseWellshutterActivity.class).putExtra("src", "cover"));
-//                startActivity(new Intent(mContext, PersonRePayActivity.class));
+//                startActivity(new Intent(mContext, TreeListActivity.class));
                 break;
             case 103://井盖
                 startActivity(new Intent(mContext, NoiseWellshutterActivity.class).putExtra("src", "seeper"));

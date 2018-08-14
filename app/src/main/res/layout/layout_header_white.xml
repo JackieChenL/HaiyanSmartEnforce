@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
+
+    <ImageView
+        android:id="@+id/imv_back"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
+        android:layout_gravity="center"
+        android:src="@drawable/back" />
+
+    <TextView
+        android:id="@+id/tev_title"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/bar_text"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/tev_title_right"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/app_original_blue"
+        android:textSize="16sp" />
+
+
+</LinearLayout>

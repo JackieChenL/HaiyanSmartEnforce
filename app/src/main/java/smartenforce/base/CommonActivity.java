@@ -48,6 +48,7 @@ public abstract class CommonActivity extends AppCompatActivity {
         int CAMERA = 1001;
         int FILE = 1002;
         int LOCATION = 1003;
+        int AUDIO = 1004;
 
     }
 
@@ -269,6 +270,14 @@ public abstract class CommonActivity extends AppCompatActivity {
                     int location = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
                     if (location != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, requestPermissionCode);
+                    } else {
+                        callBack.onPerMissionSuccess();
+                    }
+                    break;
+                case Pid.AUDIO:
+                    int audio = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
+                    if (audio != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, requestPermissionCode);
                     } else {
                         callBack.onPerMissionSuccess();
                     }

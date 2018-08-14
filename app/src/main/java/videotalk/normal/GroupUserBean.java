@@ -1,4 +1,4 @@
-package videotalk;
+package videotalk.normal;
 
 
 public class GroupUserBean {
@@ -8,4 +8,12 @@ public class GroupUserBean {
     public String name;
     public String token;
 
+    public GroupUserBean() {
+    }
+
+    public GroupUserBean(int id) {
+
+        this.name="NAME"+id;
+        isSelect=false;
+    }
 }
