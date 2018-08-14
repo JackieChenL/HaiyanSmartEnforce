@@ -68,6 +68,7 @@ import smartenforce.aty.patrol.SearchActivity;
 import videotalk.normal.UserListActivity;
 import videotalk.normal.VideoTalkUtils;
 import videotalk.tree.TreeListActivity;
+import videotalk.tree.TreeUtils;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, MainModuleRvAdapter.OnModuleClickListener {
     @BindView(R.id.ll_main_caseSearch)
@@ -132,6 +133,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 //        loadVerticalBanner();
         initVerticalBanner();
         initRv();
+
+        //视屏会商登录
+        if (UserSingleton.USERINFO.VideoUser != null) {
+            TreeUtils.getInstance().connectVideoTalk(this,UserSingleton.USERINFO.VideoUser.PwoToken);
+        }
     }
 
     @Override
@@ -143,10 +149,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 iv_mine.setImageBitmap(resource);
             }
         });
-        //获取视屏组成员
-        if (UserSingleton.USERINFO.szcg != null) {
-            VideoTalkUtils.getInstance().getMemberList(mContext);
-        }
     }
 
     private void loadVerticalBanner() {
@@ -418,10 +420,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 startActivity(new Intent(mContext, LedgerListActivity.class));
                 break;
             case 100://视频会商
-                if (VideoTalkUtils.getInstance().isSuccessLogin()) {
-                    startActivity(new Intent(mContext, UserListActivity.class));
+                if (TreeUtils.getInstance().isSuccessLogin()) {
+                    startActivity(new Intent(mContext, TreeListActivity.class));
                 }else{
-                    showToast(VideoTalkUtils.getInstance().getErroMsg());
+                    showToast(TreeUtils.getInstance().getErroMsg());
                 }
                 break;
             case 101://噪声
