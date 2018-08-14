@@ -100,6 +100,11 @@ public class TreeListActivity extends ShowTitleActivity {
                 });
                 rcv_list.setAdapter(adapter);
             }
+
+            @Override
+            public void erroMsg(String msg) {
+                warningShow(msg);
+            }
         });
     }
 

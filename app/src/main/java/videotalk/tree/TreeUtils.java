@@ -15,6 +15,7 @@ import java.util.List;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+import okhttp3.Call;
 import smartenforce.impl.MyStringCallBack;
 import videotalk.normal.VideoTalkUtils;
 
@@ -107,8 +108,12 @@ public class TreeUtils {
                 .build()
                 .execute(new MyStringCallBack() {
 
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        onSuccess.erroMsg("获取视屏列表失败");
+                    }
 
-            @Override
+                    @Override
             public void onResponse(String response, int id) {
                 List<TreeBean> list= JSON.parseArray(response,TreeBean.class);
                 onSuccess.data(list);
@@ -153,6 +158,7 @@ public class TreeUtils {
 
     public interface  onSuccess{
         void data(List<TreeBean> list);
+        void erroMsg(String msg);
     }
 
     public  List<TreeBean> test(){
