@@ -80,15 +80,16 @@ public class TreeListActivity extends ShowTitleActivity {
                         }else{
 //                            Log.e("node_tag","isLeaf");
                             TreeBean treeBean =((ParentNode)node.getContent()).treeBean;
-                            ParentNodeBinder.ViewHolder ParentCodeNodeBinder=(ParentNodeBinder.ViewHolder)holder;
-                            CheckBox cbx=ParentCodeNodeBinder.getCheckBox();
-
-                            cbx.setChecked(!cbx.isChecked());
-                            if (cbx.isChecked()){
+//                            ParentNodeBinder.ViewHolder ParentCodeNodeBinder=(ParentNodeBinder.ViewHolder)holder;
+//                            CheckBox cbx=ParentCodeNodeBinder.getCheckBox();
+                            treeBean.isChecked=!treeBean.isChecked;
+//                            cbx.setChecked(!cbx.isChecked());
+                            if (treeBean.isChecked){
                                 map.put(treeBean.Token,treeBean);
                             }else{
                                 map.remove(treeBean.Token);
                             }
+                            adapter.notifyDataSetChanged();
                         }
                         return false;
                     }
