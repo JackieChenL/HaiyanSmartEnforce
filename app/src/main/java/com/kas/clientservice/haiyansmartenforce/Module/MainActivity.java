@@ -431,7 +431,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 startActivity(new Intent(mContext, NoiseWellshutterActivity.class).putExtra("src", "cover"));
 //                startActivity(new Intent(mContext, TreeListActivity.class));
                 break;
-            case 103://井盖
+            case 103://积水
                 startActivity(new Intent(mContext, NoiseWellshutterActivity.class).putExtra("src", "seeper"));
 //                startActivity(new Intent(mContext, PersonRePayActivity.class));
                 break;

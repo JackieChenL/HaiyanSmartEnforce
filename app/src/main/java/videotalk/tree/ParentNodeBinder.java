@@ -1,6 +1,7 @@
 package videotalk.tree;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -46,6 +47,7 @@ public class ParentNodeBinder extends TreeViewBinder<ParentNodeBinder.ViewHolder
         holder.tev_userName.setTextColor(Color.parseColor("#333333"));
         if (node.isLeaf()){
             holder.cbx_user.setVisibility(View.VISIBLE);
+            holder.cbx_user.setChecked(treeBean.isChecked);
             if (map.containsKey(treeBean.id+"_"+treeBean.pid)){
                 boolean isOnLine=map.get(treeBean.id+"_"+treeBean.pid);
                 holder.imv_live_status.setBackgroundResource(isOnLine?R.drawable.video_online:R.drawable.video_offline);
@@ -117,6 +119,9 @@ public class ParentNodeBinder extends TreeViewBinder<ParentNodeBinder.ViewHolder
             public void onResponse(String response, int id) {
                 super.onResponse(response,id);
                 UserLiveStatusBean userLiveStatusBean= JSONObject.parseObject(response,UserLiveStatusBean.class);
+//                Log.e("userLiveStatusBean",userLiveStatusBean.toString());
+//                Log.e("treeBean",treeBean.toString());
+
                 boolean isOnline=userLiveStatusBean.status.equals("1");
                  map.put(treeBean.id+"_"+treeBean.pid,isOnline);
                 imv.setVisibility(View.VISIBLE);
