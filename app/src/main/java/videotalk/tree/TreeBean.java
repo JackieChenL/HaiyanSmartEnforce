@@ -9,6 +9,7 @@ public class TreeBean {
     public int  id;
     public int  pid;
     public String name;
+    public boolean isChecked=false;
     public ArrayList<TreeBean> childList;
 
     public TreeBean() {
@@ -20,10 +21,12 @@ public class TreeBean {
         this.pid = pid;
         this.name = name;
     }
+
     @Override
     public String toString() {
         return "TreeBean{" +
-                "level=" + level +
+                "Token='" + Token + '\'' +
+                ", level=" + level +
                 ", id=" + id +
                 ", pid=" + pid +
                 ", name='" + name + '\'' +
