@@ -157,9 +157,13 @@ public class PersonalCreditSearchActivity extends BaseActivity implements View.O
 
         if (entity != null) {
             list.clear();
-            list.addAll(entity.getRtn().getGetDetail());
-            adapter.notifyDataSetChanged();
-            ListViewFitParent.setListViewHeightBasedOnChildren(listView);
+            if (entity.getRtn()!=null) {
+                list.addAll(entity.getRtn().getGetDetail());
+                adapter.notifyDataSetChanged();
+                ListViewFitParent.setListViewHeightBasedOnChildren(listView);
+            }else {
+                showToast("无记录");
+            }
         }
     }
 
