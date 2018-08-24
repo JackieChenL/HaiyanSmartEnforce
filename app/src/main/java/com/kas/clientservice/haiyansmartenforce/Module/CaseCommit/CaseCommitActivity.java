@@ -26,6 +26,7 @@ import com.jph.takephoto.app.TakePhotoImpl;
 import com.jph.takephoto.compress.CompressConfig;
 import com.jph.takephoto.model.CropOptions;
 import com.kas.clientservice.haiyansmartenforce.API.CaseCommit;
+import com.kas.clientservice.haiyansmartenforce.API.ZhuanXiangZhengZhiAPI;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Entity.Img;
 import com.kas.clientservice.haiyansmartenforce.Http.ExceptionHandle;
@@ -96,7 +97,7 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
     private CropOptions cropOptions;  //裁剪参数
     private CompressConfig compressConfig; //压缩参数
     List<Img> imgList = new ArrayList<>();
-    String gridcode = "33040200100101";
+    String gridcode = "33042400100101";
     List<String> arr_uri = new ArrayList<>();
     @Override
     protected int getLayoutId() {
@@ -213,7 +214,8 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
                     ToastUtils.showToast(this, "照片不能为空");
                     return;
                 }
-                getImgUrl();
+//                getImgUrl();
+                uploadImg(BitmapToBase64.bitmapListToBase64(arr_image));
 //                showLoadingDialog();
         }
     }
@@ -258,6 +260,45 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
 
     String strImgUrl = "";
     String imgurl;
+
+    private void uploadImg(String img) {
+//        RequestBody requestFile =
+//                RequestBody.create(MediaType.parse("multipart/form-data"), img);
+        RetrofitClient.createService(ZhuanXiangZhengZhiAPI.class, RequestUrl.baseUrl_leader)
+                .httpZXZZimg(img,"-1","citizen")
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new MySubscriber<ZhuanXiangZhengZhiAPI.UploadImgEntity>(mContext) {
+                    @Override
+                    public void onError(ExceptionHandle.ResponeThrowable responeThrowable) {
+                        Log.i(TAG, "onError: " + responeThrowable.toString());
+                        showNetErrorToast();
+                    }
+
+                    @Override
+                    public void onNext(ZhuanXiangZhengZhiAPI.UploadImgEntity s) {
+                        Log.i(TAG, "onNext: "+gson.toJson(s));
+                        String[] split = StringUtils.split(s.getKS().get(0), "|");
+                        for (int i = 0; i < split.length; i++) {
+                            String string = split[i];
+                            String Icon = RequestUrl.baseUrl_img + string;
+                            Img img2 = new Img(Icon);
+                            imgList.add(img2);
+                        }
+                        for (int i = 0; i < imgList.size(); i++) {
+                            String img = imgList.get(i).getImg();
+                            imgurl = img + "|";
+                            strImgUrl += imgurl;
+                        }
+                        upload(strImgUrl.substring(0, strImgUrl.length() - 1));
+//                        Collections.addAll(list_img,s.getKS().get(0).split("\\|"));
+//                        if (list_img.size()>0) {
+//                            commit();
+//                        }
+                    }
+                });
+
+    }
 
     private void getImgUrl() {
         Log.i(TAG, "getImgUrl: " + BitmapToBase64.bitmapListToBase64(arr_image));
@@ -319,6 +360,7 @@ public class CaseCommitActivity extends BaseActivity implements View.OnClickList
 //        this.userid = userid;
 //            String address = new String(et_address.getText().toString().getBytes("utf-8"),"gb2312");
 //            String des = new String(et_decribe.getText().toString().getBytes("utf-8"),"gb2312");
+        Log.i(TAG, "upload: "+substring);
         RetrofitClient.createService(CaseCommit.class,"http://117.149.146.131:86/")
                 .httpCaseCommit("zmninsertproject",
                         "1",
