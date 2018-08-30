@@ -51,16 +51,16 @@ public class VerifyDetailActivity extends ShowTitleActivity {
 
     @Override
     protected void findViews() {
-        tev_projcode=findViewById(R.id.tev_projcode);
-        tev_type=findViewById(R.id.tev_type);
-        tev_address=findViewById(R.id.tev_address);
-        tev_time=findViewById(R.id.tev_time);
-        tev_describe=findViewById(R.id.tev_describe);
-        rcv_img=findViewById(R.id.rcv_img);
-        spn_result=findViewById(R.id.spn_result);
-        rcv_result=findViewById(R.id.rcv_result);
-        scv=findViewById(R.id.scv);
-        btn_upload=findViewById(R.id.btn_upload);
+        tev_projcode=(TextView)findViewById(R.id.tev_projcode);
+        tev_type=(TextView)findViewById(R.id.tev_type);
+        tev_address=(TextView)findViewById(R.id.tev_address);
+        tev_time=(TextView)findViewById(R.id.tev_time);
+        tev_describe=(TextView)findViewById(R.id.tev_describe);
+        rcv_img=(RecyclerView) findViewById(R.id.rcv_img);
+        spn_result=(Spinner)findViewById(R.id.spn_result);
+        rcv_result=(RecyclerView)findViewById(R.id.rcv_result);
+        scv=(ScrollView) findViewById(R.id.scv);
+        btn_upload=(Button)findViewById(R.id.btn_upload);
     }
 
     @Override

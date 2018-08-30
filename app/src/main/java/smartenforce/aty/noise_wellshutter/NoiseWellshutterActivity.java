@@ -73,6 +73,14 @@ public class NoiseWellshutterActivity extends CommonActivity {
         }
 
     }
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        progressDialog=null;
+        webview.removeAllViews();
+        webview.destroy();
+    }
 
     protected void onDestroy() {
         super.onDestroy();
