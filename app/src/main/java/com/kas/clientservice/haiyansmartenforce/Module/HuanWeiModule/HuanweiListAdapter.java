@@ -61,8 +61,28 @@ public class HuanweiListAdapter extends BaseAdapter {
         vh.tv_describe.setText(list.get(i).getQKMS());
         vh.tv_position.setText(list.get(i).getJCDD());
 
-        if (list.get(i).getShstate().equals("")) {
-//            vh.imageView.setImageResource();
+        if (list.get(i).getShstate()!=null) {
+            if (list.get(i).getShstate().equals("1")) {
+                vh.imageView.setImageResource(R.drawable.status_daishenghe);
+            }
+            if (list.get(i).getShstate().equals("3")) {
+                vh.imageView.setImageResource(R.drawable.status_shengsu_back);
+            }
+            if (list.get(i).getShstate().equals("6")) {
+                vh.imageView.setImageResource(R.drawable.status_shegnsu_done);
+            }
+            if (list.get(i).getShstate().equals("7")) {
+                vh.imageView.setImageResource(R.drawable.status_zhenggai_done);
+            }
+            if (list.get(i).getShstate().equals("8")) {
+                vh.imageView.setImageResource(R.drawable.status_chexiao);
+            }
+            if (list.get(i).getShstate().equals("9")) {
+                vh.imageView.setImageResource(R.drawable.status_back);
+            }
+            if (list.get(i).getShstate().equals("0")) {
+                vh.imageView.setImageResource(R.drawable.status_save);
+            }
         }
 
         return view;
