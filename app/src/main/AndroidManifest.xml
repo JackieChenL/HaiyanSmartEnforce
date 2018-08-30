@@ -186,7 +186,6 @@
         <activity android:name=".Module.Leader.Desision.Totality_Item"/>
         <activity android:name=".Module.Leader.Desision.Area_Item"/>
         <activity android:name=".Module.Leader.Desision.Decision"/>
-
         <activity android:name="videotalk.normal.UserListActivity"/>
         <activity android:name="smartenforce.aty.personrepay.PersonRePayActivity"/>
         <activity
@@ -214,15 +213,17 @@
         </activity>
         <activity android:name=".Module.Ledger.LedgerDetailActivity">
         </activity>
+        <activity android:name="videotalk.tree.TreeListActivity"/>
 
-     <activity android:name="videotalk.tree.TreeListActivity"/>
-
-
-             <!--核实核查（绍兴）-->
+        <!-- 核实核查（绍兴） -->
         <activity android:name=".Module.verification.VerifyDetailActivity"/>
         <activity android:name=".Module.verification.VerifyActivity">
-            </activity>
+        </activity>
         <activity android:name="smartenforce.aty.function1.NewQueryWithAudioActivity"/>
+        <activity android:name=".Module.DocumentSearch.DocumentSearchActivity">
+        </activity>
+        <activity android:name=".Module.DocumentSearch.DocDetaiActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -20,4 +20,8 @@ public class XTURL {
     public static final String GetFeedBackOk="resfeedback";
     //回退
     public static final String GetBackSpace="returnBack";
+
+
+    //拍照
+    public static final String takePhoto="http://117.149.146.131:88/Mobile/UploadImg.ashx";
 }

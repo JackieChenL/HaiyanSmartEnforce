@@ -1,8 +1,16 @@
 package com.kas.clientservice.haiyansmartenforce.Module.XieTongList;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
@@ -15,10 +23,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.kas.clientservice.haiyansmartenforce.API.ZhuanXiangZhengZhiAPI;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseEntity;
 import com.kas.clientservice.haiyansmartenforce.Base.ImageListRvAdapter;
@@ -30,12 +41,18 @@ import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import okhttp3.Call;
+import smartenforce.adapter.ImageAdapter;
+import smartenforce.intf.PermissonCallBack;
+import smartenforce.projectutil.Base64Util;
+import smartenforce.util.FileProvider7;
+import smartenforce.widget.ProgressDialogUtil;
 
 /**
  * Created by DELL_Zjcoms02 on 2018/6/25.
@@ -85,16 +102,29 @@ public class XieTongDetalis extends BaseActivity implements View.OnClickListener
     RelativeLayout rel_xtdetails;
     @BindView(R.id.img_sfwz)
     ImageView img_sfwz;
+    @BindView(R.id.rv_xietong_photo)
+    RecyclerView rv_xietong_photo;
+    @BindView(R.id.scv_xt)
+    ScrollView scv_xt;
 
     EditText edt_diglog;
     Button btn_xgyy;
     Intent intent = new Intent();
     int projcode;
-    XTDetailsBean list;
     String state;
-    PopupWindow ppw;
     List<XIGuanBean.RtnBean> xiguanlist;
     XTDetailsBean.RtnBean.TableBean table ;
+
+
+    //反馈拍照
+    ArrayList<String> ImgList = new ArrayList<>();
+    ImageAdapter photoAdapter;
+    protected PermissonCallBack callBack;
+    protected int requestCode;
+    protected File file;
+
+
+
     @Override
     protected int getLayoutId() {
         return R.layout.xietongdetails;
@@ -123,6 +153,70 @@ public class XieTongDetalis extends BaseActivity implements View.OnClickListener
             tev_xttijiao.setOnClickListener(this);
         }
 
+
+        //TODO  反馈拍照
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(mContext, 2, LinearLayout.VERTICAL, false);
+        photoAdapter = new ImageAdapter(ImgList,this,scv_xt);
+        rv_xietong_photo.setLayoutManager(layoutManager);
+        rv_xietong_photo.setAdapter(photoAdapter);
+        photoAdapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
+            @Override
+            public void onImageAddClick() {
+                takePhoto(REQUESTCODE.CAMERA_PRE);
+            }
+
+            @Override
+            public void onDelImageClick(int p) {
+                ImgList.remove(p);
+                photoAdapter.notifyChanged();
+            }
+        });
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUESTCODE.CAMERA_PRE) {
+                upLoadImg(file);
+            }
+        }
+    }
+
+    //TODO 上传图片
+    private void upLoadImg(File file) {
+        ProgressDialogUtil.show(this, "处理中...");
+        String img=  Base64Util.toBase64String(this, Arrays.asList(file.getAbsolutePath()),false);
+        OkHttpUtils.post().url(XTURL.takePhoto)
+                .addParams("Img",img)
+                .addParams("UserID","-1")
+                .addParams("UpType","citizen")
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("photoerror",e.toString());
+                        ProgressDialogUtil.hide();
+                        Toast.makeText(XieTongDetalis.this,"图片上传失败",Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("ImgData",response);
+                        ProgressDialogUtil.hide();
+                        try{
+                            ZhuanXiangZhengZhiAPI.UploadImgEntity imgBean=new Gson().fromJson(response.toString(),ZhuanXiangZhengZhiAPI.UploadImgEntity.class);
+                            String img = imgBean.getKS().get(0);
+                            Toast.makeText(XieTongDetalis.this,"图片上传成功",Toast.LENGTH_LONG).show();
+                            ImgList.add(img);
+                            photoAdapter.notifyDataSetChanged();
+
+                        }catch (Exception e){
+                            Toast.makeText(XieTongDetalis.this,"图片上传失败",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
     }
 
     private void getDetails(final int projcode) {
@@ -279,6 +373,7 @@ public class XieTongDetalis extends BaseActivity implements View.OnClickListener
                 .addParams("projcode", projcode + "")
                 .addParams("text", edt_diglog.getText().toString().trim())
                 .addParams("depCode", UserSingleton.USERINFO.szcg.departcode)
+                .addParams("pic",photoAdapter.getImageUrlStr())
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
@@ -331,9 +426,7 @@ public class XieTongDetalis extends BaseActivity implements View.OnClickListener
     ListView ltv_xiguan;
     XiGuanAdapter xiGuanAdapteradapter;
     //TODO 习惯用语
-    String code;
     public void Dialog(){
-//        View view = LayoutInflater.from(this).inflate(R.layout.,null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflatert = getLayoutInflater();
@@ -395,5 +488,87 @@ public class XieTongDetalis extends BaseActivity implements View.OnClickListener
         int height = ((size / 2) + 1) * 140 + 30;
         LinearLayoutCompat.LayoutParams layoutParams = new LinearLayoutCompat.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Dp2pxUtil.dip2px(mContext, height));
         recyclerView.setLayoutParams(new LinearLayout.LayoutParams(layoutParams));
+    }
+
+
+
+    //TODO
+
+    protected interface Pid {
+        int CAMERA = 1001;
+        int FILE = 1002;
+        int LOCATION = 1003;
+
+    }
+
+
+    protected void takePhoto(final int CODE) {
+        requestPermissionGroup(Pid.FILE, new PermissonCallBack() {
+            @Override
+            public void onPerMissionSuccess() {
+                requestPermissionGroup(Pid.CAMERA, new PermissonCallBack() {
+                    @Override
+                    public void onPerMissionSuccess() {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                                + "/kas/img");
+                        if (!dir.exists()) {
+                            dir.mkdirs();
+                        }
+                        file = new File(dir, System.currentTimeMillis() + ".jpg");
+                        Uri uri = FileProvider7.getUriForFile(XieTongDetalis.this, file);
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                        startActivityForResult(intent, CODE);
+                    }
+                });
+            }
+        });
+
+    }
+
+    protected void requestPermissionGroup(int requestPermissionCode, PermissonCallBack callBack) {
+        if (callBack == null) {
+            throw new NullPointerException("请求权限回调不能为空!");
+        }
+        this.callBack = callBack;
+        this.requestCode = requestPermissionCode;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            switch (requestPermissionCode) {
+                case Pid.CAMERA:
+                    int camera = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+                    if (camera != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, requestPermissionCode);
+                    } else {
+                        callBack.onPerMissionSuccess();
+                    }
+                    break;
+                case Pid.FILE:
+                    int file = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+                    if (file != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestPermissionCode);
+                    } else {
+                        callBack.onPerMissionSuccess();
+                    }
+                    break;
+                case Pid.LOCATION:
+                    int location = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
+                    if (location != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, requestPermissionCode);
+                    } else {
+                        callBack.onPerMissionSuccess();
+                    }
+                    break;
+            }
+        } else {
+            callBack.onPerMissionSuccess();
+        }
+    }
+
+
+    protected interface REQUESTCODE {
+        int CAMERA_PRE = 4;
+        int CAMERA = 5;
     }
 }

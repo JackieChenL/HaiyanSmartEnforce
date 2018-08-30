@@ -12,6 +12,7 @@
             android:id="@+id/header"
             layout="@layout/header" />
         <ScrollView
+            android:id="@+id/scv_xt"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -135,6 +136,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                </android.support.v7.widget.RecyclerView>
+
+                <View
+                    style="@style/view_xietongdetails"/>
+                <TextView
+                    style="@style/tev_xtdetails"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="拍摄反馈照片"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_xietong_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="20dp">
                 </android.support.v7.widget.RecyclerView>
             </LinearLayout>
         </ScrollView>

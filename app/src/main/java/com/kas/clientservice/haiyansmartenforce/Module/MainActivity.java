@@ -25,6 +25,7 @@ import com.kas.clientservice.haiyansmartenforce.Module.CaseCommit.CaseCommitActi
 import com.kas.clientservice.haiyansmartenforce.Module.CaseCommit.CaseSearchActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.CauseSearch.Cause_Query;
 import com.kas.clientservice.haiyansmartenforce.Module.CityCheck.CityCheckSearchActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.DocumentSearch.DocumentSearchActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.FaceCompare.FaceCompareActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.Garbage.GarbageMainActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.History.HistoryActivity;
@@ -59,13 +60,11 @@ import java.util.List;
 import butterknife.BindView;
 import okhttp3.Call;
 import smartenforce.aty.function1.NewQueryActivity;
-import smartenforce.aty.function1.NewQueryWithAudioActivity;
 import smartenforce.aty.function2.QueryListActivity;
 import smartenforce.aty.function4.RecipientActivity;
 import smartenforce.aty.noise_wellshutter.NoiseWellshutterActivity;
 import smartenforce.aty.parking.CenterActivity;
 import smartenforce.aty.patrol.SearchActivity;
-import videotalk.normal.UserListActivity;
 import videotalk.normal.VideoTalkUtils;
 import videotalk.tree.TreeListActivity;
 import videotalk.tree.TreeUtils;
@@ -418,6 +417,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case 32://台账上报
                 startActivity(new Intent(mContext, LedgerListActivity.class));
+                break;
+            case 33://台账上报
+                startActivity(new Intent(mContext, DocumentSearchActivity.class));
                 break;
             case 100://视频会商
                 if (TreeUtils.getInstance().isSuccessLogin()) {

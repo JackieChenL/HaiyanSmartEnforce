@@ -1,7 +1,6 @@
 package com.kas.clientservice.haiyansmartenforce.Module.Vedio;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
@@ -277,7 +276,7 @@ public class VedioListActivity extends BaseActivity implements MsgCallback, Adap
     }
 
     protected String getMacAddr() {
-        WifiManager wm = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        WifiManager wm = (WifiManager)getApplicationContext().getSystemService(WIFI_SERVICE);
         String mac = wm.getConnectionInfo().getMacAddress();
         return mac == null ? "" : mac;
     }
