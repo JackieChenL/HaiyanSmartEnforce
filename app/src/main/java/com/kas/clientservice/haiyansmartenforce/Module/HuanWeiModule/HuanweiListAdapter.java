@@ -63,7 +63,11 @@ public class HuanweiListAdapter extends BaseAdapter {
 
         if (list.get(i).getShstate()!=null) {
             if (list.get(i).getShstate().equals("1")) {
-                vh.imageView.setImageResource(R.drawable.status_daishenghe);
+                if (list.get(i).getTOWNID().equals("0")) {
+                    vh.imageView.setImageResource(R.drawable.status_daishenghe);
+                }else {
+                    vh.imageView.setImageResource(R.drawable.status_daizhegngai);
+                }
             }
             if (list.get(i).getShstate().equals("3")) {
                 vh.imageView.setImageResource(R.drawable.status_shengsu_back);
