@@ -74,6 +74,7 @@ public class NoiseWellshutterActivity extends CommonActivity {
 
     }
 
+
     protected void onDestroy() {
         super.onDestroy();
         progressDialog=null;
