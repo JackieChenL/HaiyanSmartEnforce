@@ -7,14 +7,15 @@ public class ArrearsBean extends BaseBean {
 
 
     /**
-     * cash_fee : 100
-     * StartTime : 2018-06-08
-     * EndTime : 2018-06-08
+     * cash_fee : 800
+     * ID : 235
+     * StartTime : 2018-09-04
+     * EndTime : 2018-09-04
      * Photo :
-     * OperRealname : 1111
-     * BerthName : 1号停车位
+     * OperRealname : dsa
+     * BerthName : 4号停车位
      * Address :
-     * UCarnum : 浙F12345
+     * UCarnum : 浙Flklkl
      * Phonenum :
      * UserName :
      * UserCardID :
@@ -22,6 +23,7 @@ public class ArrearsBean extends BaseBean {
      */
 
     public String cash_fee;
+    public int ID;
     public String StartTime;
     public String EndTime;
     public String Photo;
@@ -32,5 +34,5 @@ public class ArrearsBean extends BaseBean {
     public String Phonenum;
     public String UserName;
     public String UserCardID;
-    public String OperName;
+    public Object OperName;
 }

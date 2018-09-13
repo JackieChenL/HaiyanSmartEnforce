@@ -65,6 +65,8 @@ import smartenforce.aty.function4.RecipientActivity;
 import smartenforce.aty.noise_wellshutter.NoiseWellshutterActivity;
 import smartenforce.aty.parking.CenterActivity;
 import smartenforce.aty.patrol.SearchActivity;
+import smartenforce.aty.personrepay.PersonRePayActivity;
+import smartenforce.aty.personrepay.WebViewPayActivity;
 import videotalk.normal.VideoTalkUtils;
 import videotalk.tree.TreeListActivity;
 import videotalk.tree.TreeUtils;
@@ -336,7 +338,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         switch (type) {
             case Constants.MainModule.TINGCHESHOUFEI:
                 startActivity(new Intent(mContext, CenterActivity.class));
-
                 break;
             case Constants.MainModule.WEIZHANGTINGCHE:
                 startActivity(new Intent(mContext, IllegalParkingCommitActivity.class));
@@ -433,12 +434,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case 102://井盖
                 startActivity(new Intent(mContext, NoiseWellshutterActivity.class).putExtra("src", "cover"));
-//                startActivity(new Intent(mContext, TreeListActivity.class));
                 break;
             case 103://积水
                 startActivity(new Intent(mContext, NoiseWellshutterActivity.class).putExtra("src", "seeper"));
-//                startActivity(new Intent(mContext, PersonRePayActivity.class));
                 break;
+
+            case 106://个人车费补缴
+                startActivity(new Intent(mContext, PersonRePayActivity.class));
+                break;
+
 
         }
     }

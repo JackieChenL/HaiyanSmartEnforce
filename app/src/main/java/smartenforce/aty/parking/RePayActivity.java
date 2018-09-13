@@ -122,7 +122,7 @@ public class RePayActivity extends ShowTitleActivity implements AdapterView.OnIt
                 .addParams("Opername", getOpername())
                 .addParams("type", "3")
                 .addParams("carnum", carNumber)
-                .build().execute(new BeanCallBack(aty, null) {
+                .build().execute(new BeanCallBack(aty, "查询中") {
             @Override
             public void handleBeanResult(NetResultBean bean) {
                 handleListNetResult(bean);
