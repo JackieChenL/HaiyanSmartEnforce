@@ -36,7 +36,6 @@ public class PersonRePayActivity extends ShowTitleActivity implements AdapterVie
     String A2Z = "F";
     private ArrearsListAdapter adapter;
     private ArrayList<ArrearsBean> list = new ArrayList<>();
-    private int clickPostion=-1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +69,9 @@ public class PersonRePayActivity extends ShowTitleActivity implements AdapterVie
         adapter.setOnItemClickListener(new ArrearsListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int p) {
-                clickPostion=p;
-                Intent intent = new Intent(aty, RepayDetailActivity.class);
+                Intent intent = new Intent(aty, WebViewPayActivity.class);
                 intent.putExtra("ArrearsBean", list.get(p));
-                startActivityForResult(intent, 100);
+                startActivity(intent);
             }
         });
         rv.setAdapter(adapter);
@@ -110,6 +108,17 @@ public class PersonRePayActivity extends ShowTitleActivity implements AdapterVie
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String cp = getText(et_cp_num);
+        String carNumber = province + A2Z + cp;
+        if (carNumber.length()==7){
+            doQueryList();
+        }
+
+
+    }
 
     private void doQueryList() {
         String cp = getText(et_cp_num);
@@ -120,7 +129,7 @@ public class PersonRePayActivity extends ShowTitleActivity implements AdapterVie
         }
         OkHttpUtils.post().url(HttpApi.URL_ARREARAGE)
                 .addParams("carnum", carNumber)
-                .build().execute(new BeanCallBack(aty, null) {
+                .build().execute(new BeanCallBack(aty, "查询中") {
             @Override
             public void handleBeanResult(NetResultBean bean) {
                 handleListNetResult(bean);
@@ -159,15 +168,4 @@ public class PersonRePayActivity extends ShowTitleActivity implements AdapterVie
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==100&&resultCode==RESULT_OK){
-            //补收成功，刷新列表
-            if (clickPostion!=-1){
-                list.remove(clickPostion);
-                adapter.notifyDataSetChanged();
-            }
-        }
-    }
 }

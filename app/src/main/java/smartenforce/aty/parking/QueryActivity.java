@@ -152,7 +152,7 @@ public class QueryActivity extends ShowTitleActivity implements AdapterView.OnIt
                 .addParams("type", "2")
                 .addParams("Berthname", pwbh)
                 .addParams("carnum", carNumber)
-                .build().execute(new BeanCallBack(aty, null) {
+                .build().execute(new BeanCallBack(aty, "查询中") {
             @Override
             public void handleBeanResult(NetResultBean bean) {
                 handleListNetResult(bean);

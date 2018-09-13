@@ -154,7 +154,7 @@
         <activity android:name="smartenforce.aty.function4.CitizenDetailActivity"/>
         <activity
             android:name="smartenforce.aty.noise_wellshutter.NoiseWellshutterActivity"
-            android:hardwareAccelerated="false"/>
+            />
         <activity android:name=".Module.News.AdvDetailActivity"/>
         <activity android:name=".Module.Leader.LeaderCheckCaseActivity"/>
         <activity android:name=".Module.Leader.LeaderCaseSearchDetailActivity"/>
@@ -188,21 +188,7 @@
         <activity android:name=".Module.Leader.Desision.Decision"/>
         <activity android:name="videotalk.normal.UserListActivity"/>
         <activity android:name="smartenforce.aty.personrepay.PersonRePayActivity"/>
-        <activity
-            android:name="smartenforce.aty.personrepay.RepayDetailActivity"
-            android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT"/>
-
-                <data android:scheme="wx59d41765b6ae31bc"/>
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".wxapi.WXPayEntryActivity"
-            android:exported="true"
-            android:launchMode="singleTop"/>
         <activity android:name=".Module.PersonalCredit.PersonalCreditSearchActivity">
         </activity>
         <activity android:name=".Module.PersonalCredit.CreditDetailActivity">
@@ -224,6 +210,7 @@
         </activity>
         <activity android:name=".Module.DocumentSearch.DocDetaiActivity">
         </activity>
+        <activity android:name="smartenforce.aty.personrepay.WebViewPayActivity"/>
     </application>
 
 </manifest>

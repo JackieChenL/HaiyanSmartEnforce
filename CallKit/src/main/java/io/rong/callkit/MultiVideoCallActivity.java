@@ -534,7 +534,6 @@ public class MultiVideoCallActivity extends BaseCallActivity {
         AsyncImageView userPortraitView = (AsyncImageView) singleRemoteView.findViewById(R.id.user_portrait);
         if (userInfo != null) {
             if (userInfo.getPortraitUri() != null) {
-//                userPortraitView.setBackgroundColor(getResources().getColor(R.color.rc_voip_transparent));
                 userPortraitView.setAvatar(userInfo.getPortraitUri().toString(), R.drawable.rc_default_portrait);
             }
         }
@@ -552,11 +551,11 @@ public class MultiVideoCallActivity extends BaseCallActivity {
         ViewGroup.LayoutParams params = tv.getLayoutParams();
         remoteNameTextView.setLayoutParams(params);
         remoteNameTextView.setTextAppearance(this, R.style.rc_voip_text_style_style);
-        if (userInfo != null) {
-            remoteNameTextView.setText(userInfo.getName());
-        } else {
-            remoteNameTextView.setText(userId);
-        }
+//        if (userInfo != null) {
+//            remoteNameTextView.setText(userInfo.getName());
+//        } else {
+//            remoteNameTextView.setText(userId);
+//        }
         remoteVideoView.addView(remoteNameTextView);
         remoteVideoView.setVisibility(View.VISIBLE);
         remoteVideoView.setTag(userId);
@@ -575,7 +574,7 @@ public class MultiVideoCallActivity extends BaseCallActivity {
         AsyncImageView userPortraitView = (AsyncImageView) singleRemoteView.findViewById(R.id.user_portrait);
         if (userInfo != null) {
             if (userInfo.getPortraitUri() != null) {
-//                userPortraitView.setBackgroundColor(getResources().getColor(R.color.rc_voip_transparent));
+                userPortraitView.setBackgroundColor(getResources().getColor(R.color.rc_voip_transparent));
                 userPortraitView.setAvatar(userInfo.getPortraitUri().toString(), R.drawable.rc_default_portrait);
             }
         }
@@ -592,17 +591,17 @@ public class MultiVideoCallActivity extends BaseCallActivity {
      */
     private void createAddSingleRemoteView(String userId,int i) {
         View singleRemoteView = inflater.inflate(R.layout.rc_voip_viewlet_remote_user, null);
-//        UserInfo userInfo = RongContext.getInstance().getUserInfoFromCache(userId);
+        UserInfo userInfo = RongContext.getInstance().getUserInfoFromCache(userId);
         singleRemoteView.setTag(userId + "view");
         TextView userStatus = (TextView) singleRemoteView.findViewById(R.id.user_status);
         CallKitUtils.textViewShadowLayer(userStatus,MultiVideoCallActivity.this);
 
         AsyncImageView userPortraitView = (AsyncImageView) singleRemoteView.findViewById(R.id.user_portrait);
-//        if (userInfo != null) {
-//            if (userInfo.getPortraitUri() != null) {
-//                userPortraitView.setAvatar(userInfo.getPortraitUri().toString(), R.drawable.rc_default_portrait);
-//            }
-//        }
+        if (userInfo != null) {
+            if (userInfo.getPortraitUri() != null) {
+                userPortraitView.setAvatar(userInfo.getPortraitUri().toString(), R.drawable.rc_default_portrait);
+            }
+        }
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(remoteUserViewWidth, remoteUserViewWidth);
         if(i==0){
             params.setMargins(CallKitUtils.dp2px(remoteUserViewMarginsLeft,MultiVideoCallActivity.this), 0, CallKitUtils.dp2px(remoteUserViewMarginsRight,MultiVideoCallActivity.this), 0);
