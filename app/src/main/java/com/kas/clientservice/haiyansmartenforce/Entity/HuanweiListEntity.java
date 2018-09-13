@@ -40,6 +40,15 @@ public class HuanweiListEntity {
         public String JCDD;
         public String QKMS;
         public String Shstate;
+        public String TOWNID;
+
+        public String getTOWNID() {
+            return TOWNID;
+        }
+
+        public void setTOWNID(String TOWNID) {
+            this.TOWNID = TOWNID;
+        }
 
         public String getID() {
             return ID;
