@@ -56,6 +56,7 @@ public class HuanweiContentAdapter extends BaseAdapter {
         return view;
     }
 
+
     class  ViewHolder{
         TextView textView;
     }
