@@ -17,6 +17,7 @@ import com.kas.clientservice.haiyansmartenforce.R;
 import com.tianditu.android.maps.GeoPoint;
 import com.zhy.http.okhttp.OkHttpUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -426,11 +427,16 @@ public class NewQueryActivity extends ShowTitleActivity {
         bean.NameECSou = getText(tev_dsr);
         bean.NameTas = DateUtil.createXCName();
         String SourcePersonPostData = JSON.toJSONString(bean);
-        OkHttpUtils.post().url(HttpApi.URL_SOURCEPERSONADD).addParams("SourcePersonPostData", SourcePersonPostData)
+        OkHttpUtils.post()
+                .url(HttpApi.URL_SOURCEPERSONADD)
+                .addFile("A","A.jpg",new File(list_l.get(0)))
+                .addParams("SourcePersonPostData", SourcePersonPostData)
                 .build().execute(new BeanCallBack(aty, "数据提交中") {
 
             @Override
             public void handleBeanResult(NetResultBean bean) {
+               log("test",bean.toString());
+
                 if (bean.State) {
                     show("操作成功");
                     finish();
