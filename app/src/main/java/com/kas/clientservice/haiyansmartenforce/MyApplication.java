@@ -61,6 +61,8 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sInstance = this;
+
+        
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10*1000L, TimeUnit.MILLISECONDS)
                 .readTimeout(60*1000L, TimeUnit.MILLISECONDS)
