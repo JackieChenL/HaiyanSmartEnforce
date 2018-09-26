@@ -18,6 +18,7 @@ public class ViewPhotoActivity extends ShowTitleActivity {
 
     private PhotoView img_iv ;
     private String url;
+    
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
