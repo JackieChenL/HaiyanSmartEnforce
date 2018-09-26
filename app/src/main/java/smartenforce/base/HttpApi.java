@@ -2,6 +2,8 @@ package smartenforce.base;
 
 
 public class HttpApi {
+
+//    public static final String URL_HOST = "http://192.168.1.7/111";
     public static final String URL_HOST = "http://117.149.146.131:88";
 
     private static final String MOBILE_BASE = URL_HOST + "/MobileApi/staff/";

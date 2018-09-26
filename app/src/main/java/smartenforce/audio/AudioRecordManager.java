@@ -50,6 +50,7 @@ public class AudioRecordManager implements Handler.Callback {
     public static AudioRecordManager mInstance;
 
     public static AudioRecordManager getInstance(Context context) {
+
         if (mInstance == null) {
             synchronized (AudioRecordManager.class) {
                 if (mInstance == null) {
@@ -243,7 +244,9 @@ public class AudioRecordManager implements Handler.Callback {
             this.mMediaRecorder.setOutputFormat(3);
             this.mMediaRecorder.setAudioEncoder(1);
 //            this.mAudioPath = Uri.fromFile(new File(SAVE_PATH, System.currentTimeMillis() + "temp.voice"));
-            this.mAudioPath= FileProvider7.getUriForFile(mContext,new File(SAVE_PATH, System.currentTimeMillis() + ".amr"));
+//            this.mAudioPath= FileProvider7.getUriForFile(mContext,new File(SAVE_PATH));
+
+            this.mAudioPath=Uri.parse(SAVE_PATH);
             this.mMediaRecorder.setOutputFile(this.mAudioPath.getPath());
             this.mMediaRecorder.prepare();
             this.mMediaRecorder.start();

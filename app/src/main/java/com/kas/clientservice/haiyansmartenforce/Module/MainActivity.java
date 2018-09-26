@@ -60,6 +60,7 @@ import java.util.List;
 import butterknife.BindView;
 import okhttp3.Call;
 import smartenforce.aty.function1.NewQueryActivity;
+import smartenforce.aty.function1.NewQueryWithAudioActivity;
 import smartenforce.aty.function2.QueryListActivity;
 import smartenforce.aty.function4.RecipientActivity;
 import smartenforce.aty.noise_wellshutter.NoiseWellshutterActivity;
@@ -395,8 +396,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 startActivity(new Intent(mContext, PersonalCreditSearchActivity.class));
                 break;
             case 21://巡查发现
-                startActivity(new Intent(mContext, NewQueryActivity.class));
-//                startActivity(new Intent(mContext, NewQueryWithAudioActivity.class));
+//                startActivity(new Intent(mContext, NewQueryActivity.class));
+                startActivity(new Intent(mContext, NewQueryWithAudioActivity.class));
                 break;
             case 22://巡查查询
                 startActivity(new Intent(mContext, QueryListActivity.class));

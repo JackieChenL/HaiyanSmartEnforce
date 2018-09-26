@@ -19,6 +19,7 @@ import com.bigkoo.alertview.OnItemClickListener;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.tianditu.android.maps.GeoPoint;
 import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.builder.PostFormBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,6 @@ import java.util.List;
 import smartenforce.adapter.ImageAdapter;
 import smartenforce.base.HttpApi;
 import smartenforce.base.NetResultBean;
-import smartenforce.base.ShowTitleActivity;
 import smartenforce.bean.CitizenBean;
 import smartenforce.bean.EnterpriseDetailBean;
 import smartenforce.bean.FirstLevelBean;
@@ -63,8 +63,8 @@ public class NewQueryWithAudioActivity extends AudioActivity {
     private ArrayList<String> list_l = new ArrayList<String>();
     private ArrayList<String> list_r = new ArrayList<String>();
 
-    private List<Object> firstLevelBeanArrayList=new ArrayList<>();
-    private List<Object> thildLevelBeanArrayList=new ArrayList<>();
+    private List<Object> firstLevelBeanArrayList = new ArrayList<>();
+    private List<Object> thildLevelBeanArrayList = new ArrayList<>();
     //定义一个初始大类ID
     private int FIRSTLEVELID = -1;
     //定义一个初始违法行为ID
@@ -298,13 +298,13 @@ public class NewQueryWithAudioActivity extends AudioActivity {
 
     //初始化进入界面时最好先请求一下大类
     private void getFirstLevel() {
-        if (firstLevelBeanArrayList.size()==0) {
+        if (firstLevelBeanArrayList.size() == 0) {
             OkHttpUtils.get().url(HttpApi.URL_FIRSTLEVEL_LIST).build().execute(new BeanCallBack(aty, null) {
                 @Override
                 public void handleBeanResult(NetResultBean bean) {
                     if (bean.State) {
                         if (bean.total > 0) {
-                            firstLevelBeanArrayList.addAll( bean.getResultBeanList(FirstLevelBean.class));
+                            firstLevelBeanArrayList.addAll(bean.getResultBeanList(FirstLevelBean.class));
                         } else {
                             warningShow("获取大类信息为空");
                         }
@@ -317,10 +317,10 @@ public class NewQueryWithAudioActivity extends AudioActivity {
             new ListDialog(aty, firstLevelBeanArrayList, new ListItemClickLisener() {
                 @Override
                 public void onItemClick(int P, Object obj) {
-                    FirstLevelBean firstLevelBean=(FirstLevelBean)obj;
+                    FirstLevelBean firstLevelBean = (FirstLevelBean) obj;
                     tev_dl.setText(firstLevelBean.NameFiL);
                     tev_wfxw.setText("");
-                    FIRSTLEVELID=firstLevelBean.FirstLevelID;
+                    FIRSTLEVELID = firstLevelBean.FirstLevelID;
                     THIRDLEVELID = -1;
                     SECONDLEVELID = -1;
                 }
@@ -344,10 +344,10 @@ public class NewQueryWithAudioActivity extends AudioActivity {
                             new ListDialog(aty, thildLevelBeanArrayList, new ListItemClickLisener() {
                                 @Override
                                 public void onItemClick(int P, Object obj) {
-                                    ThirdLevelBean thirdLevelBean=(ThirdLevelBean)obj;
+                                    ThirdLevelBean thirdLevelBean = (ThirdLevelBean) obj;
                                     tev_wfxw.setText(thirdLevelBean.NameThL);
                                     THIRDLEVELID = thirdLevelBean.ThirdLevelID;
-                                    SECONDLEVELID =thirdLevelBean.SecondLevelID;
+                                    SECONDLEVELID = thirdLevelBean.SecondLevelID;
                                 }
                             }).setTitle("请选择违法行为").show();
 
@@ -421,7 +421,6 @@ public class NewQueryWithAudioActivity extends AudioActivity {
     //上传图片
     private void doUploadImg() {
         doUploadImgBefore();
-
     }
 
 
@@ -429,10 +428,10 @@ public class NewQueryWithAudioActivity extends AudioActivity {
     private void doUploadInfo() {
         SourcePersonAddBean bean = new SourcePersonAddBean();
         bean.AddressSou = address;
-        if (lat!=0&&lon!=0){
+        if (lat != 0 && lon != 0) {
             bean.GpsXYSou = ((double) lat) / 1000000 + "," + ((double) lon) / 1000000;
-        }else{
-            bean.GpsXYSou="";
+        } else {
+            bean.GpsXYSou = "";
         }
         bean.EntOrCitID = dsr_id;
         bean.SubmitOrSave = ACTION_TYPE;
@@ -449,8 +448,15 @@ public class NewQueryWithAudioActivity extends AudioActivity {
         bean.NameECSou = getText(tev_dsr);
         bean.NameTas = DateUtil.createXCName();
         String SourcePersonPostData = JSON.toJSONString(bean);
-        OkHttpUtils.post().url(HttpApi.URL_SOURCEPERSONADD).addParams("SourcePersonPostData", SourcePersonPostData)
-                .build().execute(new BeanCallBack(aty, "数据提交中") {
+        PostFormBuilder postFormBuilder = OkHttpUtils.post()
+                .url(HttpApi.URL_SOURCEPERSONADD)
+                .addParams("SourcePersonPostData", SourcePersonPostData);
+        if (voice_file != null&&is_voice_valid) {
+                log("RECORD", "录音文件：" + voice_file.getName());
+                postFormBuilder.addFile("voice", "voice", voice_file);
+        }
+
+        postFormBuilder.build().execute(new BeanCallBack(aty, "数据提交中") {
 
             @Override
             public void handleBeanResult(NetResultBean bean) {
@@ -475,12 +481,12 @@ public class NewQueryWithAudioActivity extends AudioActivity {
             warningShow("案发地点不能为空");
         } else if (ACTION_TYPE.equals("submit") && list_r.size() == 0) {
 
-            new AlertView("提示", "尚未添加处理后图片，请确认是否提交，提交后将不能更改", null, null, new String[]{"取消","提交"}, aty, AlertView.Style.Alert, new OnItemClickListener() {
+            new AlertView("提示", "尚未添加处理后图片，请确认是否提交，提交后将不能更改", null, null, new String[]{"取消", "提交"}, aty, AlertView.Style.Alert, new OnItemClickListener() {
                 @Override
                 public void onItemClick(Object o, int position) {
-                   if (position==1){
-                       doUploadImg();
-                   }
+                    if (position == 1) {
+                        doUploadImg();
+                    }
                 }
             }).show();
         } else {

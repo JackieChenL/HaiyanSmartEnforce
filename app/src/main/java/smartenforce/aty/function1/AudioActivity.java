@@ -25,16 +25,18 @@ public abstract class AudioActivity extends ShowTitleActivity {
     //保存语音文件目录
     File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
             + "/haiyan/voice");
+     protected File voice_file=null;
+     protected  boolean is_voice_valid=false;
 
 
 
     protected void stopVoice(ImageView imv_voice) {
-        AudioRecordManager.getInstance(aty).stopRecord();
-        end_index=System.currentTimeMillis();
-         final Uri  audioUri=AudioRecordManager.getInstance(aty).getmAudioPath();
-        boolean isRecordOK=end_index-start_index>=5000;
-        imv_voice.setVisibility(isRecordOK? View.VISIBLE:View.GONE);
-        if (isRecordOK){
+         AudioRecordManager.getInstance(aty).stopRecord();
+         end_index=System.currentTimeMillis();
+        final Uri audioUri=AudioRecordManager.getInstance(aty).getmAudioPath();
+        is_voice_valid=end_index-start_index>=3000;
+        imv_voice.setVisibility(is_voice_valid? View.VISIBLE:View.GONE);
+        if (is_voice_valid){
             imv_voice.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -42,8 +44,9 @@ public abstract class AudioActivity extends ShowTitleActivity {
                 }
             });
         }else{
-            show("录音时间低于5秒,请重录");
-
+            show("录音时间低于3秒,请重录");
+            AudioRecordManager.getInstance(this).destroyRecord();
+            voice_file=null;
         }
 
     }
@@ -93,7 +96,9 @@ public abstract class AudioActivity extends ShowTitleActivity {
                             dir.mkdirs();
                         }
                         start_index=System.currentTimeMillis();
-                        AudioRecordManager.getInstance(aty).setAudioSavePath(dir.getAbsolutePath());
+                        is_voice_valid=false;
+                        voice_file=new File(dir, start_index + ".amr");
+                        AudioRecordManager.getInstance(aty).setAudioSavePath(voice_file.getAbsolutePath());
                         AudioRecordManager.getInstance(aty).startRecord();
 
 
