@@ -96,9 +96,13 @@ public class CitizenFragment extends BaseFragment implements XRecyclerView.Loadi
         String CitName = getText(edt_name);
         String Identity = getText(edt_card);
         String Address = getText(edt_dz);
-        OkHttpUtils.post().url(HttpApi.URL_CITIZENLIST).addParams("CitName", CitName)
-                .addParams("Identity",Identity).addParams("Address",Address)
-                .addParams("Count", "20").build().execute(new BeanCallBack(aty, "查询中") {
+        OkHttpUtils.post().url(HttpApi.URL_CITIZENLIST)
+                .addParams("CitName", CitName)
+                .addParams("Identity",Identity)
+                .addParams("Address",Address)
+                .addParams("Count", "20")
+                .addParams("Page", PAGE_NUM+"")
+                .build().execute(new BeanCallBack(aty, "查询中") {
             @Override
             public void handleBeanResult(NetResultBean bean) {
                 xrcv_citizen.onComplete();
