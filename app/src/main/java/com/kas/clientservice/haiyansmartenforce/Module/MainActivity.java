@@ -59,7 +59,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import okhttp3.Call;
-import smartenforce.aty.function1.NewQueryActivity;
 import smartenforce.aty.function1.NewQueryWithAudioActivity;
 import smartenforce.aty.function2.QueryListActivity;
 import smartenforce.aty.function4.RecipientActivity;
@@ -67,7 +66,6 @@ import smartenforce.aty.noise_wellshutter.NoiseWellshutterActivity;
 import smartenforce.aty.parking.CenterActivity;
 import smartenforce.aty.patrol.SearchActivity;
 import smartenforce.aty.personrepay.PersonRePayActivity;
-import smartenforce.aty.personrepay.WebViewPayActivity;
 import videotalk.normal.VideoTalkUtils;
 import videotalk.tree.TreeListActivity;
 import videotalk.tree.TreeUtils;

@@ -16,10 +16,7 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 
-
 import java.io.File;
-
-import smartenforce.util.FileProvider7;
 
 public class AudioRecordManager implements Handler.Callback {
     private static final String TAG = "LQR_AudioRecordManager";

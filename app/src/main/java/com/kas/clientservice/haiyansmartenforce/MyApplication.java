@@ -3,8 +3,6 @@ package com.kas.clientservice.haiyansmartenforce;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
-import android.support.multidex.MultiDex;
-import android.util.Log;
 
 import com.hik.mcrsdk.MCRSDK;
 import com.hik.mcrsdk.rtsp.RtspClient;
@@ -17,9 +15,7 @@ import java.util.concurrent.TimeUnit;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.ipc.RongExceptionHandler;
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import smartenforce.projectutil.IDCardUtil;
-import smartenforce.util.LogUtil;
 import videotalk.im.SealAppContext;
 import videotalk.im.SealUserInfoManager;
 import videotalk.im.message.provider.ContactNotificationMessageProvider;
@@ -53,11 +49,6 @@ public class MyApplication extends Application {
     }
 
     @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
-    }
-    @Override
     public void onCreate() {
         super.onCreate();
         sInstance = this;
@@ -65,12 +56,6 @@ public class MyApplication extends Application {
                 .connectTimeout(10*1000L, TimeUnit.MILLISECONDS)
                 .readTimeout(60*1000L, TimeUnit.MILLISECONDS)
                 .writeTimeout(60*1000L, TimeUnit.MILLISECONDS)
-//                .addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-//                    @Override
-//                    public void log(String message) {
-//                        Log.e("HttpLoggingInterceptor",message);
-//                    }
-//                }).setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
         OkHttpUtils.initClient(okHttpClient);
         initVedio();
@@ -84,7 +69,7 @@ public class MyApplication extends Application {
             NLog.setDebug(true);
             SealAppContext.init(this);
             SharedPreferencesContext.init(this);
-//            Thread.setDefaultUncaughtExceptionHandler(new RongExceptionHandler(this));
+            Thread.setDefaultUncaughtExceptionHandler(new RongExceptionHandler(this));
 
             try {
                 RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
