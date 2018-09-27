@@ -100,7 +100,7 @@ dependencies {
     compile files('libs/vmsnetsdk.jar')
     compile files('libs/xUtils-2.6.14.jar')
     compile files('libs/mpandroidchartlibrary-2-2-4.jar')
-    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+
     compile 'com.android.support:multidex:1.0.1'
     compile project(':IMKit')
     compile project(':CallKit')
