@@ -3,11 +3,13 @@ package com.kas.clientservice.haiyansmartenforce.Module.HuanWeiModule;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
@@ -34,6 +36,7 @@ import com.kas.clientservice.haiyansmartenforce.API.TownsAPI;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseEntity;
 import com.kas.clientservice.haiyansmartenforce.Base.StringAdapter;
+import com.kas.clientservice.haiyansmartenforce.Entity.ImgBean;
 import com.kas.clientservice.haiyansmartenforce.Entity.TownEntity;
 import com.kas.clientservice.haiyansmartenforce.Http.ExceptionHandle;
 import com.kas.clientservice.haiyansmartenforce.Http.MySubscriber;
@@ -49,7 +52,6 @@ import com.kas.clientservice.haiyansmartenforce.Utils.Dp2pxUtil;
 import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 import com.kas.clientservice.haiyansmartenforce.Utils.WaterMaskImageUtil;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -59,6 +61,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.kas.clientservice.haiyansmartenforce.Utils.Utils.getImageCropUri;
+import static com.kas.clientservice.haiyansmartenforce.Utils.Utils.saveImageToLocal;
 
 public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.TakeResultListener, IllegalParkingCommitImgRvAdapter.OnImageAddClickListener, IllegalParkingCommitImgRvAdapter.OnImagelickListener, IllegalParkingCommitImgRvAdapter.OnImgDeleteClickListener, View.OnClickListener {
     @BindView(R.id.tv_header_title)
@@ -111,6 +114,7 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
     String state;
     List<String> list_town = new ArrayList<>();
     List<TownEntity.TownBean> towns = new ArrayList<>();
+    List<ImgBean> arr_uri = new ArrayList<>();
 
     public TakePhoto getTakePhoto() {
         if (takePhoto == null) {
@@ -144,13 +148,26 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
             }
             Log.i(TAG, "onActivityResult: " + longitude + "  " + latitude);
         }
-//        if (requestCode == Constants.RESULTCODE_ROAD) {
-//            if (data != null) {
-//                tv_position.setText(data.getStringExtra("Road"));
-//                roadName = data.getStringExtra("Road");
-////                roadId = data.getStringExtra("RoadId");
-//            }
-//        }
+        if (requestCode == 300) {
+            if (data != null) {
+                Uri uri = data.getData();
+                String[] filePathColumns = {MediaStore.Images.Media.DATA};
+                Cursor c = getContentResolver().query(uri, filePathColumns, null, null, null);
+                c.moveToFirst();
+                int columnIndex = c.getColumnIndex(filePathColumns[0]);
+                String imagePath = c.getString(columnIndex);
+//                showImage(imagePath);
+                c.close();
+                Bitmap bm = BitmapFactory.decodeFile(imagePath);
+                Bitmap water_bm = WaterMaskImageUtil.drawTextToRightBottom(mContext, bm, getTime(), 6, getResources().getColor(R.color.orange), 5, 5);
+                arr_image.add(water_bm);
+                adapter.notifyDataSetChanged();
+
+                ImgBean imgBean = new ImgBean();
+                imgBean.setUri(imagePath);
+                arr_uri.add(imgBean);
+            }
+        }
     }
 
     @Override
@@ -178,8 +195,27 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
         initList();
 
         loadPPw();
+        loadPhotoPPw();
         loadContentPPW();
         loadTownPPW();
+    }
+
+    private TextView tv_take, tv_chose, tv_cancel;
+    PopupWindow ppw_photo;
+
+    private void loadPhotoPPw() {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.layout_ppw_media_type, null);
+        tv_take = (TextView) view.findViewById(R.id.tv_ppw_mediaType_take);
+        tv_chose = (TextView) view.findViewById(R.id.tv_ppw_mediaType_chose);
+        tv_cancel = (TextView) view.findViewById(R.id.tv_ppw_mediaType_cancel);
+        tv_take.setOnClickListener(this);
+        tv_chose.setOnClickListener(this);
+        tv_cancel.setOnClickListener(this);
+//        rl_icon.setOnClickListener(this);
+        ppw_photo = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        ppw_photo.setFocusable(true);
+        ppw_photo.setOutsideTouchable(true);
+        ppw_photo.setBackgroundDrawable(new BitmapDrawable());
     }
 
     private void loadTownPPW() {
@@ -266,6 +302,12 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
         arr_image.add(water_bitmap);
 //        setRecyclerViewHeight(arr_image.size());
         adapter.notifyDataSetChanged();
+
+        ImgBean imgbean = new ImgBean();
+        imgbean.setUri(saveImageToLocal(water_bitmap, mContext));
+        arr_uri.add(imgbean);
+
+        ppw_photo.dismiss();
     }
 
     @Override
@@ -280,40 +322,30 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
 
     @Override
     public void onImageAddClick() {
-        if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            //申请权限
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA},
-                    100);
-        } else {
-            //查看图片权限
-            if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                //申请权限
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        101);
-            } else {
-                uri = getImageCropUri();
-//                cropOptions = new CropOptions.Builder().setAspectX(1).setAspectY(1).setWithOwnCrop(false).create();
-                //设置压缩参数
-                compressConfig = new CompressConfig.Builder().setMaxSize(Constants.PIC_MAXSIZE * 1024).setMaxPixel(Constants.COMPRESSRATE).create();
-                takePhoto.onEnableCompress(compressConfig, true); //设置为需要压缩
-                takePhoto.onPickFromCapture(uri);
-            }
-        }
+        ppw_photo.showAtLocation(rl_main, Gravity.BOTTOM, 0, 0);
+
     }
 
     @Override
     public void onImageClick(int p) {
-        Bitmap bmp = arr_image.get(p);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] bytes = baos.toByteArray();
-
-//        Bundle b = new Bundle();
-//        b.putByteArray("bitmap", bytes);
+//        Bitmap bmp = arr_image.get(p);
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
+//        byte[] bytes = baos.toByteArray();
+//
+////        Bundle b = new Bundle();
+////        b.putByteArray("bitmap", bytes);
+//        Intent intent = new Intent(mContext, ImageActivity.class);
+//        intent.putExtra("image", bytes);
+//        startActivity(intent);
         Intent intent = new Intent(mContext, ImageActivity.class);
-        intent.putExtra("image", bytes);
+//        Log.i(TAG, "onImageClick: " + arr_uri.get(p));
+        if (arr_uri.get(p).getUri() != null) {
+            intent.putExtra("uri", arr_uri.get(p).getUri());
+        } else if (arr_uri.get(p).getUrl() != null) {
+            intent.putExtra("url", arr_uri.get(p).getUrl());
+        }
+
         startActivity(intent);
     }
 
@@ -417,6 +449,45 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
             case R.id.tv_huanwei_commit_town:
                 ppw_town.showAtLocation(rl_main, Gravity.CENTER, 0, 0);
                 break;
+            case R.id.tv_ppw_mediaType_take:
+                takePhoto();
+
+                break;
+            case R.id.tv_ppw_mediaType_chose:
+//                choseVedio();
+                Intent intent = new Intent(
+                        Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, 300);
+                ppw_photo.dismiss();
+                break;
+            case R.id.tv_ppw_mediaType_cancel:
+                ppw_photo.dismiss();
+                break;
+        }
+    }
+
+    private void takePhoto() {
+        if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            //申请权限
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA},
+                    100);
+        } else {
+            //查看图片权限
+            if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                //申请权限
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        101);
+            } else {
+                uri = getImageCropUri();
+//                cropOptions = new CropOptions.Builder().setAspectX(1).setAspectY(1).setWithOwnCrop(false).create();
+                //设置压缩参数
+                compressConfig = new CompressConfig.Builder().setMaxSize(Constants.PIC_MAXSIZE * 1024).setMaxPixel(Constants.COMPRESSRATE).create();
+                takePhoto.onEnableCompress(compressConfig, true); //设置为需要压缩
+                takePhoto.onPickFromCapture(uri);
+            }
         }
     }
 

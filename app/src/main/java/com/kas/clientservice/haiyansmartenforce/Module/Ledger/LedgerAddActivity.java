@@ -135,7 +135,8 @@ public class LedgerAddActivity extends BaseActivity implements TakePhoto.TakeRes
 //                showImage(imagePath);
                 c.close();
                 Bitmap bm = BitmapFactory.decodeFile(imagePath);
-                arr_image.add(bm);
+                Bitmap water  = WaterMaskImageUtil.drawTextToRightBottom(mContext, bm, getTime(), 8, getResources().getColor(R.color.orange), 5, 5);
+                arr_image.add(water);
                 adapter.notifyDataSetChanged();
 
                 ImgBean imgBean = new ImgBean();
