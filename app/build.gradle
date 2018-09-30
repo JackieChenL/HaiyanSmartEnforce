@@ -23,7 +23,7 @@ android {
     aaptOptions.useNewCruncher = false
     buildTypes {
 
-        debug {
+        debug{
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug

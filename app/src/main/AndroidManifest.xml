@@ -211,6 +211,7 @@
         <activity android:name=".Module.DocumentSearch.DocDetaiActivity">
         </activity>
         <activity android:name="smartenforce.aty.personrepay.WebViewPayActivity"/>
+        <activity android:name="smartenforce.aty.personrepay.RepayDetailActivity"/>
     </application>
 
 </manifest>

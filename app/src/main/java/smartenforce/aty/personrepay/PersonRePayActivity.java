@@ -69,7 +69,7 @@ public class PersonRePayActivity extends ShowTitleActivity implements AdapterVie
         adapter.setOnItemClickListener(new ArrearsListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int p) {
-                Intent intent = new Intent(aty, WebViewPayActivity.class);
+                Intent intent = new Intent(aty, RepayDetailActivity.class);
                 intent.putExtra("ArrearsBean", list.get(p));
                 startActivity(intent);
             }
