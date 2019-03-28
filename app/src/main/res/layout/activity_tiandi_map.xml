@@ -23,8 +23,8 @@
             android:layout_weight="1"
             android:text="经度"/>
 
-        <EditText
-            android:id="@+id/et_tianditu_jingdu"
+        <TextView
+            android:id="@+id/tev_tianditu_jingdu"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -36,10 +36,10 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:layout_weight="1"
-            android:text="经度"/>
+            android:text="纬度"/>
 
-        <EditText
-            android:id="@+id/et_tianditu_weidu"
+        <TextView
+            android:id="@+id/tev_tianditu_weidu"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -65,7 +65,6 @@
         android:id="@+id/tv_tianditu_location"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:text=""
         android:gravity="center"/>
 
     <com.tianditu.android.maps.MapView

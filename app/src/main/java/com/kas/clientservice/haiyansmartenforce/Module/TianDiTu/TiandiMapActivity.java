@@ -19,43 +19,53 @@ import android.widget.Toast;
 
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
-import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
 import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 import com.tianditu.android.maps.GeoPoint;
+import com.tianditu.android.maps.ItemizedOverlay;
 import com.tianditu.android.maps.MapController;
 import com.tianditu.android.maps.MapView;
 import com.tianditu.android.maps.MapViewRender;
 import com.tianditu.android.maps.MyLocationOverlay;
-import com.tianditu.android.maps.TGeoAddress;
-import com.tianditu.android.maps.TGeoDecode;
+import com.tianditu.android.maps.Overlay;
+import com.tianditu.android.maps.OverlayItem;
 import com.tianditu.android.maps.renderoption.DrawableOption;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import butterknife.BindInt;
 import butterknife.BindView;
 
-public class TiandiMapActivity extends BaseActivity implements View.OnClickListener, TGeoDecode.OnGeoResultListener {
+public class TiandiMapActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.main_mapview)
     MapView mMapView;
-    @BindView(R.id.et_tianditu_jingdu)
-    EditText et_jingdu;
-    @BindView(R.id.et_tianditu_weidu)
-    EditText et_weidu;
+    @BindView(R.id.tev_tianditu_jingdu)
+    TextView tev_jingdu;
+    @BindView(R.id.tev_tianditu_weidu)
+    TextView tev_weidu;
     @BindView(R.id.tv_tianditu_dingwei)
     TextView tv_dingwei;
     @BindView(R.id.tv_tianditu_location)
     TextView tv_location;
     @BindView(R.id.iv_heaer_back)
     ImageView iv_back;
+    @BindView(R.id.tv_header_title)
+    TextView tv_header_title;
 
     @BindView(R.id.tv_header_confirm)
     TextView tv_confirm;
 
-    MyLocationOverlay mMyLocation;
+
     MapController mMapController;
-    TGeoDecode tGeoDecode;
-    String Longitude = "";
-    String Latitude = "";
+
+
+    private GeoBean geoBean;
+    private GeoPoint center;
+    private OverItemT mOverlay = null;
+    private Drawable marker = null;
+    private MyLocationOverlay myLocationOverlay;
 
     @Override
     protected int getLayoutId() {
@@ -70,11 +80,21 @@ public class TiandiMapActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initResAndListener() {
         super.initResAndListener();
-
+        tv_header_title.setText("地图");
         tv_confirm.setVisibility(View.VISIBLE);
         tv_dingwei.setOnClickListener(this);
         tv_confirm.setOnClickListener(this);
         iv_back.setOnClickListener(this);
+        marker = getResources().getDrawable(R.drawable.selpointflag);
+        //设置启用内置的缩放控件
+        mMapView.setBuiltInZoomControls(true);
+        //得到mMapView的控制权,可以用它控制和驱动平移和缩放
+        mMapController = mMapView.getController();
+        //设置地图zoom级别
+        mMapController.setZoom(18);
+        mMapView.setLogoPos(MapView.LOGO_LEFT_TOP);
+        mMapView.getOverlays().add(new MySelectorOverlay());
+        geoBean = (GeoBean) getIntent().getSerializableExtra("GeoBean");
         initTiandiTu();
 
     }
@@ -111,63 +131,72 @@ public class TiandiMapActivity extends BaseActivity implements View.OnClickListe
             });
             dialog.show();
         } else {
-            Log.i(TAG, "hasGps: ");
+            if (geoBean.lat == 0) {
+                getMyLocation();
+            } else {
+                center = new GeoPoint(geoBean.lat, geoBean.lon);
+                tev_weidu.setText((double) center.getLatitudeE6() / 1e6 + "");
+                tev_jingdu.setText((double) center.getLongitudeE6() / 1e6 + "");
+                tv_location.setText(geoBean.address);
+                moveToPoint(center);
+            }
 
-            tGeoDecode = new TGeoDecode(this);
-            //设置启用内置的缩放控件
-            mMapView.setBuiltInZoomControls(true);
-            //得到mMapView的控制权,可以用它控制和驱动平移和缩放
-            mMapController = mMapView.getController();
-            //设置地图zoom级别
-            mMapController.setZoom(500);
-            mMapView.setLogoPos(MapView.LOGO_LEFT_TOP);
-            mMyLocation = new MyOverlay(this, mMapView);
-            mMapView.addOverlay(mMyLocation);
-
-            mMyLocation.enableCompass();//设置指南针
-            //设置定位
-            Log.i(TAG, "enableMyLocation: " + mMyLocation.enableMyLocation());
-//            mMyLocation.setGpsFollow(true);//设置gps追踪
-
-
-            GeoPoint point = getLocation();
-            refreshLocation(point);
         }
     }
 
 
-    public GeoPoint getLocation() {
-        GeoPoint point = mMyLocation.getMyLocation();
-        tGeoDecode.search(point);
-        return point;
-    }
 
-    public void refreshLocation(GeoPoint point) {
-        if (point != null) {
-            mMapController.setCenter(point);
-            et_weidu.setText(formLocationPoint(point.getLatitudeE6()));
-            et_jingdu.setText(formLocationPoint(point.getLongitudeE6()) + "");
-            Log.i(TAG, "经度: " + point.getLongitudeE6() + " 纬度：" + point.getLatitudeE6());
-        } else {
-            ToastUtils.showToast(mContext, "GPS信号弱，无法获取坐标");
+    private void getMyLocation(){
+        try {
+            myLocationOverlay = new MyLocationOverlay(this, mMapView);
+            myLocationOverlay.enableMyLocation();
+            center = myLocationOverlay.getMyLocation();
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            if (center == null) {
+                center = new GeoPoint(30527890, 120942910);
+            }
+            searchPoint(center);
         }
+
+
+    }
+    private void moveToPoint(GeoPoint point){
+        center=point;
+        mMapController.setCenter(point);
+        if (mOverlay!=null){
+            mMapView.getOverlays().remove(mOverlay);
+        }
+        mOverlay = new OverItemT(marker);
+        OverlayItem mItem = new OverlayItem(point, "Tap", point.toString());
+        mOverlay.addItem(mItem);
+        mMapView.addOverlay(mOverlay);
+        mMapView.postInvalidate();
+
     }
 
-    private MyLocationOverlay getOverlay() {
-        return mMyLocation;
-    }
+
+
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_tianditu_dingwei:
-                refreshLocation(new GeoPoint(parseStringToGeo(et_weidu.getText().toString()), parseStringToGeo(et_jingdu.getText().toString())));
+                getMyLocation();
                 break;
             case R.id.tv_header_confirm:
                 Intent intent = new Intent();
-                intent.putExtra("Longitude",et_jingdu.getText().toString());
-                intent.putExtra("Latitude",et_weidu.getText().toString());
-                setResult(Constants.RESULTCODE_TIANDITU,intent);
+                String lng=tev_jingdu.getText().toString().trim();
+                String lat=tev_weidu.getText().toString().trim();
+                String address=tv_location.getText().toString().trim();
+                intent.putExtra("Longitude",lng);
+                intent.putExtra("Latitude",lat);
+                intent.putExtra("Address",address);
+                geoBean.parse(lng,lat,address);
+                intent.putExtra("GeoBean",geoBean);
+                setResult(RESULT_OK,intent);
                 finish();
                 break;
             case R.id.iv_heaer_back:
@@ -177,126 +206,58 @@ public class TiandiMapActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-    public int parseStringToGeo(String geo) {
-        try {
-            return (int) (Float.parseFloat(geo) * 1E6);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            ToastUtils.showToast(mContext, "请输入正确格式的经纬度");
-            return 0;
-        }
-    }
 
-    @Override
-    public void onGeoDecodeResult(TGeoAddress tGeoAddress, int i) {
-        tv_location.setText(tGeoAddress.getAddress());
-    }
+    public class MySelectorOverlay extends Overlay {
 
-    class MyOverlay extends MyLocationOverlay {
-        private Drawable mDrawable;
-        private GeoPoint mGeoPoint;
-        private DrawableOption mOption;
+        @Override
+        public boolean onTap(GeoPoint point, MapView mapView) {
 
-        public MyOverlay(Context context, MapView mapView) {
-            super(context, mapView);
-            mDrawable = getResources().getDrawable(R.drawable.selpointflag);
-            mOption = new DrawableOption();
-            mOption.setAnchor(0.3f, 0.8f);
-        }
+            searchPoint(point);
 
-        public void setGeoPoint(GeoPoint point) {
-            mGeoPoint = point;
-
-        }
-
-        /*
-         * 处理在"我的位置"上的点击事件
-         */
-        protected boolean dispatchTap() {
-            Log.i(TAG, "dispatchTap: ");
 
             return true;
         }
 
-        @Override
-        public void onLocationChanged(Location location) {
-            super.onLocationChanged(location);
-//            Log.i(TAG, "onLocationChanged: " + location.getLongitude() + "  " + location.getLatitude() + " " + location.getProvider());
+
+    }
+
+    class OverItemT extends ItemizedOverlay<OverlayItem> {
+        private List<OverlayItem> GeoList = new ArrayList<OverlayItem>();
+        private Drawable mMaker = null;
+
+        public OverItemT(Drawable marker) {
+            super(marker);
+            mMaker = boundCenterBottom(marker);
+
+        }
+
+        public void addItem(OverlayItem item) {
+            item.setMarker(mMaker);
+            GeoList.clear();
+            GeoList.add(item);
+            populate();
         }
 
         @Override
-        public boolean onTap(GeoPoint p, MapView mapView) {
-            tGeoDecode.search(p);
-            mGeoPoint = p;
-            et_jingdu.setText("" + formLocationPoint(p.getLongitudeE6()));
-            et_weidu.setText("" + formLocationPoint(p.getLatitudeE6()));
-//            mCbShowView.setChecked(true);
-            return true;
+        protected OverlayItem createItem(int i) {
+            return GeoList.get(i);
         }
 
         @Override
-        public boolean onKeyUp(int keyCode, KeyEvent event, MapView mapView) {
-//            mTvTips.setText("onKeyUp:" + keyCode);
-            return super.onKeyUp(keyCode, event, mapView);
+        public int size() {
+            return GeoList.size();
         }
+    }
 
-        @Override
-        public boolean onKeyDown(int keyCode, KeyEvent event, MapView mapView) {
-//            mTvTips.setText("onKeyDown:" + keyCode);
-            return super.onKeyDown(keyCode, event, mapView);
-        }
-
-        @Override
-        public boolean draw(GL10 gl, MapView mapView, boolean shadow, long when) {
-            MapViewRender render = mapView.getMapViewRender();
-            render.drawDrawable(gl, mOption, mDrawable, mGeoPoint);
-            return super.draw(gl, mapView, shadow, when);
-        }
-
-        @Override
-        public boolean isVisible() {
-            return super.isVisible();
-        }
-
-        @Override
-        public void setVisible(boolean b) {
-            super.setVisible(b);
-        }
-
-        @Override
-        public boolean onLongPress(GeoPoint p, MapView mapView) {
-            return super.onLongPress(p, mapView);
-        }
-
-        @Override
-        public boolean onTouchEvent(MotionEvent event, MapView mapView) {
-            switch (event.getActionMasked()) {
-                case MotionEvent.ACTION_DOWN:
-//                    mTvTips.setText("ACTION_DOWN" + event.getX() + ","
-//                            + event.getY());
-                    break;
-                case MotionEvent.ACTION_MOVE:
-//                    mTvTips.setText("ACTION_MOVE" + event.getX() + ","
-//                            + event.getY());
-                    break;
-                case MotionEvent.ACTION_UP:
-//                    mTvTips.setText("ACTION_UP" + event.getX() + "," + event.getY());
-                    break;
-                default:
-                    break;
+    private void searchPoint(final GeoPoint point) {
+        moveToPoint(point);
+        GeoUtils.getInstance().searchGeo(point, new GeoUtils.SimpleStringCallBack() {
+            @Override
+            public void onEasyStringBack(int code, String str) {
+                tev_weidu.setText((double) center.getLatitudeE6() / 1e6 + "");
+                tev_jingdu.setText((double) center.getLongitudeE6() / 1e6 + "");
+                tv_location.setText(str);
             }
-            return super.onTouchEvent(event, mapView);
-        }
+        });
     }
-
-    public String formLocationPoint(int i) {
-        String s = i + "";
-        if (s.length() >= 7) {
-            return s.substring(0, s.length() - 6) + "." + s.substring(s.length() - 6, s.length());
-        } else {
-            return s;
-        }
-
-    }
-
 }
