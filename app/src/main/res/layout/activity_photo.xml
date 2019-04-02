@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    >
 
     <include
         android:id="@+id/head"
@@ -36,10 +37,21 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/lin_photo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/ll_vedio"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="拍照"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:textSize="16sp"
+            android:textColor="@color/grey_900"
+            />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_illegalParkingCommit"
@@ -49,6 +61,45 @@
             android:padding="10dp">
 
         </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lin_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lin_photo">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="文字备注:"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:textSize="16sp"
+        android:textColor="@color/grey_900"
+        />
+    </LinearLayout>
+
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@+id/lin_text"
+        android:background="@drawable/but_case"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/edt_pj"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@null"/>
     </LinearLayout>
 
     <Button

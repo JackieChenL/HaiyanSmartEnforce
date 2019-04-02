@@ -1,284 +1,248 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_huanwei_commit"
     android:layout_width="match_parent"
     android:background="@color/white"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.kas.clientservice.haiyansmartenforce.Module.HuanWeiModule.HuanweiCommitActivity">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
+    <include
+        android:id="@+id/head"
+        layout="@layout/header" />
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_below="@+id/head">
 
-            <include layout="@layout/header" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:background="@color/grey_devider"/>
-            
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical|right"
-                    android:text="项目："
-                    android:textSize="16sp"
-                    android:textColor="@color/grey_800"/>
-
-                <TextView
-                    android:id="@+id/tv_huanwei_commit_project"
+                android:background="@color/grey_200" />
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="16sp"
-                    android:paddingLeft="10dp"
-                    android:gravity="center_vertical"
-                    android:hint="请选择项目"/>
+                    android:layout_height="50dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|right"
+                        android:text="项目："
+                        android:textSize="16sp"
+                        android:textColor="@color/grey_800"/>
+
+                    <TextView
+                        android:id="@+id/tv_huanwei_commit_project"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="16sp"
+                        android:paddingLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:hint="请选择项目"/>
 
 
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grey_devider"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical|right"
-                    android:text="检查内容："
-                    android:textSize="16sp"
-                    android:textColor="@color/grey_800"/>
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/tv_huanwei_commit_content"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="16sp"
-                    android:paddingLeft="10dp"
-                    android:gravity="center_vertical"
-                    android:hint="请选择检查内容"/>
+                    android:layout_height="1dp"
+                    android:background="@color/grey_devider"/>
 
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grey_devider"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical|right"
-                    android:text="检查地点："
-                    android:textSize="16sp"
-                    android:textColor="@color/grey_800"/>
-
-                <EditText
-                    android:id="@+id/et_huanwei_commit_position"
-                    android:layout_width="0dp"
-                    android:layout_weight="4"
-                    android:layout_height="match_parent"
-                    android:textSize="16sp"
-                    android:paddingLeft="10dp"
-                    android:gravity="center_vertical"
-                    android:hint="请输入检查地点"/>
-
-                <ImageView
-                    android:id="@+id/iv_huanwei_commit_location"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:textSize="16sp"
-                    android:gravity="center"
-                    android:src="@drawable/position"
-                    android:padding="10dp"/>
-
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grey_devider"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical|right"
-                    android:text="检查区域："
-                    android:textSize="16sp"
-                    android:textColor="@color/grey_800"/>
-
-                <TextView
-                    android:id="@+id/tv_huanwei_commit_town"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="16sp"
-                    android:paddingLeft="10dp"
-                    android:gravity="center_vertical"
-                    android:hint="请选择检查区域"/>
+                    android:layout_height="50dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|right"
+                        android:text="检查内容："
+                        android:textSize="16sp"
+                        android:textColor="@color/grey_800"/>
+
+                    <TextView
+                        android:id="@+id/tv_huanwei_commit_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="16sp"
+                        android:paddingLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:hint="请选择检查内容"/>
 
 
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grey_devider"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical|right"
-                    android:text="扣分值："
-                    android:textSize="16sp"
-                    android:textColor="@color/grey_800"/>
-
-                <EditText
-                    android:id="@+id/et_huanwei_commit_score"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="16sp"
-                    android:paddingLeft="10dp"
-                    android:inputType="number"
-                    android:gravity="center_vertical"
-                    android:hint="请输入扣分值"/>
-
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grey_devider"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:orientation="horizontal">
+                </LinearLayout>
 
                 <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="match_parent"
-                    android:gravity="right"
-                    android:text="问题描述："
-                    android:textSize="16sp"
-                    android:paddingTop="10dp"
-                    android:textColor="@color/grey_800"/>
-
-                <EditText
-                    android:id="@+id/et_huanwei_commit_descripe"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="16sp"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
-                    android:background="@color/white"
-                    android:gravity="top"
-                    android:hint="请选择问题描述"/>
+                    android:layout_height="1dp"
+                    android:background="@color/grey_devider"/>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|right"
+                        android:text="检查地点："
+                        android:textSize="16sp"
+                        android:textColor="@color/grey_800"/>
+
+                    <EditText
+                        android:id="@+id/et_huanwei_commit_position"
+                        android:layout_width="0dp"
+                        android:layout_weight="4"
+                        android:layout_height="match_parent"
+                        android:textSize="16sp"
+                        android:paddingLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:hint="请输入检查地点"/>
+
+                    <ImageView
+                        android:id="@+id/iv_huanwei_commit_location"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:src="@drawable/position"
+                        android:padding="10dp"/>
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_devider"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|right"
+                        android:text="检查区域："
+                        android:textSize="16sp"
+                        android:textColor="@color/grey_800"/>
+
+                    <TextView
+                        android:id="@+id/tv_huanwei_commit_town"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="16sp"
+                        android:paddingLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:hint="请选择检查区域"/>
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_devider"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|right"
+                        android:text="扣分值："
+                        android:textSize="16sp"
+                        android:textColor="@color/grey_800"/>
+
+                    <EditText
+                        android:id="@+id/et_huanwei_commit_score"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="16sp"
+                        android:paddingLeft="10dp"
+                        android:inputType="number|numberDecimal"
+                        android:gravity="center_vertical"
+                        android:hint="请输入扣分值"/>
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_devider"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:gravity="right"
+                        android:text="问题描述："
+                        android:textSize="16sp"
+                        android:paddingTop="10dp"
+                        android:textColor="@color/grey_800"/>
+
+                    <EditText
+                        android:id="@+id/et_huanwei_commit_descripe"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="16sp"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:background="@color/white"
+                        android:gravity="top"
+                        android:hint="请选择问题描述"/>
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_devider"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_huanwie_commit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <include layout="@layout/footer_zft"/>
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grey_devider"/>
+        </ScrollView>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_huanwie_commit"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </android.support.v7.widget.RecyclerView>
-
-
-
-        </LinearLayout>
-
-
-    </ScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-
-        <TextView
-            android:id="@+id/tv_huanwei_commit_btn"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:text="提 交"
-            android:textColor="@color/white"
-            android:background="@color/app_original_blue"
-            android:gravity="center"
-            android:textSize="17sp"/>
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="50dp"
-            android:background="@color/white"/>
-
-        <TextView
-            android:id="@+id/tv_huanwei_save_btn"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:text="保 存"
-            android:textColor="@color/white"
-            android:background="@color/app_original_blue"
-            android:gravity="center"
-            android:textSize="17sp"/>
-    </LinearLayout>
-
-
-
-</RelativeLayout>
+</LinearLayout>

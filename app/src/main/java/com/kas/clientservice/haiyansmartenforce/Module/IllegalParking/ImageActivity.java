@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.Utils.SPUtils;
@@ -31,9 +32,10 @@ public class ImageActivity extends BaseActivity {
     protected void initResAndListener() {
         super.initResAndListener();
         String url = getIntent().getStringExtra("url");
+
         if (url != null) {
             Log.i(TAG, "initResAndListener: "+url);
-            Picasso.with(this).load(url).placeholder(R.drawable.normal_pic).error(R.drawable.normal_pic).into(imageView);
+            Glide.with(this).load(url).placeholder(R.drawable.normal_pic).error(R.drawable.normal_pic).into(imageView);
         }
         String path = getIntent().getStringExtra("uri");
         if (path != null) {

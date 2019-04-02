@@ -7,6 +7,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnItemClickListener;
 import com.google.gson.Gson;
 import com.kas.clientservice.haiyansmartenforce.API.LoginAPI;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
@@ -30,6 +32,7 @@ import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 import butterknife.BindView;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import videotalk.im.SealUserInfoManager;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
@@ -61,7 +64,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void initResAndListener() {
         super.initResAndListener();
+        //是否是同一账号多终端登录导致重新登录
+   boolean IS_KICKED_OFFLINE_BY_OTHER_CLIENT =getIntent().getBooleanExtra("KICKED_OFFLINE_BY_OTHER_CLIENT",false);
+    if (IS_KICKED_OFFLINE_BY_OTHER_CLIENT){
+                    new AlertView("提醒", "您的账号已在别的终端上线，账号已退出!", "确定", null, null, mContext, AlertView.Style.Alert, new OnItemClickListener() {
+                @Override
+                public void onItemClick(Object o, int position) {
 
+                }
+            }
+            ).show();
+
+    }
         iv_back.setVisibility(View.GONE);
         tv_title.setText("登录");
         tv_login.setOnClickListener(this);
@@ -125,6 +139,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             public void onNext(BaseEntity<UserInfo> entity) {
                                 Log.i(TAG, "onNext: " + gson.toJson(entity));
                                 if (entity.isState()) {
+                                    SealUserInfoManager.getInstance().openDB();
                                     UserSingleton.USERINFO = entity.getRtn();
                                     UserInfo.NameBean nameBean = entity.getRtn().Name;
                                     if (nameBean != null) {
@@ -153,16 +168,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void saveUserInfo(String mPhone, String mUserPassword, UserInfo USERINFO) {
-        //保存先清空内容
-//        SPUtils.clear(getApplicationContext());
-        String userInfo = new Gson().toJson(USERINFO);
-        new SPBuild(getApplicationContext())
-                .addData(Constants.ISLOGIN, Boolean.TRUE)//登陆志位
-                .addData(Constants.LOGINTIME, System.currentTimeMillis())//登陆时间
-                .addData(Constants.USERACCOUNT, mPhone)//账号
-                .addData(Constants.USERPASSWORD, mUserPassword)//密码
-                .addData(Constants.USERINFO, userInfo)
-                .build();
-        SPUtils.putCommit(mContext, Constants.USERINFO, userInfo);
+
+        SPUtils.putCommit(mContext,Constants.ISLOGIN, Boolean.TRUE);
+        SPUtils.putCommit(mContext,Constants.LOGINTIME, System.currentTimeMillis());
+        SPUtils.putCommit(mContext,Constants.USERACCOUNT, mPhone);
+        SPUtils.putCommit(mContext,Constants.USERPASSWORD, mUserPassword);
     }
 }

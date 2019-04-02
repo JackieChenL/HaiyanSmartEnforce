@@ -9,54 +9,108 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/tev_house"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:textSize="40dp" />
+    <LinearLayout style="@style/item_style_lin">
 
-    <TextView
-        android:id="@+id/tev_address"
+        <TextView
+            android:id="@+id/tev_house"
+            style="@style/item_style_l"
+            />
+    </LinearLayout>
+    <View style="@style/item_divider"/>
+    <LinearLayout style="@style/item_style_lin">
+
+        <TextView
+            android:id="@+id/tev_address"
+            style="@style/item_style_l"
+            />
+    </LinearLayout>
+    <View style="@style/item_divider"/>
+    <LinearLayout
+        android:id="@+id/lin_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:textSize="40sp" />
+        android:layout_below="@+id/lin_photo">
 
-    <Button
-        android:id="@+id/bt_hao"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/shape_log"
-        android:text="好"
-        android:textSize="40dp" />
 
-    <Button
-        android:id="@+id/bt_yiban"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/shape_log"
-        android:text="一般"
-        android:textSize="40dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="文字备注:"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:textSize="16sp"
+            android:textColor="@color/grey_900"
+            />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/bt_buhao"
+    <LinearLayout
+
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/shape_log"
-        android:text="差"
-        android:textSize="40dp" />
+        android:layout_height="150dp"
+        android:layout_below="@+id/lin_text"
+        android:background="@drawable/but_case"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/edt_pj"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@null"/>
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <TextView
+            android:id="@+id/bt_hao"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:textColor="@color/white"
+            android:background="@color/app_original_blue"
+            android:gravity="center"
+            android:layout_gravity="bottom"
+            android:text="好"
+            android:textSize="17sp"
+            />
+        <View
+            android:layout_width="3dp"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/bt_yiban"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:textColor="@color/white"
+            android:background="@color/app_original_blue"
+            android:gravity="center"
+            android:layout_gravity="bottom"
+            android:text="良"
+            android:textSize="17sp"
+            />
+        <View
+            android:layout_width="3dp"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/bt_buhao"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:textColor="@color/white"
+            android:background="@color/app_original_blue"
+            android:gravity="center"
+            android:text="差"
+            android:textSize="17sp"/>
+    </LinearLayout>
+
 </LinearLayout>

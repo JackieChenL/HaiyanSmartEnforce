@@ -105,6 +105,7 @@ public abstract class PrintActivity extends ShowTitleActivity {
 
             @Override
             public void onServiceDisconnected(ComponentName name) {
+                isConnected=false;
                 Log.i(TAG, "onServiceDisconnected: ");
             }
 
@@ -121,10 +122,7 @@ public abstract class PrintActivity extends ShowTitleActivity {
                             device = bluetoothDevice;
                         }
                     }
-                } else {
-                    show("请先连接名为“Printer001”匹配码为“0000”的打印机，再进行操作！");
                 }
-//                    Log.i(TAG, "device: "+device.getAddress());
                 if (device != null) {
                     binder.connectBtPort(device.getAddress().trim(), new UiExecute() {
                         @Override
@@ -166,8 +164,8 @@ public abstract class PrintActivity extends ShowTitleActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         if (conn != null) {
             if (isConnected) {
                 unbindService(conn);

@@ -4,22 +4,27 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
+import com.kas.clientservice.haiyansmartenforce.MyApplication;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.util.HashMap;
+
+import butterknife.BindView;
 import okhttp3.Call;
 
 public class RankActivity extends BaseActivity implements View.OnClickListener{
     ImageView iv_title_back;
     TextView tv_title_name;
-    Button bt_hao, bt_yiban, bt_buhao;
+    TextView bt_hao, bt_yiban, bt_buhao;
     TextView tev_house, tev_address;
     Intent intent = new Intent();
     String UserName;
@@ -27,6 +32,8 @@ public class RankActivity extends BaseActivity implements View.OnClickListener{
     String SerialNumber;
     String Address;
     String result;
+    @BindView(R.id.edt_pj)
+    EditText edt_pj;
     int ID;
     @Override
     protected int getLayoutId() {
@@ -42,11 +49,11 @@ public class RankActivity extends BaseActivity implements View.OnClickListener{
     @Override
     protected void initResAndListener() {
         super.initResAndListener();
-        bt_hao = (Button) findViewById(R.id.bt_hao);
+        bt_hao = (TextView) findViewById(R.id.bt_hao);
         bt_hao.setOnClickListener(this);
-        bt_yiban = (Button) findViewById(R.id.bt_yiban);
+        bt_yiban = (TextView) findViewById(R.id.bt_yiban);
         bt_yiban.setOnClickListener(this);
-        bt_buhao = (Button) findViewById(R.id.bt_buhao);
+        bt_buhao = (TextView) findViewById(R.id.bt_buhao);
         bt_buhao.setOnClickListener(this);
         iv_title_back = (ImageView) findViewById(R.id.iv_title_back);
         iv_title_back.setOnClickListener(this);
@@ -83,22 +90,18 @@ public class RankActivity extends BaseActivity implements View.OnClickListener{
                 break;
             case R.id.bt_hao:
                 commit("1");
-                Toast.makeText(this, "您已成功进行好评", Toast.LENGTH_SHORT).show();
+
                 finish();
                 break;
             case R.id.bt_yiban:
-                commit("2");
+//                commit("2");
                 intent.setClass(this, PhotoActivity.class);
                 startActivity(intent);
-//                Toast.makeText(this, "您已成功进行中等评价", Toast.LENGTH_SHORT).show();
-                finish();
                 break;
             case R.id.bt_buhao:
                 commit("3");
                 intent.setClass(this, PhotoActivity.class);
                 startActivity(intent);
-//                Toast.makeText(this, "您已成功进行差评", Toast.LENGTH_SHORT).show();
-                finish();
                 break;
             default:
                 break;
@@ -163,11 +166,13 @@ public class RankActivity extends BaseActivity implements View.OnClickListener{
             }
         });
     }
+    protected  MyApplication app;
     public void commit(String score) {
-        OkHttpUtils.post().url("http://111.1.31.184:86/monitor/api/values/UpdateTrashRank")
+        OkHttpUtils.post().url("http://117.149.146.131:6111/monitor/api/values/UpdateTrashRank")
                 .addParams("SerialNumber", SerialNumber)
                 .addParams("Rank", score)
-                .addParams("UserId", "1").build().
+                .addParams("Remark",edt_pj.getText().toString())
+                .addParams("CollectorId",app.userID ).build().//TODO 垃圾分类评价UserID
                 execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
@@ -177,6 +182,12 @@ public class RankActivity extends BaseActivity implements View.OnClickListener{
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("tag", response);
+                        if (response.contains("success")){
+                            finish();
+                            Toast.makeText(RankActivity.this,"评价成功",Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(RankActivity.this,"评价失败",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 

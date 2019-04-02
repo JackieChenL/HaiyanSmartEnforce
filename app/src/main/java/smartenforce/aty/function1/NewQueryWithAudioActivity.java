@@ -16,7 +16,11 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
+import com.kas.clientservice.haiyansmartenforce.Module.TianDiTu.GeoBean;
+import com.kas.clientservice.haiyansmartenforce.Module.TianDiTu.GeoUtils;
+import com.kas.clientservice.haiyansmartenforce.Module.TianDiTu.TiandiMapActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
+import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
 import com.tianditu.android.maps.GeoPoint;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
@@ -45,7 +49,6 @@ import smartenforce.widget.FullyGridLayoutManager;
 
 
 public class NewQueryWithAudioActivity extends AudioActivity {
-    private TiandituUtil maputil;
     private int lat = 0, lon = 0;
     private String address;
 
@@ -80,7 +83,7 @@ public class NewQueryWithAudioActivity extends AudioActivity {
     private Button btn_voice;
     private ImageView imv_voice;
 
-
+    private GeoBean geoBean = new GeoBean(null);
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,24 +116,11 @@ public class NewQueryWithAudioActivity extends AudioActivity {
         tev_right.setText("提交");
         getFirstLevel();
         initPictureAdapter();
-        maputil = new TiandituUtil(aty);
-        maputil.setCallback(new TiandituUtil.onLocationSuccessCallback() {
+        GeoUtils.getInstance().startLocation(this, new GeoUtils.onLocationSuccessCallback() {
             @Override
-            public void onSuccess(GeoPoint point, String addressinfo) {
-                if (point == null) {
-                    return;
-                }
-                lat = point.getLatitudeE6();
-                lon = point.getLongitudeE6();
-                address = addressinfo;
-                tev_afdd.setText(address);
-            }
-        });
-        requestPermissionGroup(Pid.LOCATION, new PermissonCallBack() {
-            @Override
-            public void onPerMissionSuccess() {
-
-                maputil.startLocation();
+            public void onSuccess(GeoBean geo) {
+                geoBean = geo;
+                tev_afdd.setText(geoBean.address);
             }
         });
         tev_dsr.setOnClickListener(noFastClickLisener);
@@ -218,28 +208,10 @@ public class NewQueryWithAudioActivity extends AudioActivity {
                     getThirdLevel();
                     break;
                 case R.id.tev_afdd_r:
-                    requestPermissionGroup(Pid.LOCATION, new PermissonCallBack() {
-                        @Override
-                        public void onPerMissionSuccess() {
-                            Intent mapIntent = new Intent(aty, TiandituMapActivity.class);
-                            mapIntent.putExtra("LAT", lat);
-                            mapIntent.putExtra("LON", lon);
-                            mapIntent.putExtra("ADDRESS", getText(tev_afdd));
-                            startActivityForResult(mapIntent, REQUESTCODE.LOCATION);
-                        }
-                    });
-                    break;
                 case R.id.tev_afdd:
-                    requestPermissionGroup(Pid.LOCATION, new PermissonCallBack() {
-                        @Override
-                        public void onPerMissionSuccess() {
-                            Intent mapIntent = new Intent(aty, TiandituMapActivity.class);
-                            mapIntent.putExtra("LAT", lat);
-                            mapIntent.putExtra("LON", lon);
-                            mapIntent.putExtra("ADDRESS", getText(tev_afdd));
-                            startActivityForResult(mapIntent, REQUESTCODE.LOCATION);
-                        }
-                    });
+                    Intent mapIntent = new Intent(aty, TiandiMapActivity.class);
+                    mapIntent.putExtra("GeoBean", geoBean);
+                    startActivityForResult(mapIntent, REQUESTCODE.LOCATION);
                     break;
                 case R.id.tev_dsr:
                     startActivityForResult(new Intent(aty, EnterpriseOrCitizenActivity.class), REQUESTCODE.DSR);
@@ -264,9 +236,10 @@ public class NewQueryWithAudioActivity extends AudioActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUESTCODE.LOCATION) {
-                lat = data.getIntExtra("LAT", 0);
-                lon = data.getIntExtra("LON", 0);
-                address = data.getStringExtra("ADDRESS");
+                lat = data.getIntExtra("Latitude", 0);
+                lon = data.getIntExtra("Longitude", 0);
+                address = data.getStringExtra("Address");
+                geoBean = (GeoBean) data.getSerializableExtra("GeoBean");
                 tev_afdd.setText(address);
             } else if (requestCode == REQUESTCODE.DSR) {
                 dsr_type = data.getIntExtra("TYPE", 3);

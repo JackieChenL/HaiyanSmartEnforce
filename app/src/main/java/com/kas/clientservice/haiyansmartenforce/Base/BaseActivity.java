@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
@@ -36,10 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected Context mContext;
 
-    //关键的是否登录 由父类提供
-    public boolean isLogin = false;
-    //关键的https联网字段 由父类提供
-    public String mAuthorization;
+
 
 
     @Override
@@ -77,27 +75,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
-    private CompositeSubscription mCompositeSubscription;
 
-    public CompositeSubscription getCompositeSubscription() {
-        if (this.mCompositeSubscription == null) {
-            this.mCompositeSubscription = new CompositeSubscription();
-        }
-
-        return this.mCompositeSubscription;
-    }
-
-    public void addSubscription(Subscription s) {
-        if (s == null) {
-            return;
-        }
-
-        if (this.mCompositeSubscription == null) {
-            this.mCompositeSubscription = new CompositeSubscription();
-        }
-
-        this.mCompositeSubscription.add(s);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,11 +91,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
         Window window = getWindow();
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            // Translucent status bar
-//            window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-//                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//        }
+
 
 
         //调整软键盘
@@ -150,13 +124,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    /**
-     * 注册友盟统计
-     */
 
-    public RequestBody parseBodyToJson(Object entity) {
-        return RequestBody.create(MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(entity));
-    }
 
     public void startActivityWithoutBack(Context context, Class activity, Bundle bundle) {
         Intent intent = new Intent(context, activity);
@@ -185,6 +153,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     public String formLocation(String longitude, String latitude) {
 
         return longitude + "," + latitude;
+    }
+
+
+    protected String getTextValue(TextView tev){
+        return tev.getText().toString().trim();
     }
 
 

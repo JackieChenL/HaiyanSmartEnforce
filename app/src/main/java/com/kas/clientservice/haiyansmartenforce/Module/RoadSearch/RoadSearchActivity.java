@@ -69,7 +69,7 @@ public class RoadSearchActivity extends BaseActivity implements View.OnClickList
                 Intent intent = new Intent();
                 intent.putExtra("Road",list.get(i).road);
                 intent.putExtra("RoadId",list.get(i).ID);
-                setResult(Constants.RESULTCODE_ROAD,intent);
+                setResult(RESULT_OK,intent);
                 finish();
             }
         });

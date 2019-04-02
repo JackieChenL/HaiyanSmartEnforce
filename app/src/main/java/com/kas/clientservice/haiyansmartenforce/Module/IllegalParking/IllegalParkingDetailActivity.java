@@ -41,6 +41,8 @@ import java.util.Set;
 
 import butterknife.BindView;
 
+import static android.text.TextUtils.isEmpty;
+
 public class IllegalParkingDetailActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.tv_header_title)
     TextView tv_title;
@@ -109,10 +111,17 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
         if (bean.getWFimg() != null) {
 
             for (int i = 0; i < bean.getWFimg().size(); i++) {
-                list_img.add(bean.getWFimg().get(i).getImg());
+                if (!isEmpty(bean.getWFimg().get(i).getImg())) {
+                    final String[] picArray =bean.getWFimg().get(i).getImg().split("\\|");
+                    for (String pic : picArray) {
+                        list_img.add(pic);
+                    }
+                }
             }
-        }
 
+
+
+        }
         if (status.equals("1")) {
             tv_status.setText("已处理");
             tv_status.setTextColor(mContext.getResources().getColor(R.color.green));
@@ -132,7 +141,7 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
 
     private void initList() {
         adapter = new ImageListRvAdapter(list_img, mContext);
-        RecyclerView.LayoutManager manager = new GridLayoutManager(mContext, 2, LinearLayout.VERTICAL, false);
+        RecyclerView.LayoutManager manager = new GridLayoutManager(mContext, 3, LinearLayout.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();

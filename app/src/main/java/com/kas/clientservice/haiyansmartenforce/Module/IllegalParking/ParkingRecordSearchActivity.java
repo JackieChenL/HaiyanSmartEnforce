@@ -152,7 +152,7 @@ public class ParkingRecordSearchActivity extends BaseActivity implements View.On
 
                     @Override
                     public void onNext(BaseEntity<ParkingSearchEntity> stringBaseEntity) {
-                        Log.i(TAG, "onNext: " + stringBaseEntity);
+                        Log.e("记录查询",stringBaseEntity.getRtn().toString());
                         list.clear();
                         list.addAll(stringBaseEntity.getRtn().getBoard());
                         adapter.notifyDataSetChanged();

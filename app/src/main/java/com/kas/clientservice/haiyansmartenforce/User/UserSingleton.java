@@ -9,9 +9,8 @@ import com.kas.clientservice.haiyansmartenforce.Utils.SPUtils;
 public class UserSingleton {
     private Boolean isLogin;
 
-    public volatile static UserInfo USERINFO;
-    public static int tempEstateID;
-    private volatile static UserSingleton instance = new UserSingleton();
+    public  static UserInfo USERINFO;
+    private  static UserSingleton instance = new UserSingleton();
 
     public static UserSingleton getInstance() {
         return instance;

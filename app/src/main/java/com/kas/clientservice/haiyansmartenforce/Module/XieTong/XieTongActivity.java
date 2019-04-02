@@ -26,6 +26,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
 import com.jph.takephoto.compress.CompressConfig;
@@ -40,6 +41,8 @@ import com.kas.clientservice.haiyansmartenforce.Http.RequestUrl;
 import com.kas.clientservice.haiyansmartenforce.Http.RetrofitClient;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitImgRvAdapter;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ImageActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.TianDiTu.GeoBean;
+import com.kas.clientservice.haiyansmartenforce.Module.TianDiTu.GeoUtils;
 import com.kas.clientservice.haiyansmartenforce.Module.TianDiTu.TiandiMapActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
@@ -53,6 +56,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -99,7 +103,7 @@ public class XieTongActivity extends BaseActivity implements View.OnClickListene
     private String latitude;
     AlertDialog.Builder alertDialog;
     List<String> list_url = new ArrayList<>();
-
+    private GeoBean geoBean = new GeoBean(null);
     public TakePhoto getTakePhoto() {
         if (takePhoto == null) {
             takePhoto = new TakePhotoImpl(this, this);
@@ -130,13 +134,15 @@ public class XieTongActivity extends BaseActivity implements View.OnClickListene
 //            latitude = data.getStringExtra("Latitude");
 //            Log.i(TAG, "onActivityResult: "+longitude+"  "+latitude);
 //        }
-        if (requestCode == Constants.RESULTCODE_TIANDITU) {
-            if (data != null) {
+        if (resultCode==RESULT_OK) {
+            if (requestCode == Constants.RESULTCODE_TIANDITU) {
+                if (data != null) {
 
-                langitude = data.getStringExtra("Longitude");
-                latitude = data.getStringExtra("Latitude");
-                Log.i(TAG, "onActivityResult: " + langitude + "  " + latitude);
-                tv_location.setText(langitude + "," + latitude);
+                    langitude = data.getStringExtra("Longitude");
+                    latitude = data.getStringExtra("Latitude");
+                    Log.i(TAG, "onActivityResult: " + langitude + "  " + latitude);
+                    tv_location.setText(langitude + "," + latitude);
+                }
             }
         }
     }
@@ -160,6 +166,13 @@ public class XieTongActivity extends BaseActivity implements View.OnClickListene
         rl_bigClass.setOnClickListener(this);
         rl_lacation.setOnClickListener(this);
         tv_btn.setOnClickListener(this);
+        GeoUtils.getInstance().startLocation(this, new GeoUtils.onLocationSuccessCallback() {
+            @Override
+            public void onSuccess(GeoBean geo) {
+                geoBean = geo;
+                tv_location.setText(geoBean.lat+","+geoBean.lon);
+            }
+        });
         initPhoto();
         loadPPw();
     }
@@ -209,7 +222,9 @@ public class XieTongActivity extends BaseActivity implements View.OnClickListene
                 loadType();
                 break;
             case R.id.rl_xieTong_location:
-                startActivityForResult(new Intent(mContext, TiandiMapActivity.class), Constants.RESULTCODE_TIANDITU);
+                Intent mapIntent = new Intent(this, TiandiMapActivity.class);
+                mapIntent.putExtra("GeoBean", geoBean);
+                startActivityForResult(mapIntent, Constants.RESULTCODE_TIANDITU);
                 break;
             case R.id.tv_xietong_btn:
                 if (tv_type.getText().toString().equals("")) {
@@ -304,7 +319,7 @@ public class XieTongActivity extends BaseActivity implements View.OnClickListene
         Special special = new Special(zxzzCommitEntity);
 
         Log.i(TAG, "commit: " + gson.toJson(special));
-        RequestBody requestBody = parseBodyToJson(special);
+        RequestBody requestBody =RequestBody.create(MediaType.parse("application/json; charset=utf-8"), gson.toJson(special));
         RetrofitClient.createService(ZhuanXiangZhengZhiAPI.class)
                 .httpZXZZcommit(requestBody)
                 .observeOn(AndroidSchedulers.mainThread())

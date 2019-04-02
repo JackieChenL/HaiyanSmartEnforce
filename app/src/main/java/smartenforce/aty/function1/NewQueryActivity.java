@@ -435,7 +435,7 @@ public class NewQueryActivity extends ShowTitleActivity {
 
             @Override
             public void handleBeanResult(NetResultBean bean) {
-               log("test",bean.toString());
+                log("test",bean.toString());
 
                 if (bean.State) {
                     show("操作成功");
@@ -461,9 +461,9 @@ public class NewQueryActivity extends ShowTitleActivity {
             new AlertView("提示", "尚未添加处理后图片，请确认是否提交，提交后将不能更改", null, null, new String[]{"取消","提交"}, aty, AlertView.Style.Alert, new OnItemClickListener() {
                 @Override
                 public void onItemClick(Object o, int position) {
-                   if (position==1){
-                       doUploadImg();
-                   }
+                    if (position==1){
+                        doUploadImg();
+                    }
                 }
             }).show();
         } else {
@@ -474,19 +474,3 @@ public class NewQueryActivity extends ShowTitleActivity {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

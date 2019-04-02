@@ -43,6 +43,8 @@ import com.kas.clientservice.haiyansmartenforce.Entity.Small;
 import com.kas.clientservice.haiyansmartenforce.Http.RequestUrl;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitImgRvAdapter;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ImageActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.TianDiTu.GeoBean;
+import com.kas.clientservice.haiyansmartenforce.Module.TianDiTu.GeoUtils;
 import com.kas.clientservice.haiyansmartenforce.Module.TianDiTu.TiandiMapActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
@@ -120,7 +122,7 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
     private boolean isEdit = false;
     private int oldbig = -1;
     private int oldsmall = -1;
-
+    private GeoBean geoBean = new GeoBean(null);
     public TakePhoto getTakePhoto() {
         if (takePhoto == null) {
             takePhoto = new TakePhotoImpl(this, this);
@@ -146,32 +148,34 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
         super.onActivityResult(requestCode, resultCode, data);
 //        Log.i(TAG, "onActivityResult: "+data.toString());
         Log.i(TAG, "onActivityResult: " + requestCode + "  " + resultCode);
-        if (requestCode == Constants.RESULTCODE_TIANDITU) {
-            if (data != null) {
+        if (resultCode==RESULT_OK) {
+            if (requestCode == Constants.RESULTCODE_TIANDITU) {
+                if (data != null) {
 
-                longitude = data.getStringExtra("Longitude");
-                latitude = data.getStringExtra("Latitude");
-                Log.i(TAG, "onActivityResult: " + longitude + "  " + latitude);
-                tv_location.setText(formLocation(longitude, latitude));
+                    longitude = data.getStringExtra("Longitude");
+                    latitude = data.getStringExtra("Latitude");
+                    Log.i(TAG, "onActivityResult: " + longitude + "  " + latitude);
+                    tv_location.setText(formLocation(longitude, latitude));
+                }
             }
-        }
-        if (requestCode == 300) {
-            if (data != null) {
-                Uri uri = data.getData();
-                String[] filePathColumns = {MediaStore.Images.Media.DATA};
-                Cursor c = getContentResolver().query(uri, filePathColumns, null, null, null);
-                c.moveToFirst();
-                int columnIndex = c.getColumnIndex(filePathColumns[0]);
-                String imagePath = c.getString(columnIndex);
+            if (requestCode == 300) {
+                if (data != null) {
+                    Uri uri = data.getData();
+                    String[] filePathColumns = {MediaStore.Images.Media.DATA};
+                    Cursor c = getContentResolver().query(uri, filePathColumns, null, null, null);
+                    c.moveToFirst();
+                    int columnIndex = c.getColumnIndex(filePathColumns[0]);
+                    String imagePath = c.getString(columnIndex);
 //                showImage(imagePath);
-                c.close();
-                Bitmap bm = BitmapFactory.decodeFile(imagePath);
-                arr_image.add(bm);
-                adapter.notifyDataSetChanged();
+                    c.close();
+                    Bitmap bm = BitmapFactory.decodeFile(imagePath);
+                    arr_image.add(bm);
+                    adapter.notifyDataSetChanged();
 
-                ImgBean imgBean = new ImgBean();
-                imgBean.setUri(imagePath);
-                arr_uri.add(imgBean);
+                    ImgBean imgBean = new ImgBean();
+                    imgBean.setUri(imagePath);
+                    arr_uri.add(imgBean);
+                }
             }
         }
     }
@@ -199,7 +203,13 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
         time = TimeUtils.getFormedTime();
         tv_time.setText(time);
 
-
+        GeoUtils.getInstance().startLocation(this, new GeoUtils.onLocationSuccessCallback() {
+            @Override
+            public void onSuccess(GeoBean geo) {
+                geoBean = geo;
+                tv_location.setText(geoBean.lat+","+geoBean.lon);
+            }
+        });
         loadPPw();
         String entity = getIntent().getStringExtra("json");
         if (entity != null) {
@@ -385,7 +395,9 @@ public class CityCheckAddActivity extends BaseActivity implements View.OnClickLi
                 finish();
                 break;
             case R.id.rl_citySearch_add_location:
-                startActivityForResult(new Intent(mContext, TiandiMapActivity.class), Constants.RESULTCODE_TIANDITU);
+                Intent mapIntent = new Intent(this, TiandiMapActivity.class);
+                mapIntent.putExtra("GeoBean", geoBean);
+                startActivityForResult(mapIntent, Constants.RESULTCODE_TIANDITU);
                 break;
             case R.id.tv_citySearch_add_btn:
                 Log.i(TAG, "onClick: " + smallid);

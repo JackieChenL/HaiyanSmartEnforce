@@ -10,6 +10,7 @@ import com.hik.mcrsdk.MCRSDK;
 import com.hik.mcrsdk.rtsp.RtspClient;
 import com.hik.mcrsdk.talk.TalkClientSDK;
 import com.hikvision.vmsnetsdk.VMSNetSDK;
+import com.kas.clientservice.haiyansmartenforce.Utils.AppCrashUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -67,35 +68,34 @@ public class MyApplication extends Application {
                 .connectTimeout(10*1000L, TimeUnit.MILLISECONDS)
                 .readTimeout(60*1000L, TimeUnit.MILLISECONDS)
                 .writeTimeout(60*1000L, TimeUnit.MILLISECONDS)
-//                .addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-//                    @Override
-//                    public void log(String message) {
+                .addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+                    @Override
+                    public void log(String message) {
 //                        Log.e("HttpLoggingInterceptor",message);
-//                    }
-//                }).setLevel(HttpLoggingInterceptor.Level.BODY))
+                    }
+                }).setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
         OkHttpUtils.initClient(okHttpClient);
         initVedio();
-        //不緩存，直接在app启动初始化获取一下token
-        IDCardUtil.getInstance().getAuthToken();
+         AppCrashUtils.init(this);
 
         if (getApplicationInfo().packageName.equals(getCurProcessName(getApplicationContext()))) {
-
-            RongIM.setServerInfo("nav.cn.ronghub.com", "up.qbox.me");
-            RongIM.init(this,"m7ua80gbmj3om");
-            NLog.setDebug(true);
-            SealAppContext.init(this);
-            SharedPreferencesContext.init(this);
-//            Thread.setDefaultUncaughtExceptionHandler(new RongExceptionHandler(this));
-
             try {
-                RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
 
+                //不緩存，直接在app启动初始化获取一下token
+                IDCardUtil.getInstance().getAuthToken();
+                RongIM.setServerInfo("nav.cn.ronghub.com", "up.qbox.me");
+                RongIM.init(this,"m7ua80gbmj3om");
+                NLog.setDebug(true);
+                SealAppContext.init(this);
+                SharedPreferencesContext.init(this);
+//                Thread.setDefaultUncaughtExceptionHandler(new RongExceptionHandler(this));
+                RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            SealUserInfoManager.getInstance().openDB();
+
 
 
         }

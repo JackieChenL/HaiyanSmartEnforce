@@ -15,13 +15,12 @@ public class Constants {
     public static int RESULTCODE_TIANDITU = 100;
     public static int RESULTCODE_CASE_TYPE = 101;
     public static int RESULTCODE_ROAD= 102;
-    public static int COMPRESSRATE = 1500;
-    public static int PIC_MAXSIZE = 100;
+    public static int COMPRESSRATE = 1000;
+    public static int PIC_MAXSIZE = 200;
 
     public class MainModule{
         public static final int TINGCHESHOUFEI = 1;
         public static final int WEIZHANGTINGCHE = 2;
-        public static final int ANJIANCHAXUN = 3;
         public static final int GABAGE = 4;
     }
     public static final String MSG_ACCOUNT = "admin";

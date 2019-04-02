@@ -15,7 +15,7 @@ public class DateUtil {
     public static final String YMDH = "yyyy-MM-dd HH";
     public static final String YMDHM = "yyyy-MM-dd HH:mm";
     public static final String YMDHMS = "yyyy-MM-dd HH:mm:ss";
-
+    public static final String MDHMS = "MM-dd HH:mm:ss";
     public static final String Y_CHINESE = "yyyy年";
     public static final String YM_CHINESE = "yyyy年MM月";
     public static final String YMD_CHINESE = "yyyy年MM月dd日";

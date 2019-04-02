@@ -43,6 +43,8 @@ import com.kas.clientservice.haiyansmartenforce.Http.MySubscriber;
 import com.kas.clientservice.haiyansmartenforce.Http.RetrofitClient;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitImgRvAdapter;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ImageActivity;
+import com.kas.clientservice.haiyansmartenforce.Module.TianDiTu.GeoBean;
+import com.kas.clientservice.haiyansmartenforce.Module.TianDiTu.GeoUtils;
 import com.kas.clientservice.haiyansmartenforce.Module.TianDiTu.TiandiMapActivity;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
@@ -66,7 +68,7 @@ import static com.kas.clientservice.haiyansmartenforce.Utils.Utils.saveImageToLo
 public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.TakeResultListener, IllegalParkingCommitImgRvAdapter.OnImageAddClickListener, IllegalParkingCommitImgRvAdapter.OnImagelickListener, IllegalParkingCommitImgRvAdapter.OnImgDeleteClickListener, View.OnClickListener {
     @BindView(R.id.tv_header_title)
     TextView tv_title;
-    @BindView(R.id.tv_huanwei_commit_btn)
+    @BindView(R.id.tev_right)
     TextView tv_btn;
     @BindView(R.id.tv_huanwei_commit_content)
     TextView tv_content;
@@ -85,8 +87,8 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
     @BindView(R.id.et_huanwei_commit_descripe)
     EditText editText;
     @BindView(R.id.activity_huanwei_commit)
-    RelativeLayout rl_main;
-    @BindView(R.id.tv_huanwei_save_btn)
+    LinearLayout rl_main;
+    @BindView(R.id.tev_left)
     TextView tv_save;
 
     TakePhotoImpl takePhoto;
@@ -115,7 +117,7 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
     List<String> list_town = new ArrayList<>();
     List<TownEntity.TownBean> towns = new ArrayList<>();
     List<ImgBean> arr_uri = new ArrayList<>();
-
+    private GeoBean geoBean = new GeoBean(null);
     public TakePhoto getTakePhoto() {
         if (takePhoto == null) {
             takePhoto = new TakePhotoImpl(this, this);
@@ -141,32 +143,39 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
         super.onActivityResult(requestCode, resultCode, data);
 //        Log.i(TAG, "onActivityResult: "+data.toString());
         Log.i(TAG, "onActivityResult: " + requestCode + "  " + resultCode);
-        if (requestCode == Constants.RESULTCODE_TIANDITU) {
-            if (data != null) {
-                longitude = data.getStringExtra("Longitude");
-                latitude = data.getStringExtra("Latitude");
+        if (resultCode==RESULT_OK){
+            if (requestCode == Constants.RESULTCODE_TIANDITU) {
+                if (data != null) {
+                    longitude = data.getStringExtra("Longitude");
+                    latitude = data.getStringExtra("Latitude");
+                    String Address=data.getStringExtra("Address");
+                    geoBean = (GeoBean) data.getSerializableExtra("GeoBean");
+                    et_position.setText(Address);
+                }
+                Log.i(TAG, "onActivityResult: " + longitude + "  " + latitude);
             }
-            Log.i(TAG, "onActivityResult: " + longitude + "  " + latitude);
-        }
-        if (requestCode == 300) {
-            if (data != null) {
-                Uri uri = data.getData();
-                String[] filePathColumns = {MediaStore.Images.Media.DATA};
-                Cursor c = getContentResolver().query(uri, filePathColumns, null, null, null);
-                c.moveToFirst();
-                int columnIndex = c.getColumnIndex(filePathColumns[0]);
-                String imagePath = c.getString(columnIndex);
+            if (requestCode == 300) {
+                if (data != null) {
+                    Uri uri = data.getData();
+                    String[] filePathColumns = {MediaStore.Images.Media.DATA};
+                    Cursor c = getContentResolver().query(uri, filePathColumns, null, null, null);
+                    c.moveToFirst();
+                    int columnIndex = c.getColumnIndex(filePathColumns[0]);
+                    String imagePath = c.getString(columnIndex);
 //                showImage(imagePath);
-                c.close();
-                Bitmap bm = BitmapFactory.decodeFile(imagePath);
-                Bitmap water_bm = WaterMaskImageUtil.drawTextToRightBottom(mContext, bm, getTime(), 6, getResources().getColor(R.color.orange), 5, 5);
-                arr_image.add(water_bm);
-                adapter.notifyDataSetChanged();
+                    c.close();
+                    Bitmap bm = BitmapFactory.decodeFile(imagePath);
+                    Bitmap water_bm = WaterMaskImageUtil.drawTextToRightBottom(mContext, bm, getTime(), 6, getResources().getColor(R.color.orange), 5, 5);
+                    arr_image.add(water_bm);
+                    adapter.notifyDataSetChanged();
 
-                ImgBean imgBean = new ImgBean();
-                imgBean.setUri(imagePath);
-                arr_uri.add(imgBean);
-            }
+                    ImgBean imgBean = new ImgBean();
+                    imgBean.setUri(imagePath);
+                    arr_uri.add(imgBean);
+                }
+
+        }
+
         }
     }
 
@@ -183,7 +192,8 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
     @Override
     protected void initResAndListener() {
         super.initResAndListener();
-
+        tv_btn.setText("提交");
+        tv_save.setText("保存");
         tv_title.setText("上报");
         tv_project.setOnClickListener(this);
         tv_content.setOnClickListener(this);
@@ -192,6 +202,14 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
         tv_btn.setOnClickListener(this);
         tv_town.setOnClickListener(this);
         tv_save.setOnClickListener(this);
+
+        GeoUtils.getInstance().startLocation(this, new GeoUtils.onLocationSuccessCallback() {
+            @Override
+            public void onSuccess(GeoBean geo) {
+                geoBean = geo;
+                et_position.setText(geoBean.address);
+            }
+        });
         initList();
 
         loadPPw();
@@ -270,12 +288,7 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
     private void initList() {
         arr_image = new ArrayList<>();
         adapter = new IllegalParkingCommitImgRvAdapter(arr_image, mContext);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(mContext, 2, LinearLayout.VERTICAL, false) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        };
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(mContext, 2, LinearLayout.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         adapter.setOnImageAddClickListener(this);
         adapter.setOnImagelickListener(this);
@@ -326,20 +339,10 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
 
     }
 
+
     @Override
     public void onImageClick(int p) {
-//        Bitmap bmp = arr_image.get(p);
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
-//        byte[] bytes = baos.toByteArray();
-//
-////        Bundle b = new Bundle();
-////        b.putByteArray("bitmap", bytes);
-//        Intent intent = new Intent(mContext, ImageActivity.class);
-//        intent.putExtra("image", bytes);
-//        startActivity(intent);
         Intent intent = new Intent(mContext, ImageActivity.class);
-//        Log.i(TAG, "onImageClick: " + arr_uri.get(p));
         if (arr_uri.get(p).getUri() != null) {
             intent.putExtra("uri", arr_uri.get(p).getUri());
         } else if (arr_uri.get(p).getUrl() != null) {
@@ -378,9 +381,12 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
 //                startActivityForResult(new Intent(mContext, RoadSearchActivity.class), Constants.RESULTCODE_ROAD);
 //                break;
             case R.id.iv_huanwei_commit_location:
-                startActivityForResult(new Intent(mContext, TiandiMapActivity.class), Constants.RESULTCODE_TIANDITU);
+
+                Intent mapIntent = new Intent(this, TiandiMapActivity.class);
+                mapIntent.putExtra("GeoBean", geoBean);
+                startActivityForResult(mapIntent, Constants.RESULTCODE_TIANDITU);
                 break;
-            case R.id.tv_huanwei_commit_btn:
+            case R.id.tev_right:
                 roadName = et_position.getText().toString();
                 if (projectName.equals("")) {
                     ToastUtils.showToast(mContext, "请选择项目");
@@ -413,7 +419,7 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
                 }
                 commit("1");
                 break;
-            case R.id.tv_huanwei_save_btn:
+            case R.id.tev_left:
                 roadName = et_position.getText().toString();
                 if (projectName.equals("")) {
                     ToastUtils.showToast(mContext, "请选择项目");

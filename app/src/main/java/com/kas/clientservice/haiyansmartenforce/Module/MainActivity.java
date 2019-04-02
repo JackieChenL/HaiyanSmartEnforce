@@ -59,6 +59,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import okhttp3.Call;
+import smartenforce.aty.function1.NewQueryActivity;
 import smartenforce.aty.function1.NewQueryWithAudioActivity;
 import smartenforce.aty.function2.QueryListActivity;
 import smartenforce.aty.function4.RecipientActivity;
@@ -143,12 +144,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void onStart() {
         super.onStart();
-        Glide.with(mContext).load(UserSingleton.USERINFO.getPhoto()).asBitmap().error(R.drawable.loginhead).into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                iv_mine.setImageBitmap(resource);
-            }
-        });
+        Glide.with(mContext).load(UserSingleton.USERINFO.getPhoto()).asBitmap()
+                .error(R.drawable.loginhead).into(iv_mine);
+
+
     }
 
     private void loadVerticalBanner() {
@@ -341,7 +340,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case Constants.MainModule.WEIZHANGTINGCHE:
                 startActivity(new Intent(mContext, IllegalParkingCommitActivity.class));
                 break;
-            case Constants.MainModule.ANJIANCHAXUN:
+            case 3: //违停记录查询
                 startActivity(new Intent(mContext, ParkingRecordSearchActivity.class));
                 break;
             case Constants.MainModule.GABAGE:
@@ -405,6 +404,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case 24://服务对象
                 startActivity(new Intent(mContext, RecipientActivity.class));
+//                startActivity(new Intent(mContext, GarbageMainActivity.class));
                 break;
             case 25:
                 startActivity(new Intent(mContext, XieTongList.class));

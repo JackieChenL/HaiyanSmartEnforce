@@ -25,6 +25,8 @@ import com.bigkoo.alertview.OnItemClickListener;
 import com.kas.clientservice.haiyansmartenforce.MyApplication;
 import com.kas.clientservice.haiyansmartenforce.User.UserInfo;
 import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
+import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
+import com.kas.clientservice.haiyansmartenforce.Utils.SPUtils;
 
 import java.util.List;
 
@@ -88,7 +90,7 @@ public abstract class CommonActivity extends AppCompatActivity {
 
 
     protected String getOpername() {
-        return UserSingleton.getInstance().getUserAccount(aty);
+        return (String) SPUtils.get(this, Constants.USERACCOUNT,"");
     }
 
     protected List<UserInfo.TollCollectorBean.RoadBean> getRoadBeanList() {

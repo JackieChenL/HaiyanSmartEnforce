@@ -87,7 +87,9 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths"/>
         </provider>
-
+        <meta-data
+            android:name="com.tianditu.apikey"
+            android:value="249de20797a29314d308fc6a38cffe67" />
         <service android:name="net.xprinter.service.XprinterService"/>
 
         <activity android:name="smartenforce.aty.parking.CenterActivity"/>

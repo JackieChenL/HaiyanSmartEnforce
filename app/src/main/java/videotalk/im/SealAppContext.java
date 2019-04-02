@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 
 import com.alibaba.fastjson.JSONException;
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnItemClickListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -131,14 +133,14 @@ public class SealAppContext implements RongIM.ConversationListBehaviorListener,
         RongIM.getInstance().enableUnreadMessageIcon(true);
         RongIM.getInstance().setGroupMembersProvider(this);
         //RongIM.setGroupUserInfoProvider(this, true);//seal app暂时未使用这种方式,目前使用UserInfoProvider
-        BroadcastManager.getInstance(mContext).addAction(SealConst.EXIT, new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                SealUserInfoManager.getInstance().closeDB();
-                RongIM.getInstance().logout();
-
-            }
-        });
+//        BroadcastManager.getInstance(mContext).addAction(SealConst.EXIT, new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                SealUserInfoManager.getInstance().closeDB();
+//                RongIM.getInstance().logout();
+//
+//            }
+//        });
     }
 
     private void setReadReceiptConversationType() {
@@ -453,8 +455,10 @@ public class SealAppContext implements RongIM.ConversationListBehaviorListener,
             RongIM.getInstance().logout();
             Intent loginActivityIntent = new Intent();
             loginActivityIntent.setClass(mContext, com.kas.clientservice.haiyansmartenforce.Module.Login.LoginActivity.class);
+            loginActivityIntent.putExtra("KICKED_OFFLINE_BY_OTHER_CLIENT",true);
             loginActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(loginActivityIntent);
+
         }
     }
 

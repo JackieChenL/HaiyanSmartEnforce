@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -68,6 +69,8 @@ public class PhotoActivity extends BaseActivity implements View.OnClickListener,
     TextView tv_title;
     @BindView(R.id.iv_heaer_back)
     ImageView iv_back;
+    @BindView(R.id.edt_pj)
+    EditText edt_pj;
     private CropOptions cropOptions;  //裁剪参数
     private CompressConfig compressConfig; //压缩参数
     PopupWindow ppw;
@@ -197,10 +200,14 @@ public class PhotoActivity extends BaseActivity implements View.OnClickListener,
 //                intent.setClass(this, MainActivity.class);
 //                startActivity(intent);
                 if (file_vedio!=null) {
+                    Log.e("FileVedio",file_vedio.getAbsolutePath());
                     commit();
+                }else {
+                    Toast.makeText(PhotoActivity.this,"请进行拍摄照片",Toast.LENGTH_SHORT).show();
+                    return;
                 }
-                Toast.makeText(this, "您已成功进行评价", Toast.LENGTH_SHORT).show();
-                finish();
+
+//                finish();
                 break;
             case R.id.iv_vedio:
                 Log.i(TAG, "onClick: ");
@@ -243,7 +250,8 @@ public class PhotoActivity extends BaseActivity implements View.OnClickListener,
         showLoadingDialog();
         OkHttpUtils
                 .post()
-                .addFile("mFile","fileName",file_vedio).url("http://117.149.146.131/special/api/SpecialClass/Upload")
+                .addFile("mFile","fileName",file_vedio)
+                .url("http://117.149.146.131/special/api/SpecialClass/Upload")
                 .build()
                 .execute(new StringCallback() {
             @Override
@@ -255,27 +263,15 @@ public class PhotoActivity extends BaseActivity implements View.OnClickListener,
             @Override
             public void onResponse(String response, int id) {
                 dismissLoadingDialog();
-                Log.i(TAG, "onResponse: "+response);
+                Log.e(TAG, "onResponse: "+response);
                 if (response.contains("成功")) {
+                    finish();
                     ToastUtils.showToast(mContext,"提交成功");
                 }
+
+
             }
         });
-//        RetrofitClient.createService(UpLoadFileAPI.class)
-//                .httpUploadFile(requestFile)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(Schedulers.io())
-//                .subscribe(new MySubscriber<String>(mContext) {
-//                    @Override
-//                    public void onError(ExceptionHandle.ResponeThrowable responeThrowable) {
-//                        Log.i(TAG, "onError: "+responeThrowable.toString());
-//                    }
-//
-//                    @Override
-//                    public void onNext(String s) {
-//                        Log.i(TAG, "onNext: "+s);
-//                    }
-//                });
     }
 
     private void choseVedio() {
