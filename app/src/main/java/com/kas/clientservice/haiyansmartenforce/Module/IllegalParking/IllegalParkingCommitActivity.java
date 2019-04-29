@@ -634,7 +634,7 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
                     public void run() {
                         printHander.obtainMessage(2,"打印成功").sendToTarget();
                     }
-                },10000);
+                },3000);
 
             }
 
@@ -917,7 +917,6 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
         super.onDestroy();
         if (conn != null) {
             if (isServiceConnected) {
-
                 unbindService(conn);
             }
 

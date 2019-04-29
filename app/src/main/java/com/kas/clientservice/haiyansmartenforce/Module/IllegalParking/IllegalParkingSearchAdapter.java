@@ -83,6 +83,9 @@ public class IllegalParkingSearchAdapter extends BaseAdapter {
                 intent.putExtra("CarNum", list.get(i).getCarNum());
                 intent.putExtra("Status",list.get(i).getState());
                 intent.putExtra("Img",new Gson().toJson(list.get(i)));
+                intent.putExtra("ISMoreThanThrity",list.get(i).ISMoreThanThrity);
+                intent.putExtra("HasApplyTemParking",list.get(i).HasApplyTemParking);
+                intent.putExtra("ID",list.get(i).ID);
                 mContext.startActivity(intent);
             }
         });

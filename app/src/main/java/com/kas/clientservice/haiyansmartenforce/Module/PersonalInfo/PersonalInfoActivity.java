@@ -14,11 +14,14 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.kas.clientservice.haiyansmartenforce.API.SignInAPI;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseActivity;
 import com.kas.clientservice.haiyansmartenforce.Base.BaseEntity;
+import com.kas.clientservice.haiyansmartenforce.Entity.AppVersionInfo;
 import com.kas.clientservice.haiyansmartenforce.Http.ExceptionHandle;
 import com.kas.clientservice.haiyansmartenforce.Http.MySubscriber;
 import com.kas.clientservice.haiyansmartenforce.Http.RetrofitClient;
+import com.kas.clientservice.haiyansmartenforce.Module.Update.GetAppInfo;
 import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.User.UserSingleton;
+import com.kas.clientservice.haiyansmartenforce.Utils.SPUtils;
 import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 
 import butterknife.BindView;
@@ -55,6 +58,10 @@ public class PersonalInfoActivity extends BaseActivity implements View.OnClickLi
     @BindView(R.id.iv_personalInfo_icon)
     ImageView iv_icon;
 
+    @BindView(R.id.tev_version)
+    TextView tev_version;
+    @BindView(R.id.tev_qchc)
+            TextView tev_qchc;
     int signNum = 0;
 
     @Override
@@ -70,10 +77,12 @@ public class PersonalInfoActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initResAndListener() {
         super.initResAndListener();
-
+        String versionName = GetAppInfo.getAppVersionName(mContext);
+        tev_version.setText("当前版本:"+versionName);
         tv_title.setText("个人信息");
         tv_name.setText(UserSingleton.USERINFO.getUserName());
         tv_phone.setText(UserSingleton.USERINFO.getPhneNum());
+
         if (UserSingleton.USERINFO.isHaveSign()) {
             tv_qiandao.setEnabled(false);
             tv_qiandao.setText("已签到");
@@ -86,7 +95,7 @@ public class PersonalInfoActivity extends BaseActivity implements View.OnClickLi
         rl_identify.setOnClickListener(this);
         rl_myCommit.setOnClickListener(this);
         tv_qiandao.setOnClickListener(this);
-        rl_score.setOnClickListener(this);
+        tev_qchc.setOnClickListener(this);
         rl_youhuiquan.setOnClickListener(this);
 
 
@@ -132,7 +141,10 @@ public class PersonalInfoActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.rl_personalInfo_myCommit:
                 break;
+            case R.id.tev_qchc:
             case R.id.rl_personalInfo_help:
+                showToast("清除缓存成功");
+                SPUtils.clear(this);
                 break;
             case R.id.rl_personalInfo_youhuiquan:
                 break;

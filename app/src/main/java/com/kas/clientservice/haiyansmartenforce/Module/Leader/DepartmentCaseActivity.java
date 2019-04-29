@@ -101,9 +101,8 @@ public class DepartmentCaseActivity extends BaseActivity implements View.OnClick
         tv_endTime.setOnClickListener(this);
         tv_query.setOnClickListener(this);
         timePickerDialog = new TimePickerDialog(mContext);
-
-        endTime = TimeUtils.getFormedTime("yyyy-MM-dd HH:mm:ss");
-        startTime = "2000-1-1 00:00:00";
+        startTime= TimeUtils.getFormedTime("yyyy-MM-dd");
+        endTime = TimeUtils.getFormedTime("yyyy-MM-dd");
         tv_startTime.setText(startTime);
         tv_endTime.setText(endTime);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -185,6 +184,7 @@ public class DepartmentCaseActivity extends BaseActivity implements View.OnClick
         yVals1.clear();
         yVals2.clear();
         yVals3.clear();
+        yVals4.clear();
         xVals.clear();
         for (int s=0;s<list.size();s++){
             yVals1.add(new BarEntry(list.get(s).getInitiative(), s));
@@ -203,7 +203,7 @@ public class DepartmentCaseActivity extends BaseActivity implements View.OnClick
         set2.setColor(Color.rgb(164, 228, 251));
         BarDataSet set3 = new BarDataSet(yVals3, "一般程序");
         set3.setColor(Color.rgb(240, 177, 51));
-        BarDataSet set4 = new BarDataSet(yVals3, "简易程序");
+        BarDataSet set4 = new BarDataSet(yVals4, "简易程序");
         set4.setColor(Color.rgb(241, 246, 89));
         ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
         dataSets.add(set1);
@@ -249,6 +249,8 @@ public class DepartmentCaseActivity extends BaseActivity implements View.OnClick
     private void query() {
         list.clear();
         Log.i(TAG, "query: "+bigid);
+        startTime = tv_startTime.getText().toString();
+        endTime=tv_endTime.getText().toString();
         OkHttpUtils.post().url(RequestUrl.baseUrl_leader+"Mobile/DepartmentCaseStatistics.ashx")
                 .addParams("startTime",startTime)
                 .addParams("endTime",endTime)
@@ -261,7 +263,7 @@ public class DepartmentCaseActivity extends BaseActivity implements View.OnClick
 
             @Override
             public void onResponse(String response, int id) {
-                Log.i(TAG, "onResponse: "+response);
+                Log.e(TAG, "onResponse: "+response);
                 try {
                     JSONObject object = new JSONObject(response.toString());
                     JSONArray array = object.getJSONArray("KS");
@@ -313,12 +315,11 @@ public class DepartmentCaseActivity extends BaseActivity implements View.OnClick
         String hour = timePickerDialog.getHour() + "";
         String minutes = timePickerDialog.getMinute() + "";
         if (flag == 1) {
-            tv_startTime.setText(year + "-" + months + "-" + day + " " + hour + ":" + minutes);
-            startTime = tv_startTime.getText().toString();
+            tv_startTime.setText(year + "-" + months + "-" + day );
+
         }
         if (flag == 2) {
-            tv_endTime.setText(year + "-" + months + "-" + day + " " + hour + ":" + minutes);
-            endTime = tv_endTime.getText().toString();
+            tv_endTime.setText(year + "-" + months + "-" + day );
         }
     }
 
@@ -400,8 +401,9 @@ public class DepartmentCaseActivity extends BaseActivity implements View.OnClick
         intent.putExtra("DeDepartmentID",list.get(position).getDepartmentID()+"");
         intent.putExtra("firstLevelID","");
         intent.putExtra("bigName",bigName);
-        intent.putExtra("StartTime",startTime.substring(0,startTime.indexOf(" ")));
-        intent.putExtra("EndTime",endTime.substring(0,endTime.indexOf(" ")));
+        intent.putExtra("StartTime",tv_startTime.getText().toString());
+        intent.putExtra("EndTime",tv_endTime.getText().toString());
+        //endTime.substring(0,endTime.indexOf(" "))
         startActivity(intent);
     }
 

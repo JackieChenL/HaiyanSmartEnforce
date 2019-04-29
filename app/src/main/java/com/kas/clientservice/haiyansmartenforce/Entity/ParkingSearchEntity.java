@@ -45,12 +45,14 @@ public class ParkingSearchEntity {
          * WFimg : [{"img":""}]
          */
 
-        public String ID;
+        public int ID;
         public String CarNum;
         public String WFtime;
         public String WFaddress;
         public String WFAddressZB;
         public String State;
+        public boolean ISMoreThanThrity;
+        public boolean HasApplyTemParking;
         public List<WFimgBean> WFimg;
 
         public static class WFimgBean {
@@ -77,11 +79,11 @@ public class ParkingSearchEntity {
             CarNum = carNum;
         }
 
-        public String getID() {
+        public int getID() {
             return ID;
         }
 
-        public void setID(String ID) {
+        public void setID(int ID) {
             this.ID = ID;
         }
 

@@ -25,7 +25,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jph.takephoto.app.TakePhoto;
@@ -41,7 +40,6 @@ import com.kas.clientservice.haiyansmartenforce.Entity.TownEntity;
 import com.kas.clientservice.haiyansmartenforce.Http.ExceptionHandle;
 import com.kas.clientservice.haiyansmartenforce.Http.MySubscriber;
 import com.kas.clientservice.haiyansmartenforce.Http.RetrofitClient;
-import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.IllegalParkingCommitImgRvAdapter;
 import com.kas.clientservice.haiyansmartenforce.Module.IllegalParking.ImageActivity;
 import com.kas.clientservice.haiyansmartenforce.Module.TianDiTu.GeoBean;
 import com.kas.clientservice.haiyansmartenforce.Module.TianDiTu.GeoUtils;
@@ -63,9 +61,11 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.kas.clientservice.haiyansmartenforce.Utils.Utils.getImageCropUri;
-import static com.kas.clientservice.haiyansmartenforce.Utils.Utils.saveImageToLocal;
 
-public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.TakeResultListener, IllegalParkingCommitImgRvAdapter.OnImageAddClickListener, IllegalParkingCommitImgRvAdapter.OnImagelickListener, IllegalParkingCommitImgRvAdapter.OnImgDeleteClickListener, View.OnClickListener {
+public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.TakeResultListener, HuanWeiRvAdapter.OnImageAddClickListener, HuanWeiRvAdapter.OnImagelickListener, HuanWeiRvAdapter.OnImgDeleteClickListener, View.OnClickListener {
+   private static final int TAKE_FROM_CAPTURE=1;
+   private static final int TAKE_FROM_GALLERY=2;
+   
     @BindView(R.id.tv_header_title)
     TextView tv_title;
     @BindView(R.id.tev_right)
@@ -92,8 +92,10 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
     TextView tv_save;
 
     TakePhotoImpl takePhoto;
-    List<Bitmap> arr_image;
-    IllegalParkingCommitImgRvAdapter adapter;
+    
+    List<HuanWeiImgBean> dataList=new ArrayList<>();
+    HuanWeiRvAdapter adapter;
+
     private CompressConfig compressConfig;
     List<HuanweiAPI.HuanweiProjectEntity> list;
     List<HuanweiAPI.HuanweiContentEntity> list_content = new ArrayList<>();
@@ -113,10 +115,8 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
     String townId;
     StringAdapter stringAdapter;
     String townName;
-    String state;
     List<String> list_town = new ArrayList<>();
     List<TownEntity.TownBean> towns = new ArrayList<>();
-    List<ImgBean> arr_uri = new ArrayList<>();
     private GeoBean geoBean = new GeoBean(null);
     public TakePhoto getTakePhoto() {
         if (takePhoto == null) {
@@ -154,27 +154,8 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
                 }
                 Log.i(TAG, "onActivityResult: " + longitude + "  " + latitude);
             }
-            if (requestCode == 300) {
-                if (data != null) {
-                    Uri uri = data.getData();
-                    String[] filePathColumns = {MediaStore.Images.Media.DATA};
-                    Cursor c = getContentResolver().query(uri, filePathColumns, null, null, null);
-                    c.moveToFirst();
-                    int columnIndex = c.getColumnIndex(filePathColumns[0]);
-                    String imagePath = c.getString(columnIndex);
-//                showImage(imagePath);
-                    c.close();
-                    Bitmap bm = BitmapFactory.decodeFile(imagePath);
-                    Bitmap water_bm = WaterMaskImageUtil.drawTextToRightBottom(mContext, bm, getTime(), 6, getResources().getColor(R.color.orange), 5, 5);
-                    arr_image.add(water_bm);
-                    adapter.notifyDataSetChanged();
+            
 
-                    ImgBean imgBean = new ImgBean();
-                    imgBean.setUri(imagePath);
-                    arr_uri.add(imgBean);
-                }
-
-        }
 
         }
     }
@@ -286,14 +267,14 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
     }
 
     private void initList() {
-        arr_image = new ArrayList<>();
-        adapter = new IllegalParkingCommitImgRvAdapter(arr_image, mContext);
+     
+        adapter = new HuanWeiRvAdapter(dataList, mContext);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(mContext, 2, LinearLayout.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         adapter.setOnImageAddClickListener(this);
         adapter.setOnImagelickListener(this);
         adapter.setOnImgDeleteClickListener(this);
-        setRecyclerViewHeight(arr_image.size());
+        setRecyclerViewHeight(dataList.size());
         recyclerView.setAdapter(adapter);
     }
 
@@ -308,24 +289,22 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
     @Override
     public void takeSuccess(String imagePath) {
         Log.i(TAG, "takeSuccess: " + imagePath);
-        Bitmap bmp = BitmapFactory.decodeFile(imagePath);//filePath
-
-        Bitmap water_bitmap = WaterMaskImageUtil.drawTextToRightBottom(mContext, bmp, getTime(), 6, getResources().getColor(R.color.orange), 5, 5);
-        Log.i(TAG, "takeSuccess: length=" + water_bitmap.getByteCount() / 1024);
-        arr_image.add(water_bitmap);
-//        setRecyclerViewHeight(arr_image.size());
+        if (imagePath==null){
+            showToast("图片出现未知错误，请联系管理员");
+            return;
+        }
+        Bitmap bmp = BitmapFactory.decodeFile(imagePath);
+        String currentTime=getTime();
+        Bitmap water_bitmap = WaterMaskImageUtil.drawTextToRightBottom(mContext, bmp, currentTime, 6, getResources().getColor(R.color.orange), 5, 5);
+        dataList.add(new HuanWeiImgBean(water_bitmap,imagePath));
         adapter.notifyDataSetChanged();
 
-        ImgBean imgbean = new ImgBean();
-        imgbean.setUri(saveImageToLocal(water_bitmap, mContext));
-        arr_uri.add(imgbean);
 
-        ppw_photo.dismiss();
     }
 
     @Override
     public void takeFail(String msg) {
-
+        showToast(msg);
     }
 
     @Override
@@ -343,18 +322,16 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
     @Override
     public void onImageClick(int p) {
         Intent intent = new Intent(mContext, ImageActivity.class);
-        if (arr_uri.get(p).getUri() != null) {
-            intent.putExtra("uri", arr_uri.get(p).getUri());
-        } else if (arr_uri.get(p).getUrl() != null) {
-            intent.putExtra("url", arr_uri.get(p).getUrl());
-        }
+
+        intent.putExtra("uri", dataList.get(p).getFilePath());
+
 
         startActivity(intent);
     }
 
     @Override
     public void onImgDeleteClick(int position) {
-        arr_image.remove(position);
+        dataList.remove(position);
         adapter.notifyDataSetChanged();
     }
 
@@ -456,16 +433,12 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
                 ppw_town.showAtLocation(rl_main, Gravity.CENTER, 0, 0);
                 break;
             case R.id.tv_ppw_mediaType_take:
-                takePhoto();
-
+                ppw_photo.dismiss();
+                takePhoto(TAKE_FROM_CAPTURE);
                 break;
             case R.id.tv_ppw_mediaType_chose:
-//                choseVedio();
-                Intent intent = new Intent(
-                        Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, 300);
                 ppw_photo.dismiss();
+                takePhoto(TAKE_FROM_GALLERY);
                 break;
             case R.id.tv_ppw_mediaType_cancel:
                 ppw_photo.dismiss();
@@ -473,7 +446,7 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
         }
     }
 
-    private void takePhoto() {
+    private void takePhoto(int type) {
         if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             //申请权限
             ActivityCompat.requestPermissions(this,
@@ -487,18 +460,25 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         101);
             } else {
-                uri = getImageCropUri();
+              
 //                cropOptions = new CropOptions.Builder().setAspectX(1).setAspectY(1).setWithOwnCrop(false).create();
                 //设置压缩参数
                 compressConfig = new CompressConfig.Builder().setMaxSize(Constants.PIC_MAXSIZE * 1024).setMaxPixel(Constants.COMPRESSRATE).create();
                 takePhoto.onEnableCompress(compressConfig, true); //设置为需要压缩
-                takePhoto.onPickFromCapture(uri);
+               if (type==TAKE_FROM_CAPTURE){
+                   uri = getImageCropUri();
+                   takePhoto.onPickFromCapture(uri);  
+               }else{
+                   takePhoto.onPickFromGallery();   
+               }
+               
+
             }
         }
     }
 
     private void commit(String status) {
-        Log.i(TAG, "commit: " + BitmapToBase64.bitmapListToBase64(arr_image));
+        String img=adapter.getBase64Str();
         RetrofitClient.createService(HuanweiAPI.class)
                 .httpHuanweiCommit(UserSingleton.USERINFO.getCheckNameID(),
                         contentId,
@@ -509,7 +489,7 @@ public class HuanweiCommitActivity extends BaseActivity implements TakePhoto.Tak
                         townId,
                         et_score.getText().toString(),
                         status,
-                        BitmapToBase64.bitmapListToBase64(arr_image))
+                        img)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new MySubscriber<BaseEntity>(mContext) {

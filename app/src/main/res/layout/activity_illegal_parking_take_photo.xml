@@ -12,11 +12,33 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_parking_takePhoto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/header"
         android:layout_marginBottom="70dp">
 
     </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/lin_bz"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_grey_border"
+        android:layout_margin="5dp"
+        android:layout_below="@+id/rv_parking_takePhoto"
+        android:visibility="gone">
+        <EditText
+            android:id="@+id/edt_bz"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp"
+            android:padding="5dp"
+            android:gravity="left|top"
+            android:hint=" 备注"
+            android:minLines="5" />
+    </LinearLayout>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"

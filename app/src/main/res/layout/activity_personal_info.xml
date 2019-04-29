@@ -240,11 +240,12 @@
             android:layout_marginLeft="20dp"/>
 
         <TextView
+            android:id="@+id/tev_qchc"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:layout_toRightOf="@id/iv_personalInfo_help"
-            android:text="在线帮助"
+            android:text="清除缓存"
             android:textColor="@color/grey_900"
             android:layout_marginLeft="20dp"/>
 
@@ -280,12 +281,12 @@
             android:layout_marginLeft="20dp"/>
 
         <TextView
+            android:id="@+id/tev_version"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:layout_toRightOf="@id/iv_personalInfo_youhui"
-            android:text="我的优惠券"
-
+            android:text="当前版本"
             android:textColor="@color/grey_900"
             android:layout_marginLeft="20dp"/>
 

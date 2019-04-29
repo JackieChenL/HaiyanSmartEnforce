@@ -31,6 +31,12 @@ public interface ZhuanXiangZhengZhiAPI {
     @FormUrlEncoded
     Observable<UploadImgEntity> httpZXZZimg(@Field("Img") String img,@Field("UserID")String id,@Field("UpType")String upType);
 
+
+    @POST("mobile/UploadImg.ashx")
+    @FormUrlEncoded
+    Observable<UploadImgEntity> httpTCSFimg(@Field("Img") String img,@Field("UserID")String id,@Field("UpType")String upType,@Field("number")int number,@Field("Carnum")String Carnum);
+
+
     class UploadImgEntity{
         public List<String> KS;
 

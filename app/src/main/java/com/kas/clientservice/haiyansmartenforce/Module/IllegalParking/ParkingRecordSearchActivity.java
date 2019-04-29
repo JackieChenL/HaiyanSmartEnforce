@@ -22,6 +22,7 @@ import com.kas.clientservice.haiyansmartenforce.Utils.TimePickerDialog;
 import com.kas.clientservice.haiyansmartenforce.Utils.TimeUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -136,6 +137,14 @@ public class ParkingRecordSearchActivity extends BaseActivity implements View.On
     }
 
     private void submit() {
+        HashMap<String,String> map=new HashMap<>();
+        map.put("ZFRYID",UserSingleton.USERINFO.getLawEnforcementOfficialsId());
+        map.put("carnum",province + abc + et_num.getText().toString());
+        map.put("starttime", tv_startTime.getText().toString());
+        map.put("endtime",tv_endTime.getText().toString());
+        map.put("WFaddress",editText.getText().toString()) ;
+
+        Log.e("路段查询MAP",map.toString());
         RetrofitClient.createService(ParkingRecordSearchAPI.class)
                 .httpParkingSearch(UserSingleton.USERINFO.getLawEnforcementOfficialsId(),
                         province + abc + et_num.getText().toString(),

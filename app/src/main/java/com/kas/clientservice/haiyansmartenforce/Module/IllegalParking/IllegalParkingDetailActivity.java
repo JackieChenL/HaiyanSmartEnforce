@@ -15,6 +15,7 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -62,7 +63,8 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
     TextView tv_status;
     @BindView(R.id.rv_parkingDetail)
     RecyclerView recyclerView;
-
+    @BindView(R.id.tev_submit)
+    TextView tev_submit;
 
     IMyBinder binder;
     ServiceConnection conn;
@@ -77,6 +79,10 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
     List<String> list_img;
     ImageListRvAdapter adapter;
 
+    int ID=0;//停车案件ID
+
+    private boolean HasApplyTemParking;
+    private boolean ISMoreThanThrity;
 
     @Override
     protected int getLayoutId() {
@@ -91,21 +97,22 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
     @Override
     protected void initResAndListener() {
         super.initResAndListener();
-//        intent.putExtra("Time",tv_time.getText().toString());
-//        intent.putExtra("Position",et_positon.getText().toString());
-//        intent.putExtra("CarNum",province+A2Z+et_num.getText().toString());
         time = getIntent().getStringExtra("Time");
         carNum = getIntent().getStringExtra("CarNum");
         position = getIntent().getStringExtra("Position");
         code = getIntent().getStringExtra("Code");
         status = getIntent().getStringExtra("Status");
         img = getIntent().getStringExtra("Img");
-
-
+        ID=getIntent().getIntExtra("ID",0);
+        HasApplyTemParking=getIntent().getBooleanExtra("HasApplyTemParking",false);
+        ISMoreThanThrity=getIntent().getBooleanExtra("ISMoreThanThrity",false);
+        if (HasApplyTemParking==false&&ISMoreThanThrity==false){
+            tev_submit.setVisibility(View.VISIBLE);
+        }
         tv_carNum.setText(carNum);
         tv_time.setText(time);
         tv_position.setText(position);
-
+        tev_submit.setOnClickListener(this);
         ParkingSearchEntity.BoardBean bean = gson.fromJson(img, ParkingSearchEntity.BoardBean.class);
         list_img = new ArrayList<>();
         if (bean.getWFimg() != null) {
@@ -168,6 +175,18 @@ public class IllegalParkingDetailActivity extends BaseActivity implements View.O
             case R.id.tv_parkingDetail_next:
                 Intent intent = new Intent(mContext, IllegalParkingTakePhotoActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.tev_submit:
+                Intent subTent=new Intent(mContext,IllegalParkingTakePhotoActivity.class);
+                subTent.putExtra("Time",time);
+                subTent.putExtra("CarNum",carNum);
+                subTent.putExtra("Position",position);
+                subTent.putExtra("Code",code);
+                subTent.putExtra("ID",ID);
+                subTent.putExtra("TYPE",1);
+                startActivity(subTent);
+                break;
+            default:
                 break;
 
         }

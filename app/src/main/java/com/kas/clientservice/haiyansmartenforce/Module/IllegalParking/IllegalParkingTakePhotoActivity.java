@@ -13,6 +13,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -68,6 +69,11 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
     @BindView(R.id.iv_heaer_back)
     ImageView iv_back;
 
+    @BindView(R.id.edt_bz)
+    EditText edt_bz;
+    @BindView(R.id.lin_bz)
+    LinearLayout lin_bz;
+
     TakePhoto takePhoto;
     List<TimeImgUrlBean> arr_uri = new ArrayList<>();
     UrlParkingAdapter adapter;
@@ -79,7 +85,8 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
     String code = "";
     String roadId = "";
 
-
+    int ID=0;//停车案件ID
+    int TYPE=0;
     public TakePhoto getTakePhoto() {
         if (takePhoto == null) {
             takePhoto = new TakePhotoImpl(this, this);
@@ -125,13 +132,23 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
         position = getIntent().getStringExtra("Position");
         code = getIntent().getStringExtra("Code");
         roadId = getIntent().getStringExtra("RoadId");
-        tv_title.setText("违法照片");
+        ID=getIntent().getIntExtra("ID",0);
+        TYPE=getIntent().getIntExtra("TYPE",0);
+
+        if (TYPE==1){
+            tv_title.setText("临时停车照片");
+            lin_bz.setVisibility(View.VISIBLE);
+        }else {
+            tv_title.setText("违法照片");
+        }
         iv_back.setOnClickListener(this);
         tv_back.setOnClickListener(this);
         tv_submit.setOnClickListener(this);
 
 
+
         adapter =new UrlParkingAdapter(arr_uri, mContext);
+
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(mContext, 2, LinearLayout.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -180,16 +197,34 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         101);
             } else {
-                if (arr_uri.size()>=3){
-                    showToast("最多拍摄三张图片");
-                }else{
-                    uri = getImageCropUri();
+
+
+                if (TYPE==1){
+                    if (arr_uri.size()>=1) {
+                        showToast("最多拍摄一张图片");
+                    }else {
+                        uri = getImageCropUri();
 //                cropOptions = new CropOptions.Builder().setAspectX(1).setAspectY(1).setWithOwnCrop(false).create();
-                    //设置压缩参数
-                    compressConfig = new CompressConfig.Builder().setMaxSize(Constants.PIC_MAXSIZE * 1024).setMaxPixel(Constants.COMPRESSRATE).create();
-                    takePhoto.onEnableCompress(compressConfig, true); //设置为需要压缩
-                    takePhoto.onPickFromCapture(uri);
+                        //设置压缩参数
+                        compressConfig = new CompressConfig.Builder().setMaxSize(Constants.PIC_MAXSIZE * 1024).setMaxPixel(Constants.COMPRESSRATE).create();
+                        takePhoto.onEnableCompress(compressConfig, true); //设置为需要压缩
+                        takePhoto.onPickFromCapture(uri);
+                    }
+                }else {
+                    if (arr_uri.size()>=3){
+                        showToast("最多拍摄三张图片");
+                    }else {
+                        uri = getImageCropUri();
+//                cropOptions = new CropOptions.Builder().setAspectX(1).setAspectY(1).setWithOwnCrop(false).create();
+                        //设置压缩参数
+                        compressConfig = new CompressConfig.Builder().setMaxSize(Constants.PIC_MAXSIZE * 1024).setMaxPixel(Constants.COMPRESSRATE).create();
+                        takePhoto.onEnableCompress(compressConfig, true); //设置为需要压缩
+                        takePhoto.onPickFromCapture(uri);
+                    }
                 }
+
+
+
 
             }
         }
@@ -205,13 +240,23 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
                 finish();
                 break;
             case R.id.tv_parking_takePhoto_submit:
-                if (arr_uri.size() <3) {
-                    ToastUtils.showToast(mContext, "至少拍摄三张图片");
-                }
-                else {
+
+                if (TYPE==1){
+                    if (arr_uri.size() <1) {
+                        ToastUtils.showToast(mContext, "至少拍摄一张图片");
+                    } else {
+                        String imgUrls=adapter.getUrl();
+                        commitLSTC(imgUrls);
+                    }
+                }else {
+                    if (arr_uri.size() <3) {
+                        ToastUtils.showToast(mContext, "至少拍摄三张图片");
+                    } else {
                         String imgUrls=adapter.getUrl();
                         commit(imgUrls);
+                    }
                 }
+
 
                 break;
             case R.id.tv_parking_takePhoto_back:
@@ -220,11 +265,21 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
 
         }
     }
-
+    int number=0;
+    String upType="";
     private void uploadImg(Bitmap bmp) {
+        number=arr_uri.size()+1;
+        HashMap<String,String> map=new HashMap<>();
+        map.put("Number",number+"");
+        Log.e("TCSFNumber",number+"");
+        if (TYPE==1){
+            upType="applyparking";
+        }else {
+            upType="illegalparking";
+        }
       final  String img =BitmapToBase64.bitmapToBase64(bmp);
         RetrofitClient.createService(ZhuanXiangZhengZhiAPI.class, RequestUrl.baseUrl_leader)
-                .httpZXZZimg(img,"-1","citizen")
+                .httpTCSFimg(img,"-1",upType,number,carNum)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new MySubscriber<ZhuanXiangZhengZhiAPI.UploadImgEntity>(mContext) {
@@ -271,15 +326,20 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
             @Override
             public void onResponse(final String response, int id) {
                 dismissLoadingDialog();
-                Log.i(TAG, "onResponse: " + response);
-                BaseEntity baseEntity = gson.fromJson(response, BaseEntity.class);
-                if (baseEntity.isState()) {
+                Log.e(TAG, "onResponse: " + response);
+//                if (response==null||response.equals("")){
+//                    ToastUtil.show(mContext,"数据出错");
+//                }else {
+                    BaseEntity baseEntity = gson.fromJson(response, BaseEntity.class);
+                    if (baseEntity.isState()) {
 
-                    ToastUtils.showToast(mContext, "上传成功");
-                    startActivityWithoutBack(mContext, MainActivity.class, null);
-                } else {
-                    ToastUtils.showToast(mContext,baseEntity.ErrorMsg);
-                }
+                        ToastUtils.showToast(mContext, "上传成功");
+                        startActivityWithoutBack(mContext, MainActivity.class, null);
+                    } else {
+                        ToastUtils.showToast(mContext,baseEntity.ErrorMsg);
+                    }
+//                }
+
             }
 
 
@@ -287,6 +347,49 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
 
 
     }
+
+
+    private void commitLSTC(String substring) {
+        showLoadingDialog();
+        HashMap<String,String> params=new HashMap<>();
+        params.put("FwxxtbId", ID+"");
+        params.put("img", substring);
+        params.put("summary",edt_bz.getText().toString());
+        Log.e("LSTCparamsMap",params.toString());
+        OkHttpUtils.post().url(RetrofitClient.mBaseUrl + "system/theme/anjuan/ApplayTemporaryStop.ashx")
+                .params(params).build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                Log.i(TAG, "onError: " + e.toString());
+                ToastUtil.show(mContext, "上传失败");
+                dismissLoadingDialog();
+            }
+
+            @Override
+            public void onResponse(final String response, int id) {
+                dismissLoadingDialog();
+                Log.e(TAG, "onResponse: " + response);
+//                if (response==null||response.equals("")){
+//                    ToastUtil.show(mContext,"数据出错");
+//                }else {
+                BaseEntity baseEntity = gson.fromJson(response, BaseEntity.class);
+                if (baseEntity.isState()) {
+
+                    ToastUtils.showToast(mContext, "申请成功");
+                    startActivityWithoutBack(mContext, MainActivity.class, null);
+                } else {
+                    ToastUtils.showToast(mContext,baseEntity.ErrorMsg);
+                }
+//                }
+
+            }
+
+
+        });
+
+
+    }
+
 
 
 }

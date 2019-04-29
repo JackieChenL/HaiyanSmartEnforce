@@ -169,7 +169,10 @@
 
             </android.support.v7.widget.RecyclerView>
 
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text=""/>
         </LinearLayout>
 
 
@@ -179,9 +182,7 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_alignParentBottom="true"
-        android:visibility="gone">
-
-
+        >
         <TextView
             android:id="@+id/tv_parkingDetail_print"
             android:layout_width="0dp"
@@ -191,12 +192,14 @@
             android:background="@color/app_original_blue"
             android:gravity="center"
             android:text="打印"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:visibility="gone"/>
 
         <TextView
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/white"/>
+            android:background="@color/white"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_parkingDetail_next"
@@ -207,7 +210,22 @@
             android:background="@color/app_original_blue"
             android:gravity="center"
             android:text="下一步"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:visibility="gone"/>
+
+
+
+        <TextView
+            android:id="@+id/tev_submit"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:background="@color/app_original_blue"
+            android:gravity="center"
+            android:text="临时停车申请"
+            android:textColor="@color/white"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
