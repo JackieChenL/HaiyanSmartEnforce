@@ -33,7 +33,7 @@ import smartenforce.dialog.ListDialog;
 import smartenforce.impl.BeanCallBack;
 import smartenforce.impl.NoFastClickLisener;
 import smartenforce.intf.ListItemClickLisener;
-import smartenforce.projectutil.IDCardUtil;
+import smartenforce.projectutil.OcrUtil;
 import smartenforce.util.ImgUtil;
 import smartenforce.util.RegexUtil;
 import smartenforce.zxing.ScanActivity;
@@ -242,7 +242,7 @@ public class EnterpriseOrCitizenActivity extends ShowTitleActivity implements Ra
     };
 
     private void getIdCardInfo(String base64IdCard) {
-        IDCardUtil.getInstance().getIdCardInfo(aty, base64IdCard, new IDCardUtil.onIdCardCallBack() {
+        OcrUtil.getInstance().getIdCardInfo(aty, base64IdCard, new OcrUtil.onIdCardCallBack() {
             @Override
             public void onSuccess(String name, String idCardNum, String sex, String nation, String address) {
                 edt_name_p.setText(name);

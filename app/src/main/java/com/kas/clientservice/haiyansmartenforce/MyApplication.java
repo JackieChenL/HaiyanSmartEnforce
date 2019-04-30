@@ -4,7 +4,6 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
-import android.util.Log;
 
 import com.hik.mcrsdk.MCRSDK;
 import com.hik.mcrsdk.rtsp.RtspClient;
@@ -16,13 +15,10 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import java.util.concurrent.TimeUnit;
 
 import io.rong.imkit.RongIM;
-import io.rong.imlib.ipc.RongExceptionHandler;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-import smartenforce.projectutil.IDCardUtil;
-import smartenforce.util.LogUtil;
+import smartenforce.projectutil.OcrUtil;
 import videotalk.im.SealAppContext;
-import videotalk.im.SealUserInfoManager;
 import videotalk.im.message.provider.ContactNotificationMessageProvider;
 import videotalk.im.server.utils.NLog;
 import videotalk.im.utils.SharedPreferencesContext;
@@ -83,7 +79,7 @@ public class MyApplication extends Application {
             try {
 
                 //不緩存，直接在app启动初始化获取一下token
-                IDCardUtil.getInstance().getAuthToken();
+                OcrUtil.getInstance().getAuthToken();
                 RongIM.setServerInfo("nav.cn.ronghub.com", "up.qbox.me");
                 RongIM.init(this,"m7ua80gbmj3om");
                 NLog.setDebug(true);

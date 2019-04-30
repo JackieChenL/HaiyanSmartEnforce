@@ -20,6 +20,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.text.method.ReplacementTransformationMethod;
 import android.util.Log;
 import android.view.View;
@@ -50,6 +51,7 @@ import com.kas.clientservice.haiyansmartenforce.R;
 import com.kas.clientservice.haiyansmartenforce.Utils.BitmapToBase64;
 import com.kas.clientservice.haiyansmartenforce.Utils.Constants;
 import com.kas.clientservice.haiyansmartenforce.Utils.Dp2pxUtil;
+import com.kas.clientservice.haiyansmartenforce.Utils.NetUtils;
 import com.kas.clientservice.haiyansmartenforce.Utils.SPUtils;
 import com.kas.clientservice.haiyansmartenforce.Utils.TimePickerDialog;
 import com.kas.clientservice.haiyansmartenforce.Utils.TimePickerDialog.TimePickerDialogInterface;
@@ -76,6 +78,7 @@ import butterknife.BindView;
 import okhttp3.Call;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import smartenforce.projectutil.OcrUtil;
 import smartenforce.util.ToastUtil;
 import smartenforce.widget.ProgressDialogUtil;
 
@@ -373,61 +376,35 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
     }
 
     public void carNumRecognize(String img) {
-
-        showLoadingDialog();
-        OkHttpUtils.post().url("http://jisucpsb.market.alicloudapi.com/licenseplaterecognition/recognize")
-                .addHeader("X-Ca-Key", "24553193")
-                .addHeader("Authorization", "APPCODE 2e476d97d6994a489afb3491b44a2578")
-                .addParams("pic", img).build().execute(new StringCallback() {
+        OcrUtil.getInstance().getCarNumberInfo(this, img, new OcrUtil.onCarNumberCallBack() {
             @Override
-            public void onError(Call call, Exception e, int id) {
-                Log.i(TAG, "onError: " + e.toString());
-                ToastUtils.showToast(mContext, "识别失败，请重新识别");
-                dismissLoadingDialog();
-            }
+            public void onSuccess(String carNumber) {
+                et_num.setText(carNumber.substring(2));
+                String prov = String.valueOf(carNumber.charAt(0));
+                String a2z = String.valueOf(carNumber.charAt(1));
 
-            @Override
-            public void onResponse(final String response, int id) {
-                dismissLoadingDialog();
-                Log.i(TAG, "onResponse: " + response);
-                if (response.contains("status")) {
-
-                    CarNumRecgnizeEntity carNumRecgnizeEntity = gson.fromJson(response, CarNumRecgnizeEntity.class);
-                    if (carNumRecgnizeEntity.getStatus().equals("0")) {
-                        String carNum = carNumRecgnizeEntity.getResult().getNumber();
-                        et_num.setText(carNum.substring(2));
-
-                        String prov = String.valueOf(carNum.charAt(0));
-                        String a2z = String.valueOf(carNum.charAt(1));
-
-                        for (int i = 0; i < list_province.length; i++) {
-                            if (prov.equals(list_province[i])) {
-                                sp_province.setSelection(i);
-                                province = prov;
-                                break;
-                            }
-                        }
-                        for (int i = 0; i < list_A2Z.length; i++) {
-                            if (a2z.equals(list_A2Z[i])) {
-                                sp_A2Z.setSelection(i);
-                                A2Z = a2z;
-                                Log.i(TAG, "onResponse: position=" + i);
-                                Log.i(TAG, "onResponse: " + list_A2Z[i]);
-                                Log.i(TAG, "onResponse: " + a2z);
-                                break;
-                            }
-                        }
-
-                    } else {
-                        ToastUtils.showToast(mContext, "识别失败，请重新识别");
+                for (int i = 0; i < list_province.length; i++) {
+                    if (prov.equals(list_province[i])) {
+                        sp_province.setSelection(i);
+                        province = prov;
+                        break;
                     }
-                }else {
-                    ToastUtils.showToast(mContext, "识别失败，请重新识别");
+                }
+                for (int i = 0; i < list_A2Z.length; i++) {
+                    if (a2z.equals(list_A2Z[i])) {
+                        sp_A2Z.setSelection(i);
+                        A2Z = a2z;
+                        break;
+                    }
                 }
             }
 
-
+            @Override
+            public void onErroMsg(String msg) {
+                ToastUtils.showToast(mContext,msg);
+            }
         });
+
 
     }
 
@@ -435,26 +412,29 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_commitIllegalParking_print:
-                if (!et_num.getText().toString().equals("")) {
-                    if (et_num.getText().toString().length() == 5) {
-
-                        if (!tev_road.getText().toString().equals("")) {
-                            if (isNumGot) {
-
-                                print();
-                            }else {
-                                ToastUtil.show(mContext,"抄告单获取失败，请点击抄告单号重新获取");
-                            }
-                        } else {
-                            ToastUtils.showToast(mContext, "请输入地点信息");
-                        }
-                    } else {
-                        ToastUtils.showToast(mContext, "请输入正确的5位车牌号码");
-                    }
-                } else {
+                String carNumber=et_num.getText().toString().trim();
+                if (TextUtils.isEmpty(carNumber)){
                     ToastUtils.showToast(mContext, "请输入车牌号");
+                }else{
+                   if (carNumber.length()==5||carNumber.length()==6){
+                       String roadNum=tev_road.getText().toString().trim();
+                       if (!TextUtils.isEmpty(roadNum)) {
+                           if (isNumGot) {
+                               print();
+                           }else {
+                               ToastUtil.show(mContext,"抄告单获取失败，请点击抄告单号重新获取");
+                           }
+                       } else {
+                           ToastUtils.showToast(mContext, "请输入地点信息");
+                       }
+
+                   }
+                    else{
+                       ToastUtils.showToast(mContext, "车牌号格式错误");
+                   }
+
                 }
-//                commit();
+
 
                 break;
             case R.id.iv_heaer_back:
@@ -471,12 +451,14 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
                 break;
             case R.id.tv_commitIllegalParking_next:
 
-                if (!et_num.getText().toString().equals("")) {
-                    if (et_num.getText().toString().length() == 5) {
-
-                        if (!tev_road.getText().toString().equals("")) {
+                String carNumber_=et_num.getText().toString().trim();
+                if (TextUtils.isEmpty(carNumber_)){
+                    ToastUtils.showToast(mContext, "请输入车牌号");
+                }else{
+                    if (carNumber_.length()==5||carNumber_.length()==6){
+                        String roadNum=tev_road.getText().toString().trim();
+                        if (!TextUtils.isEmpty(roadNum)) {
                             if (isNumGot) {
-
                                 Intent intent = new Intent(mContext, IllegalParkingTakePhotoActivity.class);
                                 Log.i(TAG, "onNext: " + tv_time.getText().toString());
                                 intent.putExtra("Time", tv_time.getText().toString());
@@ -491,13 +473,13 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
                         } else {
                             ToastUtils.showToast(mContext, "请输入地点信息");
                         }
-                    } else {
-                        ToastUtils.showToast(mContext, "请输入正确的5位车牌号码");
-                    }
-                } else {
-                    ToastUtils.showToast(mContext, "请输入车牌号");
-                }
 
+                    }
+                    else{
+                        ToastUtils.showToast(mContext, "车牌号格式错误");
+                    }
+
+                }
                 break;
             case R.id.iv_commitParking_takePhoto:
                 takePhoto();
