@@ -17,8 +17,8 @@ import smartenforce.widget.ProgressDialogUtil;
 
 public class OcrUtil {
     private static final String grant_type="client_credentials";
-    private static final String API_Key="YjcPlmgbEiyO3GLR5ci9mSEh";
-    private static final String Secret_Key="5ine6XQUgYfmZxYczcpSvoeR0WZFOGdr";
+    private static final String API_Key="jMefFwwMoDDRytAVbvEDTN8k";
+    private static final String Secret_Key="uMsocF96fScVWQQtD5OOm6DrHHyWLnxr";
     private static final String Token_Url="https://aip.baidubce.com/oauth/2.0/token";
     private static final String IdCard_Url="https://aip.baidubce.com/rest/2.0/ocr/v1/idcard";
     private static final String CarNumber_Url="https://aip.baidubce.com/rest/2.0/ocr/v1/license_plate";
