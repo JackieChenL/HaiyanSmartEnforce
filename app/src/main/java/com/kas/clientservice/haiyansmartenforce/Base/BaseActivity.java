@@ -12,6 +12,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnItemClickListener;
 import com.google.gson.Gson;
 import com.kas.clientservice.haiyansmartenforce.Utils.ToastUtils;
 
@@ -160,6 +162,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         return tev.getText().toString().trim();
     }
 
-
+    protected AlertView getShowAlert(String headerTxt, final String[] array, final TextView tev) {
+        return new AlertView(headerTxt, null, null, null, array, mContext, AlertView.Style.Alert, new OnItemClickListener() {
+            @Override
+            public void onItemClick(Object o, int position) {
+                tev.setText(array[position]);
+            }
+        });
+    }
 
 }

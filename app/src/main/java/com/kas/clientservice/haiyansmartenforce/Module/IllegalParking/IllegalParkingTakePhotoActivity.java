@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
@@ -73,6 +74,8 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
     EditText edt_bz;
     @BindView(R.id.lin_bz)
     LinearLayout lin_bz;
+    @BindView(R.id.tev_alert)
+    TextView tev_alert;
 
     TakePhoto takePhoto;
     List<TimeImgUrlBean> arr_uri = new ArrayList<>();
@@ -84,9 +87,14 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
     String carNum = "";
     String code = "";
     String roadId = "";
-
+    String JDSnum="";
     int ID=0;//停车案件ID
     int TYPE=0;
+
+
+    String CarPlateTypeCPT="";
+    String  CarBodyColorCBC="";
+    String CarTypeCT="";
     public TakePhoto getTakePhoto() {
         if (takePhoto == null) {
             takePhoto = new TakePhotoImpl(this, this);
@@ -126,6 +134,10 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
     @Override
     protected void initResAndListener() {
         super.initResAndListener();
+        CarPlateTypeCPT=getIntent().getStringExtra("CarPlateTypeCPT");
+
+        CarBodyColorCBC=getIntent().getStringExtra("CarBodyColorCBC");
+        CarTypeCT=getIntent().getStringExtra("CarTypeCT");
 
         time = getIntent().getStringExtra("Time");
         carNum = getIntent().getStringExtra("CarNum");
@@ -134,12 +146,18 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
         roadId = getIntent().getStringExtra("RoadId");
         ID=getIntent().getIntExtra("ID",0);
         TYPE=getIntent().getIntExtra("TYPE",0);
-
+        JDSnum=getIntent().getStringExtra("JDSnum");
         if (TYPE==1){
             tv_title.setText("临时停车照片");
             lin_bz.setVisibility(View.VISIBLE);
         }else {
             tv_title.setText("违法照片");
+            tev_alert.setVisibility(View.VISIBLE);
+
+
+
+
+
         }
         iv_back.setOnClickListener(this);
         tv_back.setOnClickListener(this);
@@ -147,11 +165,12 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
 
 
 
-        adapter =new UrlParkingAdapter(arr_uri, mContext);
+        adapter =new UrlParkingAdapter(arr_uri, mContext,this);
 
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(mContext, 2, LinearLayout.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
+
         adapter.setOnImageAddClickListener(this);
 
         recyclerView.setAdapter(adapter);
@@ -184,6 +203,8 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
 
     @Override
     public void onImageAddClick() {
+
+
         if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             //申请权限
             ActivityCompat.requestPermissions(this,
@@ -200,6 +221,9 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
 
 
                 if (TYPE==1){
+
+
+
                     if (arr_uri.size()>=1) {
                         showToast("最多拍摄一张图片");
                     }else {
@@ -211,6 +235,7 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
                         takePhoto.onPickFromCapture(uri);
                     }
                 }else {
+
                     if (arr_uri.size()>=3){
                         showToast("最多拍摄三张图片");
                     }else {
@@ -269,17 +294,24 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
     String upType="";
     private void uploadImg(Bitmap bmp) {
         number=arr_uri.size()+1;
-        HashMap<String,String> map=new HashMap<>();
-        map.put("Number",number+"");
-        Log.e("TCSFNumber",number+"");
+
+
         if (TYPE==1){
             upType="applyparking";
         }else {
             upType="illegalparking";
         }
+
+
+        HashMap<String,String> map=new HashMap<>();
+        map.put("Number",number+"");
+        map.put("JDSnum",JDSnum);
+        map.put("upType",upType);
+        map.put("carNum",carNum);
+        Log.e("图片停车收费",map.toString());
       final  String img =BitmapToBase64.bitmapToBase64(bmp);
         RetrofitClient.createService(ZhuanXiangZhengZhiAPI.class, RequestUrl.baseUrl_leader)
-                .httpTCSFimg(img,"-1",upType,number,carNum)
+                .httpTCSFimg(img,"-1",upType,number,carNum,JDSnum)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new MySubscriber<ZhuanXiangZhengZhiAPI.UploadImgEntity>(mContext) {
@@ -293,6 +325,10 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
                     public void onNext(ZhuanXiangZhengZhiAPI.UploadImgEntity s) {
                         Log.i(TAG, "onNext: "+gson.toJson(s));
                         arr_uri.add(new TimeImgUrlBean(s.getKS().get(0)));
+
+
+
+
                         adapter.notifyDataSetChanged();
 
                     }
@@ -313,7 +349,10 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
         params.put("Img", substring);
         params.put("UpType", "enterprise");
         params.put("jdsnum", code);
-        Log.e("paramsMap",params.toString());
+        params.put("CarPlateType",CarPlateTypeCPT);
+        params.put("CarBodyColor",CarBodyColorCBC);
+        params.put("Cartype",CarTypeCT);
+        Log.e("违章停车MAP",params.toString());
         OkHttpUtils.post().url(RetrofitClient.mBaseUrl + "system/theme/anjuan/WFHandler.ashx")
             .params(params).build().execute(new StringCallback() {
             @Override
@@ -327,9 +366,6 @@ public class IllegalParkingTakePhotoActivity extends BaseActivity implements Tak
             public void onResponse(final String response, int id) {
                 dismissLoadingDialog();
                 Log.e(TAG, "onResponse: " + response);
-//                if (response==null||response.equals("")){
-//                    ToastUtil.show(mContext,"数据出错");
-//                }else {
                     BaseEntity baseEntity = gson.fromJson(response, BaseEntity.class);
                     if (baseEntity.isState()) {
 

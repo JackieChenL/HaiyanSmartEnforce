@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.kas.clientservice.haiyansmartenforce.Http.RequestUrl;
@@ -27,13 +28,17 @@ public class UrlParkingAdapter extends RecyclerView.Adapter<UrlParkingAdapter.Vi
     List<TimeImgUrlBean> arr_bitmap;
     Context mContext;
     LayoutInflater inflater;
+
+
+    public IllegalParkingTakePhotoActivity activity;
     private OnImageAddClickListener onImageAddClickListener;
     private static final int TYPE_NORMAL = 1;
     private static final int TYPE_ADD = 2;
 
-    public UrlParkingAdapter(List<TimeImgUrlBean> arr_bitmap, Context mContext) {
+    public UrlParkingAdapter(List<TimeImgUrlBean> arr_bitmap, Context mContext,IllegalParkingTakePhotoActivity activity) {
         this.arr_bitmap = arr_bitmap;
         this.mContext = mContext;
+        this.activity=activity;
         inflater = LayoutInflater.from(mContext);
     }
 
@@ -51,6 +56,18 @@ public class UrlParkingAdapter extends RecyclerView.Adapter<UrlParkingAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
+        if (position==0){
+            activity.tev_alert.setText("请拍摄正面照片");
+        }else if(position==1){
+            activity.tev_alert.setText("请拍摄告知书特写");
+        }else if(position==2){
+            activity.tev_alert.setText("请拍摄驾驶室");
+        }else if (position>2){
+            activity.tev_alert.setText("您已全部拍摄完毕");
+        }
+
+
+
         if (position<=arr_bitmap.size() - 1) {
             final String ImageUrl=RequestUrl.baseUrl_img +arr_bitmap.get(position).getUrl();
             Glide.with(mContext).load(ImageUrl).centerCrop()

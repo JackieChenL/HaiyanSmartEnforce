@@ -164,5 +164,8 @@ public class HttpApi {
     //TODO:获取企业标签
     public static final String URL_ENTERPRISELABELLIST = MOBILE_BASE + "EnterpriseLabelList.ashx";
 
+    // 获取车牌类型
+    public static final String URL_CPLX ="http://hywx.hnzhzf.top/system/theme/anjuan/GetCarProp.ashx";
+
 
 }

@@ -32,6 +32,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.alertview.AlertView;
+import com.google.gson.Gson;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
 import com.jph.takephoto.compress.CompressConfig;
@@ -78,6 +80,7 @@ import butterknife.BindView;
 import okhttp3.Call;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import smartenforce.base.HttpApi;
 import smartenforce.projectutil.OcrUtil;
 import smartenforce.util.ToastUtil;
 import smartenforce.widget.ProgressDialogUtil;
@@ -112,11 +115,19 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
     @BindView(R.id.iv_commitParking_takePhoto)
     ImageView iv_takePhoto;
     @BindView(R.id.tv_bottom)
-            TextView tv_bottom;
+    TextView tv_bottom;
 
 
     @BindView(R.id.tev_road)
-            TextView tev_road;
+    TextView tev_road;
+
+    @BindView(R.id.tev_cplb_c)
+    TextView tev_cplb_c;
+    @BindView(R.id.tev_color)
+    TextView tev_color;
+    @BindView(R.id.tev_cllx_c)
+    TextView tev_cllx_c;
+
     String[] arr_province;
     String[] arr_abc;
 
@@ -141,6 +152,11 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
     TimePickerDialog timePickerDialog;
     String roadName = "";
 
+    private String[] array_cplx,array_color,array_car;
+    private AlertView alertView_cplx,alertView_color,alertView_car;
+    List<CPLXBean.RtnBean> list=new ArrayList<>();
+    List<CarColorBean.RtnBean> colorList=new ArrayList<>();
+    List<CarTypeBean.RtnBean> carList=new ArrayList<>();
     private GeoBean geoBean = new GeoBean(null);
     @Override
     protected int getLayoutId() {
@@ -253,6 +269,13 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
         tv_code.setOnClickListener(this);
         tv_time.setOnClickListener(this);
         tev_road.setOnClickListener(this);
+
+        tev_cplb_c.setOnClickListener(this);
+        tev_color.setOnClickListener(this);
+        tev_cllx_c.setOnClickListener(this);
+        searchCPLX();
+        searchColor();
+        searchCarType();
         arr_image = new ArrayList<>();
         adapter = new IllegalParkingCommitImgRvAdapter(arr_image, mContext);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(mContext, 2, LinearLayout.VERTICAL, false);
@@ -417,6 +440,7 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
                     ToastUtils.showToast(mContext, "请输入车牌号");
                 }else{
                    if (carNumber.length()==5||carNumber.length()==6){
+
                        String roadNum=tev_road.getText().toString().trim();
                        if (!TextUtils.isEmpty(roadNum)) {
                            if (isNumGot) {
@@ -434,8 +458,6 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
                    }
 
                 }
-
-
                 break;
             case R.id.iv_heaer_back:
                 finish();
@@ -459,6 +481,8 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
                         String roadNum=tev_road.getText().toString().trim();
                         if (!TextUtils.isEmpty(roadNum)) {
                             if (isNumGot) {
+
+                                String JDSnum=getTextValue(tv_code);
                                 Intent intent = new Intent(mContext, IllegalParkingTakePhotoActivity.class);
                                 Log.i(TAG, "onNext: " + tv_time.getText().toString());
                                 intent.putExtra("Time", tv_time.getText().toString());
@@ -466,6 +490,10 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
                                 intent.putExtra("CarNum", province + A2Z + et_num.getText().toString());
                                 intent.putExtra("Code", tv_code.getText().toString());
                                 intent.putExtra("RoadId",roadId);
+                                intent.putExtra("JDSnum",JDSnum);
+                                intent.putExtra("CarPlateTypeCPT",getTextValue(tev_cplb_c));
+                                intent.putExtra("CarBodyColorCBC",getTextValue(tev_color));
+                                intent.putExtra("CarTypeCT",getTextValue(tev_cllx_c));
                                 startActivity(intent);
                             }else {
                                 ToastUtil.show(mContext,"抄告单获取失败，请点击抄告单号重新获取");
@@ -494,10 +522,104 @@ public class IllegalParkingCommitActivity extends BaseActivity implements Illega
                     loadPaperNum();
                 }
                 break;
+            case R.id.tev_cplb_c:
+                if (alertView_cplx == null) {
+                    alertView_cplx = getShowAlert("选择车牌类别", array_cplx, tev_cplb_c);
+                }
+                alertView_cplx.show();
 
+                break;
+            case R.id.tev_color:
+                if (alertView_color == null) {
+                    alertView_color = getShowAlert("选择车身颜色", array_color, tev_color);
+                }
+                alertView_color.show();
+                break;
+            case R.id.tev_cllx_c:
+                if (alertView_car == null) {
+                    alertView_car = getShowAlert("选择车身颜色", array_car, tev_cllx_c);
+                }
+                alertView_car.show();
+                break;
+            default:
+                break;
         }
     }
 
+    private void searchCPLX() {
+        OkHttpUtils.post().url(HttpApi.URL_CPLX).addParams("carprop","1").build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                Log.e(TAG,e.toString());
+                showToast("网络发生错误");
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                list.clear();
+                CPLXBean bean=new Gson().fromJson(response,CPLXBean.class);
+                if (bean.State){
+                    list.addAll(bean.Rtn);
+                    array_cplx = new String[list.size()];
+                    for (int i = 0; i < list.size(); i++) {
+                        array_cplx[i] = list.get(i).CarPlateTypeCPT;
+                        
+                    }
+                    tev_cplb_c.setText(list.get(id).CarPlateTypeCPT);
+                }
+            }
+        });
+    }
+    private void searchColor() {
+        OkHttpUtils.post().url(HttpApi.URL_CPLX).addParams("carprop","2").build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                Log.e(TAG,e.toString());
+                showToast("网络发生错误");
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                colorList.clear();
+                CarColorBean bean=new Gson().fromJson(response,CarColorBean.class);
+                if (bean.State){
+                    colorList.addAll(bean.Rtn);
+                    array_color = new String[colorList.size()];
+                    for (int i = 0; i < colorList.size(); i++) {
+                        array_color[i] = colorList.get(i).CarBodyColorCBC;
+                    }
+                    tev_color.setText(colorList.get(id).CarBodyColorCBC);
+                }
+            }
+        });
+    }
+
+
+
+    private void searchCarType() {
+        OkHttpUtils.post().url(HttpApi.URL_CPLX).addParams("carprop","3").build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                Log.e(TAG,e.toString());
+                showToast("网络发生错误");
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                carList.clear();
+                CarTypeBean bean=new Gson().fromJson(response,CarTypeBean.class);
+                if (bean.State){
+                    carList.addAll(bean.Rtn);
+                    array_car = new String[carList.size()];
+                    for (int i = 0; i < carList.size(); i++) {
+                        array_car[i] = carList.get(i).CarTypeCT;
+
+                    }
+                    tev_cllx_c.setText(carList.get(id).CarTypeCT);
+                }
+            }
+        });
+    }
     private void takePhoto() {
         if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             //申请权限

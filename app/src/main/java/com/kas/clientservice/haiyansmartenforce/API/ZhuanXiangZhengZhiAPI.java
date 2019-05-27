@@ -34,7 +34,7 @@ public interface ZhuanXiangZhengZhiAPI {
 
     @POST("mobile/UploadImg.ashx")
     @FormUrlEncoded
-    Observable<UploadImgEntity> httpTCSFimg(@Field("Img") String img,@Field("UserID")String id,@Field("UpType")String upType,@Field("number")int number,@Field("Carnum")String Carnum);
+    Observable<UploadImgEntity> httpTCSFimg(@Field("Img") String img,@Field("UserID")String id,@Field("UpType")String upType,@Field("number")int number,@Field("Carnum")String Carnum,@Field("JDSnum")String JDSnum);
 
 
     class UploadImgEntity{
