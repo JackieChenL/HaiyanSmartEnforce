@@ -298,11 +298,6 @@ public class XieTongActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void commit() {
-//        raReport = new RapidReport("0", 1, bigId, 1, tv_chengguan_CaseGps
-//                .getText().toString(), et_chengguan_CaseAdd.getText()
-//                .toString(),
-//                et_chengguan_CaseDescribe.getText().toString(), cc,
-//                backImg, app.getUserID());
         String str_img_after = "";
         String cc = "";
         for (int i = 0; i < list_url.size(); i++) {
@@ -315,10 +310,10 @@ public class XieTongActivity extends BaseActivity implements View.OnClickListene
         ZXZZCommitEntity zxzzCommitEntity = new ZXZZCommitEntity("0", 1, classId, 1, tv_location.getText().toString(),
                 et_address.getText().toString(),
                 et_describe.getText().toString(), cc,
-                "", UserSingleton.USERINFO.Name.UserID);
+                "", UserSingleton.USERINFO.szcg.usercode);
         Special special = new Special(zxzzCommitEntity);
 
-        Log.i(TAG, "commit: " + gson.toJson(special));
+        Log.e(TAG, "专项整治commit: " + gson.toJson(special));
         RequestBody requestBody =RequestBody.create(MediaType.parse("application/json; charset=utf-8"), gson.toJson(special));
         RetrofitClient.createService(ZhuanXiangZhengZhiAPI.class)
                 .httpZXZZcommit(requestBody)
@@ -336,6 +331,8 @@ public class XieTongActivity extends BaseActivity implements View.OnClickListene
                     public void onNext(BaseEntity baseEntity) {
                         if (baseEntity.isState()) {
                             ToastUtils.showToast(mContext, "提交成功");
+                            finish();
+
                         } else {
                             ToastUtils.showToast(mContext, baseEntity.getErrorMsg());
                         }
